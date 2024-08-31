@@ -1,0 +1,21 @@
+{
+  "trailingComma": "es2023",
+  "tabWidth": 2,
+  "endOfLine": "lf",
+  "arrowParens": "always",
+  "singleQuote": true,
+  "importOrder": [
+    "^@utils/(.*)$",
+    "^@apis/(.*)$",
+    "^@hooks/(.*)$",
+    "^@recoils/(.*)$",
+    "^@pages/(.*)$",
+    "^@base/(.*)$",
+    "^@common/(.*)$",
+    "^@components/(.*)$",
+    "^@styles/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
+}

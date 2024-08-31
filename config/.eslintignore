@@ -1,0 +1,7 @@
+# Node modules
+node_modules/
+
+# Build output
+
+# config
+next.config.mjs
