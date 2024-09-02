@@ -1,0 +1,29 @@
+@use 'color';
+@use 'font';
+
+/*
+ * color 변수 사용 예시
+ */
+.Example-Color {
+  color: color.$Black-500;
+}
+
+.Example-Background {
+  background-color: color.$Background-50;
+}
+
+.Example-Line {
+  border-color: color.$Line-50;
+}
+
+.Example-State {
+  border-color: color.$State-100;
+  color: color.$State-100;
+}
+
+/*
+ * font 변수 사용예시
+ */
+.Example-Font {
+  @include font.Style(3xl, bold);
+}
