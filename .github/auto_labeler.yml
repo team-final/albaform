@@ -1,0 +1,23 @@
+enable:
+  issues: true
+  prs: true
+
+labels:
+  'bug':
+    include:
+      - '\bfix\b'
+  'enhancement':
+    include:
+      - '\bfeat\b'
+  'documentation':
+    include:
+      - '\bdocs\b'
+  'release':
+    include:
+      - '\brelease\b'
+  'refactoring':
+    include:
+      - '\brefactor\b'
+  'test':
+    include:
+      - '\btest\b'
