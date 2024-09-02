@@ -6,16 +6,16 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint src/**/*.{ts,tsx,css}",
-    "lint-fix": "next lint --fix src/**/*.{ts,tsx,css}",
-    "prettier-fix": "prettier --write src/**/*.{ts,tsx,css}",
+    "lint": "next lint --config config/.eslintrc.json src/**/*.{ts,tsx,css}",
+    "lint-fix": "next lint --fix --config config/.eslintrc.json src/**/*.{ts,tsx,css}",
+    "prettier-fix": "prettier --write --config config/.prettierrc.json src/**/*.{ts,tsx,css}",
     "prepare": "husky install",
     "lint-staged": "lint-staged"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx,css}": [
-      "next lint --fix",
-      "prettier --write"
+      "next lint --fix --config config/.eslintrc.json",
+      "prettier --write --config config/.prettierrc.json"
     ]
   },
   "dependencies": {
