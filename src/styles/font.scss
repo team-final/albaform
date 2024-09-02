@@ -1,0 +1,31 @@
+$family: Pretendard, sans-serif;
+
+@mixin Style($size: 2lg, $weight: Medium) {
+  font-family: $family;
+  font-weight: $weight;
+  @if $size == 3xl {
+    font-size: 32px;
+    line-height: 42px;
+  } @else if $size == 2xl {
+    font-size: 24px;
+    line-height: 32px;
+  } @else if $size == xl {
+    font-size: 20px;
+    line-height: 32px;
+  } @else if $size == 2lg {
+    font-size: 18px;
+    line-height: 26px;
+  } @else if $size == lg {
+    font-size: 16px;
+    line-height: 26px;
+  } @else if $size == md {
+    font-size: 14px;
+    line-height: 24px;
+  } @else if $size == sm {
+    font-size: 13px;
+    line-height: 22px;
+  } @else if $size == xs {
+    font-size: 12px;
+    line-height: 18px;
+  }
+}
