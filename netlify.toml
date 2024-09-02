@@ -1,0 +1,8 @@
+[build]
+command = "npm run build"
+publish = ".next"
+
+[[redirects]]
+from = "/*"
+to = "/api/*"
+status = 200
