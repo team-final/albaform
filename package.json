@@ -9,6 +9,7 @@
     "lint": "next lint --config config/.eslintrc.json src/**/*.{ts,tsx,css}",
     "lint-fix": "next lint --fix --config config/.eslintrc.json src/**/*.{ts,tsx,css}",
     "prettier-fix": "prettier --write --config config/.prettierrc.json src/**/*.{ts,tsx,css}",
+    "stylelint-fix": "stylelint --fix --config config/.stylelintrc src/**/*.{css,scss}",
     "prepare": "husky install",
     "lint-staged": "lint-staged"
   },
@@ -16,6 +17,9 @@
     "src/**/*.{ts,tsx,css}": [
       "next lint --fix --config config/.eslintrc.json",
       "prettier --write --config config/.prettierrc.json"
+    ],
+    "src/**/*.{css,scss}": [
+      "stylelint --fix --config config/.stylelintrc"
     ]
   },
   "dependencies": {
