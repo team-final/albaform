@@ -3,15 +3,15 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": true,  // strict 모드를 true로 유지
     "noEmit": true,
-    "esModuleInterop": true,
+    "incremental": true,
     "module": "esnext",
-    "moduleResolution": "bundler",
+    "esModuleInterop": true,
+    "moduleResolution": "bundler",  // bundler로 유지 (필요에 따라 node로 변경 가능)
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true,
     "plugins": [
       {
         "name": "next"
@@ -22,8 +22,12 @@
     }
   },
   "include": [
-    "../next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+    "next-env.d.ts",
+    ".next/types/**/*.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
   "exclude": [
-    "../node_modules"
+    "node_modules"
   ]
 }
