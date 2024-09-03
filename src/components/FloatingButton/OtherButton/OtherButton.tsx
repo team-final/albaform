@@ -1,10 +1,10 @@
 //컴포넌트 immport
+import BookmarkDisabled from '@/public/icons/ic-bookmark-fill.svg';
+import Bookmark from '@/public/icons/ic-bookmark.svg';
+import WritingForm from '@/public/icons/ic-edit2.svg';
+import Share from '@/public/icons/ic-share2.svg';
 import Image from 'next/image';
 
-import BookmarkDisabled from '../../../../public/icons/ic-bookmark-fill.svg';
-import Bookmark from '../../../../public/icons/ic-bookmark.svg';
-import WritingForm from '../../../../public/icons/ic-edit2.svg';
-import Share from '../../../../public/icons/ic-share2.svg';
 import styles from './OtherButton.module.scss';
 
 /** 함수 타입 지정 */

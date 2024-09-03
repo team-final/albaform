@@ -1,10 +1,8 @@
 //컴포넌트 immport
+import PlusForm from '@/public/icons/ic-plus.svg';
 import Image from 'next/image';
 
-import PlusForm from '../../../../public/icons/ic-plus.svg';
 import styles from './CreateFormButton.module.scss';
-
-//이거 절대경로 바꾸기
 
 /** 함수 타입 지정 */
 interface Props {
