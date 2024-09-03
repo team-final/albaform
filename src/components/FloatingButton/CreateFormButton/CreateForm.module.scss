@@ -1,0 +1,49 @@
+@use "src/styles/color" as color;
+
+.CreateFormButton {
+  width: auto;
+  height: 64px;
+  padding: 14px 16px 14px 12px;
+  border-radius: 100px;
+  border: 0;
+  background-color: color.$Primary-Orange-300;
+  box-shadow:
+    0px 0px 4px 0px rgba(60, 37, 37, 0.08),
+    0px 4px 8px 0px rgba(0, 0, 0, 0.08),
+    0px 6px 12px 0px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+}
+
+  &.small {
+    height: auto;
+    padding: 14px 18px 14px 16px;
+  }
+
+  &:hover {
+    background-color: color.$Primary-Orange-200;
+  }
+
+  &:active {
+    background-color: color.$Primary-Orange-100;
+  }
+}
+
+.createForm {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 32px;
+  color: color.$Grayscale-50;
+}
+
+@media screen and (max-width: 768px) {
+  .createForm {
+    font-size: 16px;
+    line-height: 26px;
+  }
+
+  .plusformImg {
+    width: 24px;
+    height: 24px;
+  }
+}
