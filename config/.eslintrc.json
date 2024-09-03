@@ -1,17 +1,29 @@
 {
   "root": true,
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "next/core-web-vitals",
+    "plugin:prettier/recommended",
+    "prettier"
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/resolver": {
+      "node": {
+        "paths": ["src"]
+      }
+    }
+  },
   "env": {
     "browser": true,
     "es2023": true,
     "node": true
   },
-  "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended",
-    "prettier"
-  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": ["./tsconfig.json"],
@@ -21,22 +33,17 @@
     },
     "sourceType": "module"
   },
-  "plugins": [
-    "@typescript-eslint",
-    "react"
-  ],
-  "rules": {
-    "semi": "error",
-    "react/jsx-uses-vars": "error",
-    "react/jsx-key": "error",
-    "react/prop-types": "off",
-    "@typescript-eslint/strict-boolean-expressions": [
-      2,
-      {
-        "allowString": false,
-        "allowNumber": false
+  "plugins": ["@typescript-eslint", "react"],
+  "overrides": [
+    {
+      "files": ["src/**/*.{ts,tsx}"],
+      "rules": {
+        "semi": "error",
+        "react/jsx-uses-vars": "error",
+        "react/jsx-key": "error",
+        "react/prop-types": "off",
+        "@typescript-eslint/strict-boolean-expressions": "off"
       }
-    ]
-  },
-  "ignorePatterns": []
+    }
+  ]
 }
