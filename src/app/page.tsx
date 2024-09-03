@@ -1,5 +1,6 @@
 import Image from 'next/image';
 
+import CreateFormButton from '../components/FloatingButton/CreateFormButton/CreateFormButton';
 import styles from './page.module.scss';
 
 export default function Home() {
@@ -38,6 +39,7 @@ export default function Home() {
           priority
         />
       </div>
+      <CreateFormButton />
       <div className={styles.grid}>
         <a
           href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
