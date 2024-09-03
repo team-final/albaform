@@ -1,9 +1,10 @@
 {
-  "trailingComma": "es2023",
+  "trailingComma": "all",
   "tabWidth": 2,
   "endOfLine": "lf",
   "arrowParens": "always",
   "singleQuote": true,
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
   "importOrder": [
     "^@utils/(.*)$",
     "^@apis/(.*)$",
