@@ -15,16 +15,15 @@
   align-items: center;
 
   &.small {
-    width: 100%;
-    height: 100%;
+    height: auto;
     padding: 14px 18px 14px 16px;
   }
 
-  &.hovered {
+  &:hover {
     background-color: color.$Primary-Orange-200;
   }
 
-  &.clicked {
+  &:active {
     background-color: color.$Primary-Orange-100;
   }
 }
