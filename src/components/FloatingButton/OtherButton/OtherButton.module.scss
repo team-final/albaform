@@ -1,10 +1,11 @@
 @use "src/styles/color" as color;
 
-.buttonClass {
-  width: 140px;
-  height: 64px;
+.OtherButton {
+  width: auto;
+  height: 100%;
   padding: 14px 16px 14px 12px;
   border-radius: 100px;
+  border: 0;
   background-color: color.$Primary-Orange-300;
   box-shadow:
     0px 0px 4px 0px rgba(60, 37, 37, 0.08),
@@ -14,19 +15,45 @@
   align-items: center;
 
   &.small {
-    width: 100%;
-    height: 100%;
+    height: auto;
     padding: 14px 18px 14px 16px;
   }
 
-  &.hovered {
+  &:hover {
     background-color: color.$Primary-Orange-200;
   }
 
-  &.clicked {
+  &:active {
     background-color: color.$Primary-Orange-100;
   }
 }
 
 .bookmark {
+  background-color: color.$Grayscale-50;
+  width: auto;
+  height: 100%;
+  padding: 16px;
+  border-radius: 100px;
+  border: 0;
+  box-shadow:
+    0px 0px 4px 0px rgba(60, 37, 37, 0.08),
+    0px 4px 8px 0px rgba(0, 0, 0, 0.08),
+    0px 6px 12px 0px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    background-color: color.$Primary-Orange-50;
+  }
+
+  &:active {
+    background-color: color.$Primary-Orange-50;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .otherbuttonImg {
+    width: 24px;
+    height: 24px;
+  }
 }
