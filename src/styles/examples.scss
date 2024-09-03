@@ -1,8 +1,12 @@
-@use 'color';
-@use 'font';
+/*
+ * @use '경로' as 사용할이름;
+ */
+@use 'src/styles/color' as color;
+@use 'src/styles/font' as font;
 
 /*
  * color 변수 사용 예시
+ * color.$변수명;
  */
 .Example-Color {
   color: color.$Black-500;
@@ -23,6 +27,10 @@
 
 /*
  * font 변수 사용예시
+ * @include font.Style(사이즈, 두께);
+ * 피그마의 우측 Properties > Typography 에서 
+ * 사이즈: Name 의 pretendard/{사이즈} => [ xs, sm, md, lg, 2lg, xl, 2xl, 3xl ] 
+ * 두께: Weight => [ 400(Regular), 500(Medium), 600(Semibold), 700(Bold) ] 영문, 숫자 둘 다 사용가능
  */
 .Example-Font {
   @include font.Style(3xl, bold);
