@@ -1,7 +1,7 @@
 ---
 name: '작업 이슈'
 about: 개발 작업 단위의 이슈를 만들 때 해당 템플릿을 사용합니다
-title: '[Task] {Issue Title}'
+title: ''
 labels: 'task'
 assignees: ''
 ---
