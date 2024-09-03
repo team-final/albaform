@@ -1,8 +1,9 @@
 /*
  * @use '경로' as 사용할이름;
  */
-@use 'src/styles/color' as color;
-@use 'src/styles/font' as font;
+@use 'src/styles/_color' as color;
+@use 'src/styles/_font' as font;
+@use 'src/styles/_media' as media;
 
 /*
  * color 변수 사용 예시
@@ -34,4 +35,31 @@
  */
 .example-font {
   @include font.Style(3xl, bold);
+}
+
+/*
+ * media 변수 사용예시
+ * mobile: ~ 767px
+ * tablet: 768px ~ 1023px
+ * desktop: 1024px ~
+ */
+// ~ 767px
+@include media.mobile {
+  .Example-Media {
+    width: 320px;
+  }
+}
+
+// 768px ~ 1023px
+@include media.tablet {
+  .Example-Media {
+    width: 768px;
+  }
+}
+
+// 1024px ~
+@include media.desktop {
+  .Example-Media {
+    width: 1024px;
+  }
 }
