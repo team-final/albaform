@@ -1,20 +1,16 @@
-//컴포넌트 immport
 import PlusForm from '@/public/icons/ic-plus.svg';
 import Image from 'next/image';
 
-import styles from './CreateFormButton.module.scss';
+import styles from './OvalFloatingButton.module.scss';
 
-/** 함수 타입 지정 */
 interface Props {
   size?: 'small' | 'medium';
   onClick?: () => void;
 }
 
-/** FloatingButton 컴포넌트 생성
- * 폼 만들기 버튼
- */
-const CreateFormButton = ({ size = 'medium', onClick }: Props) => {
-  let buttonClass = styles.CreateFormButton;
+/** 폼 만들기 버튼 */
+const OvalFloatingButton = ({ size = 'medium', onClick }: Props) => {
+  let buttonClass = styles['oval-floating-button'];
 
   if (size === 'small') buttonClass += ` ${styles.small}`;
 
@@ -23,15 +19,15 @@ const CreateFormButton = ({ size = 'medium', onClick }: Props) => {
       <button className={buttonClass} onClick={onClick}>
         <Image
           src={PlusForm}
-          className={styles.plusformImg}
+          className={styles['plusform-img']}
           alt="폼 만들기"
           width="36"
           height="36"
         />
-        <span className={styles.createForm}>폼 만들기</span>
+        <span className={styles['create-form']}>폼 만들기</span>
       </button>
     </>
   );
 };
 
-export default CreateFormButton;
+export default OvalFloatingButton;
