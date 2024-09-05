@@ -1,0 +1,53 @@
+@use '../../../styles/color';
+@use '../../../styles//font.scss';
+
+.default {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  border-radius: 8px;
+  cursor: pointer;
+
+  @include font.Style(xl, 600);
+
+  @media (width <= 1920px) {
+    @include font.Style(xl, 600);
+  }
+
+  @media (width <= 744px) {
+    @include font.Style(lg, 600);
+  }
+}
+
+.origin {
+  background-color: color.$Primary-Orange-300;
+  color: color.$Grayscale-50;
+
+  &:hover {
+    background-color: color.$Primary-Orange-200;
+  }
+
+  &:disabled {
+    background-color: color.$Grayscale-100;
+  }
+}
+
+.clear {
+  background-color: transparent;
+  border: 1px solid color.$Primary-Orange-300;
+  color: color.$Primary-Orange-300;
+
+  &:hover {
+    border: 1px solid color.$Primary-Orange-200;
+    color: color.$Primary-Orange-200;
+  }
+
+  &:disabled {
+    border: 1px solid color.$Grayscale-100;
+    color: color.$Grayscale-100;
+  }
+}
