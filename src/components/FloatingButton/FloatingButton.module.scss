@@ -39,6 +39,14 @@
 
 .bookmark {
   background-color: color.$Grayscale-50;
+
+  &:hover {
+    background-color: color.$Primary-Orange-50;
+  }
+
+  &:active {
+    background-color: color.$Primary-Orange-50;
+  }
 }
 
 .small-img {
