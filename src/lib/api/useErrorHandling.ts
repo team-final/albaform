@@ -1,6 +1,6 @@
 // import { useToast } from '@chakra-ui/react';
-import { AxiosError } from 'axios';
-import { useCallback } from 'react';
+import { AxiosError } from 'axios'
+import { useCallback } from 'react'
 
 const useErrorHandling = () => {
   // const toast = useToast();
@@ -16,10 +16,10 @@ const useErrorHandling = () => {
         error.response?.data,
         error.message,
         new Date().toISOString(),
-      );
+      )
       alert(
         `${customError.title || '에러가 발생했습니다.'}\n${customError.message || ''}${error.response?.data}\n${error.message}`,
-      );
+      )
       // toast({
       //   title: '오류 발생',
       //   description: error.message,
@@ -29,9 +29,9 @@ const useErrorHandling = () => {
       // });
     },
     [],
-  );
+  )
 
-  return { handleError };
-};
+  return { handleError }
+}
 
-export default useErrorHandling;
+export default useErrorHandling

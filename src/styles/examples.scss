@@ -45,21 +45,21 @@
  */
 // ~ 767px
 @include media.mobile {
-  .Example-Media {
+  .example-media {
     width: 320px;
   }
 }
 
 // 768px ~ 1023px
 @include media.tablet {
-  .Example-Media {
+  .example-media {
     width: 768px;
   }
 }
 
 // 1024px ~
 @include media.desktop {
-  .Example-Media {
+  .example-media {
     width: 1024px;
   }
 }
