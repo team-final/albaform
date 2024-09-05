@@ -1,11 +1,9 @@
 import Image from 'next/image';
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 
 import styles from './FloatingButton.module.scss';
 
-interface Props {
-  iconSrc: string;
-  altText: string;
+interface FloatingButtonProps {
   children?: ReactNode;
   size?: 'small' | 'medium';
   onClick?: () => void;
@@ -13,41 +11,66 @@ interface Props {
 }
 
 const FloatingButton = ({
-  iconSrc,
-  altText,
   children,
   size = 'medium',
   onClick,
   mode = 'default',
-}: Props) => {
+}: FloatingButtonProps) => {
+  const hasText = React.Children.toArray(children).some(
+    (child) => React.isValidElement(child) && child.type === FloatingButtonText,
+  );
+
   const buttonClass = `${styles['floating-button']} ${
-    size === 'small' && children
-      ? styles['small-with-children']
+    size === 'small' && hasText
+      ? styles['small-with-children'] // small이면서 텍스트가 있을 때
       : size === 'small'
-        ? styles.small
+        ? styles.small // small이면서 텍스트가 없을 때
         : ''
   } ${mode === 'bookmark' ? styles.bookmark : ''} ${
-    children ? styles['with-children'] : ''
+    hasText ? styles['with-children'] : ''
   }`;
 
   return (
     <button className={buttonClass} onClick={onClick}>
-      <Image
-        src={iconSrc}
-        alt={altText}
-        className={size === 'small' ? styles['small-img'] : ''}
-        width="36"
-        height="36"
-      />
-      <span
-        className={
-          size === 'small' ? styles['small-text'] : styles['medium-text']
-        }
-      >
-        {children}
-      </span>
+      {children}
     </button>
   );
 };
+
+interface IconProps {
+  iconSrc: string;
+  altText: string;
+  size?: 'small' | 'medium';
+}
+
+const FloatingButtonIcon = ({
+  iconSrc,
+  altText,
+  size = 'medium',
+}: IconProps) => (
+  <Image
+    src={iconSrc}
+    alt={altText}
+    className={size === 'small' ? styles['small-img'] : ''}
+    width="36"
+    height="36"
+  />
+);
+
+interface TextProps {
+  children: ReactNode;
+  size?: 'small' | 'medium';
+}
+
+const FloatingButtonText = ({ children, size = 'medium' }: TextProps) => (
+  <span
+    className={size === 'small' ? styles['small-text'] : styles['medium-text']}
+  >
+    {children}
+  </span>
+);
+
+FloatingButton.Icon = FloatingButtonIcon;
+FloatingButton.Text = FloatingButtonText;
 
 export default FloatingButton;
