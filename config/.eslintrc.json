@@ -38,7 +38,7 @@
     {
       "files": ["src/**/*.{ts,tsx}"],
       "rules": {
-        "semi": "off",
+        "semi": ["warn", "never"],
         "react/jsx-uses-vars": "error",
         "react/jsx-key": "error",
         "react/prop-types": "off",

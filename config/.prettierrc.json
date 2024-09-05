@@ -4,6 +4,7 @@
   "endOfLine": "lf",
   "arrowParens": "always",
   "singleQuote": true,
+  "semi": false,
   "plugins": ["@trivago/prettier-plugin-sort-imports"],
   "importOrder": [
     "^@utils/(.*)$",
