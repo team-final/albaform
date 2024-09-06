@@ -26,7 +26,8 @@
     "next": "14.2.8",
     "react": "^18",
     "react-dom": "^18",
-    "sass": "^1.78.0"
+    "sass": "^1.77.8",
+    "@svgr/webpack": "^8.1.0"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
