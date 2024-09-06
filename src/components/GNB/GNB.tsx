@@ -1,9 +1,9 @@
+import LogoutButton from '@/components/LogoutButton/LogoutButton'
+import XButton from '@/components/XButton/XButton'
 import Link from 'next/link'
 
-import IconMypage from '../../../../../../../../public/icons/ic-mypage.svg'
-import LogoutButton from '../LogoutButton/LogoutButton'
-import XButton from '../XButton/XButton'
 import styles from './GNB.module.scss'
+import IconMypage from '/public/icons/ic-mypage.svg'
 
 interface GNBProps {
   closeAction?: () => void
