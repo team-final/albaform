@@ -1,5 +1,6 @@
+import useFloatingButton from '@/lib/store/useFloatingButtonStore';
 import Image from 'next/image';
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 
 import styles from './FloatingButton.module.scss';
 
@@ -16,14 +17,20 @@ const FloatingButton = ({
   onClick,
   mode = 'default',
 }: FloatingButtonProps) => {
+  const { size: storeSize, setSize } = useFloatingButton();
+
+  useEffect(() => {
+    if (size) setSize(size);
+  }, [size, setSize]);
+
   const hasText = React.Children.toArray(children).some(
     (child) => React.isValidElement(child) && child.type === FloatingButtonText,
   );
 
   const buttonClass = `${styles['floating-button']} ${
-    size === 'small' && hasText
+    storeSize === 'small' && hasText
       ? styles['small-with-children'] // small이면서 텍스트가 있을 때
-      : size === 'small'
+      : storeSize === 'small'
         ? styles.small // small이면서 텍스트가 없을 때
         : ''
   } ${mode === 'bookmark' ? styles.bookmark : ''} ${
@@ -46,29 +53,33 @@ interface IconProps {
 const FloatingButtonIcon = ({
   iconSrc,
   altText,
-  size = 'medium',
-}: IconProps) => (
-  <Image
-    src={iconSrc}
-    alt={altText}
-    className={size === 'small' ? styles['small-img'] : ''}
-    width="36"
-    height="36"
-  />
-);
+}: IconProps) => {
+  const { size: storeSize } = useFloatingButton();
+  
+  return (
+    <Image
+      src={iconSrc}
+      alt={altText}
+      className={storeSize === 'small' ? styles['small-img'] : ''}
+      width="36"
+      height="36"
+    />
+  );
+};
 
 interface TextProps {
   children: ReactNode;
-  size?: 'small' | 'medium';
 }
 
-const FloatingButtonText = ({ children, size = 'medium' }: TextProps) => (
-  <span
-    className={size === 'small' ? styles['small-text'] : styles['medium-text']}
-  >
-    {children}
-  </span>
-);
+const FloatingButtonText = ({ children }: TextProps) => {
+  const { size: storeSize } = useFloatingButton();
+  
+  return (
+    <span className={storeSize === 'small' ? styles['small-text'] : styles['medium-text']}>
+      {children}
+    </span>
+  );
+};
 
 FloatingButton.Icon = FloatingButtonIcon;
 FloatingButton.Text = FloatingButtonText;
