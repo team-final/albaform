@@ -34,16 +34,20 @@
     "sourceType": "module"
   },
   "plugins": ["@typescript-eslint", "react"],
+  "rules": {
+    "import/no-absolute-path": ["error", { "esmodule": true, "commonjs": true, "amd": true }]
+  },
   "overrides": [
     {
-      "files": ["src/**/*.{ts,tsx}"],
+      "files": ["src/**/*.{ts,tsx}", "public/**"],
       "rules": {
         "semi": ["warn", "never"],
         "react/jsx-uses-vars": "error",
         "react/jsx-key": "error",
         "react/prop-types": "off",
         "@typescript-eslint/strict-boolean-expressions": "off",
-        "@typescript-eslint/no-explicit-any": "warn"
+        "@typescript-eslint/no-explicit-any": "warn",
+        "import/no-absolute-path": "off"
       }
     }
   ]
