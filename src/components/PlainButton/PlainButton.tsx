@@ -1,11 +1,11 @@
-import { ReactNode } from 'react';
+import { ReactNode } from 'react'
 
-import styles from './PlainButton.module.scss';
+import styles from './PlainButton.module.scss'
 
 interface PlainButtonProps {
-  children?: ReactNode;
-  className?: string;
-  onClick?: () => void;
+  children?: ReactNode
+  className?: string
+  onClick?: () => void
 }
 
 const PlainButton = ({
@@ -13,15 +13,13 @@ const PlainButton = ({
   className = '',
   onClick,
 }: PlainButtonProps) => {
-  const classNames = className
-    ? `${styles.button} ${className}`
-    : styles.button;
+  const classNames = className ? `${styles.button} ${className}` : styles.button
 
   return (
     <button className={classNames} onClick={onClick}>
       {children}
     </button>
-  );
-};
+  )
+}
 
-export default PlainButton;
+export default PlainButton
