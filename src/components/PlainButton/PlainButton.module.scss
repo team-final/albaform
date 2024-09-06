@@ -1,0 +1,28 @@
+@use 'src/styles/_color' as color;
+@use 'src/styles/_media' as media;
+
+.button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  color: color.$Black-400;
+  cursor: pointer;
+
+  & svg {
+    width: auto;
+    height: 36px;
+    cursor: pointer;
+
+    @include media.tablet {
+      height: 24px;
+    }
+  }
+
+  & span {
+    white-space: nowrap;
+  }
+}
