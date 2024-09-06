@@ -1,8 +1,9 @@
-import useFloatingButton from '@/lib/store/useFloatingButtonStore';
 import Image from 'next/image';
-import React, { ReactNode, useEffect } from 'react';
+import React, { ReactNode, createContext, useContext } from 'react';
 
 import styles from './FloatingButton.module.scss';
+
+const SizeContext = createContext<'small' | 'medium'>('medium');
 
 interface FloatingButtonProps {
   children?: ReactNode;
@@ -17,20 +18,14 @@ const FloatingButton = ({
   onClick,
   mode = 'default',
 }: FloatingButtonProps) => {
-  const { size: storeSize, setSize } = useFloatingButton();
-
-  useEffect(() => {
-    if (size) setSize(size);
-  }, [size, setSize]);
-
   const hasText = React.Children.toArray(children).some(
     (child) => React.isValidElement(child) && child.type === FloatingButtonText,
   );
 
   const buttonClass = `${styles['floating-button']} ${
-    storeSize === 'small' && hasText
+    size === 'small' && hasText
       ? styles['small-with-children'] // small이면서 텍스트가 있을 때
-      : storeSize === 'small'
+      : size === 'small'
         ? styles.small // small이면서 텍스트가 없을 때
         : ''
   } ${mode === 'bookmark' ? styles.bookmark : ''} ${
@@ -38,26 +33,26 @@ const FloatingButton = ({
   }`;
 
   return (
-    <button className={buttonClass} onClick={onClick}>
-      {children}
-    </button>
+    <SizeContext.Provider value={size}>
+      <button className={buttonClass} onClick={onClick}>
+        {children}
+      </button>
+    </SizeContext.Provider>
   );
 };
 
 interface IconProps {
   iconSrc: string;
   altText: string;
-  size?: 'small' | 'medium';
 }
 
 const FloatingButtonIcon = ({ iconSrc, altText }: IconProps) => {
-  const { size: storeSize } = useFloatingButton();
-
+  const size = useContext(SizeContext);
   return (
     <Image
       src={iconSrc}
       alt={altText}
-      className={storeSize === 'small' ? styles['small-img'] : ''}
+      className={size === 'small' ? styles['small-img'] : ''}
       width="36"
       height="36"
     />
@@ -69,12 +64,11 @@ interface TextProps {
 }
 
 const FloatingButtonText = ({ children }: TextProps) => {
-  const { size: storeSize } = useFloatingButton();
-
+  const size = useContext(SizeContext);
   return (
     <span
       className={
-        storeSize === 'small' ? styles['small-text'] : styles['medium-text']
+        size === 'small' ? styles['small-text'] : styles['medium-text']
       }
     >
       {children}

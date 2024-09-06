@@ -21,13 +21,15 @@
     ]
   },
   "dependencies": {
-    "@tanstack/react-query": "^5.54.1",
+    "@tanstack/react-query": "^5.53.3",
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
+    "@typescript-eslint/eslint-plugin": "^8.3.0",
+    "@typescript-eslint/parser": "^8.0.0",
     "axios": "^1.7.7",
-    "next": "14.2.8",
+    "next": "14.2.7",
     "react": "^18",
     "react-dom": "^18",
-    "sass": "^1.77.8",
-    "@svgr/webpack": "^8.1.0"
+    "sass": "^1.77.8"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
