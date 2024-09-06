@@ -1,8 +1,8 @@
-import Link from 'next/link';
+import Link from 'next/link'
 
-import styles from './RootLogo.module.scss';
-import LogoSymbol from '/public/images/logo/logo-symbol.svg';
-import LogoText from '/public/images/logo/logo-text.svg';
+import styles from './RootLogo.module.scss'
+import LogoSymbol from '/public/images/logo/logo-symbol.svg'
+import LogoText from '/public/images/logo/logo-text.svg'
 
 const RootLogo = () => {
   return (
@@ -10,7 +10,7 @@ const RootLogo = () => {
       <LogoSymbol className={styles.symbol} />
       <LogoText className={styles.text} />
     </Link>
-  );
-};
+  )
+}
 
-export default RootLogo;
+export default RootLogo
