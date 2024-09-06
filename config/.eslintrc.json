@@ -6,7 +6,7 @@
     "plugin:react-hooks/recommended",
     "plugin:@typescript-eslint/recommended",
     "next/core-web-vitals",
-    "plugin:prettier/recommended",
+    "standard",
     "prettier"
   ],
   "settings": {
@@ -38,11 +38,12 @@
     {
       "files": ["src/**/*.{ts,tsx}"],
       "rules": {
-        "semi": "error",
+        "semi": ["warn", "never"],
         "react/jsx-uses-vars": "error",
         "react/jsx-key": "error",
         "react/prop-types": "off",
-        "@typescript-eslint/strict-boolean-expressions": "off"
+        "@typescript-eslint/strict-boolean-expressions": "off",
+        "@typescript-eslint/no-explicit-any": "warn"
       }
     }
   ]
