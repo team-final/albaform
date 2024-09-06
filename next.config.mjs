@@ -4,7 +4,6 @@ const nextConfig = {
     appDir: true,
   },
   webpack: (config) => {
-    config.resolve.alias['@'] = path.resolve('./src');
     config.module.rules.push({
       test: /\.svg$/,
       use: ['@svgr/webpack'],
