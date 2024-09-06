@@ -1,0 +1,30 @@
+@use 'src/styles/_color' as color;
+@use 'src/styles/_font' as font;
+@use 'src/styles/_media' as media;
+
+.tab {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+
+  & a {
+    color: color.$Grayscale-300;
+
+    @include font.Style(xl, 500);
+
+    @include media.tablet {
+      @include font.Style(lg, 500);
+    }
+
+    &.active {
+      color: color.$Primary-Orange-300;
+
+      @include font.Style(xl, 700);
+
+      @include media.tablet {
+        @include font.Style(lg, 700);
+      }
+    }
+  }
+}
