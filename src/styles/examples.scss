@@ -31,7 +31,7 @@
  * @include font.Style(사이즈, 두께);
  * 피그마의 우측 Properties > Typography 에서 
  * 사이즈: Name 의 pretendard/{사이즈} => [ xs, sm, md, lg, 2lg, xl, 2xl, 3xl ] 
- * 두께: Weight => [ 400(Regular), 500(Medium), 600(Semibold), 700(Bold) ] 영문, 숫자 둘 다 사용가능
+ * 두께: Weight => [ 400(Regular), 500(Medium), 600(Semibold), 700(Bold) ] 숫자 사용 권장!
  */
 .example-font {
   @include font.Style(3xl, bold);
