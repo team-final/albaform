@@ -1,15 +1,15 @@
-import Image from 'next/image';
-import React, { ReactNode, createContext, useContext } from 'react';
+import Image from 'next/image'
+import React, { ReactNode, createContext, useContext } from 'react'
 
-import styles from './FloatingButton.module.scss';
+import styles from './FloatingButton.module.scss'
 
-const SizeContext = createContext<'small' | 'medium'>('medium');
+const SizeContext = createContext<'small' | 'medium'>('medium')
 
 interface FloatingButtonProps {
-  children?: ReactNode;
-  size?: 'small' | 'medium';
-  onClick?: () => void;
-  mode?: 'default' | 'bookmark';
+  children?: ReactNode
+  size?: 'small' | 'medium'
+  onClick?: () => void
+  mode?: 'default' | 'bookmark'
 }
 
 const FloatingButton = ({
@@ -20,7 +20,7 @@ const FloatingButton = ({
 }: FloatingButtonProps) => {
   const hasText = React.Children.toArray(children).some(
     (child) => React.isValidElement(child) && child.type === FloatingButtonText,
-  );
+  )
 
   const buttonClass = `${styles['floating-button']} ${
     size === 'small' && hasText
@@ -30,7 +30,7 @@ const FloatingButton = ({
         : ''
   } ${mode === 'bookmark' ? styles.bookmark : ''} ${
     hasText ? styles['with-children'] : ''
-  }`;
+  }`
 
   return (
     <SizeContext.Provider value={size}>
@@ -38,16 +38,16 @@ const FloatingButton = ({
         {children}
       </button>
     </SizeContext.Provider>
-  );
-};
+  )
+}
 
 interface IconProps {
-  iconSrc: string;
-  altText: string;
+  iconSrc: string
+  altText: string
 }
 
 const FloatingButtonIcon = ({ iconSrc, altText }: IconProps) => {
-  const size = useContext(SizeContext);
+  const size = useContext(SizeContext)
   return (
     <Image
       src={iconSrc}
@@ -56,15 +56,15 @@ const FloatingButtonIcon = ({ iconSrc, altText }: IconProps) => {
       width="36"
       height="36"
     />
-  );
-};
+  )
+}
 
 interface TextProps {
-  children: ReactNode;
+  children: ReactNode
 }
 
 const FloatingButtonText = ({ children }: TextProps) => {
-  const size = useContext(SizeContext);
+  const size = useContext(SizeContext)
   return (
     <span
       className={
@@ -73,10 +73,10 @@ const FloatingButtonText = ({ children }: TextProps) => {
     >
       {children}
     </span>
-  );
-};
+  )
+}
 
-FloatingButton.Icon = FloatingButtonIcon;
-FloatingButton.Text = FloatingButtonText;
+FloatingButton.Icon = FloatingButtonIcon
+FloatingButton.Text = FloatingButtonText
 
-export default FloatingButton;
+export default FloatingButton
