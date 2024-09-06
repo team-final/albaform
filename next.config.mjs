@@ -10,7 +10,13 @@ const nextConfig = {
     })
     return config
   },
-  pageExtensions: ['tsx', 'ts', 'jsx', 'js'],
+  pageExtensions: ['tsx', 'ts'],
+  images: {
+    remotePatterns: [
+      { protocol: 'https', hostname: '**.pixabay.co(m|.kr)' },
+      { protocol: 'https', hostname: '**.freepik.co(m|.kr)' }
+    ],
+  }
 }
 
 export default nextConfig
