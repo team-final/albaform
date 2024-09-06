@@ -1,6 +1,6 @@
-import Link from 'next/link';
+import Link from 'next/link'
 
-import styles from './RootNav.module.scss';
+import styles from './RootNav.module.scss'
 
 const RootNav = () => {
   return (
@@ -15,7 +15,7 @@ const RootNav = () => {
         내 알바폼
       </Link>
     </div>
-  );
-};
+  )
+}
 
-export default RootNav;
+export default RootNav
