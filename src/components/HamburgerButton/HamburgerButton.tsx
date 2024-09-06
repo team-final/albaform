@@ -1,8 +1,8 @@
-import styles from './HamburgerButton.module.scss';
-import IconHamburger from '/public/icons/ic-menu.svg';
+import styles from './HamburgerButton.module.scss'
+import IconHamburger from '/public/icons/ic-menu.svg'
 
 interface HamburgerButtonProps {
-  onClick?: () => void;
+  onClick?: () => void
 }
 
 const HamburgerButton = ({ onClick }: HamburgerButtonProps) => {
@@ -10,6 +10,6 @@ const HamburgerButton = ({ onClick }: HamburgerButtonProps) => {
     <button className={styles.hamburger} onClick={onClick}>
       <IconHamburger />
     </button>
-  );
-};
-export default HamburgerButton;
+  )
+}
+export default HamburgerButton
