@@ -1,6 +1,6 @@
-import Link from 'next/link';
+import Link from 'next/link'
 
-import styles from './AuthSpecificMenu.module.scss';
+import styles from './AuthSpecificMenu.module.scss'
 
 const AuthSpecificMenu = () => {
   return (
@@ -12,7 +12,7 @@ const AuthSpecificMenu = () => {
         지원자 전용
       </Link>
     </div>
-  );
-};
+  )
+}
 
-export default AuthSpecificMenu;
+export default AuthSpecificMenu
