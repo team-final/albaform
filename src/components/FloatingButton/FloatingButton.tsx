@@ -50,12 +50,9 @@ interface IconProps {
   size?: 'small' | 'medium';
 }
 
-const FloatingButtonIcon = ({
-  iconSrc,
-  altText,
-}: IconProps) => {
+const FloatingButtonIcon = ({ iconSrc, altText }: IconProps) => {
   const { size: storeSize } = useFloatingButton();
-  
+
   return (
     <Image
       src={iconSrc}
@@ -73,9 +70,13 @@ interface TextProps {
 
 const FloatingButtonText = ({ children }: TextProps) => {
   const { size: storeSize } = useFloatingButton();
-  
+
   return (
-    <span className={storeSize === 'small' ? styles['small-text'] : styles['medium-text']}>
+    <span
+      className={
+        storeSize === 'small' ? styles['small-text'] : styles['medium-text']
+      }
+    >
       {children}
     </span>
   );
