@@ -1,0 +1,26 @@
+@use 'src/styles/_color' as color;
+@use 'src/styles/_media' as media;
+
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  color: color.$Black-400;
+  cursor: pointer;
+
+  & svg {
+    width: 36px;
+    height: 36px;
+
+    @include media.tablet {
+      width: 24px;
+      height: 24px;
+    }
+  }
+}
