@@ -3,6 +3,7 @@
 import { useState } from 'react'
 
 import AuthSpecificMenu from '../AuthSpecificMenu/AuthSpecificMenu'
+import GNB from '../GNB/GNB'
 import HamburgerButton from '../HamburgerButton/HamburgerButton'
 import RootLogo from '../RootLogo/RootLogo'
 import RootNav from '../RootNav/RootNav'
@@ -36,7 +37,7 @@ const RootHeader = () => {
           )}
         </div>
       </header>
-      {showGNB && <p>GNB 컴포넌트</p>}
+      {showGNB && <GNB closeAction={() => setShowGNB(false)} />}
     </>
   )
 }
