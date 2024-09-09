@@ -11,7 +11,7 @@ export const GET_MY_INFO_OWNER = [
     email: 'goodtomorrow@gmail.com',
     id: 0,
   },
-];
+]
 
 export const GET_MY_INFO_APPLICANT = [
   {
@@ -27,7 +27,7 @@ export const GET_MY_INFO_APPLICANT = [
     email: 'nextlife@gmail.com',
     id: 0,
   },
-];
+]
 
 export const GET_MY_FORMS = [
   {
@@ -170,7 +170,7 @@ export const GET_MY_FORMS = [
       '춘식공방 공방 관리 (주말 오후) 모집합니다 서울특별시 초록구 떡잎마을 7번지',
     id: 9,
   },
-];
+]
 
 export const GET_MY_APPLICATIONS = [
   {
@@ -393,7 +393,7 @@ export const GET_MY_APPLICATIONS = [
     },
     id: 9,
   },
-];
+]
 
 export const GET_FORMS = [
   {
@@ -526,7 +526,7 @@ export const GET_FORMS = [
     title: '파리바게뜨 월곡래미안 평일주말 오전 오후 알바구합니다',
     id: 9,
   },
-];
+]
 
 export const GET_MY_POSTS = [
   {
@@ -699,7 +699,7 @@ export const GET_MY_POSTS = [
     title: '동오의 덕왕 알바 구하러 이곳에 등장!',
     id: 9,
   },
-];
+]
 
 export const GET_MY_COMMENTS = [
   {
@@ -812,7 +812,7 @@ export const GET_MY_COMMENTS = [
     content: '네, 알림 설정을 통해 구직 공고 알림을 받을 수 있습니다.',
     id: 9,
   },
-];
+]
 
 export const GET_POSTS = [
   {
@@ -992,7 +992,7 @@ export const GET_POSTS = [
     title: '여러분은 알바 구하는 팁이 있을까요?',
     id: 9,
   },
-];
+]
 
 export const GET_POST_DETAILS = [
   {
@@ -1182,9 +1182,9 @@ export const GET_POST_DETAILS = [
     id: 9,
     isLiked: false,
   },
-];
+]
 
-export const GET_MY_SCRAP = GET_FORMS;
+export const GET_MY_SCRAP = GET_FORMS
 
 export const GET_FORMS_DETAILS = [
   {
@@ -1487,7 +1487,7 @@ export const GET_FORMS_DETAILS = [
     applyCount: 1,
     isScrapped: false,
   },
-];
+]
 
 export const GET_APPLICATIONS = [
   {
@@ -1621,9 +1621,9 @@ export const GET_APPLICATIONS = [
     name: '장민호',
     id: 9,
   },
-];
+]
 
-export const GET_APPLICATIONS_DETAILS = GET_APPLICATIONS;
+export const GET_APPLICATIONS_DETAILS = GET_APPLICATIONS
 
 export const GET_MY_APPLICATIONS_DETAILS = [
   {
@@ -1756,4 +1756,4 @@ export const GET_MY_APPLICATIONS_DETAILS = [
     name: '홍길동',
     id: 9,
   },
-];
+]
