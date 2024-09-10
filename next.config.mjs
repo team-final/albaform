@@ -1,8 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    appDir: true,
-  },
   webpack: (config) => {
     config.module.rules.push({
       test: /\.svg$/,
@@ -14,9 +11,9 @@ const nextConfig = {
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: '**.pixabay.co(m|.kr)' },
-      { protocol: 'https', hostname: '**.freepik.co(m|.kr)' }
+      { protocol: 'https', hostname: '**.freepik.co(m|.kr)' },
     ],
-  }
+  },
 }
 
 export default nextConfig
