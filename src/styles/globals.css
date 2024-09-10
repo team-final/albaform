@@ -3,10 +3,8 @@
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
-  --font-mono: 'Pretendard Variable', Pretendard, -apple-system,
-    BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI',
-    'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+  --font-mono: 'Pretendard Variable', Pretendard, 'Apple SD Gothic Neo',
+    'Noto Sans KR', 'Malgun Gothic', sans-serif;
 
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
