@@ -1,7 +1,4 @@
-$family: pretendard, sans-serif;
-
 @mixin Style($size: 2lg, $weight: Medium) {
-  font-family: $family;
   font-weight: $weight;
 
   @if $size == 3xl {
