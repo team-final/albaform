@@ -1,5 +1,7 @@
+import queryClient from '@/lib/queries/queryClient'
 import type { Metadata } from 'next'
 import React from 'react'
+import { QueryClientProvider } from 'react-query'
 
 import RootHeader from '../components/RootHeader/RootHeader'
 import '../styles/globals.css'
@@ -15,11 +17,13 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="ko">
-      <body>
-        <RootHeader />
-        {children}
-      </body>
-    </html>
+    <QueryClientProvider client={queryClient}>
+      <html lang="ko">
+        <body>
+          <RootHeader />
+          {children}
+        </body>
+      </html>
+    </QueryClientProvider>
   )
 }
