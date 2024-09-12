@@ -1,3 +1,5 @@
+'use client'
+
 import Image from 'next/image'
 import React, { ReactNode, createContext, useContext } from 'react'
 
