@@ -30,11 +30,11 @@ const MainButton = ({ type, disabled, onClick, children }: ButtonProps) => {
   )
 }
 
-const ButtonIcon = ({ src, altText }: IconProps) => {
+const ButtonIcon = ({ src, altText = '아이콘' }: IconProps) => {
   return (
     <Image
       src={src}
-      alt={altText || '아이콘'}
+      alt={altText}
       width={36}
       height={36}
       className={style.icon}
