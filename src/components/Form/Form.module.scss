@@ -1,0 +1,19 @@
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  .form-field {
+    flex: 1 1 200px; /* 최소 너비 */
+
+    &-inline {
+      display: flex;
+      flex-direction: column;
+    }
+
+    &-block {
+      display: flex;
+      flex-direction: row;
+    }
+  }
+}
