@@ -6,7 +6,7 @@ import React from 'react'
 
 interface ButtonProps {
   type: 'solid' | 'outline'
-  disable: boolean
+  disabled: boolean
   onClick: () => void
   children: React.ReactNode
 }
@@ -19,11 +19,11 @@ interface TextProps {
   children: React.ReactNode
 }
 
-const BaiscButton = ({ type, disable, onClick, children }: ButtonProps) => {
+const MainButton = ({ type, disabled, onClick, children }: ButtonProps) => {
   const buttonClass = `${style.default} ${style[type]}`
 
   return (
-    <button className={buttonClass} disabled={disable} onClick={onClick}>
+    <button className={buttonClass} disabled={disabled} onClick={onClick}>
       {children}
     </button>
   )
@@ -39,7 +39,7 @@ const ButtonText = ({ children }: TextProps) => {
   return <span>{children}</span>
 }
 
-BaiscButton.Icon = ButtonIcon
-BaiscButton.Text = ButtonText
+MainButton.Icon = ButtonIcon
+MainButton.Text = ButtonText
 
-export default BaiscButton
+export default MainButton
