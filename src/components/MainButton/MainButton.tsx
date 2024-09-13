@@ -13,6 +13,7 @@ interface ButtonProps {
 
 interface IconProps {
   src: string
+  altText?: string
 }
 
 interface TextProps {
@@ -29,9 +30,15 @@ const MainButton = ({ type, disabled, onClick, children }: ButtonProps) => {
   )
 }
 
-const ButtonIcon = ({ src }: IconProps) => {
+const ButtonIcon = ({ src, altText }: IconProps) => {
   return (
-    <Image src={src} alt="Icon" width={36} height={36} className={style.icon} />
+    <Image
+      src={src}
+      alt={altText || '아이콘'}
+      width={36}
+      height={36}
+      className={style.icon}
+    />
   )
 }
 
