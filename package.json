@@ -23,9 +23,11 @@
   "dependencies": {
     "@svgr/webpack": "^8.1.0",
     "axios": "^1.7.7",
+    "classnames": "^2.5.1",
     "next": "14.2.10",
     "react": "^18",
     "react-dom": "^18",
+    "react-hook-form": "^7.53.0",
     "react-query": "^3.39.3",
     "sass": "^1.77.8"
   },
@@ -54,7 +56,7 @@
     "stylelint-config-standard-scss": "^13.1.0",
     "stylelint-prettier": "^5.0.2",
     "stylelint-scss": "^6.5.1",
-    "typescript": "^5"
+    "typescript": "^5.6.2"
   },
   "eslintConfig": {
     "extends": "./config/.eslintrc.json"
