@@ -1,9 +1,16 @@
+@use 'src/styles/_color' as color;
+@use 'src/styles/_font' as font;
+
 .form {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
 
-  .form-field {
+  & span {
+    color: color.$Black-100;
+  }
+
+  & -field {
     flex: 1 1 200px; /* 최소 너비 */
 
     &-inline {
@@ -15,5 +22,9 @@
       display: flex;
       flex-direction: row;
     }
+  }
+
+  .input-error-message {
+    color: red;
   }
 }

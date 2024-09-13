@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { FieldValues, UseFormRegister } from 'react-hook-form'
+import { FieldValues } from 'react-hook-form'
 
 export interface CustomMessage {
   title?: string
@@ -20,23 +20,25 @@ export interface ComponentProps {
 
 export interface FormProps extends ComponentProps {
   formId: string
-  onSubmit: (values: unknown) => void
-  register?: ReturnType<UseFormRegister<FieldValues>>
+  onSubmit: (values: FieldValues) => void
+  initialValues?: Record<string, any>
 }
 
 export interface FormFieldProps extends ComponentProps {
   isInline?: boolean
 }
 
-type InputTypes = 'email' | 'password' | 'text' | 'radio' | 'file'
-
 export interface InputProps extends ComponentProps {
-  type: InputTypes
+  name: string
+  type?: HTMLInputElement['type']
   required?: boolean
   checked?: boolean
   disabled?: boolean
   placeholder?: string
-  value?: string
   autoComplete?: string
-  register?: ReturnType<UseFormRegister<FieldValues>>
+  minLength?: number
+  maxLength?: number
+  pattern?: RegExp
+  validate?: (values: unknown) => boolean | string
+  initialValues?: Record<string, any>
 }
