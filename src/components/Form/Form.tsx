@@ -91,7 +91,7 @@ function Label({ children, className }: ComponentProps) {
 /**
  * @param name input name 필수
  * @param className
- * @param type
+ * @param type = [text, password, email, url, number, tel, search, date, time, datetime-local, month, week, color, file, checkbox, radio, submit, reset, button, image]
  * @param checked
  * @param disabled
  * @param required
