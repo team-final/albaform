@@ -1,0 +1,93 @@
+@use 'styles/_media' as media;
+@use 'styles/_color' as color;
+@use 'styles/_font' as font;
+
+.application-status {
+  border-radius: 8px;
+  border: 1px solid color.$Line-50;
+  padding: 24px;
+  background-color: color.$Background-50;
+
+  @include media.tablet {
+    border: unset;
+    background-color: color.$Grayscale-50;
+    padding: 0;
+  }
+}
+
+.application-status-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.info-line {
+  border-bottom: 1px solid color.$Line-50;
+  padding: 32px 0;
+
+  @include media.tablet {
+    padding: 14px 0;
+  }
+}
+
+.info-no-line {
+  padding: 32px 0;
+
+  @include media.tablet {
+    border-bottom: 1px solid color.$Line-50;
+    padding: 14px 0;
+  }
+}
+
+.application-status-info-wrapper {
+  display: flex;
+  align-items: center;
+  column-gap: 16px;
+
+  @include media.tablet {
+    column-gap: 6px;
+  }
+}
+
+.info-title {
+  @include font.Style(xl, 400);
+
+  color: color.$Black-100;
+
+  @include media.tablet {
+    @include font.Style(md, 400);
+  }
+}
+
+.info-date {
+  @include font.Style(xl, 600);
+
+  color: color.$Primary-Orange-300;
+
+  @include media.tablet {
+    display: none;
+  }
+}
+
+.info-content {
+  @include font.Style(xl, 400);
+
+  color: color.$Black-400;
+
+  @include media.tablet {
+    @include font.Style(md, 400);
+  }
+}
+
+@media screen and (width >= 1024px) and (width <= 1581px) {
+  .application-status {
+    padding: 12px;
+  }
+
+  .application-status-info-wrapper {
+    column-gap: 6px;
+  }
+
+  .info-content {
+    font-size: 18px;
+  }
+}
