@@ -1,3 +1,5 @@
+'use client'
+
 import { useFormDetailsQuery } from '@/lib/api/formDetails'
 import { FormDetailsProps } from '@/lib/types/types'
 import Image from 'next/image'
