@@ -1,5 +1,3 @@
-'use client'
-
 import ContactInfo from '@/components/FormDetails/ContactInfo/ContactInfo'
 import FormDetailsInfo from '@/components/FormDetails/FormDetailsInfo/FormDetailsInfo'
 import Location from '@/components/FormDetails/Location/Location'
