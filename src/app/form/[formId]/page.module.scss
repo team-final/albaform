@@ -1,0 +1,97 @@
+@use 'styles/_media' as media;
+
+.job-details {
+  margin: 78px 180px 0;
+  display: flex;
+  flex-direction: column;
+  row-gap: 80px;
+
+  @include media.tablet {
+    margin: 0 184px;
+    row-gap: 32px;
+  }
+
+  @include media.mobile {
+    margin: 0;
+  }
+}
+
+.job-details-img {
+  width: 100%;
+  aspect-ratio: 3 / 1;
+  object-fit: fill;
+  border-radius: 8px;
+}
+
+.job-details-content {
+  display: flex;
+  column-gap: 150px;
+
+  @include media.tablet {
+    flex-direction: column;
+  }
+}
+
+.job-details-info {
+  flex-basis: 54.61%;
+  margin-bottom: 129px;
+
+  @include media.tablet {
+    margin-bottom: 32px;
+  }
+
+  @include media.mobile {
+    margin-bottom: 64px;
+  }
+}
+
+.location-info {
+  flex-basis: 54.61%;
+}
+
+.schedule-contact-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 48px;
+  flex-basis: 45.39%;
+  margin-bottom: 88px;
+
+  @include media.tablet {
+    display: none;
+  }
+}
+
+.location-requirements-container {
+  display: flex;
+  column-gap: 150px;
+
+  @include media.tablet {
+    flex-direction: column-reverse;
+    row-gap: 48px;
+  }
+}
+
+.requirements-info {
+  flex-basis: 45.39%;
+}
+
+.button-container {
+  display: none;
+
+  @include media.tablet {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    margin-top: 22px;
+  }
+
+  @include media.mobile {
+    margin-top: 46px;
+  }
+}
+
+@media screen and (width >= 1024px) and (width <= 1325px) {
+  .job-details {
+    margin: 78px 30px 0;
+  }
+}

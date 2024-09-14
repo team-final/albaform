@@ -2,21 +2,21 @@ import Image from 'next/image'
 
 import AnnouncementInfo from '../AnnouncementInfo/AnnouncementInfo'
 import ContactInfo from '../ContactInfo/ContactInfo'
-import styles from './JobDetailsInfo.module.scss'
+import WorkScheduleInfo from '../WorkScheduleInfo/WorkScheduleInfo'
+import styles from './FormDetailsInfo.module.scss'
 
-// import WorkScheduleInfo from "../WorkScheduleInfo/WorkScheduleInfo";
-
-const JobDetailsInfo = () => {
+const FormDetailsInfo = () => {
   return (
-    <div className={styles['job-details-info']}>
+    <section className={styles['job-details-info']}>
       <AnnouncementInfo />
 
       <div className={styles['job-details-container']}>
         <div className={styles['job-details-header-container']}>
           <div className={styles['job-details-header']}>
-            <span className={styles['job-details-name']}>코드잇</span>
+            <h2 className={styles['job-details-name']}>코드잇</h2>
             <div className={styles['job-details-summary']}>
-              <span>서울 종로구 경력 무관</span>
+              <span>서울 종로구</span>
+              <span>경력 무관</span>
             </div>
           </div>
 
@@ -29,37 +29,37 @@ const JobDetailsInfo = () => {
           <div className={styles['job-details-status-auth']}>
             <div className={styles['job-details-auth-item']}>
               <Image
-                src="/icons/ic-plus.svg"
-                alt="기본 이미지"
-                width="36"
-                height="36"
+                src="/icons/ic-bookmark.svg"
+                alt="스크랩"
+                width={36}
+                height={36}
                 className={styles['job-details-auth-item-img']}
               />
-              <span className={styles['auth-title']}>스크랩</span>
+              <h3 className={styles['auth-title']}>스크랩</h3>
             </div>
-            <span className={styles['auth-content']}>8회</span>
+            <p className={styles['auth-content']}>8회</p>
           </div>
 
           <div className={styles['job-details-status-auth']}>
             <div className={styles['job-details-auth-item']}>
               <Image
-                src="/icons/ic-plus.svg"
+                src="/icons/ic-user2.svg"
                 alt="기본 이미지"
-                width="36"
-                height="36"
+                width={36}
+                height={36}
                 className={styles['job-details-auth-item-img']}
               />
-              <span className={styles['auth-title']}>지원현황</span>
+              <h3 className={styles['auth-title']}>지원현황</h3>
             </div>
-            <span className={styles['auth-content']}>
+            <p className={styles['auth-content']}>
               현재까지 5명이 알바폼에 지원했어요!
-            </span>
+            </p>
           </div>
         </div>
 
         <div className={styles['tablet-schedule-contact']}>
           <div className={styles['tablet-workschedule-info']}>
-            {/* <WorkScheduleInfo /> */}
+            <WorkScheduleInfo />
           </div>
 
           <div className={styles['tablet-contact-info']}>
@@ -85,8 +85,8 @@ const JobDetailsInfo = () => {
           왜냐면 강인이가 연애하니까 ㅡㅡ 참나 아아아
         </p>
       </div>
-    </div>
+    </section>
   )
 }
 
-export default JobDetailsInfo
+export default FormDetailsInfo
