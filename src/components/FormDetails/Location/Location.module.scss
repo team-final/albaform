@@ -1,0 +1,73 @@
+@use 'styles/_media' as media;
+@use 'styles/_color' as color;
+@use 'styles/_font' as font;
+
+.location-info {
+  display: flex;
+  flex-direction: column;
+  row-gap: 40px;
+
+  @include media.tablet {
+    row-gap: 16px;
+  }
+}
+
+.location-title {
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 46px;
+  color: color.$Black-500;
+
+  @include media.tablet {
+    font-size: 20px;
+    line-height: 26px;
+  }
+}
+
+.location-map-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 48px;
+
+  @include media.tablet {
+    row-gap: 16px;
+  }
+}
+
+.location-details {
+  display: flex;
+  align-items: center;
+  column-gap: 12px;
+}
+
+.location-text {
+  @include font.Style(2xl, 500);
+
+  color: color.$Black-400;
+
+  @include media.tablet {
+    @include font.Style(md, 500);
+  }
+}
+
+.location-copy {
+  @include font.Style(xl, 700);
+
+  color: color.$Primary-Orange-300;
+  border: 0;
+  background-color: unset;
+  padding: 0;
+  white-space: nowrap;
+
+  @include media.tablet {
+    @include font.Style(md, 500);
+  }
+}
+
+.location-map {
+  border: 1px solid color.$Line-100;
+  width: auto;
+  aspect-ratio: 3 / 1;
+  object-fit: fill;
+  border-radius: 8px;
+}
