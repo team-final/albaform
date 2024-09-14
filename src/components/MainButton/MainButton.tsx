@@ -1,6 +1,6 @@
 'use client'
 
-import style from '@/components/BasicButton/BasicButton.module.scss'
+import style from '@/components/MainButton/MainButton.module.scss'
 import Image from 'next/image'
 import React from 'react'
 

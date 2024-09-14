@@ -1,6 +1,14 @@
+'use client'
+
+import MainButton from '@/components/MainButton/MainButton'
+
 import styles from './ContactInfo.module.scss'
 
 const ContactInfo = () => {
+  const handleApplyClick = () => {
+    console.log('클릭')
+  }
+
   return (
     <section className={styles['contact-info']}>
       <div className={styles['contact-info-container']}>
@@ -32,8 +40,14 @@ const ContactInfo = () => {
       </div>
 
       <div className={styles['button-container']}>
-        <button>지원하기</button>
-        <button>내 지원 내역 보기</button>
+        <MainButton type="solid" disabled={false} onClick={handleApplyClick}>
+          <MainButton.Icon src="/icons/ic-writing.svg" altText="지원하기" />
+          <MainButton.Text>지원하기</MainButton.Text>
+        </MainButton>
+        <MainButton type="outline" disabled={false} onClick={handleApplyClick}>
+          <MainButton.Icon src="/icons/ic-apply-list.svg" altText="지원하기" />
+          <MainButton.Text>내 지원내역 보기</MainButton.Text>
+        </MainButton>
       </div>
     </section>
   )

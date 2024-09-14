@@ -17,6 +17,7 @@
   justify-content: center;
   position: relative;
   z-index: 100;
+  cursor: pointer;
 
   &:hover {
     background-color: color.$Primary-Orange-200;
