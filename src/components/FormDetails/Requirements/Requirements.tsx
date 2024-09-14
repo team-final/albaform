@@ -1,6 +1,9 @@
+import { FormDetailsProps } from '@/lib/types/types'
+
 import styles from './Requirements.module.scss'
 
-const Requirements = () => {
+const Requirements = ({ formDetails }: { formDetails: FormDetailsProps }) => {
+  console.log(formDetails)
   return (
     <section className={styles['requirements-info']}>
       <h1 className={styles['requirements-info-title']}>모집 조건</h1>

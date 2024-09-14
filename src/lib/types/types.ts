@@ -1,63 +1,93 @@
-import { ReactNode } from 'react'
-import { FieldValues } from 'react-hook-form'
+import { ReactNode } from 'react';
+import { FieldValues } from 'react-hook-form';
 
 export interface CustomMessage {
-  title?: string
-  message?: string
+  title?: string;
+  message?: string;
 }
 
 export interface Params {
   params: {
-    formId?: string
-    applicationId?: string
-  }
+    formId?: string;
+    applicationId?: string;
+  };
 }
 
 export interface LayoutProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 export interface ComponentProps {
-  children?: ReactNode
-  className?: string
+  children?: ReactNode;
+  className?: string;
 }
 
 export interface FormProps extends ComponentProps {
-  formId: string
-  onSubmit: (values: FieldValues) => void
-  initialValues?: Record<string, any>
+  formId: string;
+  onSubmit: (values: FieldValues) => void;
+  initialValues?: Record<string, any>;
 }
 
 export interface FormFieldProps extends ComponentProps {
-  isInline?: boolean
+  isInline?: boolean;
 }
 
 export interface LabelProps extends ComponentProps {
-  htmlFor: string
+  htmlFor: string;
 }
 
 export interface InputProps extends ComponentProps {
-  name: string
-  type?: HTMLInputElement['type']
-  required?: boolean
-  checked?: boolean
-  disabled?: boolean
-  placeholder?: string
-  autoComplete?: string
-  minLength?: number
-  maxLength?: number
+  name: string;
+  type?: HTMLInputElement['type'];
+  required?: boolean;
+  checked?: boolean;
+  disabled?: boolean;
+  placeholder?: string;
+  autoComplete?: string;
+  minLength?: number;
+  maxLength?: number;
   pattern?: {
-    value: RegExp
-    message: string
-  }
-  validate?: (values: unknown) => boolean | string
-  initialValues?: Record<string, any>
+    value: RegExp;
+    message: string;
+  };
+  validate?: (values: unknown) => boolean | string;
+  initialValues?: Record<string, any>;
 }
 
 export interface MessageContext {
-  message?: CustomMessage
+  message?: CustomMessage;
 }
 
 export interface ButtonText {
-  signInOut: '로그인' | '로그아웃'
+  signInOut: '로그인' | '로그아웃';
+}
+
+export interface FormDetailsProps {
+  updatedAt?: string;
+  createdAt?: string;
+  preferred?: string;
+  age?: string;
+  education?: string;
+  gender?: string;
+  numberOfPositions?: number;
+  isPublic?: boolean;
+  hourlyWage?: number;
+  workDays?: string[];
+  workEndTime?: string;
+  workStartTime?: string;
+  workEndDate?: string;
+  workStartDate?: string;
+  location?: string;
+  imageUrls?: string[];
+  recruitmentEndDate?: string;
+  recruitmentStartDate?: string;
+  description?: string;
+  title?: string;
+  ownerId?: number;
+  id?: number;
+  scrapCount?: number;
+  applyCount?: number;
+  isScrapped?: boolean;
+  phoneNumber?: string;
+  storePhoneNumber?: string;
 }

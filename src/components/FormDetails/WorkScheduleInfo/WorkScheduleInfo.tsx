@@ -1,8 +1,14 @@
+import { FormDetailsProps } from '@/lib/types/types'
 import Image from 'next/image'
 
 import styles from './WorkScheduleInfo.module.scss'
 
-const WorkScheduleInfo = () => {
+const WorkScheduleInfo = ({
+  formDetails,
+}: {
+  formDetails: FormDetailsProps
+}) => {
+  console.log(formDetails)
   return (
     <section className={styles['work-schedule-info-container']}>
       <div className={styles['money-date-container']}>
@@ -28,7 +34,7 @@ const WorkScheduleInfo = () => {
               src="/icons/ic-calendar-clock.svg"
               width={36}
               height={36}
-              alt="시급 아이콘"
+              alt="기간 아이콘"
               className={styles['work-schedule-img']}
             />
           </div>
@@ -50,7 +56,7 @@ const WorkScheduleInfo = () => {
               src="/icons/ic-calendar2.svg"
               width={36}
               height={36}
-              alt="시급 아이콘"
+              alt="요일 아이콘"
               className={styles['work-schedule-img']}
             />
           </div>
@@ -66,7 +72,7 @@ const WorkScheduleInfo = () => {
               src="/icons/ic-circle-clock.svg"
               width={36}
               height={36}
-              alt="시급 아이콘"
+              alt="시간 아이콘"
               className={styles['work-schedule-img']}
             />
           </div>
