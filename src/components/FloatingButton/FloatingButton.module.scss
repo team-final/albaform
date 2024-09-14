@@ -1,4 +1,6 @@
 @use 'src/styles/_color' as color;
+@use 'src/styles/_media' as media;
+@use 'src/styles/_font' as font;
 
 .floating-button {
   width: 64px;
@@ -13,7 +15,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 100px;
+  position: relative;
+  z-index: 100;
 
   &:hover {
     background-color: color.$Primary-Orange-200;
@@ -22,20 +25,19 @@
   &:active {
     background-color: color.$Primary-Orange-100;
   }
+
+  @include media.tablet {
+    width: 54px;
+    height: 54px;
+  }
 }
 
 .with-children {
   width: 140px;
-}
 
-.small-with-children {
-  width: 120px;
-  height: 54px;
-}
-
-.small {
-  width: 54px;
-  height: 54px;
+  @include media.tablet {
+    width: 120px;
+  }
 }
 
 .bookmark {
@@ -50,21 +52,19 @@
   }
 }
 
-.small-img {
-  width: 24px;
-  height: 24px;
+.icon {
+  @include media.tablet {
+    width: 24px;
+    height: 24px;
+  }
 }
 
-.small-text {
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 26px;
-  color: color.$Grayscale-50;
-}
+.text {
+  @include font.Style(xl, 600);
 
-.medium-text {
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 32px;
   color: color.$Grayscale-50;
+
+  @include media.tablet {
+    @include font.Style(lg, 600);
+  }
 }
