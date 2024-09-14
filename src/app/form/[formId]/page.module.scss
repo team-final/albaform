@@ -1,18 +1,19 @@
 @use 'styles/_media' as media;
 
 .job-details {
-  margin: 78px 180px 0;
+  margin: 78px 180px;
   display: flex;
   flex-direction: column;
   row-gap: 80px;
 
   @include media.tablet {
-    margin: 0 184px;
+    margin: 0 184px 50px;
     row-gap: 32px;
   }
 
   @include media.mobile {
     margin: 0;
+    margin-bottom: 50px;
   }
 }
 
