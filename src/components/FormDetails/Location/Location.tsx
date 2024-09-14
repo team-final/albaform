@@ -1,10 +1,11 @@
-import fav from '../../public/favicon.ico'
+import Image from 'next/image'
+
 import styles from './Location.module.scss'
 
 const Location = () => {
   return (
-    <div className={styles['location-info']}>
-      <span className={styles['location-title']}>근무 지역</span>
+    <section className={styles['location-info']}>
+      <h1 className={styles['location-title']}>근무 지역</h1>
       <div className={styles['location-map-container']}>
         <div className={styles['location-details']}>
           <span className={styles['location-text']}>
@@ -12,9 +13,15 @@ const Location = () => {
           </span>
           <button className={styles['location-copy']}>복사</button>
         </div>
-        <img src={fav.src} className={styles['location-map']} />
+        <Image
+          src="icons/ic-plus.svg"
+          alt="기본 이미지"
+          className={styles['location-map']}
+          width={100}
+          height={50}
+        />
       </div>
-    </div>
+    </section>
   )
 }
 

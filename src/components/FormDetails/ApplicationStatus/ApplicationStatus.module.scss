@@ -41,7 +41,7 @@
 .application-status-info-wrapper {
   display: flex;
   align-items: center;
-  column-gap: 16px;
+  column-gap: 6px;
 
   @include media.tablet {
     column-gap: 6px;
@@ -75,19 +75,5 @@
 
   @include media.tablet {
     @include font.Style(md, 400);
-  }
-}
-
-@media screen and (width >= 1024px) and (width <= 1581px) {
-  .application-status {
-    padding: 12px;
-  }
-
-  .application-status-info-wrapper {
-    column-gap: 6px;
-  }
-
-  .info-content {
-    font-size: 18px;
   }
 }
