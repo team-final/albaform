@@ -1,0 +1,80 @@
+@use 'styles/_media' as media;
+@use 'styles/_color' as color;
+@use 'styles/_font' as font;
+
+.requirements-info {
+  display: flex;
+  flex-direction: column;
+  row-gap: 40px;
+
+  @include media.tablet {
+    row-gap: 16px;
+  }
+}
+
+.requirements-container {
+  border-radius: 8px;
+  border: 1px solid color.$Line-50;
+  padding: 24px;
+  background-color: color.$Background-50;
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+}
+
+.requirements-details {
+  display: flex;
+  column-gap: 10px;
+}
+
+.requirements-info-title {
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 46px;
+  color: color.$Black-500;
+
+  @include media.tablet {
+    font-size: 20px;
+    line-height: 26px;
+  }
+}
+
+.details-title {
+  width: 20%;
+
+  @include font.Style(xl, 400);
+
+  color: color.$Black-200;
+  white-space: nowrap;
+  min-width: 120px;
+
+  @include media.tablet {
+    @include font.Style(md, 400);
+  }
+}
+
+.details-people-wrapper {
+  display: flex;
+  align-items: center;
+  column-gap: 2px;
+}
+
+.details-content {
+  @include font.Style(xl, 400);
+
+  color: color.$Black-400;
+
+  @include media.tablet {
+    @include font.Style(md, 400);
+  }
+}
+
+.details-content-people {
+  @include font.Style(xl, 400);
+
+  color: color.$Grayscale-500;
+
+  @include media.tablet {
+    @include font.Style(md, 400);
+  }
+}
