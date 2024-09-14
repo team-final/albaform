@@ -1,0 +1,46 @@
+@use 'styles/_media' as media;
+@use 'styles/_color' as color;
+@use 'styles/_font' as font;
+
+.announcement-info {
+  display: flex;
+  align-items: center;
+  column-gap: 16px;
+
+  @include media.tablet {
+    justify-content: space-between;
+    column-gap: 0;
+  }
+}
+
+.announcement-info-status {
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+}
+
+.status-auth {
+  background-color: color.$Primary-Orange-50;
+  color: color.$Primary-Orange-300;
+  padding: 6px 12px;
+  border-radius: 4px;
+
+  @include font.Style(lg, 600);
+
+  @include media.tablet {
+    font-size: 12px;
+    line-height: 20px;
+    padding: 4px 8px;
+  }
+}
+
+.announcement-info-date {
+  @include font.Style(2lg, 400);
+
+  color: color.$Grayscale-500;
+
+  @include media.tablet {
+    font-size: 12px;
+    line-height: 18px;
+  }
+}
