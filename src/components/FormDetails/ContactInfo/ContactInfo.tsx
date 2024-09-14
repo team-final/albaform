@@ -1,13 +1,15 @@
 'use client'
 
 import MainButton from '@/components/MainButton/MainButton'
+import { FormDetailsProps } from '@/lib/types/types'
 
 import styles from './ContactInfo.module.scss'
 
-const ContactInfo = () => {
+const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
   const handleApplyClick = () => {
     console.log('클릭')
   }
+  console.log(formDetails)
 
   return (
     <section className={styles['contact-info']}>

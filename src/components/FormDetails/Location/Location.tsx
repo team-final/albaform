@@ -1,8 +1,10 @@
+import { FormDetailsProps } from '@/lib/types/types'
 import Image from 'next/image'
 
 import styles from './Location.module.scss'
 
-const Location = () => {
+const Location = ({ formDetails }: { formDetails: FormDetailsProps }) => {
+  console.log(formDetails)
   return (
     <section className={styles['location-info']}>
       <h1 className={styles['location-title']}>근무 지역</h1>

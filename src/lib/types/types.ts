@@ -42,3 +42,33 @@ export interface InputProps extends ComponentProps {
   validate?: (values: unknown) => boolean | string
   initialValues?: Record<string, any>
 }
+
+export interface FormDetailsProps {
+  updatedAt?: string
+  createdAt?: string
+  preferred?: string
+  age?: string
+  education?: string
+  gender?: string
+  numberOfPositions?: number
+  isPublic?: boolean
+  hourlyWage?: number
+  workDays?: string[]
+  workEndTime?: string
+  workStartTime?: string
+  workEndDate?: string
+  workStartDate?: string
+  location?: string
+  imageUrls?: string[]
+  recruitmentEndDate?: string
+  recruitmentStartDate?: string
+  description?: string
+  title?: string
+  ownerId?: number
+  id?: number
+  scrapCount?: number
+  applyCount?: number
+  isScrapped?: boolean
+  phoneNumber?: string
+  storePhoneNumber?: string
+}

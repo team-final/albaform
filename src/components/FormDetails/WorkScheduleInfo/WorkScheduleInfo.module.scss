@@ -17,7 +17,7 @@
 .work-schedule-info {
   border-radius: 8px;
   border: 1px solid color.$Line-50;
-  padding: 20px 8px;
+  padding: 20px 0 20px 10px;
   background-color: color.$Grayscale-50;
   display: flex;
   column-gap: 10px;
@@ -54,7 +54,7 @@
 .work-schedule-info-auth {
   display: flex;
   flex-direction: column;
-  row-gap: 6px;
+  row-gap: 10px;
   justify-content: center;
 
   @include media.tablet {
