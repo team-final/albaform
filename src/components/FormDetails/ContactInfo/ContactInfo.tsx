@@ -1,16 +1,6 @@
-'use client'
-
-import MainButton from '@/components/MainButton/MainButton'
-import { FormDetailsProps } from '@/lib/types/types'
-
 import styles from './ContactInfo.module.scss'
 
-const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
-  const handleApplyClick = () => {
-    console.log('클릭')
-  }
-  console.log(formDetails)
-
+const ContactInfo = () => {
   return (
     <section className={styles['contact-info']}>
       <div className={styles['contact-info-container']}>
@@ -41,16 +31,7 @@ const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
         </div>
       </div>
 
-      <div className={styles['button-container']}>
-        <MainButton type="solid" disabled={false} onClick={handleApplyClick}>
-          <MainButton.Icon src="/icons/ic-writing.svg" altText="지원하기" />
-          <MainButton.Text>지원하기</MainButton.Text>
-        </MainButton>
-        <MainButton type="outline" disabled={false} onClick={handleApplyClick}>
-          <MainButton.Icon src="/icons/ic-apply-list.svg" altText="지원하기" />
-          <MainButton.Text>내 지원내역 보기</MainButton.Text>
-        </MainButton>
-      </div>
+      <div className={styles['button-container']}></div>
     </section>
   )
 }

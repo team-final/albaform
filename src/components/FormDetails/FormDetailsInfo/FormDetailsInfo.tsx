@@ -1,31 +1,11 @@
-'use client'
-
-import { useFormDetailsQuery } from '@/lib/api/formDetails'
-import { FormDetailsProps } from '@/lib/types/types'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
 
 import AnnouncementInfo from '../AnnouncementInfo/AnnouncementInfo'
 import ContactInfo from '../ContactInfo/ContactInfo'
 import WorkScheduleInfo from '../WorkScheduleInfo/WorkScheduleInfo'
 import styles from './FormDetailsInfo.module.scss'
 
-const FormDetailsInfo = ({
-  formDetails,
-}: {
-  formDetails: FormDetailsProps
-}) => {
-  const [scrapCount, setScrapCount] = useState(0)
-  const [applicationStatus, setApplicationStatus] = useState(0)
-  const { data: formStatus } = useFormDetailsQuery(Number(formDetails.id))
-
-  useEffect(() => {
-    if (formStatus) {
-      setScrapCount(formStatus.scrapCount)
-      setApplicationStatus(formStatus.applyCount)
-    }
-  }, [formStatus])
-
+const FormDetailsInfo = () => {
   return (
     <section className={styles['job-details-info']}>
       <AnnouncementInfo />
@@ -57,7 +37,7 @@ const FormDetailsInfo = ({
               />
               <h3 className={styles['auth-title']}>스크랩</h3>
             </div>
-            <p className={styles['auth-content']}>{scrapCount}회</p>
+            <p className={styles['auth-content']}>회</p>
           </div>
 
           <div className={styles['job-details-status-auth']}>
@@ -72,18 +52,18 @@ const FormDetailsInfo = ({
               <h3 className={styles['auth-title']}>지원현황</h3>
             </div>
             <p className={styles['auth-content']}>
-              현재까지 {applicationStatus}명이 알바폼에 지원했어요!
+              현재까지 명이 알바폼에 지원했어요!
             </p>
           </div>
         </div>
 
         <div className={styles['tablet-schedule-contact']}>
           <div className={styles['tablet-workschedule-info']}>
-            <WorkScheduleInfo formDetails={formDetails} />
+            <WorkScheduleInfo />
           </div>
 
           <div className={styles['tablet-contact-info']}>
-            <ContactInfo formDetails={formDetails} />
+            <ContactInfo />
           </div>
         </div>
 

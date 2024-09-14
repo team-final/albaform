@@ -1,10 +1,6 @@
-import { FormDetailsProps } from '@/lib/types/types'
-import Image from 'next/image'
-
 import styles from './Location.module.scss'
 
-const Location = ({ formDetails }: { formDetails: FormDetailsProps }) => {
-  console.log(formDetails)
+const Location = () => {
   return (
     <section className={styles['location-info']}>
       <h1 className={styles['location-title']}>근무 지역</h1>
@@ -15,13 +11,7 @@ const Location = ({ formDetails }: { formDetails: FormDetailsProps }) => {
           </span>
           <button className={styles['location-copy']}>복사</button>
         </div>
-        <Image
-          src="icons/ic-plus.svg"
-          alt="기본 이미지"
-          className={styles['location-map']}
-          width={100}
-          height={50}
-        />
+        <section className={styles['location-map']}>이건 지도야</section>
       </div>
     </section>
   )
