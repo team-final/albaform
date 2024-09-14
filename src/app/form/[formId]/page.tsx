@@ -4,20 +4,21 @@ import Location from '@/components/FormDetails/Location/Location'
 import Requirements from '@/components/FormDetails/Requirements/Requirements'
 import WorkScheduleInfo from '@/components/FormDetails/WorkScheduleInfo/WorkScheduleInfo'
 import MainButton from '@/components/MainButton/MainButton'
-import { useFormDetailsQuery, useUsersMeQuery } from '@/lib/api/formDetails'
+import {
+  getFormLists,
+  useFormDetailsQuery,
+  useUsersMeQuery,
+} from '@/lib/api/formDetails'
 import Image from 'next/image'
 
 import styles from './page.module.scss'
 
 // 정적 생성 함수
 export async function generateStaticParams() {
-  const response = await fetch(
-    'https://fe-project-albaform.vercel.app/7-4/forms',
-  )
-  const forms = await response.json()
+  const formIds = await getFormLists()
 
-  return forms.map((form: { id: number }) => ({
-    formId: form.id.toString(),
+  return formIds.map((form: { id: number }) => ({
+    params: { formId: form.id.toString() },
   }))
 }
 

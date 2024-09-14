@@ -17,6 +17,17 @@ export const useUsersMeQuery = () => {
   return useQuery({ queryKey: ['userRole'], queryFn: getUsersMe })
 }
 
+// 폼 목록 가져오기
+export const getFormLists = async () => {
+  try {
+    const response = await apiClient.get(`/forms`)
+    return response.data.id
+  } catch (error) {
+    console.error('데이터 가져오는 중 오류 발생: ', error)
+    throw error
+  }
+}
+
 // 상세폼 데이터 가져오기
 const getFormDetails = async (formId: number) => {
   try {
