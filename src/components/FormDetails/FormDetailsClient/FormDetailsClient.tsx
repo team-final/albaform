@@ -20,7 +20,6 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
   const { data: userRole } = useUsersMeQuery()
   const { data: formDetails } = useFormDetailsQuery(Number(formId))
   console.log(formDetails)
-  console.log(userRole)
   // 토큰이 없을 때 버튼 어떻게 할지
 
   const handleApplyClick = () => {}
