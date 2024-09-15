@@ -1,3 +1,4 @@
+import { FormDetailsProps } from '@/lib/types/types'
 import Image from 'next/image'
 
 import AnnouncementInfo from '../AnnouncementInfo/AnnouncementInfo'
@@ -5,7 +6,11 @@ import ContactInfo from '../ContactInfo/ContactInfo'
 import WorkScheduleInfo from '../WorkScheduleInfo/WorkScheduleInfo'
 import styles from './FormDetailsInfo.module.scss'
 
-const FormDetailsInfo = () => {
+const FormDetailsInfo = ({
+  formDetails,
+}: {
+  formDetails: FormDetailsProps
+}) => {
   return (
     <section className={styles['job-details-info']}>
       <AnnouncementInfo />
@@ -59,11 +64,11 @@ const FormDetailsInfo = () => {
 
         <div className={styles['tablet-schedule-contact']}>
           <div className={styles['tablet-workschedule-info']}>
-            <WorkScheduleInfo />
+            <WorkScheduleInfo formDetails={formDetails} />
           </div>
 
           <div className={styles['tablet-contact-info']}>
-            <ContactInfo />
+            <ContactInfo formDetails={formDetails} />
           </div>
         </div>
 

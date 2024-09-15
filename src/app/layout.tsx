@@ -3,6 +3,7 @@ import React from 'react'
 
 import RootHeader from '../components/RootHeader/RootHeader'
 import '../styles/globals.css'
+import ClientProvider from './ClientProvider'
 
 export const metadata: Metadata = {
   title: 'albaform - 한 곳에서 관리하는 알바 구인 플랫폼',
@@ -18,7 +19,7 @@ export default function RootLayout({
     <html lang="ko">
       <body>
         <RootHeader />
-        {children}
+        <ClientProvider>{children}</ClientProvider>
       </body>
     </html>
   )

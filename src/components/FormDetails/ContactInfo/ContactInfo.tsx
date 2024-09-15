@@ -1,6 +1,15 @@
+'use client'
+
+import MainButton from '@/components/MainButton/MainButton'
+import { useUsersMeQuery } from '@/lib/api/formDetails'
+import { FormDetailsProps } from '@/lib/types/types'
+
 import styles from './ContactInfo.module.scss'
 
-const ContactInfo = () => {
+const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
+  const { data: userRole } = useUsersMeQuery()
+  console.log(formDetails)
+  const handleApplyClick = () => {}
   return (
     <section className={styles['contact-info']}>
       <div className={styles['contact-info-container']}>
@@ -31,7 +40,53 @@ const ContactInfo = () => {
         </div>
       </div>
 
-      <div className={styles['button-container']}></div>
+      <div className={styles['button-container']}>
+        {userRole === 'APPLICANT' ? (
+          <>
+            <MainButton
+              type="solid"
+              disabled={false}
+              onClick={handleApplyClick}
+            >
+              <MainButton.Icon src="/icons/ic-writing.svg" altText="지원하기" />
+              <MainButton.Text>지원하기</MainButton.Text>
+            </MainButton>
+            <MainButton
+              type="outline"
+              disabled={false}
+              onClick={handleApplyClick}
+            >
+              <MainButton.Icon
+                src="/icons/ic-apply-list.svg"
+                altText="지원하기"
+              />
+              <MainButton.Text>내 지원내역 보기</MainButton.Text>
+            </MainButton>
+          </>
+        ) : (
+          <>
+            <MainButton
+              type="solid"
+              disabled={false}
+              onClick={handleApplyClick}
+            >
+              <MainButton.Icon src="/icons/ic-edit2.svg" altText="수정하기" />
+              <MainButton.Text>수정하기</MainButton.Text>
+            </MainButton>
+            <MainButton
+              type="outline"
+              disabled={false}
+              onClick={handleApplyClick}
+            >
+              <MainButton.Icon
+                src="/icons/ic-trash-can.svg"
+                altText="삭제하기"
+              />
+              <MainButton.Text>삭제하기</MainButton.Text>
+            </MainButton>
+          </>
+        )}
+      </div>
     </section>
   )
 }
