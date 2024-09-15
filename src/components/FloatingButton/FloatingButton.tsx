@@ -32,18 +32,17 @@ const FloatingButton = ({
 }
 
 interface IconProps {
-  iconSrc: string
-  altText: string
+  src: string
+  altText?: string
 }
-
-const FloatingButtonIcon = ({ iconSrc, altText }: IconProps) => {
+const FloatingButtonIcon = ({ src, altText = '아이콘' }: IconProps) => {
   return (
     <Image
-      src={iconSrc}
+      src={src}
       alt={altText}
       className={styles.icon}
-      width="36"
-      height="36"
+      width={36}
+      height={36}
     />
   )
 }

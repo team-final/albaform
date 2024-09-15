@@ -1,8 +1,14 @@
+import { FormDetailsProps } from '@/lib/types/types'
 import Image from 'next/image'
 
 import styles from './WorkScheduleInfo.module.scss'
 
-const WorkScheduleInfo = () => {
+const WorkScheduleInfo = ({
+  formDetails,
+}: {
+  formDetails: FormDetailsProps
+}) => {
+  console.log(formDetails)
   return (
     <section className={styles['work-schedule-info-container']}>
       <div className={styles['money-date-container']}>
