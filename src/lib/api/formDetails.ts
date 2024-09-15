@@ -21,10 +21,9 @@ export const useUsersMeQuery = () => {
 }
 
 // 폼 목록 가져오기
-export const getFormLists = async () => {
+export const getFormLists = async (limit: number) => {
   try {
-    const response = await apiClient.get('/forms?limit=6')
-    console.log(response.data)
+    const response = await apiClient.get(`/forms?limit=${limit}`)
     return response.data
   } catch (error) {
     console.error('데이터 가져오는 중 오류 발생:', error)
