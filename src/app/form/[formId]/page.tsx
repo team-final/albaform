@@ -20,7 +20,6 @@ export const generateStaticParams = async () => {
 
 const FormDetailsPage = async ({ params }: { params: { formId: string } }) => {
   const { formId } = params
-
   return (
     <main className={styles['job-details']}>
       <FormDetailsClient formId={Number(formId)} />
