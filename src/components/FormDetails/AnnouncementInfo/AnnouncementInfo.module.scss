@@ -28,8 +28,8 @@
   @include font.Style(lg, 600);
 
   @include media.tablet {
-    font-size: 12px;
-    line-height: 20px;
+    @include font.Style(xs, 600);
+
     padding: 4px 8px;
   }
 }
@@ -40,7 +40,6 @@
   color: color.$Grayscale-500;
 
   @include media.tablet {
-    font-size: 12px;
-    line-height: 18px;
+    @include font.Style(xs, 400);
   }
 }
