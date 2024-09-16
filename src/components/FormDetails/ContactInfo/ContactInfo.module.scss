@@ -61,8 +61,7 @@
   color: color.$Primary-Orange-300;
 
   @include media.tablet {
-    font-size: 12px;
-    line-height: 20px;
+    @include font.Style(xs, 600);
   }
 }
 
