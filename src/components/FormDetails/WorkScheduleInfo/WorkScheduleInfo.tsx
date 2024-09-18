@@ -1,14 +1,53 @@
 import { FormDetailsProps } from '@/lib/types/types'
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
 
 import styles from './WorkScheduleInfo.module.scss'
+
+const formatCurrency = (amount?: number) => {
+  return amount !== undefined
+    ? new Intl.NumberFormat('ko-KR').format(amount)
+    : '0'
+}
+
+const formatDate = (dateString?: string, isResponsive: boolean = false) => {
+  const date = new Date(dateString || new Date())
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }
+
+  if (isResponsive) {
+    return date
+      .toLocaleDateString('ko-KR', {
+        ...options,
+        year: '2-digit', // 연도 2자리
+      })
+      .replace(/\./g, '.')
+  }
+  return date.toLocaleDateString('ko-KR', options).replace(/\./g, '.')
+}
 
 const WorkScheduleInfo = ({
   formDetails,
 }: {
   formDetails: FormDetailsProps
 }) => {
-  console.log(formDetails)
+  const [isResponsive, setIsResponsive] = useState(false)
+  const wageFormatted = formatCurrency(formDetails?.hourlyWage)
+  const workStartDate = formatDate(formDetails?.workStartDate, isResponsive)
+  const workEndDate = formatDate(formDetails?.workEndDate, isResponsive)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsResponsive(window.innerWidth <= 1024)
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
   return (
     <section className={styles['work-schedule-info-container']}>
       <div className={styles['money-date-container']}>
@@ -24,7 +63,7 @@ const WorkScheduleInfo = ({
           </div>
           <div className={styles['work-schedule-info-auth']}>
             <h3 className={styles['info-text']}>시급</h3>
-            <span className={styles['info-content']}>10,000원</span>
+            <span className={styles['info-content']}>{wageFormatted}원</span>
           </div>
         </div>
 
@@ -41,9 +80,8 @@ const WorkScheduleInfo = ({
           <div className={styles['work-schedule-info-auth']}>
             <h3 className={styles['info-text']}>기간</h3>
             <div className={styles['info-content-container']}>
-              <span className={styles['info-content']}>2024.06.01~</span>
-              <span className={styles['info-content']}> 2024.12.31</span>
-              {/* 반응형일 때 24.06.01 */}
+              <span className={styles['info-content']}>{workStartDate}~</span>
+              <span className={styles['info-content']}> {workEndDate}</span>
             </div>
           </div>
         </div>
@@ -62,7 +100,9 @@ const WorkScheduleInfo = ({
           </div>
           <div className={styles['work-schedule-info-auth']}>
             <h3 className={styles['info-text']}>요일</h3>
-            <span className={styles['info-content']}>요일협의</span>
+            <span className={styles['info-content']}>
+              {formDetails?.workDays}
+            </span>
           </div>
         </div>
 
@@ -78,7 +118,9 @@ const WorkScheduleInfo = ({
           </div>
           <div className={styles['work-schedule-info-auth']}>
             <h3 className={styles['info-text']}>시간</h3>
-            <span className={styles['info-content']}>06:00~21:00</span>
+            <span className={styles['info-content']}>
+              {formDetails?.workStartTime}~{formDetails?.workEndTime}
+            </span>
           </div>
         </div>
       </div>
