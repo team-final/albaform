@@ -19,14 +19,12 @@ const formatDate = (dateString?: string, isResponsive: boolean = false) => {
   }
 
   if (isResponsive) {
-    return date
-      .toLocaleDateString('ko-KR', {
-        ...options,
-        year: '2-digit', // 연도 2자리
-      })
-      .replace(/\./g, '.')
+    return date.toLocaleDateString('ko-KR', {
+      ...options,
+      year: '2-digit', // 연도 2자리
+    })
   }
-  return date.toLocaleDateString('ko-KR', options).replace(/\./g, '.')
+  return date.toLocaleDateString('ko-KR', options)
 }
 
 const WorkScheduleInfo = ({

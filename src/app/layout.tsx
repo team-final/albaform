@@ -1,3 +1,4 @@
+import '@/components/FormDetails/ImageSlider/ImageSlider.css'
 import type { Metadata } from 'next'
 import React from 'react'
 
