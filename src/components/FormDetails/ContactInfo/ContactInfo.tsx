@@ -9,13 +9,11 @@ import styles from './ContactInfo.module.scss'
 
 const formateDate = (dateString?: string) => {
   const date = new Date(dateString || new Date())
-  return date
-    .toLocaleDateString('ko-KR', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    })
-    .replace(/\./g, '.')
+  return date.toLocaleDateString('ko-KR', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  })
 }
 
 const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {

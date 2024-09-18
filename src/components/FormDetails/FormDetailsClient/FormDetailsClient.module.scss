@@ -1,13 +1,5 @@
 @use 'styles/_media' as media;
 
-.job-details-img {
-  width: 100%;
-  height: auto;
-  aspect-ratio: 3 / 0.5;
-  object-fit: fill;
-  border-radius: 8px;
-}
-
 .job-details-content {
   display: flex;
   column-gap: 150px;

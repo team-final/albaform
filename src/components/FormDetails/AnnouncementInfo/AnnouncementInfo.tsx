@@ -15,9 +15,11 @@ const AnnouncementInfo = ({
     formDetails?.recruitmentEndDate || new Date(),
   )
   const isRecruiting = now >= recruitmentStartDate && now <= recruitmentEndDate
-  const createdAtDate = new Date(formDetails?.createdAt || new Date())
 
-  const formatDate = (date: Date) => {
+  const formatDate = (date?: Date) => {
+    if (!date || isNaN(date.getTime())) {
+      return '날짜 없음'
+    }
     const year = date.getFullYear()
     const month = String(date.getMonth() + 1).padStart(2, '0')
     const day = String(date.getDate()).padStart(2, '0')
@@ -26,7 +28,9 @@ const AnnouncementInfo = ({
     const seconds = String(date.getSeconds()).padStart(2, '0')
     return `${year}. ${month}. ${day} ${hours}:${minutes}:${seconds} 등록`
   }
-
+  const createdAtDate = formDetails?.createdAt
+    ? new Date(formDetails.createdAt)
+    : undefined
   const createdFormattedDate = formatDate(createdAtDate)
 
   return (

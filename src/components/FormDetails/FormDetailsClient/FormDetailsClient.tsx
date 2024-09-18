@@ -7,9 +7,9 @@ import Requirements from '@/components/FormDetails/Requirements/Requirements'
 import WorkScheduleInfo from '@/components/FormDetails/WorkScheduleInfo/WorkScheduleInfo'
 import MainButton from '@/components/MainButton/MainButton'
 import { useFormDetailsQuery, useUsersMeQuery } from '@/lib/api/formDetails'
-import Image from 'next/image'
 import React from 'react'
 
+import ImageSlider from '../ImageSlider/ImageSlider'
 import styles from './FormDetailsClient.module.scss'
 
 interface FormDetailsClientProps {
@@ -19,20 +19,12 @@ interface FormDetailsClientProps {
 const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
   const { data: userRole } = useUsersMeQuery()
   const { data: formDetails } = useFormDetailsQuery(Number(formId))
-  console.log(formDetails)
-  // 토큰이 없을 때 버튼 어떻게 할지
 
   const handleApplyClick = () => {}
 
   return (
     <>
-      <Image
-        src="/icons/ic-circle-clock.svg"
-        alt="기본 이미지"
-        className={styles['job-details-img']}
-        width={100}
-        height={30}
-      />
+      <ImageSlider formDetails={formDetails} />
       <div className={styles['job-details-container']}>
         <div className={styles['job-details-content']}>
           <section className={styles['job-details-info']}>
