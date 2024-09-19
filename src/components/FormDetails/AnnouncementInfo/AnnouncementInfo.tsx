@@ -1,4 +1,5 @@
 import { FormDetailsProps } from '@/lib/types/types'
+import { formatDetailedDate } from '@/utils/formatDate'
 
 import styles from './AnnouncementInfo.module.scss'
 
@@ -15,23 +16,10 @@ const AnnouncementInfo = ({
     formDetails?.recruitmentEndDate || new Date(),
   )
   const isRecruiting = now >= recruitmentStartDate && now <= recruitmentEndDate
-
-  const formatDate = (date?: Date) => {
-    if (!date || isNaN(date.getTime())) {
-      return '날짜 없음'
-    }
-    const year = date.getFullYear()
-    const month = String(date.getMonth() + 1).padStart(2, '0')
-    const day = String(date.getDate()).padStart(2, '0')
-    const hours = String(date.getHours()).padStart(2, '0')
-    const minutes = String(date.getMinutes()).padStart(2, '0')
-    const seconds = String(date.getSeconds()).padStart(2, '0')
-    return `${year}. ${month}. ${day} ${hours}:${minutes}:${seconds} 등록`
-  }
   const createdAtDate = formDetails?.createdAt
     ? new Date(formDetails.createdAt)
     : undefined
-  const createdFormattedDate = formatDate(createdAtDate)
+  const createdFormattedDate = formatDetailedDate(createdAtDate)
 
   return (
     <section className={styles['announcement-info']}>

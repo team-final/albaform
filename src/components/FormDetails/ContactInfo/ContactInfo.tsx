@@ -1,25 +1,22 @@
 'use client'
 
 import MainButton from '@/components/MainButton/MainButton'
-import { useUsersMeQuery } from '@/lib/api/formDetails'
+import { useUsersMeQuery } from '@/lib/queries/formDetailsQuery'
 import { FormDetailsProps } from '@/lib/types/types'
+import { formatKoreanDate } from '@/utils/formatDate'
 import { useEffect, useState } from 'react'
 
 import styles from './ContactInfo.module.scss'
 
-const formateDate = (dateString?: string) => {
-  const date = new Date(dateString || new Date())
-  return date.toLocaleDateString('ko-KR', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  })
-}
+// import { useRouter } from 'next/navigation'
 
 const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
+  // const router = useRouter()
   const { data: userRole } = useUsersMeQuery()
-  const recruitmentStartDate = formateDate(formDetails?.recruitmentStartDate)
-  const recruitmentEndDate = formateDate(formDetails?.recruitmentEndDate)
+  const recruitmentStartDate = formatKoreanDate(
+    formDetails?.recruitmentStartDate,
+  )
+  const recruitmentEndDate = formatKoreanDate(formDetails?.recruitmentEndDate)
   const [statusMessage, setStatusMessage] = useState<string>('모집기간 계산 중')
 
   useEffect(() => {
@@ -37,7 +34,26 @@ const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
     }
   }, [recruitmentEndDate])
 
-  const handleApplyClick = () => {}
+  const handleApplyClick = () => {
+    console.log('지원하기')
+    // router.push(`form/${formId}/apply`)
+  }
+
+  const handleShowApplicationHistory = () => {
+    console.log('내 지원내역 보기')
+    // router.push(`form/${formId}/application/${applicationId}`)
+    // 얘는 모달로
+  }
+
+  const handleEditClick = () => {
+    console.log('수정하기')
+    // router.push(`form/${formId}/edit`)
+  }
+
+  const handleDeleteClick = () => {
+    // 얘는 모달로
+  }
+
   return (
     <section className={styles['contact-info']}>
       <div className={styles['contact-info-container']}>
@@ -86,7 +102,7 @@ const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
             <MainButton
               type="outline"
               disabled={false}
-              onClick={handleApplyClick}
+              onClick={handleShowApplicationHistory}
             >
               <MainButton.Icon
                 src="/icons/ic-apply-list.svg"
@@ -97,18 +113,14 @@ const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
           </>
         ) : (
           <>
-            <MainButton
-              type="solid"
-              disabled={false}
-              onClick={handleApplyClick}
-            >
+            <MainButton type="solid" disabled={false} onClick={handleEditClick}>
               <MainButton.Icon src="/icons/ic-edit2.svg" altText="수정하기" />
               <MainButton.Text>수정하기</MainButton.Text>
             </MainButton>
             <MainButton
               type="outline"
               disabled={false}
-              onClick={handleApplyClick}
+              onClick={handleDeleteClick}
             >
               <MainButton.Icon
                 src="/icons/ic-trash-can.svg"

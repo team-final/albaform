@@ -17,7 +17,11 @@ const Requirements = ({ formDetails }: { formDetails: FormDetailsProps }) => {
             <p className={styles['details-content']}>
               {formattedNumberOfPositions}명
             </p>
-            <span className={styles['details-content-people']}>(인원미정)</span>
+            {formattedNumberOfPositions === '00' && (
+              <span className={styles['details-content-people']}>
+                (인원미정)
+              </span>
+            )}
           </div>
         </div>
 

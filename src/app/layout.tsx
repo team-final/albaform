@@ -3,8 +3,8 @@ import type { Metadata } from 'next'
 import React from 'react'
 
 import RootHeader from '../components/RootHeader/RootHeader'
+import ClientProvider from '../lib/queries/QueryClientProvider'
 import '../styles/globals.css'
-import ClientProvider from './ClientProvider'
 
 export const metadata: Metadata = {
   title: 'albaform - 한 곳에서 관리하는 알바 구인 플랫폼',

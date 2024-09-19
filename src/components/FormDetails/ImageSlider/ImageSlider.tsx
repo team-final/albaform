@@ -37,6 +37,7 @@ export default function ImageSlider({
               width={100}
               height={30}
               className="job-details-img"
+              priority
             />
           </SwiperSlide>
         ))}

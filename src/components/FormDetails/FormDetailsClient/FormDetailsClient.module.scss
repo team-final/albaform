@@ -1,5 +1,16 @@
 @use 'styles/_media' as media;
 
+.form-details-client {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  row-gap: 80px;
+
+  @include media.tablet {
+    row-gap: 32px;
+  }
+}
+
 .job-details-content {
   display: flex;
   column-gap: 150px;
@@ -50,6 +61,15 @@
 
 .requirements-info {
   flex-basis: 45.39%;
+}
+
+.floating-button-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+  position: fixed;
+  top: 500px;
+  right: 180px;
 }
 
 .button-container {

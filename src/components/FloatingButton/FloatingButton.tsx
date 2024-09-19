@@ -34,15 +34,22 @@ const FloatingButton = ({
 interface IconProps {
   src: string
   altText?: string
+  width?: number
+  height?: number
 }
-const FloatingButtonIcon = ({ src, altText = '아이콘' }: IconProps) => {
+const FloatingButtonIcon = ({
+  src,
+  altText = '아이콘',
+  width = 36,
+  height = 36,
+}: IconProps) => {
   return (
     <Image
       src={src}
       alt={altText}
       className={styles.icon}
-      width={36}
-      height={36}
+      width={width}
+      height={height}
     />
   )
 }
