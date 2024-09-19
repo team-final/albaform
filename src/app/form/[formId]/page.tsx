@@ -1,12 +1,12 @@
 import FormDetailsClient from '@/components/FormDetails/FormDetailsClient/FormDetailsClient'
-import { getFormLists } from '@/lib/api/formDetails'
+import { getlistForms } from '@/lib/api/formDetails'
 
 import styles from './page.module.scss'
 
 // 정적 생성 함수
 export const generateStaticParams = async () => {
   const LIMIT = 10
-  const formLists = await getFormLists(LIMIT)
+  const formLists = await getlistForms(LIMIT)
   const formIds = formLists.data.map((form: { id: number }) => ({
     id: form.id.toString(),
   }))

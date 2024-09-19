@@ -2,9 +2,6 @@
 
 .job-details {
   margin: 78px 180px;
-  display: flex;
-  flex-direction: column;
-  row-gap: 80px;
 
   @include media.tablet {
     margin: 0 184px 50px;

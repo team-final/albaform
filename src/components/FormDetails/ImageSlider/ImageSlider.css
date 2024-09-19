@@ -36,8 +36,21 @@
   color: #fff;
   border-radius: 100px;
   padding: 8px 16px;
-  width: 75px;
+  width: auto;
   display: flex;
   justify-content: center;
   z-index: 10;
+}
+
+@media screen and (max-width: 1024px) {
+  .swiper-button-prev,
+  .swiper-button-next {
+    display: none !important;
+  }
+
+  .image-counter {
+    padding: 4px 8px;
+    font-size: 13px;
+    right: -2%;
+  }
 }
