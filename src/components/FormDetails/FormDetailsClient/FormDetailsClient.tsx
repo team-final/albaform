@@ -7,6 +7,9 @@ import Location from '@/components/FormDetails/Location/Location'
 import Requirements from '@/components/FormDetails/Requirements/Requirements'
 import WorkScheduleInfo from '@/components/FormDetails/WorkScheduleInfo/WorkScheduleInfo'
 import MainButton from '@/components/MainButton/MainButton'
+import PopupToast from '@/components/Toastify/PopupToast/PopupToast'
+// import SimpleToast from '@/components/Toastify/SimpleToast/SimpleToast'
+import CustomToast from '@/components/Toastify/Toastify'
 import {
   useFormDetailsQuery,
   useFormScrapDeleteMutation,
@@ -15,6 +18,7 @@ import {
 } from '@/lib/queries/formDetailsQuery'
 // import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
+import { Slide, toast } from 'react-toastify'
 
 import ImageSlider from '../ImageSlider/ImageSlider'
 import styles from './FormDetailsClient.module.scss'
@@ -30,12 +34,17 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
   const { mutate: scrapForm } = useFormScrapMutation()
   const { mutate: scrapDeleteForm } = useFormScrapDeleteMutation()
   const [isScrapped, setIsScrapped] = useState(formDetails?.isScrapped || false)
+  const count = 7
 
   useEffect(() => {
     if (formDetails) {
       setIsScrapped(formDetails.isScrapped)
     }
   }, [formDetails])
+
+  useEffect(() => {
+    popupToast()
+  }, [])
 
   const handleApplyClick = () => {
     // router.push(`form/${formId}/apply`)
@@ -71,8 +80,18 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
     })
   }
 
+  const popupToast = () =>
+    toast(
+      <CustomToast icon="/icons/ic-user.svg" alt="팝업 토스트" count={count} />,
+      {
+        transition: Slide,
+      },
+    )
+
   return (
     <div className={styles['form-details-client']}>
+      <PopupToast />
+      {/* <SimpleToast /> */}
       <ImageSlider formDetails={formDetails} />
       <div className={styles['job-details-container']}>
         <div className={styles['job-details-content']}>
