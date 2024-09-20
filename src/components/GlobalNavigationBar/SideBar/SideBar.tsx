@@ -19,6 +19,11 @@ export default function SideBar({ closeAction }: SideBarProps) {
         <section className={styles.body}>
           <ul onClick={closeAction}>
             <li>
+              <Link href="/form/create" className={styles.button}>
+                알바폼 생성 페이지
+              </Link>
+            </li>
+            <li>
               <Link href="/" className={styles.button}>
                 <IconMypage />
                 마이페이지
