@@ -10,95 +10,25 @@
 	normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css
 */
 
-*,
-*:before,
-*:after {
+*, *:before, *:after {
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
 }
 
-html,
-body,
-div,
-span,
-applet,
-object,
-iframe,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-blockquote,
-pre,
-a,
-abbr,
-acronym,
-address,
-big,
-cite,
-code,
-del,
-dfn,
-em,
-img,
-ins,
-kbd,
-q,
-s,
-samp,
-small,
-strike,
-strong,
-sub,
-sup,
-tt,
-var,
-b,
-u,
-i,
-center,
-dl,
-dt,
-dd,
-ol,
-ul,
-li,
-fieldset,
-form,
-label,
-legend,
-table,
-caption,
-tbody,
-tfoot,
-thead,
-tr,
-th,
-td,
-article,
-aside,
-canvas,
-details,
-embed,
-figure,
-figcaption,
-footer,
-header,
-hgroup,
-menu,
-nav,
-output,
-ruby,
-section,
-summary,
-time,
-mark,
-audio,
-video {
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
   margin: 0;
   padding: 0;
   border: 0;
@@ -126,17 +56,8 @@ div,
 }
 
 /* HTML5 display-role reset for older browsers */
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-menu,
-nav,
-section {
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
   display: block;
 }
 
@@ -144,10 +65,7 @@ summary {
   display: list-item;
 }
 
-audio,
-canvas,
-progress,
-video {
+audio, canvas, progress, video {
   display: inline-block;
   vertical-align: baseline;
 }
@@ -157,18 +75,11 @@ audio:not([controls]) {
   height: 0;
 }
 
-nav,
-ul,
-ol,
-li {
+nav, ul, ol, li {
   list-style: none;
 }
 
-input,
-select,
-button,
-textarea,
-optgroup {
+input, select, button, textarea, optgroup {
   font-family: inherit;
   font-size: 100%;
   line-height: 1.15;
@@ -249,8 +160,7 @@ table {
   border-spacing: 0;
 }
 
-th,
-td {
+th, td {
   padding: 0;
   vertical-align: middle;
 }
@@ -283,15 +193,12 @@ hr {
   overflow: visible;
 }
 
-blockquote,
-q {
+blockquote, q {
   quotes: none;
 }
 
-blockquote:before,
-blockquote:after,
-q:before,
-q:after {
+blockquote:before, blockquote:after,
+q:before, q:after {
   content: '';
   content: none;
 }
@@ -307,9 +214,7 @@ a {
   text-decoration: none;
 }
 
-a:hover,
-a:focus,
-a:active {
+a:hover, a:focus, a:active {
   outline: 0;
   text-decoration: underline;
 }
@@ -318,8 +223,7 @@ a:visited {
   color: inherit;
 }
 
-b,
-strong {
+b, strong {
   font-weight: bolder;
 }
 
@@ -327,8 +231,7 @@ small {
   font-size: 80%;
 }
 
-sub,
-sup {
+sub, sup {
   position: relative;
   font-size: 75%;
   line-height: 0;
@@ -346,15 +249,11 @@ del {
   text-decoration: line-through;
 }
 
-em,
-address {
+em, address {
   font-style: normal;
 }
 
-code,
-kbd,
-samp,
-pre {
+code, kbd, samp, pre {
   font-family: monospace, monospace;
   font-size: 1em;
 }
@@ -365,7 +264,6 @@ abbr[title] {
   text-decoration: underline dotted;
 }
 
-[hidden],
-template {
+[hidden], template {
   display: none !important;
 }
