@@ -1,6 +1,4 @@
 import '@/components/FormDetails/ImageSlider/ImageSlider.css'
-import '@/components/Toastify/PopupToast/PopupToast.css'
-import '@/components/Toastify/SimpleToast/SimpleToast.css'
 import type { Metadata } from 'next'
 import React from 'react'
 

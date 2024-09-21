@@ -7,18 +7,17 @@ import Location from '@/components/FormDetails/Location/Location'
 import Requirements from '@/components/FormDetails/Requirements/Requirements'
 import WorkScheduleInfo from '@/components/FormDetails/WorkScheduleInfo/WorkScheduleInfo'
 import MainButton from '@/components/MainButton/MainButton'
-import PopupToast from '@/components/Toastify/PopupToast/PopupToast'
-// import SimpleToast from '@/components/Toastify/SimpleToast/SimpleToast'
-import CustomToast from '@/components/Toastify/Toastify'
+import Toastify from '@/components/Toastify/Toastify'
 import {
   useFormDetailsQuery,
   useFormScrapDeleteMutation,
   useFormScrapMutation,
   useUsersMeQuery,
 } from '@/lib/queries/formDetailsQuery'
+import Image from 'next/image'
 // import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import { Slide, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 
 import ImageSlider from '../ImageSlider/ImageSlider'
 import styles from './FormDetailsClient.module.scss'
@@ -34,17 +33,37 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
   const { mutate: scrapForm } = useFormScrapMutation()
   const { mutate: scrapDeleteForm } = useFormScrapDeleteMutation()
   const [isScrapped, setIsScrapped] = useState(formDetails?.isScrapped || false)
-  const count = 7
+  const [scrapCount, setScrapCount] = useState(0)
+  const [toastifyMode, setToastifyMode] = useState<'popup' | 'simple'>('popup')
 
   useEffect(() => {
     if (formDetails) {
       setIsScrapped(formDetails.isScrapped)
+      setScrapCount(formDetails.scrapCount)
+      toast(
+        <div className={styles.toast}>
+          <Image
+            src={'/icons/ic-user.svg'}
+            alt={'사용자'}
+            className={styles['toast-icon']}
+          />
+          <span>
+            현재{' '}
+            <span className={styles['highlight-text']}>
+              {formDetails.applyCount}명
+            </span>
+            이 지원했어요!
+          </span>
+        </div>,
+      )
     }
-  }, [formDetails])
+  }, [formDetails]) // IsScrapped랑 ScrapCount 값 업데이트
 
   useEffect(() => {
-    popupToast()
-  }, [])
+    if (toastifyMode === 'simple') {
+      toast.warning('스크랩 취소에 실패했습니다!')
+    }
+  }, [toastifyMode])
 
   const handleApplyClick = () => {
     // router.push(`form/${formId}/apply`)
@@ -65,38 +84,42 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
   }
 
   const handleBookmarkClick = () => {
+    setIsScrapped(true)
+    setScrapCount((prevCount) => prevCount + 1)
     scrapForm(formId, {
       onSuccess: (scrapStatus) => {
         setIsScrapped(scrapStatus)
+      },
+      onError: () => {
+        setIsScrapped(false)
+        setScrapCount((prevCount) => prevCount - 1)
       },
     })
   }
 
   const handleBookmarkDeleteClick = () => {
+    setIsScrapped(false)
+    setScrapCount((prevCount) => prevCount - 1)
     scrapDeleteForm(formId, {
       onSuccess: (scrapStatus) => {
         setIsScrapped(scrapStatus)
       },
+      onError: () => {
+        setIsScrapped(true)
+        setScrapCount((prevCount) => prevCount + 1)
+        setToastifyMode('simple')
+      },
     })
   }
 
-  const popupToast = () =>
-    toast(
-      <CustomToast icon="/icons/ic-user.svg" alt="팝업 토스트" count={count} />,
-      {
-        transition: Slide,
-      },
-    )
-
   return (
     <div className={styles['form-details-client']}>
-      <PopupToast />
-      {/* <SimpleToast /> */}
+      <Toastify mode={toastifyMode} />
       <ImageSlider formDetails={formDetails} />
       <div className={styles['job-details-container']}>
         <div className={styles['job-details-content']}>
           <section className={styles['job-details-info']}>
-            <FormDetailsInfo formDetails={formDetails} />
+            <FormDetailsInfo formDetails={formDetails} count={scrapCount} />
           </section>
           <section className={styles['schedule-contact-container']}>
             <WorkScheduleInfo formDetails={formDetails} />
