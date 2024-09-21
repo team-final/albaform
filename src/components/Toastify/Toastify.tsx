@@ -1,19 +1,30 @@
-import styles from './Toastify.module.scss'
+import { ToastContainer } from 'react-toastify'
+
+import './Toastify.css'
 
 interface Props {
-  icon: string
-  alt: string
-  count: number
+  mode: 'simple' | 'popup'
 }
 
-const CustomToast = ({ icon, alt = '아이콘', count }: Props) => (
-  <div className={styles.toast}>
-    <img src={icon} alt={alt} className={styles['toast-icon']} />
-    <span>
-      현재 <span className={styles['highlight-text']}>{count}명</span>이
-      지원했습니다
-    </span>
-  </div>
-)
+const Toastify = ({ mode }: Props) => {
+  return (
+    <>
+      <ToastContainer
+        className={mode === 'simple' ? 'simple' : ''}
+        position={mode === 'popup' ? 'top-center' : 'bottom-center'}
+        // autoClose={mode === 'popup' ? false : 4000}
+        autoClose={false}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+    </>
+  )
+}
 
-export default CustomToast
+export default Toastify

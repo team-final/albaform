@@ -9,15 +9,15 @@ import styles from './FormDetailsInfo.module.scss'
 
 const FormDetailsInfo = ({
   formDetails,
+  count,
 }: {
   formDetails: FormDetailsProps
+  count: number
 }) => {
-  const [scrapCount, setScrapCount] = useState(0)
   const [applicationStatus, setApplicationStatus] = useState(0)
 
   useEffect(() => {
     if (formDetails) {
-      setScrapCount(formDetails.scrapCount ?? 0)
       setApplicationStatus(formDetails.applyCount ?? 0)
     }
   }, [formDetails])
@@ -51,7 +51,7 @@ const FormDetailsInfo = ({
               />
               <h3 className={styles['auth-title']}>스크랩</h3>
             </div>
-            <p className={styles['auth-content']}>{scrapCount}회</p>
+            <p className={styles['auth-content']}>{count}회</p>
           </div>
 
           <div className={styles['job-details-status-auth']}>

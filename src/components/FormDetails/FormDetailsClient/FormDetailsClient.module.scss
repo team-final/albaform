@@ -4,10 +4,13 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  row-gap: 80px;
+}
+
+.job-details-container {
+  margin-top: 80px;
 
   @include media.tablet {
-    row-gap: 32px;
+    margin-top: 32px;
   }
 }
 
@@ -85,4 +88,20 @@
   @include media.mobile {
     margin-top: 46px;
   }
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+}
+
+.toast-icon {
+  width: 36px;
+  height: 36px;
+}
+
+.highlight-text {
+  color: #f89a05;
+  font-weight: 700;
 }

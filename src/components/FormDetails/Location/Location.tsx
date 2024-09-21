@@ -1,4 +1,6 @@
+import SimpleToast from '@/components/Toastify/SimpleToast/SimpleToast'
 import { FormDetailsProps } from '@/lib/types/types'
+import { toast } from 'react-toastify'
 
 import styles from './Location.module.scss'
 
@@ -6,8 +8,7 @@ const Location = ({ formDetails }: { formDetails: FormDetailsProps }) => {
   const handleCopyClipBoard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text)
-
-      alert('복사 성공!')
+      toast(<SimpleToast message="복사 완료!" />)
     } catch (error) {
       alert('복사 실패!')
       console.log(error)
