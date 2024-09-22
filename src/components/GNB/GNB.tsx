@@ -1,5 +1,8 @@
+'use client'
+
 import LogoutButton from '@/components/LogoutButton/LogoutButton'
 import XButton from '@/components/XButton/XButton'
+import QueryProvider from '@/lib/queries/QueryProvider'
 import Link from 'next/link'
 
 import styles from './GNB.module.scss'
@@ -25,7 +28,9 @@ const GNB = ({ closeAction }: GNBProps) => {
               </Link>
             </li>
             <li>
-              <LogoutButton className={styles.button} />
+              <QueryProvider>
+                <LogoutButton className={styles.button} />
+              </QueryProvider>
             </li>
           </ul>
         </section>
