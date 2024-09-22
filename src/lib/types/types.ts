@@ -13,6 +13,10 @@ export interface Params {
   }
 }
 
+export interface LayoutProps {
+  children: ReactNode
+}
+
 export interface ComponentProps {
   children?: ReactNode
   className?: string
@@ -28,6 +32,10 @@ export interface FormFieldProps extends ComponentProps {
   isInline?: boolean
 }
 
+export interface LabelProps extends ComponentProps {
+  htmlFor: string
+}
+
 export interface InputProps extends ComponentProps {
   name: string
   type?: HTMLInputElement['type']
@@ -38,7 +46,10 @@ export interface InputProps extends ComponentProps {
   autoComplete?: string
   minLength?: number
   maxLength?: number
-  pattern?: RegExp
+  pattern?: {
+    value: RegExp
+    message: string
+  }
   validate?: (values: unknown) => boolean | string
   initialValues?: Record<string, any>
 }
