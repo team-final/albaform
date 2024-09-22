@@ -1,14 +1,15 @@
 'use client'
 
-import style from '@/components/BasicButton/BasicButton.module.scss'
+import style from '@/components/MainButton/MainButton.module.scss'
 import Image from 'next/image'
 import React from 'react'
 
 interface ButtonProps {
-  type: 'solid' | 'outline'
-  disabled: boolean
-  onClick: () => void
+  buttonStyle: 'solid' | 'outline'
+  disabled?: boolean
+  onClick?: () => void
   children: React.ReactNode
+  type?: 'button' | 'submit' | 'reset'
 }
 
 interface IconProps {
@@ -20,8 +21,13 @@ interface TextProps {
   children: React.ReactNode
 }
 
-const MainButton = ({ type, disabled, onClick, children }: ButtonProps) => {
-  const buttonClass = `${style.default} ${style[type]}`
+const MainButton = ({
+  buttonStyle,
+  disabled,
+  onClick,
+  children,
+}: ButtonProps) => {
+  const buttonClass = `${style.default} ${style[buttonStyle]}`
 
   return (
     <button className={buttonClass} disabled={disabled} onClick={onClick}>
