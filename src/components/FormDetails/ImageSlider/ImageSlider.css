@@ -10,7 +10,7 @@
   width: 100%;
   height: auto;
   aspect-ratio: 3 / 0.5;
-  object-fit: fill;
+  object-fit: contain;
   border-radius: 8px;
 }
 
