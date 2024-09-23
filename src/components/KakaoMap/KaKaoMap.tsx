@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useEffect, useRef, useState } from 'react'
 
 import styles from './KakaoMap.module.scss'
@@ -8,7 +10,6 @@ interface Location {
 }
 
 interface KakaoMapProps {
-  apiKey: string
   location: Location
 }
 
@@ -18,9 +19,10 @@ declare global {
   }
 }
 
-const KakaoMap: React.FC<KakaoMapProps> = ({ apiKey, location }) => {
+const KakaoMap: React.FC<KakaoMapProps> = ({ location }) => {
   const mapRef = useRef<HTMLDivElement>(null)
   const [mapError, setMapError] = useState<string | null>(null)
+  const apiKey = process.env.NEXT_PUBLIC_KAKAOMAP_APPKEY
 
   useEffect(() => {
     const script = document.createElement('script')
@@ -29,37 +31,39 @@ const KakaoMap: React.FC<KakaoMapProps> = ({ apiKey, location }) => {
     document.head.appendChild(script)
 
     const onLoadKakaoMap = () => {
+      if (!window.kakao) {
+        setMapError('카카오맵 에러')
+        return
+      }
       window.kakao.maps.load(() => {
         if (!mapRef.current) return
 
         try {
+          const { Map, LatLng, Marker, CustomOverlay, services } =
+            window.kakao.maps
           const options = {
-            center: new window.kakao.maps.LatLng(37.566826, 126.9786567),
+            center: new LatLng(37.566826, 126.9786567),
             level: 3,
           }
-          const map = new window.kakao.maps.Map(mapRef.current, options)
-
-          const geocoder = new window.kakao.maps.services.Geocoder()
+          const map = new Map(mapRef.current, options)
+          const geocoder = new services.Geocoder()
           geocoder.addressSearch(
             location.address,
             (result: any, status: any) => {
-              if (status === window.kakao.maps.services.Status.OK) {
-                const coords = new window.kakao.maps.LatLng(
-                  result[0].y,
-                  result[0].x,
-                )
+              if (status === services.Status.OK) {
+                const coords = new LatLng(result[0].y, result[0].x)
 
-                const marker = new window.kakao.maps.Marker({
+                const marker = new Marker({
                   map,
                   position: coords,
                 })
 
                 marker.setMap(map)
 
-                const customOverlay = new window.kakao.maps.CustomOverlay({
+                const customOverlay = new CustomOverlay({
                   position: coords,
                   content: `<div class="${styles['custom-overlay']}">
-                                <span class="${styles['marker-text']}">${location.name}</span>
+                                <span class="${styles['overlay-marker-text']}">${location.name}</span>
                               </div>`,
                   yAnchor: 1,
                 })
