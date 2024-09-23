@@ -18,6 +18,7 @@ import {
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
+import CurrentApplicationPopup from '../CurrentApplicationPopup/CurrentApplicationPopup'
 import ImageSlider from '../ImageSlider/ImageSlider'
 import styles from './FormDetailsClient.module.scss'
 
@@ -35,6 +36,7 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
     useFormScrapDeleteMutation()
   const [isScrapped, setIsScrapped] = useState(formDetails?.isScrapped || false)
   const [scrapCount, setScrapCount] = useState(0)
+  const [isPopupVisible, setIsPopupVisible] = useState(false)
 
   useEffect(() => {
     if (formDetails) {
@@ -42,6 +44,10 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
       setScrapCount(formDetails.scrapCount)
     }
   }, [formDetails]) // IsScrapped랑 ScrapCount 값 업데이트
+
+  useEffect(() => {
+    setIsPopupVisible(true)
+  }, [])
 
   const handleApplyClick = () => {
     // router.push(`form/${formId}/apply`)
@@ -96,6 +102,10 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
   return (
     <div className={styles['form-details-client']}>
       <Toastify />
+      <CurrentApplicationPopup
+        formDetails={formDetails}
+        isVisible={isPopupVisible}
+      />
       <ImageSlider formDetails={formDetails} />
       <div className={styles['job-details-container']}>
         <div className={styles['job-details-content']}>

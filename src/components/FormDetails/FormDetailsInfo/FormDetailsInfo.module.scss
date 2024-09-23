@@ -42,8 +42,7 @@
   text-decoration: underline;
 
   @include media.tablet {
-    font-size: 14px;
-    line-height: 26px;
+    @include font.Style(md, 600);
   }
 }
 
