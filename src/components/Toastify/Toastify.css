@@ -1,54 +1,22 @@
 .Toastify > div:first-child {
-  width: 1165px !important;
-  top: 130px !important;
-}
-
-.Toastify > div:first-child .Toastify__toast {
-  padding: 24px 40px !important;
-  border-radius: 14px !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(
-      0deg,
-      rgba(42, 44, 61, 0.9),
-      rgba(42, 44, 61, 0.9)
-    ),
-    linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)) !important;
-}
-
-.Toastify > div:first-child .Toastify__close-button > svg {
-  width: 20px !important;
-  height: 20px !important;
-  color: #fff;
-}
-
-.Toastify > div:first-child .Toastify__toast-body > div {
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 32px;
-  color: #fff;
-}
-
-.Toastify > div:nth-child(2) {
-  width: 360px;
+  width: auto;
   bottom: 30px !important;
   text-align: center;
 }
 
-.Toastify > div:nth-child(2) .Toastify__toast {
+.Toastify > div:first-child .Toastify__toast {
   border-radius: 14px !important;
   padding: 18px !important;
   background: #33333396 !important;
   color: #fff !important;
 }
 
-.Toastify > div:nth-child(2) .Toastify__toast-body > div {
+.Toastify > div:first-child .Toastify__close-button > svg {
+  display: none !important;
+}
+
+.Toastify > div:first-child .Toastify__toast-body > div {
   font-size: 20px;
   font-weight: 500;
   line-height: 32px;
-}
-
-.Toastify > div:nth-child(2) .Toastify__close-button {
-  display: none !important;
 }

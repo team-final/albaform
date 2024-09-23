@@ -1,19 +1,14 @@
 import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import './Toastify.css'
 
-interface Props {
-  mode: 'simple' | 'popup'
-}
-
-const Toastify = ({ mode }: Props) => {
+const Toastify = () => {
   return (
     <>
       <ToastContainer
-        className={mode === 'simple' ? 'simple' : ''}
-        position={mode === 'popup' ? 'top-center' : 'bottom-center'}
-        // autoClose={mode === 'popup' ? false : 4000}
-        autoClose={false}
+        position={'bottom-center'}
+        autoClose={4000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

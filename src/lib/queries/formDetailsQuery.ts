@@ -24,17 +24,11 @@ export const useFormDetailsQuery = (formId: number) => {
 export const useFormScrapMutation = () => {
   return useMutation({
     mutationFn: postFormScrap,
-    onSuccess: (isScrapped) => {
-      console.log('스크랩 상태:', isScrapped)
-    },
   })
 }
 
 export const useFormScrapDeleteMutation = () => {
   return useMutation({
     mutationFn: deleteFormScrap,
-    onSuccess: (isScrapped) => {
-      console.log('스크랩 상태:', isScrapped)
-    },
   })
 }
