@@ -1,4 +1,4 @@
-import SimpleToast from '@/components/Toastify/SimpleToast/SimpleToast'
+import Toastify from '@/components/Toastify/Toastify'
 import { FormDetailsProps } from '@/lib/types/types'
 import { toast } from 'react-toastify'
 
@@ -8,10 +8,10 @@ const Location = ({ formDetails }: { formDetails: FormDetailsProps }) => {
   const handleCopyClipBoard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text)
-      toast(<SimpleToast message="복사 완료!" />)
+      toast.success('복사 성공!')
     } catch (error) {
-      alert('복사 실패!')
       console.log(error)
+      toast.error('복사 실패!')
     }
   }
 
@@ -19,6 +19,7 @@ const Location = ({ formDetails }: { formDetails: FormDetailsProps }) => {
 
   return (
     <section className={styles['location-info']}>
+      <Toastify />
       <h1 className={styles['location-title']}>근무 지역</h1>
       <div className={styles['location-map-container']}>
         <div className={styles['location-details']}>

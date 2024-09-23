@@ -9,12 +9,14 @@ interface FloatingButtonProps {
   children?: ReactNode
   onClick?: () => void
   mode?: 'default' | 'bookmark'
+  disabled?: boolean
 }
 
 const FloatingButton = ({
   children,
   onClick,
   mode = 'default',
+  disabled,
 }: FloatingButtonProps) => {
   const hasText = React.Children.toArray(children).some(
     (child) => React.isValidElement(child) && child.type === FloatingButtonText,
@@ -25,7 +27,7 @@ const FloatingButton = ({
   }`
 
   return (
-    <button className={buttonClass} onClick={onClick}>
+    <button className={buttonClass} onClick={onClick} disabled={disabled}>
       {children}
     </button>
   )

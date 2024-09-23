@@ -14,7 +14,6 @@ import {
   useFormScrapMutation,
   useUsersMeQuery,
 } from '@/lib/queries/formDetailsQuery'
-import Image from 'next/image'
 // import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
@@ -30,40 +29,19 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
   // const router = useRouter()
   const { data: userRole } = useUsersMeQuery()
   const { data: formDetails } = useFormDetailsQuery(Number(formId))
-  const { mutate: scrapForm } = useFormScrapMutation()
-  const { mutate: scrapDeleteForm } = useFormScrapDeleteMutation()
+  const { mutate: scrapForm, isPending: isScrapLoading } =
+    useFormScrapMutation()
+  const { mutate: scrapDeleteForm, isPending: isDeleteLoading } =
+    useFormScrapDeleteMutation()
   const [isScrapped, setIsScrapped] = useState(formDetails?.isScrapped || false)
   const [scrapCount, setScrapCount] = useState(0)
-  const [toastifyMode, setToastifyMode] = useState<'popup' | 'simple'>('popup')
 
   useEffect(() => {
     if (formDetails) {
       setIsScrapped(formDetails.isScrapped)
       setScrapCount(formDetails.scrapCount)
-      toast(
-        <div className={styles.toast}>
-          <Image
-            src={'/icons/ic-user.svg'}
-            alt={'사용자'}
-            className={styles['toast-icon']}
-          />
-          <span>
-            현재{' '}
-            <span className={styles['highlight-text']}>
-              {formDetails.applyCount}명
-            </span>
-            이 지원했어요!
-          </span>
-        </div>,
-      )
     }
   }, [formDetails]) // IsScrapped랑 ScrapCount 값 업데이트
-
-  useEffect(() => {
-    if (toastifyMode === 'simple') {
-      toast.warning('스크랩 취소에 실패했습니다!')
-    }
-  }, [toastifyMode])
 
   const handleApplyClick = () => {
     // router.push(`form/${formId}/apply`)
@@ -84,37 +62,40 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
   }
 
   const handleBookmarkClick = () => {
-    setIsScrapped(true)
     setScrapCount((prevCount) => prevCount + 1)
+
     scrapForm(formId, {
-      onSuccess: (scrapStatus) => {
-        setIsScrapped(scrapStatus)
+      onSuccess: () => {
+        setIsScrapped(true)
+        toast.success('스크랩 하였습니다!')
       },
       onError: () => {
         setIsScrapped(false)
         setScrapCount((prevCount) => prevCount - 1)
+        toast.error('스크랩에 실패하였습니다!')
       },
     })
   }
 
   const handleBookmarkDeleteClick = () => {
-    setIsScrapped(false)
     setScrapCount((prevCount) => prevCount - 1)
+
     scrapDeleteForm(formId, {
-      onSuccess: (scrapStatus) => {
-        setIsScrapped(scrapStatus)
+      onSuccess: () => {
+        setIsScrapped(false)
+        toast.success('스크랩을 취소하였습니다!')
       },
       onError: () => {
         setIsScrapped(true)
         setScrapCount((prevCount) => prevCount + 1)
-        setToastifyMode('simple')
+        toast.error('스크랩 취소에 실패하였습니다!')
       },
     })
   }
 
   return (
     <div className={styles['form-details-client']}>
-      <Toastify mode={toastifyMode} />
+      <Toastify />
       <ImageSlider formDetails={formDetails} />
       <div className={styles['job-details-container']}>
         <div className={styles['job-details-content']}>
@@ -138,14 +119,22 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
 
         <div className={styles['floating-button-container']}>
           {isScrapped ? (
-            <FloatingButton mode="bookmark" onClick={handleBookmarkDeleteClick}>
+            <FloatingButton
+              mode="bookmark"
+              onClick={handleBookmarkDeleteClick}
+              disabled={isDeleteLoading}
+            >
               <FloatingButton.Icon
                 src="/icons/ic-bookmark.svg"
                 altText="북마크"
               />
             </FloatingButton>
           ) : (
-            <FloatingButton mode="bookmark" onClick={handleBookmarkClick}>
+            <FloatingButton
+              mode="bookmark"
+              onClick={handleBookmarkClick}
+              disabled={isScrapLoading}
+            >
               <FloatingButton.Icon
                 src="/icons/ic-bookmark-fill.svg"
                 altText="북마크 취소"
