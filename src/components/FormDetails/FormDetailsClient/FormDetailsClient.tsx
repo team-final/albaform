@@ -37,6 +37,9 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
   const [isScrapped, setIsScrapped] = useState(formDetails?.isScrapped || false)
   const [scrapCount, setScrapCount] = useState(0)
   const [isPopupVisible, setIsPopupVisible] = useState(false)
+  const [isMenuVisible, setIsMenuVisible] = useState(false)
+  const [showFirstButton, setShowFirstButton] = useState(false)
+  const [showSecondButton, setShowSecondButton] = useState(false)
 
   useEffect(() => {
     if (formDetails) {
@@ -47,7 +50,20 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
 
   useEffect(() => {
     setIsPopupVisible(true)
-  }, [])
+  }, []) // 팝업 렌더링 될 때 보이게
+
+  useEffect(() => {
+    if (isMenuVisible) {
+      setShowFirstButton(true)
+      const timer = setTimeout(() => {
+        setShowSecondButton(true)
+      }, 70)
+      return () => clearTimeout(timer)
+    } else {
+      setShowFirstButton(false)
+      setShowSecondButton(false)
+    }
+  }, [isMenuVisible]) // 플로팅 메뉴 순차적으로
 
   const handleApplyClick = () => {
     // router.push(`form/${formId}/apply`)
@@ -97,6 +113,15 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
         toast.error('스크랩 취소에 실패하였습니다!')
       },
     })
+  }
+
+  const handletoggleMenuClick = () => {
+    setIsMenuVisible((prev) => !prev)
+  }
+
+  const copyURL = () => {
+    navigator.clipboard.writeText(window.location.href)
+    toast.success('주소 복사 성공!')
   }
 
   return (
@@ -152,7 +177,7 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
             </FloatingButton>
           )}
 
-          <FloatingButton>
+          <FloatingButton onClick={handletoggleMenuClick}>
             <FloatingButton.Icon
               src="/icons/ic-share2.svg"
               altText="공유"
@@ -160,6 +185,33 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
               height={24}
             />
           </FloatingButton>
+
+          {isMenuVisible && (
+            <div
+              className={`${styles['floating-menu-container']} ${isMenuVisible ? styles.visible : ''}`}
+            >
+              {showFirstButton && (
+                <FloatingButton mode="bookmark">
+                  <FloatingButton.Icon
+                    src="/icons/ic-logo-kakao2.svg"
+                    altText="카카오 공유"
+                    width={24}
+                    height={24}
+                  />
+                </FloatingButton>
+              )}
+              {showSecondButton && (
+                <FloatingButton mode="bookmark" onClick={copyURL}>
+                  <FloatingButton.Icon
+                    src="/icons/ic-copy.svg"
+                    altText="주소 복사"
+                    width={24}
+                    height={24}
+                  />
+                </FloatingButton>
+              )}
+            </div>
+          )}
         </div>
 
         <div className={styles['button-container']}>
