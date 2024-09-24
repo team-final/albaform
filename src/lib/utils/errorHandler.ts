@@ -1,3 +1,4 @@
+import { DEFAULT_ERROR_MESSAGE } from '@/lib/data/constants'
 import { HttpStatus, HttpStatusType } from '@/lib/types/HttpTypes'
 import { CustomMessage } from '@/lib/types/types'
 import { AxiosError } from 'axios'
@@ -5,8 +6,18 @@ import { AxiosError } from 'axios'
 /**
  * @todo 상태코드에 따라 리다이렉트 등 예외처리 추가
  * @todo 서비스 공통 모달/토스트로 alert 대체
+ * @param error 필수
+ * @param customMessage 상수
  */
-const handleError = (error: AxiosError, customMessage: CustomMessage) => {
+export default function handleError(
+  error: unknown,
+  customMessage?: CustomMessage | undefined,
+): void {
+  if (!(error instanceof AxiosError)) {
+    alert(`알 수 없는 에러 발생: ${error}`)
+    return
+  }
+
   const responseStatusCode: string | undefined = String(error.response?.status)
   let errorMessage: string = HttpStatus.DEFAULT.message
 
@@ -18,8 +29,8 @@ const handleError = (error: AxiosError, customMessage: CustomMessage) => {
   }
 
   alert(
-    `${customMessage.title || ''}
-      \n${customMessage.message || errorMessage}
+    `${customMessage?.title || DEFAULT_ERROR_MESSAGE.title}
+      \n${customMessage?.message || errorMessage}
       \n${error.response?.data}\n${error.message}`,
   )
 
@@ -30,5 +41,3 @@ const handleError = (error: AxiosError, customMessage: CustomMessage) => {
     new Date().toISOString(),
   )
 }
-
-export default handleError
