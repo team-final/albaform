@@ -71,8 +71,23 @@
   flex-direction: column;
   row-gap: 24px;
   position: fixed;
-  top: 800px;
+  top: 670px;
   right: 180px;
+}
+
+.floating-menu-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  transform: translateY(-20px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.floating-menu-container.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .button-container {
