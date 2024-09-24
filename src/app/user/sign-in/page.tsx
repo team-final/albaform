@@ -4,6 +4,7 @@ import Form from '@/components/Form/Form'
 import MainButton from '@/components/MainButton/MainButton'
 import useAuthUser from '@/hooks/auth/useAuthUser'
 import useSignIn from '@/hooks/auth/useSignIn'
+import { TEST_ID_APPLICANT, TEST_ID_OWNER } from '@/lib/data/constants'
 import { SignInValues } from '@/lib/types/userTypes'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -25,13 +26,13 @@ export default function SignInPage() {
     message: '비밀번호는 6자 이상이어야 합니다.',
   }
 
-  async function handleSubmit(values: FieldValues) {
-    const data: SignInValues = values as SignInValues
-    await signIn.mutateAsync(data)
+  async function handleSignIn({ email, password }: SignInValues) {
+    await signIn.mutateAsync({ email, password })
   }
 
-  const testerLogin = async (email: string, password: string) => {
-    await signIn.mutateAsync({ email, password })
+  async function handleSubmit(formValues: FieldValues) {
+    const values: SignInValues = formValues as SignInValues
+    await signIn.mutateAsync(values)
   }
 
   useEffect(() => {
@@ -53,7 +54,7 @@ export default function SignInPage() {
         <h1>로그인</h1>
         <p>
           아직 계정이 없으신가요?
-          <Link href={'/sign-up'} className={style['go-register']}>
+          <Link href={'/sign-up'} className={style['go-to-signup']}>
             회원가입 하러 가기
           </Link>
         </p>
@@ -89,17 +90,19 @@ export default function SignInPage() {
           >
             {signIn.isPending ? '로그인 중...' : '로그인'}
           </MainButton>
-          <button
-            onClick={() => testerLogin('testApplicant@email.com', '00000000')}
-          >
-            지원자 로그인
-          </button>
-          <button
-            onClick={() => testerLogin('testOwner@email.com', '00000000')}
-          >
-            사장님 로그인
-          </button>
         </Form>
+        <MainButton
+          buttonStyle={'outline'}
+          onClick={() => handleSignIn(TEST_ID_APPLICANT)}
+        >
+          지원자 로그인
+        </MainButton>
+        <MainButton
+          buttonStyle={'outline'}
+          onClick={() => handleSignIn(TEST_ID_OWNER)}
+        >
+          사장님 로그인
+        </MainButton>
       </div>
     </>
   )
