@@ -53,3 +53,11 @@ export interface InputProps extends ComponentProps {
   validate?: (values: unknown) => boolean | string
   initialValues?: Record<string, any>
 }
+
+export interface MessageContext {
+  message?: CustomMessage
+}
+
+export interface ButtonText {
+  signInOut: '로그인' | '로그아웃'
+}
