@@ -5,10 +5,10 @@ export interface User {
   nickname: string
   imageUrl: string | null
   role: 'APPLICANT' | 'OWNER'
-  storeName: 'undefined' | string
-  storePhoneNumber: 'undefined' | string
-  phoneNumber: 'undefined' | string
-  location: 'undefined' | string
+  storeName: undefined | string
+  storePhoneNumber: undefined | string
+  phoneNumber: undefined | string
+  location: undefined | string
 }
 
 export interface SignInValues {
