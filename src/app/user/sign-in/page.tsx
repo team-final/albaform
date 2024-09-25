@@ -63,26 +63,36 @@ export default function SignInPage() {
           onSubmit={handleSubmit}
           className={style['login-form']}
         >
-          <Form.Field>
-            <Form.Label htmlFor={'email'}>이메일</Form.Label>
-            <Form.Input
-              name={'email'}
-              type={'email'}
-              placeholder="이메일을 입력해 주세요"
-              pattern={emailPattern}
-              required
-            />
-          </Form.Field>
-          <Form.Field>
-            <Form.Label htmlFor={'password'}>비밀번호</Form.Label>
-            <Form.Input
-              name={'password'}
-              type={'password'}
-              placeholder="비밀번호를 입력해 주세요"
-              pattern={passwordPattern}
-              required
-            />
-          </Form.Field>
+          <Form.Fieldset>
+            <Form.Legend>이메일</Form.Legend>
+            <Form.Field>
+              <Form.Wrap>
+                <Form.Input
+                  name={'email'}
+                  type={'email'}
+                  placeholder="이메일을 입력해 주세요"
+                  pattern={emailPattern}
+                  required
+                />
+              </Form.Wrap>
+            </Form.Field>
+          </Form.Fieldset>
+
+          <Form.Fieldset>
+            <Form.Legend>비밀번호</Form.Legend>
+            <Form.Field>
+              <Form.Wrap>
+                <Form.Input
+                  name={'password'}
+                  type={'password'}
+                  placeholder="비밀번호를 입력해 주세요"
+                  pattern={passwordPattern}
+                  required
+                />
+              </Form.Wrap>
+            </Form.Field>
+          </Form.Fieldset>
+
           <MainButton
             buttonStyle={'solid'}
             type={'submit'}
@@ -91,12 +101,14 @@ export default function SignInPage() {
             {signIn.isPending ? '로그인 중...' : '로그인'}
           </MainButton>
         </Form>
+
         <MainButton
           buttonStyle={'outline'}
           onClick={() => handleSignIn(TEST_ID_APPLICANT)}
         >
           지원자 로그인
         </MainButton>
+
         <MainButton
           buttonStyle={'outline'}
           onClick={() => handleSignIn(TEST_ID_OWNER)}
