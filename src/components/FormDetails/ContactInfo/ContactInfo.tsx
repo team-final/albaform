@@ -17,6 +17,9 @@ const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
     formDetails?.recruitmentStartDate,
   )
   const recruitmentEndDate = formatKoreanDate(formDetails?.recruitmentEndDate)
+  const isRecruitmentActive =
+    formDetails?.recruitmentEndDate &&
+    new Date(formDetails.recruitmentEndDate) > new Date()
   const [statusMessage, setStatusMessage] = useState<string>('모집기간 계산 중')
 
   useEffect(() => {
@@ -93,7 +96,7 @@ const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
           <>
             <MainButton
               type="solid"
-              disabled={false}
+              disabled={!isRecruitmentActive}
               onClick={handleApplyClick}
             >
               <MainButton.Icon src="/icons/ic-writing.svg" altText="지원하기" />
@@ -101,12 +104,12 @@ const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
             </MainButton>
             <MainButton
               type="outline"
-              disabled={false}
+              disabled={!isRecruitmentActive}
               onClick={handleShowApplicationHistory}
             >
               <MainButton.Icon
                 src="/icons/ic-apply-list.svg"
-                altText="지원하기"
+                altText="내 지원내역 보기"
               />
               <MainButton.Text>내 지원내역 보기</MainButton.Text>
             </MainButton>
