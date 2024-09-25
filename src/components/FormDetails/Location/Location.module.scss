@@ -1,6 +1,6 @@
-@use 'styles/_media' as media;
-@use 'styles/_color' as color;
-@use 'styles/_font' as font;
+@use 'src/styles/_media' as media;
+@use 'src/styles/_color' as color;
+@use 'src/styles/_font' as font;
 
 .location-info {
   display: flex;
