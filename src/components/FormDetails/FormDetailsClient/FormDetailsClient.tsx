@@ -243,7 +243,7 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
           {userRole === 'APPLICANT' ? (
             <>
               <MainButton
-                type="solid"
+                buttonStyle="solid"
                 disabled={!isRecruitmentActive}
                 onClick={handleApplyClick}
               >
@@ -254,7 +254,7 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
                 <MainButton.Text>지원하기</MainButton.Text>
               </MainButton>
               <MainButton
-                type="outline"
+                buttonStyle="outline"
                 disabled={!isRecruitmentActive}
                 onClick={handleShowApplicationHistory}
               >
@@ -268,7 +268,7 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
           ) : (
             <>
               <MainButton
-                type="solid"
+                buttonStyle="solid"
                 disabled={false}
                 onClick={handleEditClick}
               >
@@ -276,7 +276,7 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
                 <MainButton.Text>수정하기</MainButton.Text>
               </MainButton>
               <MainButton
-                type="outline"
+                buttonStyle="outline"
                 disabled={false}
                 onClick={handleDeleteClick}
               >

@@ -95,7 +95,7 @@ const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
         {userRole === 'APPLICANT' ? (
           <>
             <MainButton
-              type="solid"
+              buttonStyle="solid"
               disabled={!isRecruitmentActive}
               onClick={handleApplyClick}
             >
@@ -103,7 +103,7 @@ const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
               <MainButton.Text>지원하기</MainButton.Text>
             </MainButton>
             <MainButton
-              type="outline"
+              buttonStyle="outline"
               disabled={!isRecruitmentActive}
               onClick={handleShowApplicationHistory}
             >
@@ -116,12 +116,16 @@ const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
           </>
         ) : (
           <>
-            <MainButton type="solid" disabled={false} onClick={handleEditClick}>
+            <MainButton
+              buttonStyle="solid"
+              disabled={false}
+              onClick={handleEditClick}
+            >
               <MainButton.Icon src="/icons/ic-edit2.svg" altText="수정하기" />
               <MainButton.Text>수정하기</MainButton.Text>
             </MainButton>
             <MainButton
-              type="outline"
+              buttonStyle="outline"
               disabled={false}
               onClick={handleDeleteClick}
             >
