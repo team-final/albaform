@@ -1,0 +1,15 @@
+.custom-overlay {
+  position: relative;
+  top: -40px;
+  background-color: #567ae7;
+  border-radius: 9999px;
+  padding: 5px 10px;
+  color: white;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.overlay-marker-text {
+  font-weight: bold;
+}
