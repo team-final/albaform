@@ -97,6 +97,56 @@ a {
   text-decoration: none;
 }
 
+select,
+input,
+textarea {
+  outline: none;
+  border-width: 0px;
+  border-style: solid;
+  border-color: #dedede;
+  border-radius: 8px;
+
+  min-width: 80px;
+  min-height: 36px;
+  padding: 14px 16px;
+
+  line-height: 1;
+  font-size: 16px;
+  font-weight: 400;
+
+  background-color: #f7f7f7;
+  color: #6b6b6b;
+}
+
+input::placeholder {
+  color: #999999;
+}
+
+button {
+  display: inline-flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+
+  outline: none;
+  border-width: 0px;
+  border-style: solid;
+  border-color: #dedede;
+  border-radius: 8px;
+
+  gap: 4px;
+  min-width: 80px;
+  min-height: 32px;
+  padding: 8px 16px;
+
+  line-height: 1;
+  font-size: 16px;
+  font-weight: 400;
+
+  background-color: #dedede;
+  color: #6b6b6b;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
