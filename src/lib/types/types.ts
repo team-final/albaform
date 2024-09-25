@@ -29,6 +29,7 @@ export interface FormProps extends ComponentProps {
 }
 
 export interface FormFieldProps extends ComponentProps {
+  htmlFor?: string
   isInline?: boolean
 }
 
@@ -50,6 +51,7 @@ export interface InputProps extends ComponentProps {
     value: RegExp
     message: string
   }
+  value?: any
   validate?: (values: unknown) => boolean | string
   initialValues?: Record<string, any>
 }
