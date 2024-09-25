@@ -3,15 +3,42 @@
 
 .form {
   display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
+  flex-flow: column wrap;
 
-  & span {
-    color: color.$Black-100;
+  &-title {
+    align-self: center;
+
+    @include font.Style(3xl, 600);
   }
 
-  & -field {
-    flex: 1 1 200px; /* 최소 너비 */
+  &-fieldset {
+    display: flex;
+    flex-flow: column wrap;
+    gap: 16px;
+    padding: 16px 0;
+  }
+
+  &-legend {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: start;
+    align-items: center;
+    gap: 4px;
+
+    @include font.Style(xl, 400);
+
+    color: color.$Black-400;
+
+    & .required {
+      @include font.Style(md, 400);
+
+      color: color.$Primary-Orange-300;
+    }
+  }
+
+  &-field {
+    display: flex;
+    gap: 16px;
 
     &-inline {
       display: flex;
@@ -20,11 +47,73 @@
 
     &-block {
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
     }
   }
 
-  .input-error-message {
-    color: red;
+  &-wrap {
+    position: relative;
+    display: block;
+  }
+
+  &-label {
+    @include font.Style(xl, 400);
+  }
+
+  &-input {
+    border-radius: 8px;
+    border: 1px solid color.$Grayscale-200;
+    width: 100%;
+    min-height: 64px;
+    background-color: transparent;
+    color: color.$Black-400;
+
+    @include font.Style(xl, 400);
+
+    &::placeholder {
+      color: color.$Grayscale-400;
+    }
+
+    &:focus {
+      border-color: color.$Primary-Orange-300;
+      caret-color: color.$Primary-Orange-300;
+    }
+  }
+}
+
+.input-error-message {
+  color: red;
+}
+
+.owner-information {
+  max-width: 640px;
+  margin: 0 auto;
+  margin-top: 80px;
+}
+
+.visibility-toggle-button {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  z-index: 8;
+  transform: translateY(-50%);
+  display: block;
+  border: 0;
+  width: 24px;
+  height: 24px;
+  min-width: auto;
+  min-height: auto;
+  padding: 0;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 24px;
+
+  &[data-visibility='true'] {
+    background-image: url('/icons/ic-visibility-on.svg');
+  }
+
+  &[data-visibility='false'] {
+    background-image: url('/icons/ic-visibility-off.svg');
   }
 }
