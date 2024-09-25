@@ -3,6 +3,7 @@ import {
   FormFieldProps,
   FormProps,
   InputProps,
+  LabelProps,
 } from '@/lib/types/types'
 import classNames from 'classnames'
 import { createContext, useContext } from 'react'
@@ -83,9 +84,14 @@ function Field({ children, className, isInline = false }: FormFieldProps) {
   return <label className={FormFieldClass}>{children}</label>
 }
 
-function Label({ children, className }: ComponentProps) {
+function Label({ children, htmlFor, className }: LabelProps) {
   const LabelClass = classNames(className)
-  return <label className={LabelClass}> {children} </label>
+  return (
+    <label htmlFor={htmlFor} className={LabelClass}>
+      {' '}
+      {children}{' '}
+    </label>
+  )
 }
 
 /**
