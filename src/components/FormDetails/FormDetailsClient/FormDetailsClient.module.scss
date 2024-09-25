@@ -1,0 +1,122 @@
+@use 'src/styles/_media' as media;
+
+.form-details-client {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.job-details-container {
+  margin-top: 80px;
+
+  @include media.tablet {
+    margin-top: 32px;
+  }
+}
+
+.job-details-content {
+  display: flex;
+  column-gap: 150px;
+
+  @include media.tablet {
+    flex-direction: column;
+  }
+}
+
+.job-details-info {
+  flex-basis: 54.61%;
+  margin-bottom: 129px;
+
+  @include media.tablet {
+    margin-bottom: 32px;
+  }
+
+  @include media.mobile {
+    margin-bottom: 64px;
+  }
+}
+
+.location-info {
+  flex-basis: 54.61%;
+}
+
+.schedule-contact-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 48px;
+  flex-basis: 45.39%;
+  margin-bottom: 88px;
+
+  @include media.tablet {
+    display: none;
+  }
+}
+
+.location-requirements-container {
+  display: flex;
+  column-gap: 150px;
+
+  @include media.tablet {
+    flex-direction: column-reverse;
+    row-gap: 48px;
+  }
+}
+
+.requirements-info {
+  flex-basis: 45.39%;
+}
+
+.floating-button-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+  position: fixed;
+  top: 670px;
+  right: 180px;
+}
+
+.floating-menu-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  transform: translateY(-20px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.floating-menu-container.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.button-container {
+  display: none;
+
+  @include media.tablet {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    margin-top: 22px;
+  }
+
+  @include media.mobile {
+    margin-top: 46px;
+  }
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+}
+
+.toast-icon {
+  width: 36px;
+  height: 36px;
+}
+
+.highlight-text {
+  color: #f89a05;
+  font-weight: 700;
+}

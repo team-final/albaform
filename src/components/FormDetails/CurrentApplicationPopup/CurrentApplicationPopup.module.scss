@@ -1,0 +1,102 @@
+@use 'src/styles/_media' as media;
+@use 'src/styles/_color' as color;
+@use 'src/styles/_font' as font;
+
+.popup-container {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  z-index: 5;
+  width: 1165px;
+  height: auto;
+  border-radius: 14px;
+  padding: 24px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(0deg, rgb(42 44 61 / 90%), rgb(42 44 61 / 90%)),
+    linear-gradient(0deg, rgb(0 0 0 / 20%), rgb(0 0 0 / 20%));
+  transition:
+    transform 0.3s ease-out,
+    opacity 0.3s ease-out;
+  opacity: 0;
+
+  &.slide-in {
+    transform: translate(-50%, 140px);
+    opacity: 1;
+  }
+
+  &.closing {
+    transform: translate(-50%, -100%);
+    opacity: 0;
+  }
+
+  @include media.tablet {
+    width: 347px;
+    padding: 8px 24px;
+
+    &.slide-in {
+      transform: translate(-50%, 60px);
+    }
+  }
+}
+
+.popup-img-container {
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+
+  @include media.tablet {
+    column-gap: 4px;
+  }
+}
+
+.popup-image {
+  @include media.tablet {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.poopup-current-application {
+  @include font.Style(xl, 500);
+
+  color: color.$Grayscale-50;
+
+  @include media.tablet {
+    @include font.Style(sm, 500);
+  }
+}
+
+.count {
+  color: color.$Primary-Orange-300;
+}
+
+.popup-close-img {
+  @include media.tablet {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.popup-close-button {
+  width: 36px;
+  height: 36px;
+  background: unset;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover .popup-close-img {
+    filter: brightness(0) invert(1);
+  }
+}
+
+@media screen and (width >= 1024px) and (width <= 1890px) {
+  .popup-container {
+    width: 920px;
+  }
+}

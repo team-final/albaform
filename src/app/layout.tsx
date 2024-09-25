@@ -1,7 +1,11 @@
+import '@/components/FormDetails/ImageSlider/ImageSlider.css'
+import KakaoScript from '@/components/FormDetails/KakaoScript/KakaoScript'
+import '@/components/Toastify/Toastify.css'
 import type { Metadata } from 'next'
 import React from 'react'
 
 import RootHeader from '../components/RootHeader/RootHeader'
+import ClientProvider from '../lib/queries/QueryClientProvider'
 import '../styles/globals.css'
 
 export const metadata: Metadata = {
@@ -18,8 +22,9 @@ export default function RootLayout({
     <html lang="ko">
       <body>
         <RootHeader />
-        {children}
+        <ClientProvider>{children}</ClientProvider>
       </body>
+      <KakaoScript />
     </html>
   )
 }

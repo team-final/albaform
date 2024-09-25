@@ -1,3 +1,7 @@
 export default function ApplyToFormPage() {
-  return <></>
+  return (
+    <>
+      <div>지원하기페이지</div>
+    </>
+  )
 }

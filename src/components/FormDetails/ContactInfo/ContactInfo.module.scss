@@ -1,0 +1,94 @@
+@use 'src/styles/_media' as media;
+@use 'src/styles/_color' as color;
+@use 'src/styles/_font' as font;
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  row-gap: 40px;
+}
+
+.contact-info-container {
+  border-radius: 8px;
+  border: 1px solid color.$Line-50;
+  padding: 24px;
+  background-color: color.$Background-50;
+  width: 100%;
+  box-sizing: border-box;
+  white-space: nowrap;
+
+  @include media.tablet {
+    border: unset;
+    padding: 0;
+  }
+}
+
+.contact-info-auth {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.contact-info-line {
+  border-bottom: 1px solid color.$Line-100;
+  padding: 32px 0;
+
+  @include media.tablet {
+    padding: 14px 0;
+  }
+}
+
+.contact-info-wrapper {
+  display: flex;
+  align-items: center;
+  column-gap: 6px;
+  min-width: 140px;
+}
+
+.contact-info-title {
+  @include font.Style(xl, 400);
+
+  color: color.$Black-100;
+
+  @include media.tablet {
+    @include font.Style(md, 400);
+  }
+}
+
+.contact-info-date {
+  @include font.Style(xl, 600);
+
+  color: color.$Primary-Orange-300;
+
+  @include media.tablet {
+    @include font.Style(xs, 600);
+  }
+}
+
+.contact-info-content {
+  @include font.Style(xl, 400);
+
+  color: color.$Black-400;
+
+  @include media.tablet {
+    @include font.Style(md, 400);
+  }
+}
+
+.contact-info-no-line {
+  padding: 32px 0;
+
+  @include media.tablet {
+    padding: 14px 0;
+  }
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+
+  @include media.tablet {
+    display: none;
+  }
+}
