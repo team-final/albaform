@@ -26,6 +26,12 @@ interface FormDetailsClientProps {
   formId: number
 }
 
+declare global {
+  interface Window {
+    Kakao: any
+  }
+}
+
 const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
   // const router = useRouter()
   const { data: userRole } = useUsersMeQuery()
@@ -40,6 +46,10 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false)
   const [showFirstButton, setShowFirstButton] = useState(false)
   const [showSecondButton, setShowSecondButton] = useState(false)
+  const isRecruitmentActive =
+    formDetails?.recruitmentEndDate &&
+    new Date(formDetails.recruitmentEndDate) > new Date()
+  const firstImageUrl = formDetails?.imageUrls?.[0]
 
   useEffect(() => {
     if (formDetails) {
@@ -124,6 +134,21 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
     toast.success('주소 복사 성공!')
   }
 
+  const kakaoShareClick = () => {
+    if (window.Kakao && window.Kakao.Share) {
+      window.Kakao.Share.sendCustom({
+        templateId: 112519,
+        templateArgs: {
+          img: firstImageUrl,
+          title: formDetails.title,
+          description: formDetails.description,
+        },
+      })
+    } else {
+      console.error('Kakao SDK가 로드되지 않았거나 초기화되지 않았습니다.')
+    }
+  }
+
   return (
     <div className={styles['form-details-client']}>
       <Toastify />
@@ -191,7 +216,7 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
               className={`${styles['floating-menu-container']} ${isMenuVisible ? styles.visible : ''}`}
             >
               {showFirstButton && (
-                <FloatingButton mode="bookmark">
+                <FloatingButton mode="bookmark" onClick={kakaoShareClick}>
                   <FloatingButton.Icon
                     src="/icons/ic-logo-kakao2.svg"
                     altText="카카오 공유"
@@ -219,7 +244,7 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
             <>
               <MainButton
                 type="solid"
-                disabled={false}
+                disabled={!isRecruitmentActive}
                 onClick={handleApplyClick}
               >
                 <MainButton.Icon
@@ -230,12 +255,12 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
               </MainButton>
               <MainButton
                 type="outline"
-                disabled={false}
+                disabled={!isRecruitmentActive}
                 onClick={handleShowApplicationHistory}
               >
                 <MainButton.Icon
                   src="/icons/ic-apply-list.svg"
-                  altText="지원하기"
+                  altText="내 지원내역 보기"
                 />
                 <MainButton.Text>내 지원내역 보기</MainButton.Text>
               </MainButton>

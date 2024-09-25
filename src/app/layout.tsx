@@ -1,4 +1,5 @@
 import '@/components/FormDetails/ImageSlider/ImageSlider.css'
+import KakaoScript from '@/components/FormDetails/KakaoScript/KakaoScript'
 import '@/components/Toastify/Toastify.css'
 import type { Metadata } from 'next'
 import React from 'react'
@@ -23,6 +24,7 @@ export default function RootLayout({
         <RootHeader />
         <ClientProvider>{children}</ClientProvider>
       </body>
+      <KakaoScript />
     </html>
   )
 }

@@ -16,6 +16,7 @@ const CurrentApplicationPopup = ({
   const handlePopupCloseClick = () => {
     setIsClosing(true)
   }
+
   return (
     <div
       className={`${styles['popup-container']} ${isClosing ? styles.closing : ''} ${

@@ -15,7 +15,7 @@ export default function ImageSlider({
 }) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const images = Array.isArray(formDetails?.imageUrls)
-    ? formDetails.imageUrls
+    ? formDetails.imageUrls.filter((url) => url.startsWith('http'))
     : []
 
   return (
@@ -41,9 +41,13 @@ export default function ImageSlider({
             />
           </SwiperSlide>
         ))}
-        <div className="image-counter">
-          {currentIndex + 1} / {images.length}
-        </div>
+        {images.length > 0 ? (
+          <div className="image-counter">
+            {currentIndex + 1} / {images.length}
+          </div>
+        ) : (
+          <div className="no-image-counter"></div>
+        )}
       </Swiper>
     </div>
   )
