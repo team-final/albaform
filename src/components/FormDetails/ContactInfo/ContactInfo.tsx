@@ -4,14 +4,13 @@ import MainButton from '@/components/Button/MainButton/MainButton'
 import { useUsersMeQuery } from '@/lib/queries/formDetailsQuery'
 import { FormDetailsProps } from '@/lib/types/types'
 import { formatKoreanDate } from '@/utils/formatDate'
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 import styles from './ContactInfo.module.scss'
 
-// import { useRouter } from 'next/navigation'
-
 const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
-  // const router = useRouter()
+  const router = useRouter()
   const { data: userRole } = useUsersMeQuery()
   const recruitmentStartDate = formatKoreanDate(
     formDetails?.recruitmentStartDate,
@@ -38,8 +37,7 @@ const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
   }, [recruitmentEndDate])
 
   const handleApplyClick = () => {
-    console.log('지원하기')
-    // router.push(`form/${formId}/apply`)
+    router.push(`/form/${formDetails.id}/apply`)
   }
 
   const handleShowApplicationHistory = () => {
@@ -96,7 +94,7 @@ const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
           <>
             <MainButton
               buttonStyle="solid"
-              disabled={!isRecruitmentActive}
+              disabled={false}
               onClick={handleApplyClick}
             >
               <MainButton.Icon src="/icons/ic-writing.svg" altText="지원하기" />

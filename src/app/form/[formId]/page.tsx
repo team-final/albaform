@@ -1,5 +1,6 @@
 import FormDetailsClient from '@/components/FormDetails/FormDetailsClient/FormDetailsClient'
 import { getlistForms } from '@/lib/api/formDetails'
+import { Params } from '@/lib/types/types'
 
 import styles from './page.module.scss'
 
@@ -17,7 +18,7 @@ export const generateStaticParams = async () => {
   }))
 }
 
-const FormDetailsPage = async ({ params }: { params: { formId: string } }) => {
+const FormDetailsPage = async ({ params }: Params) => {
   const { formId } = params
   return (
     <main className={styles['job-details']}>

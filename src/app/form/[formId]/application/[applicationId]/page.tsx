@@ -1,5 +1,10 @@
-import NotFoundPage from '@/app/not-found'
+// import FormDetailsInfo from '@/components/FormDetails/FormDetailsInfo/FormDetailsInfo'
+import ApplicationStatus from '@/components/FormDetails/ApplicationStatus/ApplicationStatus'
 import { Params } from '@/lib/types/types'
+
+import styles from './page.module.scss'
+
+// import ImageSlider from '@/components/FormDetails/ImageSlider/ImageSlider'
 
 export async function generateStaticParams() {
   return [
@@ -17,6 +22,11 @@ export default function ApplicationDetailsPage({ params }: Params) {
     return <h1>Application B</h1>
   }
 
-  // 유효하지 않은 경우 404 페이지
-  return <NotFoundPage />
+  return (
+    <div className={styles['application-details']}>
+      {/* <ImageSlider />
+      <FormDetailsInfo /> */}
+      <ApplicationStatus />
+    </div>
+  )
 }

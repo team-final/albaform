@@ -14,7 +14,7 @@ import {
   useFormScrapMutation,
   useUsersMeQuery,
 } from '@/lib/queries/formDetailsQuery'
-// import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
@@ -33,7 +33,7 @@ declare global {
 }
 
 const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
-  // const router = useRouter()
+  const router = useRouter()
   const { data: userRole } = useUsersMeQuery()
   const { data: formDetails } = useFormDetailsQuery(Number(formId))
   const { mutate: scrapForm, isPending: isScrapLoading } =
@@ -76,12 +76,11 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
   }, [isMenuVisible]) // 플로팅 메뉴 순차적으로
 
   const handleApplyClick = () => {
-    // router.push(`form/${formId}/apply`)
+    router.push(`form/${formId}/apply`)
   }
 
   const handleShowApplicationHistory = () => {
-    // router.push(`form/${formId}/application/${applicationId}`)
-    // 얘는 모달로
+    // router.push('/')
   }
 
   const handleEditClick = () => {
