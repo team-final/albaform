@@ -54,3 +54,25 @@ export const deleteFormScrap = async (formId: number) => {
     throw error
   }
 }
+
+// 사장이 폼 수정
+export const patchForm = async (formId: number) => {
+  try {
+    const response = await basicAxios.patch(`/forms/${formId}`)
+    return response.data
+  } catch (error) {
+    console.log('데이터 수정 오류: ', error)
+    throw error
+  }
+}
+
+// 사장이 폼 삭제
+export const deleteForm = async (formId: number) => {
+  try {
+    const response = await basicAxios.delete(`/forms/${formId}`)
+    return response
+  } catch (error) {
+    console.log('데이터 삭제 오류: ', error)
+    throw error
+  }
+}

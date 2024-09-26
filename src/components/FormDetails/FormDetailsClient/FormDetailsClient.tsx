@@ -80,12 +80,13 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
   }
 
   const handleShowApplicationHistory = () => {
-    // router.push('/')
+    console.log('내 지원내역 보기')
+    // 얘는 모달로 // 이건 비회원만
+    // 회원은 바로 페이지로 router.push(`/forms/${formId}/application`)
   }
 
   const handleEditClick = () => {
-    console.log('수정하기')
-    // router.push(`form/${formId}/edit`)
+    router.push(`form/${formId}/edit`)
   }
 
   const handleDeleteClick = () => {

@@ -42,13 +42,12 @@ const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
 
   const handleShowApplicationHistory = () => {
     console.log('내 지원내역 보기')
-    // router.push(`form/${formId}/application/${applicationId}`)
-    // 얘는 모달로
+    // 얘는 모달로 // 이건 비회원만
+    // 회원은 바로 페이지로 router.push(`/forms/${formId}/application`)
   }
 
   const handleEditClick = () => {
-    console.log('수정하기')
-    // router.push(`form/${formId}/edit`)
+    router.push(`form/${formDetails.id}/edit`)
   }
 
   const handleDeleteClick = () => {
@@ -94,7 +93,7 @@ const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
           <>
             <MainButton
               buttonStyle="solid"
-              disabled={false}
+              disabled={!isRecruitmentActive}
               onClick={handleApplyClick}
             >
               <MainButton.Icon src="/icons/ic-writing.svg" altText="지원하기" />

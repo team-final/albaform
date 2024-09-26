@@ -1,9 +1,11 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 
 import {
+  deleteForm,
   deleteFormScrap,
   getFormDetails,
   getUsersMe,
+  patchForm,
   postFormScrap,
 } from '../api/formDetails'
 
@@ -30,5 +32,17 @@ export const useFormScrapMutation = () => {
 export const useFormScrapDeleteMutation = () => {
   return useMutation({
     mutationFn: deleteFormScrap,
+  })
+}
+
+export const usePatchFormQuery = () => {
+  return useMutation({
+    mutationFn: patchForm,
+  })
+}
+
+export const useDeleteFormQuery = () => {
+  return useMutation({
+    mutationFn: deleteForm,
   })
 }

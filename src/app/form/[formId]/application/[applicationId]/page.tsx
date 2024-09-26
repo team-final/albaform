@@ -13,6 +13,8 @@ export async function generateStaticParams() {
   ]
 }
 
+// 여긴 사장이 지원 상세 조회 / 상세 수정
+
 export default function ApplicationDetailsPage({ params }: Params) {
   const { applicationId } = params
 
