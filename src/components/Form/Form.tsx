@@ -22,7 +22,8 @@ import {
   useForm,
 } from 'react-hook-form'
 
-import VisibilityToggleButton from '../Button/VisibilityToggleButton/VisibilityToggleButton'
+import MainButton from '../MainButton/MainButton'
+import VisibilityToggleButton from '../VisibilityToggleButton/VisibilityToggleButton'
 import styles from './Form.module.scss'
 
 interface FormContextProps {
@@ -30,6 +31,8 @@ interface FormContextProps {
   register: UseFormRegister<FieldValues>
   errors: FieldErrors
   onSubmit: (data: FieldValues) => void
+  isValid: boolean
+  isSubmitting: boolean
 }
 
 const FormContext = createContext<FormContextProps | undefined>(undefined)
@@ -105,17 +108,18 @@ export default function Form({
   className,
   formId,
   onSubmit,
-  initialValues,
 }: FormProps) {
   const FormClass = classNames(styles.form, className)
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm({ defaultValues: initialValues })
+    formState: { errors, isValid, isSubmitting },
+  } = useForm({ mode: 'onChange' })
 
   return (
-    <FormContext.Provider value={{ formId, register, errors, onSubmit }}>
+    <FormContext.Provider
+      value={{ formId, register, errors, onSubmit, isValid, isSubmitting }}
+    >
       <form id={formId} onSubmit={handleSubmit(onSubmit)} className={FormClass}>
         {children}
       </form>
@@ -256,7 +260,6 @@ function Input({
   placeholder,
   autoComplete = 'off',
   pattern,
-  value,
   validate,
 }: InputProps) {
   const rules: RegisterOptions = {
@@ -288,7 +291,6 @@ function Input({
         checked={checked}
         disabled={disabled}
         id={forId}
-        value={value}
       />
       {type === 'password' && (
         <VisibilityToggleButton
@@ -315,11 +317,15 @@ function Textarea({
   disabled = false,
   required = false,
   placeholder,
+  minLength = 1,
+  maxLength = 200,
   validate,
 }: InputProps) {
   const rules: RegisterOptions = {
     required,
     validate,
+    minLength,
+    maxLength,
   }
   const { register, errors } = useFormContext()
   const { forId } = useLabelContext()
@@ -349,9 +355,18 @@ interface SubmitButtonProps {
 /**
  * 해당 form 의 onSubmit prop 으로 등록된 함수를 실행하는 버튼입니다. 1개만 존재 해야합니다.
  */
+
 function SubmitButton({ buttonStyle, children }: SubmitButtonProps) {
-  console.log(buttonStyle)
-  console.log(children)
+  const { isValid, isSubmitting } = useFormContext()
+  return (
+    <MainButton
+      buttonStyle={buttonStyle}
+      type="submit"
+      disabled={!isValid || isSubmitting}
+    >
+      {children}
+    </MainButton>
+  )
 }
 
 Form.Title = Title
