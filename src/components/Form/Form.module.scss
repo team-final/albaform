@@ -90,30 +90,3 @@
   margin: 0 auto;
   margin-top: 80px;
 }
-
-.visibility-toggle-button {
-  position: absolute;
-  top: 50%;
-  right: 16px;
-  z-index: 8;
-  transform: translateY(-50%);
-  display: block;
-  border: 0;
-  width: 24px;
-  height: 24px;
-  min-width: auto;
-  min-height: auto;
-  padding: 0;
-  background-color: transparent;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 24px;
-
-  &[data-visibility='true'] {
-    background-image: url('/icons/ic-visibility-on.svg');
-  }
-
-  &[data-visibility='false'] {
-    background-image: url('/icons/ic-visibility-off.svg');
-  }
-}
