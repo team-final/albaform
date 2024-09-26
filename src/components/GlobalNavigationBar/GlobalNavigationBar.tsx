@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 
-import HamburgerButton from '../HamburgerButton/HamburgerButton'
+import HamburgerButton from '../Button/HamburgerButton/HamburgerButton'
 import styles from './GlobalNavigationBar.module.scss'
 import Logo from './Logo/Logo'
 import Menu from './Menu/Menu'

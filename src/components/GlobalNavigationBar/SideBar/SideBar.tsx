@@ -1,7 +1,7 @@
 'use client'
 
-import SignInOutButton from '@/components/SignInOutButton/SignInOutButton'
-import XButton from '@/components/XButton/XButton'
+import SignInOutButton from '@/components/Button/SignInOutButton/SignInOutButton'
+import XButton from '@/components/Button/XButton/XButton'
 import QueryProvider from '@/lib/queries/QueryProvider'
 import Link from 'next/link'
 

@@ -1,12 +1,12 @@
 'use client'
 
-import FloatingButton from '@/components/FloatingButton/FloatingButton'
+import FloatingButton from '@/components/Button/FloatingButton/FloatingButton'
+import MainButton from '@/components/Button/MainButton/MainButton'
 import ContactInfo from '@/components/FormDetails/ContactInfo/ContactInfo'
 import FormDetailsInfo from '@/components/FormDetails/FormDetailsInfo/FormDetailsInfo'
 import Location from '@/components/FormDetails/Location/Location'
 import Requirements from '@/components/FormDetails/Requirements/Requirements'
 import WorkScheduleInfo from '@/components/FormDetails/WorkScheduleInfo/WorkScheduleInfo'
-import MainButton from '@/components/MainButton/MainButton'
 import Toastify from '@/components/Toastify/Toastify'
 import {
   useFormDetailsQuery,
