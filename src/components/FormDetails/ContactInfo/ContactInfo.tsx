@@ -122,7 +122,7 @@ const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
           <>
             <MainButton
               buttonStyle="solid"
-              disabled={false}
+              disabled={!isRecruitmentActive}
               onClick={handleApplyClick}
             >
               <MainButton.Icon src="/icons/ic-writing.svg" altText="지원하기" />
