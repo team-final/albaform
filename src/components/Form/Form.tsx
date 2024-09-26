@@ -1,3 +1,5 @@
+import MainButton from '@/components/Button/MainButton/MainButton'
+import VisibilityToggleButton from '@/components/Button/VisibilityToggleButton/VisibilityToggleButton'
 import {
   ComponentProps,
   FormFieldProps,
@@ -22,8 +24,6 @@ import {
   useForm,
 } from 'react-hook-form'
 
-import MainButton from '../MainButton/MainButton'
-import VisibilityToggleButton from '../VisibilityToggleButton/VisibilityToggleButton'
 import styles from './Form.module.scss'
 
 interface FormContextProps {
