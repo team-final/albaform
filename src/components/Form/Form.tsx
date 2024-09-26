@@ -22,7 +22,7 @@ import {
   useForm,
 } from 'react-hook-form'
 
-import VisibilityToggleButton from '../VisibilityToggleButton/VisibilityToggleButton'
+import VisibilityToggleButton from '../Button/VisibilityToggleButton/VisibilityToggleButton'
 import styles from './Form.module.scss'
 
 interface FormContextProps {

@@ -1,6 +1,6 @@
 'use client'
 
-import MainButton from '@/components/MainButton/MainButton'
+import MainButton from '@/components/Button/MainButton/MainButton'
 import { useUsersMeQuery } from '@/lib/queries/formDetailsQuery'
 import { FormDetailsProps } from '@/lib/types/types'
 import { formatKoreanDate } from '@/utils/formatDate'
