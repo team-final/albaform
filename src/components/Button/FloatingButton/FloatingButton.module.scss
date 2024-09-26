@@ -1,0 +1,79 @@
+@use 'src/styles/_color' as color;
+@use 'src/styles/_media' as media;
+@use 'src/styles/_font' as font;
+
+.floating-button {
+  width: 64px;
+  height: 64px;
+  border-radius: 9999px;
+  border: 0;
+  background-color: color.$Primary-Orange-300;
+  box-shadow:
+    0 0 4px 0 rgb(60 37 37 / 8%),
+    0 4px 8px 0 rgb(0 0 0 / 8%),
+    0 6px 12px 0 rgb(0 0 0 / 12%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 100;
+  cursor: pointer;
+
+  &:hover {
+    background-color: color.$Primary-Orange-200;
+  }
+
+  &:active {
+    background-color: color.$Primary-Orange-100;
+  }
+
+  &:disabled {
+    background-color: color.$Grayscale-100;
+  }
+
+  @include media.tablet {
+    width: 54px;
+    height: 54px;
+  }
+}
+
+.with-children {
+  width: 140px;
+
+  @include media.tablet {
+    width: 120px;
+  }
+}
+
+.bookmark {
+  background-color: color.$Grayscale-50;
+
+  &:hover {
+    background-color: color.$Primary-Orange-50;
+  }
+
+  &:active {
+    background-color: color.$Primary-Orange-50;
+  }
+
+  &:disabled {
+    background-color: color.$Grayscale-100;
+  }
+}
+
+.icon {
+  @include media.tablet {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.text {
+  @include font.Style(xl, 600);
+
+  color: color.$Grayscale-50;
+
+  @include media.tablet {
+    @include font.Style(lg, 600);
+  }
+}
