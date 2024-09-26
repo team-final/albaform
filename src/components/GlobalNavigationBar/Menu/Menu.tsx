@@ -1,8 +1,8 @@
 import Link from 'next/link'
 
-import styles from './RootNav.module.scss'
+import styles from './Menu.module.scss'
 
-const RootNav = () => {
+export default function Menu() {
   return (
     <div className={styles.nav}>
       <Link href="/" draggable="false" className={styles.active}>
@@ -17,5 +17,3 @@ const RootNav = () => {
     </div>
   )
 }
-
-export default RootNav

@@ -5,14 +5,14 @@ import XButton from '@/components/XButton/XButton'
 import QueryProvider from '@/lib/queries/QueryProvider'
 import Link from 'next/link'
 
-import styles from './GNB.module.scss'
+import styles from './SideBar.module.scss'
 import IconMypage from '/public/icons/ic-mypage.svg'
 
-interface GNBProps {
+interface SideBarProps {
   closeAction?: () => void
 }
 
-const GNB = ({ closeAction }: GNBProps) => {
+export default function SideBar({ closeAction }: SideBarProps) {
   return (
     <article className={styles.gnb}>
       <div className={styles.inner}>
@@ -20,7 +20,7 @@ const GNB = ({ closeAction }: GNBProps) => {
           <XButton onClick={closeAction} />
         </section>
         <section className={styles.body}>
-          <ul>
+          <ul onClick={closeAction}>
             <li>
               <Link href="/" className={styles.button}>
                 <IconMypage />
@@ -38,5 +38,3 @@ const GNB = ({ closeAction }: GNBProps) => {
     </article>
   )
 }
-
-export default GNB

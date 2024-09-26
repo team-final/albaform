@@ -2,16 +2,16 @@
 
 import { useEffect, useState } from 'react'
 
-import AuthSpecificMenu from '../AuthSpecificMenu/AuthSpecificMenu'
-import GNB from '../GNB/GNB'
 import HamburgerButton from '../HamburgerButton/HamburgerButton'
-import RootLogo from '../RootLogo/RootLogo'
-import RootNav from '../RootNav/RootNav'
-import styles from './RootHeader.module.scss'
+import styles from './GlobalNavigationBar.module.scss'
+import Logo from './Logo/Logo'
+import Menu from './Menu/Menu'
+import SideBar from './SideBar/SideBar'
+import UserTypeIndicator from './UserTypeIndicator/UserTypeIndicator'
 
 type pageTypes = 'landing' | 'auth' | 'content'
 
-const RootHeader = () => {
+export default function GlobalNavigationBar() {
   /**
    * @todo
    * 1. Zustand 로 페이지 타입 확인하기 [ landing, auth, content ];
@@ -19,7 +19,7 @@ const RootHeader = () => {
   const type: pageTypes[] = ['landing', 'auth', 'content']
   const router: pageTypes = type[0]
 
-  const [showGNB, setShowGNB] = useState<boolean>(false)
+  const [showSideBar, setShowSideBar] = useState<boolean>(false)
 
   /**
    * @todo
@@ -36,28 +36,26 @@ const RootHeader = () => {
       console.log(document.body)
     }
 
-    if (showGNB) disableScroll()
+    if (showSideBar) disableScroll()
     else enableScroll()
-  }, [showGNB])
+  }, [showSideBar])
 
   return (
     <>
       <header className={styles.header}>
         <div className={styles.inner}>
-          <RootLogo />
+          <Logo />
           {router === 'auth' ? (
-            <AuthSpecificMenu />
+            <UserTypeIndicator />
           ) : (
             <>
-              <RootNav />
-              <HamburgerButton onClick={() => setShowGNB(true)} />
+              <Menu />
+              <HamburgerButton onClick={() => setShowSideBar(true)} />
             </>
           )}
         </div>
       </header>
-      {showGNB && <GNB closeAction={() => setShowGNB(false)} />}
+      {showSideBar && <SideBar closeAction={() => setShowSideBar(false)} />}
     </>
   )
 }
-
-export default RootHeader

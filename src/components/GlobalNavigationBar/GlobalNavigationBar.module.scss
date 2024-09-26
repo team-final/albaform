@@ -6,15 +6,18 @@
 .header {
   position: relative;
   z-index: 8;
-  padding: 0 120px;
   border-bottom: 1px solid color.$Line-50;
-  background-color: #fff;
+  height: var.$root_header_height_lg;
+  padding: 0 120px;
+  background-color: color.$Grayscale-50;
 
   @include media.tablet {
+    height: var.$root_header_height_md;
     padding: 0 72px;
   }
 
   @include media.mobile {
+    height: var.$root_header_height_sm;
     padding: 0 24px;
   }
 }
@@ -26,17 +29,15 @@
   align-items: center;
   margin: 0 auto;
   width: 100%;
+  height: 100%;
   max-width: 1480px;
-  min-height: var.$root_header_height_lg;
   gap: 48px;
 
   @include media.tablet {
-    min-height: var.$root_header_height_md;
     gap: 32px;
   }
 
   @include media.mobile {
-    min-height: var.$root_header_height_sm;
     gap: 16px;
   }
 }

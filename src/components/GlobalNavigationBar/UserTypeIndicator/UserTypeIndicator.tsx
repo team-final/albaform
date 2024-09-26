@@ -1,8 +1,8 @@
 import Link from 'next/link'
 
-import styles from './AuthSpecificMenu.module.scss'
+import styles from './UserTypeIndicator.module.scss'
 
-const AuthSpecificMenu = () => {
+export default function UserTypeIndicator() {
   return (
     <div className={styles.tab}>
       <Link href="/" draggable="false">
@@ -14,5 +14,3 @@ const AuthSpecificMenu = () => {
     </div>
   )
 }
-
-export default AuthSpecificMenu

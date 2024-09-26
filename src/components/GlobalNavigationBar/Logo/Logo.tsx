@@ -1,10 +1,10 @@
 import Link from 'next/link'
 
-import styles from './RootLogo.module.scss'
+import styles from './Logo.module.scss'
 import LogoSymbol from '/public/images/logo/logo-symbol.svg'
 import LogoText from '/public/images/logo/logo-text.svg'
 
-const RootLogo = () => {
+export default function Logo() {
   return (
     <Link className={styles.logo} href="/" draggable="false">
       <LogoSymbol className={styles.symbol} />
@@ -12,5 +12,3 @@ const RootLogo = () => {
     </Link>
   )
 }
-
-export default RootLogo
