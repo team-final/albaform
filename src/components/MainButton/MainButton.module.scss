@@ -40,7 +40,8 @@
   background-color: color.$Primary-Orange-300;
   color: color.$Grayscale-50;
 
-  &:hover {
+  &:hover,
+  &:focus {
     background-color: color.$Primary-Orange-200;
   }
 
@@ -54,7 +55,8 @@
   border: 1px solid color.$Primary-Orange-300;
   color: color.$Primary-Orange-300;
 
-  &:hover {
+  &:hover,
+  &:focus {
     border: 1px solid color.$Primary-Orange-200;
     color: color.$Primary-Orange-200;
   }
