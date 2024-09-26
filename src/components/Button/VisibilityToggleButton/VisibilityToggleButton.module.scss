@@ -1,0 +1,32 @@
+@use 'src/styles/_color' as color;
+
+.visibility-toggle-button {
+  position: absolute;
+  top: 32px;
+  right: 16px;
+  z-index: 8;
+  transform: translateY(-50%);
+  display: block;
+  border: 0;
+  width: 32px;
+  height: 32px;
+  min-width: auto;
+  min-height: auto;
+  padding: 0;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 24px;
+
+  &[data-visibility='true'] {
+    background-image: url('/icons/ic-visibility-on.svg');
+  }
+
+  &[data-visibility='false'] {
+    background-image: url('/icons/ic-visibility-off.svg');
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 2px color.$Primary-Orange-100;
+  }
+}
