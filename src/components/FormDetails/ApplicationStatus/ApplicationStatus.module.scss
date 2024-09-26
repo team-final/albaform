@@ -6,7 +6,7 @@
   border-radius: 8px;
   border: 1px solid color.$Line-50;
   padding: 24px;
-  background-color: color.$Background-50;
+  background-color: color.$Background-100;
 
   @include media.tablet {
     border: unset;
