@@ -92,3 +92,15 @@
     display: none;
   }
 }
+
+.delete-button {
+  background-color: #e6e6e6;
+
+  &:hover {
+    background-color: color.$Primary-Orange-50;
+  }
+}
+
+.button-hide-text {
+  color: color.$Grayscale-300 !important;
+}

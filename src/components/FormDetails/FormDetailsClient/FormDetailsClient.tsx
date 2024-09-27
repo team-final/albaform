@@ -266,7 +266,21 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
               </MainButton>
             </>
           ) : (
-            <>
+            <div className={styles['owner-button-container']}>
+              <MainButton
+                buttonStyle="solid"
+                disabled={false}
+                onClick={handleDeleteClick}
+                className={styles['delete-button']}
+              >
+                <MainButton.Icon
+                  src="/icons/ic-trash-can.svg"
+                  altText="삭제하기"
+                />
+                <MainButton.Text className={styles['button-hide-text']}>
+                  삭제하기
+                </MainButton.Text>
+              </MainButton>
               <MainButton
                 buttonStyle="solid"
                 disabled={false}
@@ -275,18 +289,7 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
                 <MainButton.Icon src="/icons/ic-edit2.svg" altText="수정하기" />
                 <MainButton.Text>수정하기</MainButton.Text>
               </MainButton>
-              <MainButton
-                buttonStyle="outline"
-                disabled={false}
-                onClick={handleDeleteClick}
-              >
-                <MainButton.Icon
-                  src="/icons/ic-trash-can.svg"
-                  altText="삭제하기"
-                />
-                <MainButton.Text>삭제하기</MainButton.Text>
-              </MainButton>
-            </>
+            </div>
           )}
         </div>
       </div>
