@@ -30,6 +30,7 @@
   @include media.tablet {
     flex-direction: column;
     gap: 40px 0;
+    height: 600px;
   }
 }
 
@@ -194,7 +195,7 @@
   flex-basis: 45.39%;
 }
 
-@media screen and (width >= 1024px) and (width <= 1500px) {
+@media screen and (width >= 1024px) and (width <= 1600px) {
   .application-details {
     margin: 78px 30px 0;
   }

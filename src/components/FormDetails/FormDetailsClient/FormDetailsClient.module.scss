@@ -74,6 +74,10 @@
   position: fixed;
   top: 670px;
   right: 180px;
+
+  @include media.mobile {
+    right: 10px;
+  }
 }
 
 .floating-menu-container {
