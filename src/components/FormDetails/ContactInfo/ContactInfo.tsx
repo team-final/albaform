@@ -151,7 +151,7 @@ const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
               <MainButton.Text>수정하기</MainButton.Text>
             </MainButton>
             <MainButton
-              buttonStyle="outline"
+              buttonStyle="solid"
               disabled={false}
               onClick={handleDeleteClick}
               color="gray"
@@ -160,7 +160,9 @@ const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
                 src="/icons/ic-trash-can.svg"
                 altText="삭제하기"
               />
-              <MainButton.Text>삭제하기</MainButton.Text>
+              <MainButton.Text className={styles['button-hide-text']}>
+                삭제하기
+              </MainButton.Text>
             </MainButton>
           </>
         )}
