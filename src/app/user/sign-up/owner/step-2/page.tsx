@@ -116,7 +116,7 @@ const Page = () => {
           <Form.Field htmlFor="location">
             <Form.KakaoSearchInput
               name="location"
-              placeholder="가게 위치를 설정해주세 요"
+              placeholder="가게 위치를 설정해주세요"
               required
             />
           </Form.Field>
