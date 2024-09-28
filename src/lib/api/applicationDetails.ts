@@ -24,7 +24,7 @@ export const getMyApplicationVerify = async (formId: number) => {
   }
 }
 
-// 사장이 지원 현황 목록 조회
+// 사장이 지원 현황 목록 조회 - get
 export const getListApplications = async (formId: number) => {
   try {
     const response = await basicAxios.get(`/forms/${formId}/applications`)

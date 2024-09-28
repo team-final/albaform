@@ -161,6 +161,10 @@
 }
 
 @media screen and (width >= 1024px) and (width <= 1300px) {
+  .application-status {
+    padding: 24px 12px;
+  }
+
   .application-status-tooltip {
     width: 100%;
   }

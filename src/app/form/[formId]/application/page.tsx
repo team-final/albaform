@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react'
 
 import styles from './page.module.scss'
 
-// 지원내역 상세보기 페이지
+// 지원내역 상세보기 페이지 - 이건 토큰 있어야만함
 
 export default function MyApplicationsPage({
   params,
@@ -96,7 +96,10 @@ export default function MyApplicationsPage({
         </section>
 
         <section className={styles['application-details-info-status']}>
-          <ApplicationStatus />
+          <ApplicationStatus
+            formId={Number(formId)}
+            formDetails={formDetails}
+          />
         </section>
       </div>
     </div>
