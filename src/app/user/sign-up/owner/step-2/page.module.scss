@@ -1,0 +1,24 @@
+@use 'src/styles/_color.scss' as color;
+@use 'src/styles/_font' as font;
+@use 'src/styles/_media' as media;
+
+.owner-information-sub-title {
+  margin-top: 16px;
+  align-self: center;
+
+  @include font.Style(xl, 400);
+
+  color: color.$Black-100;
+}
+
+.button-group {
+  display: flex;
+  gap: 5px;
+}
+
+.required-star {
+  color: orange; /* *의 색상을 주황색으로 변경 */
+  margin: auto 0;
+  line-height: 1; /* *의 세로 정렬을 정확히 중앙에 맞춤 */
+  padding-top: 3px;
+}

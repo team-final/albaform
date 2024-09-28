@@ -68,6 +68,13 @@
     background-color: transparent;
     color: color.$Black-400;
 
+    &-required {
+      color: color.$Primary-Orange-300;
+      margin: auto 0;
+      line-height: 1;
+      padding-top: 4px;
+    }
+
     @include font.Style(xl, 400);
 
     &::placeholder {

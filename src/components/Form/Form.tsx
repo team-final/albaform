@@ -406,6 +406,10 @@ function KakaoSearchInput({
   )
 }
 
+function requiredStar() {
+  return <span className={classNames(styles['form-input-required'])}>*</span>
+}
+
 interface SubmitButtonProps {
   buttonStyle: 'solid' | 'outline'
   children: ReactNode
@@ -438,3 +442,4 @@ Form.Input = Input
 Form.Textarea = Textarea
 Form.KakaoSearchInput = KakaoSearchInput
 Form.SubmitButton = SubmitButton
+Form.requiredStar = requiredStar
