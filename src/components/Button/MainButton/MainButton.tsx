@@ -1,16 +1,18 @@
 'use client'
 
+import { ChildrenProps, ComponentProps } from '@/lib/types/types'
+import classNames from 'classnames'
 import Image from 'next/image'
 import React from 'react'
 
 import style from './MainButton.module.scss'
 
-interface ButtonProps {
-  buttonStyle: 'solid' | 'outline'
+interface MainButtonProps extends ComponentProps {
+  buttonStyle?: 'solid' | 'outline'
+  color?: 'primary' | 'gray'
+  type?: 'button' | 'submit' | 'reset'
   disabled?: boolean
   onClick?: () => void
-  children: React.ReactNode
-  type?: 'button' | 'submit' | 'reset'
 }
 
 interface IconProps {
@@ -18,26 +20,35 @@ interface IconProps {
   altText?: string
 }
 
-interface TextProps {
-  children: React.ReactNode
-}
-
-const MainButton = ({
-  buttonStyle,
+export default function MainButton({
+  buttonStyle = 'solid',
+  color = 'primary',
+  type = 'button',
   disabled,
   onClick,
+  className,
   children,
-}: ButtonProps) => {
-  const buttonClass = `${style.default} ${style[buttonStyle]}`
+}: MainButtonProps) {
+  const buttonClass = classNames(
+    style.default,
+    style[buttonStyle],
+    style[color],
+    className,
+  )
 
   return (
-    <button className={buttonClass} disabled={disabled} onClick={onClick}>
+    <button
+      type={type}
+      className={buttonClass}
+      disabled={disabled}
+      onClick={onClick}
+    >
       {children}
     </button>
   )
 }
 
-const ButtonIcon = ({ src, altText = '아이콘' }: IconProps) => {
+function ButtonIcon({ src, altText = '아이콘' }: IconProps) {
   return (
     <Image
       src={src}
@@ -49,11 +60,9 @@ const ButtonIcon = ({ src, altText = '아이콘' }: IconProps) => {
   )
 }
 
-const ButtonText = ({ children }: TextProps) => {
+function ButtonText({ children }: ChildrenProps) {
   return <span>{children}</span>
 }
 
 MainButton.Icon = ButtonIcon
 MainButton.Text = ButtonText
-
-export default MainButton

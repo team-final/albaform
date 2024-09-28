@@ -17,8 +17,11 @@ export interface LayoutProps {
   children: ReactNode
 }
 
-export interface ComponentProps {
+export interface ChildrenProps {
   children?: ReactNode
+}
+
+export interface ComponentProps extends ChildrenProps {
   className?: string
 }
 
