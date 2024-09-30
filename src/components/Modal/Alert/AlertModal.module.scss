@@ -1,0 +1,109 @@
+@use 'src/styles/_color' as color;
+@use 'src/styles/_font' as font;
+@use 'src/styles/_media' as media;
+
+// overlay 모달외부
+// content 모달내부
+.modal {
+  // 우측 상단 닫기 버튼
+  &-button-x {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+
+    @include media.tablet {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  // 경고모달
+  &-alert {
+    &-overlay {
+      background-color: rgb(0 0 0 / 60%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+
+      @include media.mobile {
+        align-items: flex-end;
+        bottom: -19px;
+      }
+    }
+
+    &-content {
+      gap: 24px;
+      width: 520px;
+      height: 384px;
+      background-color: color.$Grayscale-50;
+      border-radius: 24px;
+      box-shadow: 6px 6px 16px 0 #7d7d7d40;
+      padding: 32px 80px 24px;
+      text-align: center;
+      position: relative;
+      margin-bottom: 10px;
+
+      @include media.tablet {
+        width: 375px;
+        height: 284px;
+        padding: 24px 24px 16px;
+      }
+
+      &-img {
+        margin-bottom: 32px;
+
+        @include media.tablet {
+          width: 80px;
+          height: 80px;
+          margin-bottom: 24px;
+        }
+      }
+
+      &-textgroup {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        margin-bottom: 24px;
+
+        @include media.tablet {
+          gap: 8px;
+        }
+
+        &-title {
+          @include font.Style(2xl, 600);
+
+          @include media.tablet {
+            @include font.Style(2lg, 600);
+          }
+        }
+
+        &-text {
+          @include font.Style(xl, 400);
+
+          color: color.$Grayscale-400;
+
+          @include media.tablet {
+            @include font.Style(md, 400);
+          }
+        }
+      }
+    }
+
+    // delete 모달에만 적용할 추가 스타일
+    &-content-delete {
+      width: 520px;
+      height: 440px;
+
+      @include media.tablet {
+        width: 375px;
+        height: 330px;
+      }
+    }
+  }
+}
