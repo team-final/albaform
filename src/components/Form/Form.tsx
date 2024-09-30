@@ -21,6 +21,7 @@ import {
   FieldValues,
   RegisterOptions,
   UseFormRegister,
+  UseFormSetValue,
   useForm,
 } from 'react-hook-form'
 
@@ -33,6 +34,7 @@ interface FormContextProps {
   onSubmit: (data: FieldValues) => void
   isValid: boolean
   isSubmitting: boolean
+  setValue: UseFormSetValue<FieldValues>
 }
 
 const FormContext = createContext<FormContextProps | undefined>(undefined)
@@ -114,11 +116,20 @@ export default function Form({
     register,
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
+    setValue,
   } = useForm({ mode: 'onChange' })
 
   return (
     <FormContext.Provider
-      value={{ formId, register, errors, onSubmit, isValid, isSubmitting }}
+      value={{
+        formId,
+        register,
+        errors,
+        onSubmit,
+        isValid,
+        isSubmitting,
+        setValue,
+      }}
     >
       <form id={formId} onSubmit={handleSubmit(onSubmit)} className={FormClass}>
         {children}
@@ -347,6 +358,54 @@ function Textarea({
   )
 }
 
+declare global {
+  interface Window {
+    daum: any
+  }
+}
+
+interface KakaoSearchInputProps {
+  name: string
+  placeholder?: string
+  required?: boolean
+}
+function KakaoSearchInput({
+  name,
+  placeholder,
+  required,
+}: KakaoSearchInputProps) {
+  const { register, setValue } = useFormContext()
+  const { forId } = useLabelContext()
+
+  useEffect(() => {
+    const script = document.createElement('script')
+    script.src = '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js'
+    script.async = true
+    document.body.appendChild(script)
+  }, [])
+
+  const handleAddressSearch = () => {
+    new window.daum.Postcode({
+      oncomplete: function (data: any) {
+        const roadAddr = data.roadAddress
+        setValue(name, roadAddr)
+      },
+    }).open()
+  }
+
+  return (
+    <input
+      {...register(name, { required })}
+      type="text"
+      className={classNames(styles['form-input'], styles['form-input-kakao'])}
+      onClick={handleAddressSearch}
+      placeholder={placeholder}
+      readOnly
+      id={forId}
+    />
+  )
+}
+
 interface SubmitButtonProps {
   buttonStyle: 'solid' | 'outline'
   children: ReactNode
@@ -377,4 +436,5 @@ Form.Label = Label
 Form.Wrap = Wrap
 Form.Input = Input
 Form.Textarea = Textarea
+Form.KakaoSearchInput = KakaoSearchInput
 Form.SubmitButton = SubmitButton
