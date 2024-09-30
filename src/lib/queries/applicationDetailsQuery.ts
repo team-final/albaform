@@ -28,7 +28,7 @@ export const useListApplicationsQuery = (formId: number) => {
   })
 }
 
-export const useListApplicationDetails = (formId: number) => {
+export const useListApplicationDetailsQuery = (formId: number) => {
   return useQuery({
     queryKey: ['applicationDetails'],
     queryFn: () => getListApplicationDetails(formId),

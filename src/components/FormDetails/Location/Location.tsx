@@ -1,5 +1,5 @@
 import Toastify from '@/components/Toastify/Toastify'
-import { FormDetailsProps } from '@/lib/types/types'
+import { FormDetailsProps } from '@/lib/types/formTypes'
 import { toast } from 'react-toastify'
 
 import styles from './Location.module.scss'

@@ -1,4 +1,4 @@
-import { FormDetailsProps } from '@/lib/types/types'
+import { FormDetailsProps } from '@/lib/types/formTypes'
 import Image from 'next/image'
 import { useState } from 'react'
 import 'swiper/css'

@@ -2,7 +2,7 @@
 
 import MainButton from '@/components/Button/MainButton/MainButton'
 import { useUsersMeQuery } from '@/lib/queries/formDetailsQuery'
-import { FormDetailsProps } from '@/lib/types/types'
+import { FormDetailsProps } from '@/lib/types/formTypes'
 import { formatKoreanDate } from '@/lib/utils/formatDate'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'

@@ -1,6 +1,6 @@
 import { useMyApplicationQuery } from '@/lib/queries/applicationDetailsQuery'
 import { useUsersMeQuery } from '@/lib/queries/formDetailsQuery'
-import { FormDetailsProps } from '@/lib/types/types'
+import { FormDetailsProps } from '@/lib/types/formTypes'
 import { formatApplicationDate, formatKoreanDate } from '@/lib/utils/formatDate'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'

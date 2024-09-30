@@ -1,4 +1,4 @@
-import { FormDetailsProps } from '@/lib/types/types'
+import { FormDetailsProps } from '@/lib/types/formTypes'
 import { formatDetailedDate } from '@/lib/utils/formatDate'
 
 import styles from './AnnouncementInfo.module.scss'
