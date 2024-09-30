@@ -31,7 +31,7 @@ export default function MyApplicationsPage({
   return (
     <div className={styles['application-details']}>
       <section className={styles['application-details-image']}>
-        <ImageSlider formDetails={formDetails} />
+        <ImageSlider formDetails={formDetails} noImageHeight={0} />
       </section>
 
       <div className={styles['application-details-info']}>

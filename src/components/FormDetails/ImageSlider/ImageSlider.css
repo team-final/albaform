@@ -42,9 +42,6 @@
   z-index: 10;
 }
 
-.no-image-counter {
-  height: 100px;
-}
 
 @media screen and (max-width: 1024px) {
   .swiper-button-prev,

@@ -156,7 +156,7 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
         formDetails={formDetails}
         isVisible={isPopupVisible}
       />
-      <ImageSlider formDetails={formDetails} />
+      <ImageSlider formDetails={formDetails} noImageHeight={100} />
       <div className={styles['job-details-container']}>
         <div className={styles['job-details-content']}>
           <section className={styles['job-details-info']}>
