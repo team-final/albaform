@@ -441,4 +441,4 @@ Form.Input = Input
 Form.Textarea = Textarea
 Form.KakaoSearchInput = KakaoSearchInput
 Form.SubmitButton = SubmitButton
-Form.requiredStar = requiredStar
+Form.RequiredStar = RequiredStar
