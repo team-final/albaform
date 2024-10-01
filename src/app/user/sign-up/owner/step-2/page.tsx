@@ -2,9 +2,9 @@
 
 import MainButton from '@/components/Button/MainButton/MainButton'
 import Form from '@/components/Form/Form'
-import FormStyles from '@/components/Form/Form.module.scss'
+import styles from '@/components/Form/Form.module.scss'
 
-import Styles from './page.module.scss'
+import pageStyles from './page.module.scss'
 
 export default function Page() {
   const handleSubmit = (data: any) => {
@@ -40,12 +40,12 @@ export default function Page() {
   return (
     <div className="register-page">
       <Form
-        formId="signUpFormOwnerStep2"
+        formId="owenr-signUp-step2-form"
         onSubmit={handleSubmit}
-        className={FormStyles['owner-information']}
+        className={styles['owner-information']}
       >
         <Form.Title>사장님 정보 입력</Form.Title>
-        <div className={Styles['owner-information-sub-title']}>
+        <div className={pageStyles['owner-information-sub-title']}>
           추가 정보를 입력하여 회원가입을 완료해주세요.
         </div>
         <Form.Fieldset>
@@ -121,7 +121,7 @@ export default function Page() {
             />
           </Form.Field>
         </Form.Fieldset>
-        <div className={Styles['button-group']}>
+        <div className={pageStyles['button-group']}>
           <MainButton buttonStyle="outline" type="button" onClick={laterSignup}>
             나중에하기
           </MainButton>
