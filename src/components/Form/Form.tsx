@@ -406,7 +406,7 @@ function KakaoSearchInput({
   )
 }
 
-function requiredStar() {
+function RequiredStar() {
   return <span className={classNames(styles['form-input-required'])}>*</span>
 }
 
@@ -418,7 +418,6 @@ interface SubmitButtonProps {
 /**
  * 해당 form 의 onSubmit prop 으로 등록된 함수를 실행하는 버튼입니다. 1개만 존재 해야합니다.
  */
-
 function SubmitButton({ buttonStyle, children }: SubmitButtonProps) {
   const { isValid, isSubmitting } = useFormContext()
   return (
