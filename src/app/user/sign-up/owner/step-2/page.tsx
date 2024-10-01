@@ -52,7 +52,7 @@ const Page = () => {
           <Form.Field htmlFor="nickname">
             <Form.Legend>
               닉네임
-              <Form.requiredStar />
+              <Form.RequiredStar />
             </Form.Legend>
             <Form.Input
               name="nickname"
@@ -66,7 +66,7 @@ const Page = () => {
           <Form.Field htmlFor="storeName">
             <Form.Legend>
               가게 이름
-              <Form.requiredStar />
+              <Form.RequiredStar />
             </Form.Legend>
             <Form.Input
               name="storeName"
@@ -80,7 +80,7 @@ const Page = () => {
           <Form.Field htmlFor="storePhoneNumber">
             <Form.Legend>
               가게 전화번호
-              <Form.requiredStar />
+              <Form.RequiredStar />
             </Form.Legend>
             <Form.Input
               name="storePhoneNumber"
@@ -111,7 +111,7 @@ const Page = () => {
         <Form.Fieldset>
           <Form.Legend>
             가게 위치
-            <Form.requiredStar />
+            <Form.RequiredStar />
           </Form.Legend>
           <Form.Field htmlFor="location">
             <Form.KakaoSearchInput
