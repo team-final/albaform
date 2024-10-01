@@ -1,0 +1,17 @@
+@use 'src/styles/_color.scss' as color;
+@use 'src/styles/_font' as font;
+@use 'src/styles/_media' as media;
+
+.owner-information-sub-title {
+  margin-top: 16px;
+  align-self: center;
+
+  @include font.Style(xl, 400);
+
+  color: color.$Black-100;
+}
+
+.button-group {
+  display: flex;
+  gap: 5px;
+}
