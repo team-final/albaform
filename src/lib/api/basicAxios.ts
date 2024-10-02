@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios'
 
 const accessToken =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsInNjb3BlIjoiYWNjZXNzIiwiaWF0IjoxNzI3ODU5MDU0LCJleHAiOjE3Mjc4NjYyNTR9.MsoDkhNsXOyWe1Cz37B8xvcZ-qZrt3uWNID6f8j0oHk'
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwic2NvcGUiOiJhY2Nlc3MiLCJpYXQiOjE3Mjc4Njk5NzAsImV4cCI6MTcyNzg3NzE3MH0.nbWXKn7A_HCLLq19MnerX0coPxNiykocLjLQOZiLGYE'
 
 const basicAxios: AxiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
