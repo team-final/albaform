@@ -1,3 +1,3 @@
-// export default function MyApplicationsPage() {
-//   return <></>
-// }
+export default function MyApplicationsPage() {
+  return <></>
+}
