@@ -7,16 +7,14 @@ import FormDetailsInfo from '@/components/FormDetails/FormDetailsInfo/FormDetail
 import Location from '@/components/FormDetails/Location/Location'
 import Requirements from '@/components/FormDetails/Requirements/Requirements'
 import WorkScheduleInfo from '@/components/FormDetails/WorkScheduleInfo/WorkScheduleInfo'
+import AlertModal from '@/components/Modal/Alert/AlertModal'
 import Toastify from '@/components/Toastify/Toastify'
-import { useListApplicationsQuery } from '@/lib/queries/applicationDetailsQuery'
 import {
   useFormDetailsQuery,
   useFormScrapDeleteMutation,
   useFormScrapMutation,
   useUsersMeQuery,
 } from '@/lib/queries/formDetailsQuery'
-import { ApplicationProps } from '@/lib/types/formTypes'
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
@@ -53,9 +51,8 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
     formDetails?.recruitmentEndDate &&
     new Date(formDetails.recruitmentEndDate) > new Date()
   const firstImageUrl = formDetails?.imageUrls?.[0]
-
-  const { data: applicationList } = useListApplicationsQuery(formId)
-  console.log(applicationList)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [hasModalBeenOpened, setHasModalBeenOpened] = useState(false)
 
   useEffect(() => {
     if (formDetails) {
@@ -66,7 +63,11 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
 
   useEffect(() => {
     setIsPopupVisible(true)
-  }, []) // 팝업 렌더링 될 때 보이게
+    if (!isRecruitmentActive && !hasModalBeenOpened) {
+      setIsModalOpen(true)
+      setHasModalBeenOpened(true)
+    }
+  }, [isRecruitmentActive, hasModalBeenOpened]) // 팝업 렌더링 될 때 보이게 & 모집 마감 된 폼 -> 모달 띄움
 
   useEffect(() => {
     if (isMenuVisible) {
@@ -155,9 +156,12 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
     }
   }
 
-  const handleApplicationDetailsClick = (applicationId: number) => {
-    console.log(applicationId)
-    router.push(`/form/${formId}/application`)
+  const handleConfirm = () => {
+    router.push('/')
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false)
   }
 
   return (
@@ -169,6 +173,14 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
           isVisible={isPopupVisible}
         />
         <ImageSlider formDetails={formDetails} noImageHeight={100} />
+        {isModalOpen && (
+          <AlertModal
+            AlertmodalType="done"
+            isOpen={isModalOpen}
+            onRequestClose={closeModal}
+            onConfirm={handleConfirm}
+          />
+        )}
         <div className={styles['job-details-container']}>
           <div className={styles['job-details-content']}>
             <section className={styles['job-details-info']}>
@@ -280,10 +292,10 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
             ) : (
               <div className={styles['owner-button-container']}>
                 <MainButton
-                  buttonStyle="solid"
+                  buttonStyle="outline"
                   disabled={false}
                   onClick={handleDeleteClick}
-                  className={styles['delete-button']}
+                  color="gray"
                 >
                   <MainButton.Icon
                     src="/icons/ic-trash-can.svg"
@@ -309,65 +321,6 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
           </div>
         </div>
       </div>
-
-      <>
-        {userRole === 'OWNER' && (
-          <div>
-            <h1 className={styles['application-status-list']}>지원현황</h1>
-            <div className={styles['application-status-list-title-container']}>
-              <span>이름</span>
-              <span>전화번호</span>
-              <span className={styles['status-list-wrapper']}>
-                경력
-                <button className={styles['list-image-button']}>
-                  <Image
-                    src="/icons/ic-sort-ascending-outlined.svg"
-                    alt="오름차순"
-                    width={36}
-                    height={36}
-                  />
-                </button>
-              </span>
-              <span className={styles['status-list-wrapper']}>
-                상태
-                <button className={styles['list-image-button']}>
-                  <Image
-                    src="/icons/ic-sort-ascending-outlined.svg"
-                    alt="오름차순"
-                    width={36}
-                    height={36}
-                  />
-                </button>
-              </span>
-            </div>
-            <div
-              className={
-                styles['application-status-list-description-container']
-              }
-            >
-              {applicationList?.data?.length > 0 ? (
-                applicationList.data.map((application: ApplicationProps) => (
-                  <div key={application.id}>
-                    <span
-                      className={styles['description-underline']}
-                      onClick={() =>
-                        handleApplicationDetailsClick(application.id)
-                      }
-                    >
-                      {application.name}
-                    </span>
-                    <span>{application.phoneNumber}</span>
-                    <span>{application.experienceMonths}</span>
-                    <span>{application.status}</span>
-                  </div>
-                ))
-              ) : (
-                <p>지원자가 없습니다</p>
-              )}
-            </div>
-          </div>
-        )}
-      </>
     </>
   )
 }

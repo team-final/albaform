@@ -3,7 +3,6 @@
 import AnnouncementInfo from '@/components/FormDetails/AnnouncementInfo/AnnouncementInfo'
 import ApplicationStatus from '@/components/FormDetails/ApplicationStatus/ApplicationStatus'
 import ImageSlider from '@/components/FormDetails/ImageSlider/ImageSlider'
-import { useMyApplicationQuery } from '@/lib/queries/applicationDetailsQuery'
 import { useFormDetailsQuery } from '@/lib/queries/formDetailsQuery'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
@@ -19,7 +18,6 @@ export default function MyApplicationsPage({
 }) {
   const { formId } = params
   const { data: formDetails } = useFormDetailsQuery(Number(formId))
-  const { data: myApplication } = useMyApplicationQuery(Number(formId))
   const [scrapCount, setScrapCount] = useState(0)
   const [applicationCount, setApplicationCount] = useState(0)
 
@@ -104,30 +102,6 @@ export default function MyApplicationsPage({
               formDetails={formDetails}
             />
           </section>
-        </div>
-      </div>
-
-      <div>
-        <h1 className={styles['application-details']}>제출 내용</h1>
-        <div className={styles['application-details-container']}>
-          <h2>이름</h2>
-          <span>{myApplication?.name}</span>
-        </div>
-        <div className={styles['application-details-container']}>
-          <h2>연락처</h2>
-          <span>{myApplication?.phoneNumber}</span>
-        </div>
-        <div className={styles['application-details-container']}>
-          <h2>경력</h2>
-          <span>{myApplication?.experienceMonths}</span>
-        </div>
-        <div className={styles['application-details-container-column']}>
-          <h2>이력서</h2>
-          <span>{myApplication?.resumeName}</span>
-        </div>
-        <div className={styles['application-details-container-column']}>
-          <h2>자기소개</h2>
-          <span>{myApplication?.introduction}</span>
         </div>
       </div>
     </>

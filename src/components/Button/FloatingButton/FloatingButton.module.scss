@@ -3,6 +3,7 @@
 @use 'src/styles/_font' as font;
 
 .floating-button {
+  min-width: 54px;
   width: 64px;
   height: 64px;
   border-radius: 9999px;

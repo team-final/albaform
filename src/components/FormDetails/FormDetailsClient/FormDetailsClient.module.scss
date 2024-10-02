@@ -116,75 +116,8 @@
   column-gap: 8px;
 }
 
-.delete-button {
-  background-color: #e6e6e6;
-  width: 70px;
-
-  &:hover {
-    background-color: color.$Primary-Orange-50;
-  }
-}
-
 .button-hide-text {
   @include media.tablet {
     display: none;
   }
-}
-
-.application-status-list {
-  @include font.Style(3xl, 600);
-
-  color: color.$Black-500;
-}
-
-.application-status-list-title-container {
-  @include font.Style(xl, 400);
-
-  color: color.$Black-100;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.status-list-wrapper {
-  display: flex;
-  align-items: center;
-  column-gap: 8px;
-}
-
-.list-image-button {
-  background-color: unset;
-  border: none;
-  cursor: pointer;
-}
-
-.application-status-list-description-container {
-  @include font.Style(xl, 400);
-
-  color: color.$Black-400;
-}
-
-.description-underline {
-  text-decoration: underline;
-  background-color: unset;
-  border: none;
-  cursor: pointer;
-}
-
-.application-details {
-  @include font.Style(3xl, 600);
-
-  color: color.$Black-500;
-}
-
-.application-details-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.application-details-container-column {
-  display: flex;
-  flex-direction: column;
-  row-gap: 30px;
 }

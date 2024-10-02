@@ -28,7 +28,7 @@ const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
       const difference = endDate.getTime() - now.getTime()
       const days = Math.ceil(difference / (1000 * 3600 * 24))
 
-      if (days <= -1) {
+      if (typeof days === 'number' && days <= -1) {
         setStatusMessage('모집 완료')
       } else {
         setStatusMessage(`D-${days}`)
@@ -122,18 +122,16 @@ const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
               <MainButton.Text>수정하기</MainButton.Text>
             </MainButton>
             <MainButton
-              buttonStyle="solid"
+              buttonStyle="outline"
               disabled={false}
               onClick={handleDeleteClick}
-              className={styles['delete-button']}
+              color="gray"
             >
               <MainButton.Icon
                 src="/icons/ic-trash-can.svg"
                 altText="삭제하기"
               />
-              <MainButton.Text className={styles['button-hide-text']}>
-                삭제하기
-              </MainButton.Text>
+              <MainButton.Text>삭제하기</MainButton.Text>
             </MainButton>
           </>
         )}

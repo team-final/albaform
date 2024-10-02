@@ -60,8 +60,8 @@ function ButtonIcon({ src, altText = '아이콘' }: IconProps) {
   )
 }
 
-function ButtonText({ children }: ChildrenProps) {
-  return <span>{children}</span>
+function ButtonText({ children, className }: ChildrenProps) {
+  return <span className={className}>{children}</span>
 }
 
 MainButton.Icon = ButtonIcon
