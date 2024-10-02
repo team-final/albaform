@@ -22,6 +22,7 @@ import {
   RegisterOptions,
   UseFormRegister,
   UseFormSetValue,
+  UseFormWatch,
   useForm,
 } from 'react-hook-form'
 
@@ -35,6 +36,7 @@ interface FormContextProps {
   isValid: boolean
   isSubmitting: boolean
   setValue: UseFormSetValue<FieldValues>
+  watch: UseFormWatch<FieldValues>
 }
 
 const FormContext = createContext<FormContextProps | undefined>(undefined)
@@ -110,6 +112,7 @@ export default function Form({
   className,
   formId,
   onSubmit,
+  defaultValues = {},
 }: FormProps) {
   const FormClass = classNames(styles.form, className)
   const {
@@ -117,7 +120,8 @@ export default function Form({
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
     setValue,
-  } = useForm({ mode: 'onChange' })
+    watch,
+  } = useForm({ mode: 'onChange', defaultValues })
 
   return (
     <FormContext.Provider
@@ -129,6 +133,7 @@ export default function Form({
         isValid,
         isSubmitting,
         setValue,
+        watch,
       }}
     >
       <form id={formId} onSubmit={handleSubmit(onSubmit)} className={FormClass}>
