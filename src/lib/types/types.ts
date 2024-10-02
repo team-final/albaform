@@ -29,6 +29,7 @@ export interface FormProps extends ComponentProps {
   formId: string
   onSubmit: (values: FieldValues) => void
   initialValues?: Record<string, any>
+  defaultValues?: FieldValues
 }
 
 export interface FormFieldProps extends ComponentProps {
