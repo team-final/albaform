@@ -131,7 +131,7 @@ export default function OwnerInfoUpdate({
           <Form.Field htmlFor="nickname">
             <Form.Legend>
               닉네임
-              <Form.requiredStar />
+              <Form.RequiredStar />
             </Form.Legend>
             <Form.Input
               name="nickname"
@@ -145,7 +145,7 @@ export default function OwnerInfoUpdate({
           <Form.Field htmlFor="storeName">
             <Form.Legend>
               가게 이름
-              <Form.requiredStar />
+              <Form.RequiredStar />
             </Form.Legend>
             <Form.Input
               name="storeName"
@@ -159,7 +159,7 @@ export default function OwnerInfoUpdate({
           <Form.Field htmlFor="storePhoneNumber">
             <Form.Legend>
               가게 전화번호
-              <Form.requiredStar />
+              <Form.RequiredStar />
             </Form.Legend>
             <Form.Input
               name="storePhoneNumber"
@@ -190,7 +190,7 @@ export default function OwnerInfoUpdate({
         <Form.Fieldset>
           <Form.Legend>
             가게 위치
-            <Form.requiredStar />
+            <Form.RequiredStar />
           </Form.Legend>
           <Form.Field htmlFor="location">
             <Form.KakaoSearchInput
