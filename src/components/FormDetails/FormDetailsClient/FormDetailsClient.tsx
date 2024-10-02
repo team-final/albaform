@@ -8,12 +8,15 @@ import Location from '@/components/FormDetails/Location/Location'
 import Requirements from '@/components/FormDetails/Requirements/Requirements'
 import WorkScheduleInfo from '@/components/FormDetails/WorkScheduleInfo/WorkScheduleInfo'
 import Toastify from '@/components/Toastify/Toastify'
+import { useListApplicationsQuery } from '@/lib/queries/applicationDetailsQuery'
 import {
   useFormDetailsQuery,
   useFormScrapDeleteMutation,
   useFormScrapMutation,
   useUsersMeQuery,
 } from '@/lib/queries/formDetailsQuery'
+import { ApplicationProps } from '@/lib/types/formTypes'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
@@ -50,6 +53,9 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
     formDetails?.recruitmentEndDate &&
     new Date(formDetails.recruitmentEndDate) > new Date()
   const firstImageUrl = formDetails?.imageUrls?.[0]
+
+  const { data: applicationList } = useListApplicationsQuery(formId)
+  console.log(applicationList)
 
   useEffect(() => {
     if (formDetails) {
@@ -149,151 +155,220 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
     }
   }
 
+  const handleApplicationDetailsClick = (applicationId: number) => {
+    console.log(applicationId)
+    router.push(`/form/${formId}/application`)
+  }
+
   return (
-    <div className={styles['form-details-client']}>
-      <Toastify />
-      <CurrentApplicationPopup
-        formDetails={formDetails}
-        isVisible={isPopupVisible}
-      />
-      <ImageSlider formDetails={formDetails} noImageHeight={100} />
-      <div className={styles['job-details-container']}>
-        <div className={styles['job-details-content']}>
-          <section className={styles['job-details-info']}>
-            <FormDetailsInfo formDetails={formDetails} count={scrapCount} />
-          </section>
-          <section className={styles['schedule-contact-container']}>
-            <WorkScheduleInfo formDetails={formDetails} />
-            <ContactInfo formDetails={formDetails} />
-          </section>
-        </div>
+    <>
+      <div className={styles['form-details-client']}>
+        <Toastify />
+        <CurrentApplicationPopup
+          formDetails={formDetails}
+          isVisible={isPopupVisible}
+        />
+        <ImageSlider formDetails={formDetails} noImageHeight={100} />
+        <div className={styles['job-details-container']}>
+          <div className={styles['job-details-content']}>
+            <section className={styles['job-details-info']}>
+              <FormDetailsInfo formDetails={formDetails} count={scrapCount} />
+            </section>
+            <section className={styles['schedule-contact-container']}>
+              <WorkScheduleInfo formDetails={formDetails} />
+              <ContactInfo formDetails={formDetails} />
+            </section>
+          </div>
 
-        <div className={styles['location-requirements-container']}>
-          <section className={styles['location-info']}>
-            <Location formDetails={formDetails} />
-          </section>
-          <section className={styles['requirements-info']}>
-            <Requirements formDetails={formDetails} />
-          </section>
-        </div>
+          <div className={styles['location-requirements-container']}>
+            <section className={styles['location-info']}>
+              <Location formDetails={formDetails} />
+            </section>
+            <section className={styles['requirements-info']}>
+              <Requirements formDetails={formDetails} />
+            </section>
+          </div>
 
-        <div className={styles['floating-button-container']}>
-          {isScrapped ? (
-            <FloatingButton
-              mode="bookmark"
-              onClick={handleBookmarkDeleteClick}
-              disabled={isDeleteLoading}
-            >
+          <div className={styles['floating-button-container']}>
+            {isScrapped ? (
+              <FloatingButton
+                mode="bookmark"
+                onClick={handleBookmarkDeleteClick}
+                disabled={isDeleteLoading}
+              >
+                <FloatingButton.Icon
+                  src="/icons/ic-bookmark.svg"
+                  altText="북마크"
+                />
+              </FloatingButton>
+            ) : (
+              <FloatingButton
+                mode="bookmark"
+                onClick={handleBookmarkClick}
+                disabled={isScrapLoading}
+              >
+                <FloatingButton.Icon
+                  src="/icons/ic-bookmark-fill.svg"
+                  altText="북마크 취소"
+                />
+              </FloatingButton>
+            )}
+
+            <FloatingButton onClick={handletoggleMenuClick}>
               <FloatingButton.Icon
-                src="/icons/ic-bookmark.svg"
-                altText="북마크"
+                src="/icons/ic-share2.svg"
+                altText="공유"
+                width={24}
+                height={24}
               />
             </FloatingButton>
-          ) : (
-            <FloatingButton
-              mode="bookmark"
-              onClick={handleBookmarkClick}
-              disabled={isScrapLoading}
-            >
-              <FloatingButton.Icon
-                src="/icons/ic-bookmark-fill.svg"
-                altText="북마크 취소"
-              />
-            </FloatingButton>
-          )}
 
-          <FloatingButton onClick={handletoggleMenuClick}>
-            <FloatingButton.Icon
-              src="/icons/ic-share2.svg"
-              altText="공유"
-              width={24}
-              height={24}
-            />
-          </FloatingButton>
+            {isMenuVisible && (
+              <div
+                className={`${styles['floating-menu-container']} ${isMenuVisible ? styles.visible : ''}`}
+              >
+                {showFirstButton && (
+                  <FloatingButton mode="bookmark" onClick={kakaoShareClick}>
+                    <FloatingButton.Icon
+                      src="/icons/ic-logo-kakao2.svg"
+                      altText="카카오 공유"
+                      width={24}
+                      height={24}
+                    />
+                  </FloatingButton>
+                )}
+                {showSecondButton && (
+                  <FloatingButton mode="bookmark" onClick={copyURL}>
+                    <FloatingButton.Icon
+                      src="/icons/ic-copy.svg"
+                      altText="주소 복사"
+                      width={24}
+                      height={24}
+                    />
+                  </FloatingButton>
+                )}
+              </div>
+            )}
+          </div>
 
-          {isMenuVisible && (
-            <div
-              className={`${styles['floating-menu-container']} ${isMenuVisible ? styles.visible : ''}`}
-            >
-              {showFirstButton && (
-                <FloatingButton mode="bookmark" onClick={kakaoShareClick}>
-                  <FloatingButton.Icon
-                    src="/icons/ic-logo-kakao2.svg"
-                    altText="카카오 공유"
-                    width={24}
-                    height={24}
+          <div className={styles['button-container']}>
+            {userRole === 'APPLICANT' ? (
+              <>
+                <MainButton
+                  buttonStyle="solid"
+                  disabled={!isRecruitmentActive}
+                  onClick={handleApplyClick}
+                >
+                  <MainButton.Icon
+                    src="/icons/ic-writing.svg"
+                    altText="지원하기"
                   />
-                </FloatingButton>
-              )}
-              {showSecondButton && (
-                <FloatingButton mode="bookmark" onClick={copyURL}>
-                  <FloatingButton.Icon
-                    src="/icons/ic-copy.svg"
-                    altText="주소 복사"
-                    width={24}
-                    height={24}
+                  <MainButton.Text>지원하기</MainButton.Text>
+                </MainButton>
+                <MainButton
+                  buttonStyle="outline"
+                  disabled={!isRecruitmentActive}
+                  onClick={handleShowApplicationHistory}
+                >
+                  <MainButton.Icon
+                    src="/icons/ic-apply-list.svg"
+                    altText="내 지원내역 보기"
                   />
-                </FloatingButton>
-              )}
-            </div>
-          )}
-        </div>
-
-        <div className={styles['button-container']}>
-          {userRole === 'APPLICANT' ? (
-            <>
-              <MainButton
-                buttonStyle="solid"
-                disabled={!isRecruitmentActive}
-                onClick={handleApplyClick}
-              >
-                <MainButton.Icon
-                  src="/icons/ic-writing.svg"
-                  altText="지원하기"
-                />
-                <MainButton.Text>지원하기</MainButton.Text>
-              </MainButton>
-              <MainButton
-                buttonStyle="outline"
-                disabled={!isRecruitmentActive}
-                onClick={handleShowApplicationHistory}
-              >
-                <MainButton.Icon
-                  src="/icons/ic-apply-list.svg"
-                  altText="내 지원내역 보기"
-                />
-                <MainButton.Text>내 지원내역 보기</MainButton.Text>
-              </MainButton>
-            </>
-          ) : (
-            <div className={styles['owner-button-container']}>
-              <MainButton
-                buttonStyle="solid"
-                disabled={false}
-                onClick={handleDeleteClick}
-                className={styles['delete-button']}
-              >
-                <MainButton.Icon
-                  src="/icons/ic-trash-can.svg"
-                  altText="삭제하기"
-                />
-                <MainButton.Text className={styles['button-hide-text']}>
-                  삭제하기
-                </MainButton.Text>
-              </MainButton>
-              <MainButton
-                buttonStyle="solid"
-                disabled={false}
-                onClick={handleEditClick}
-              >
-                <MainButton.Icon src="/icons/ic-edit2.svg" altText="수정하기" />
-                <MainButton.Text>수정하기</MainButton.Text>
-              </MainButton>
-            </div>
-          )}
+                  <MainButton.Text>내 지원내역 보기</MainButton.Text>
+                </MainButton>
+              </>
+            ) : (
+              <div className={styles['owner-button-container']}>
+                <MainButton
+                  buttonStyle="solid"
+                  disabled={false}
+                  onClick={handleDeleteClick}
+                  className={styles['delete-button']}
+                >
+                  <MainButton.Icon
+                    src="/icons/ic-trash-can.svg"
+                    altText="삭제하기"
+                  />
+                  <MainButton.Text className={styles['button-hide-text']}>
+                    삭제하기
+                  </MainButton.Text>
+                </MainButton>
+                <MainButton
+                  buttonStyle="solid"
+                  disabled={false}
+                  onClick={handleEditClick}
+                >
+                  <MainButton.Icon
+                    src="/icons/ic-edit2.svg"
+                    altText="수정하기"
+                  />
+                  <MainButton.Text>수정하기</MainButton.Text>
+                </MainButton>
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+
+      <>
+        {userRole === 'OWNER' && (
+          <div>
+            <h1 className={styles['application-status-list']}>지원현황</h1>
+            <div className={styles['application-status-list-title-container']}>
+              <span>이름</span>
+              <span>전화번호</span>
+              <span className={styles['status-list-wrapper']}>
+                경력
+                <button className={styles['list-image-button']}>
+                  <Image
+                    src="/icons/ic-sort-ascending-outlined.svg"
+                    alt="오름차순"
+                    width={36}
+                    height={36}
+                  />
+                </button>
+              </span>
+              <span className={styles['status-list-wrapper']}>
+                상태
+                <button className={styles['list-image-button']}>
+                  <Image
+                    src="/icons/ic-sort-ascending-outlined.svg"
+                    alt="오름차순"
+                    width={36}
+                    height={36}
+                  />
+                </button>
+              </span>
+            </div>
+            <div
+              className={
+                styles['application-status-list-description-container']
+              }
+            >
+              {applicationList?.data?.length > 0 ? (
+                applicationList.data.map((application: ApplicationProps) => (
+                  <div key={application.id}>
+                    <span
+                      className={styles['description-underline']}
+                      onClick={() =>
+                        handleApplicationDetailsClick(application.id)
+                      }
+                    >
+                      {application.name}
+                    </span>
+                    <span>{application.phoneNumber}</span>
+                    <span>{application.experienceMonths}</span>
+                    <span>{application.status}</span>
+                  </div>
+                ))
+              ) : (
+                <p>지원자가 없습니다</p>
+              )}
+            </div>
+          </div>
+        )}
+      </>
+    </>
   )
 }
 

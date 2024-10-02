@@ -27,7 +27,9 @@ export const getMyApplicationVerify = async (formId: number) => {
 // 사장이 지원 현황 목록 조회 - get
 export const getListApplications = async (formId: number) => {
   try {
-    const response = await basicAxios.get(`/forms/${formId}/applications`)
+    const response = await basicAxios.get(
+      `/forms/${formId}/applications?limit=10`,
+    )
     return response.data
   } catch (error) {
     console.log('데이터 가져오는 중 오류 발생: ', error)

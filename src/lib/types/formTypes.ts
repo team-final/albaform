@@ -36,3 +36,13 @@ export interface ApplicationProps {
   experienceMonths: number
   status: string
 }
+
+export const FORM_STATUS = {
+  REJECTED: '거절',
+  INTERVIEW_PENDING: '면접 대기',
+  INTERVIEW_COMPLETED: '면접 완료',
+  HIRED: '채용 완료',
+} as const
+
+export type FormStatusType = keyof typeof FORM_STATUS
+export type FormStatusWord = (typeof FORM_STATUS)[FormStatusType]

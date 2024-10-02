@@ -1,6 +1,13 @@
-import { useMyApplicationQuery } from '@/lib/queries/applicationDetailsQuery'
+import {
+  useListApplicationDetailsQuery,
+  useMyApplicationQuery,
+} from '@/lib/queries/applicationDetailsQuery'
 import { useUsersMeQuery } from '@/lib/queries/formDetailsQuery'
-import { FormDetailsProps } from '@/lib/types/formTypes'
+import {
+  FORM_STATUS,
+  FormDetailsProps,
+  FormStatusType,
+} from '@/lib/types/formTypes'
 import { formatApplicationDate, formatKoreanDate } from '@/lib/utils/formatDate'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
@@ -10,23 +17,30 @@ import styles from './ApplicationStatus.module.scss'
 interface ApplicationDetailsProps {
   formId: number
   formDetails: FormDetailsProps
+  applicationId?: number
 }
 
 const ApplicationStatus: React.FC<ApplicationDetailsProps> = ({
   formId,
   formDetails,
+  applicationId,
 }) => {
   const { data: userRole } = useUsersMeQuery()
   const { data: myApplication } = useMyApplicationQuery(Number(formId))
+  const { data: ownerApplication } = useListApplicationDetailsQuery(
+    Number(applicationId),
+  )
   const [isVisible, setIsVisible] = useState(true)
   const applicationDate = formatApplicationDate(myApplication?.createdAt)
+  const ownerApplicationDate = formatApplicationDate(
+    ownerApplication?.createdAt,
+  )
   const recruitmentEndDate = formatKoreanDate(formDetails?.recruitmentEndDate)
   const [datestatusMessage, setDateStatusMessage] = useState<string>('계산 중')
   const [statusMessage, setStatusMessage] = useState<string>('')
 
   const handleTooltipCloseClick = () => {
     setIsVisible(false)
-    console.log(isVisible)
   }
 
   useEffect(() => {
@@ -45,10 +59,15 @@ const ApplicationStatus: React.FC<ApplicationDetailsProps> = ({
   }, [recruitmentEndDate])
 
   useEffect(() => {
-    if (myApplication?.status === 'INTERVIEW_PENDING') {
-      setStatusMessage('면접 대기')
+    const currentStatus =
+      userRole === 'OWNER' ? ownerApplication?.status : myApplication?.status
+
+    if (currentStatus && FORM_STATUS[currentStatus as FormStatusType]) {
+      setStatusMessage(FORM_STATUS[currentStatus as FormStatusType])
+    } else {
+      setStatusMessage('알 수 없음')
     }
-  }, [myApplication?.status])
+  }, [myApplication?.status, ownerApplication?.status, userRole])
 
   return (
     <section className={styles['application-status']}>
@@ -59,7 +78,9 @@ const ApplicationStatus: React.FC<ApplicationDetailsProps> = ({
           <h3 className={styles['info-title']}>지원일시</h3>
           <span className={styles['info-date']}>{datestatusMessage}</span>
         </div>
-        <p className={styles['info-content']}>{applicationDate}</p>
+        <p className={styles['info-content']}>
+          {userRole === 'OWNER' ? ownerApplicationDate : applicationDate}
+        </p>
       </div>
 
       <div
@@ -109,7 +130,10 @@ const ApplicationStatus: React.FC<ApplicationDetailsProps> = ({
             </>
           )}
         </div>
-        <p className={styles['info-content']}>{statusMessage}</p>
+
+        <p className={styles['info-content']}>
+          {statusMessage || '상태를 가져오는 중'}
+        </p>
       </div>
     </section>
   )
