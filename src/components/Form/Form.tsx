@@ -324,6 +324,50 @@ function Input({
   )
 }
 
+interface ImageInputProps extends InputProps {
+  onImageChange?: (file: File) => void
+}
+
+function ImageInput({
+  className,
+  name,
+  disabled = false,
+  required = false,
+  onImageChange,
+}: ImageInputProps) {
+  const { register, setValue } = useFormContext()
+  const { forId } = useLabelContext()
+  const cn = classNames(
+    styles['form-input'],
+    styles['form-input-file'],
+    className,
+  )
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      setValue(name, file)
+      if (onImageChange) {
+        onImageChange(file)
+      }
+    }
+  }
+
+  return (
+    <>
+      <input
+        {...register(name, { required })}
+        className={cn}
+        type="file"
+        accept="image/*"
+        onChange={handleImageChange}
+        disabled={disabled}
+        id={forId}
+      />
+    </>
+  )
+}
+
 /**
  * textarea 태그입니다. textarea 에 사용되는 property 들이 필요합니다.
  */
@@ -447,3 +491,4 @@ Form.Textarea = Textarea
 Form.KakaoSearchInput = KakaoSearchInput
 Form.SubmitButton = SubmitButton
 Form.RequiredStar = RequiredStar
+Form.ImageInput = ImageInput
