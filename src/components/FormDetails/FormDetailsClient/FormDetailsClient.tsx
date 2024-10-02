@@ -10,6 +10,7 @@ import WorkScheduleInfo from '@/components/FormDetails/WorkScheduleInfo/WorkSche
 import AlertModal from '@/components/Modal/Alert/AlertModal'
 import ListApplicationsModal from '@/components/Modal/ListApplications/ListApplications'
 import Toastify from '@/components/Toastify/Toastify'
+import { useListApplicationsQuery } from '@/lib/queries/applicationDetailsQuery'
 import {
   useDeleteFormQuery,
   useFormDetailsQuery,
@@ -17,6 +18,8 @@ import {
   useFormScrapMutation,
   useUsersMeQuery,
 } from '@/lib/queries/formDetailsQuery'
+import { ApplicationProps } from '@/lib/types/formTypes'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
