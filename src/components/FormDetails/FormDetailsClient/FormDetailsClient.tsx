@@ -63,9 +63,15 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
 
   useEffect(() => {
     setIsPopupVisible(true)
-    if (!isRecruitmentActive && !hasModalBeenOpened) {
-      setIsModalOpen(true)
-      setHasModalBeenOpened(true)
+    if (formDetails?.recruitmentEndDate) {
+      const endDate = new Date(formDetails?.recruitmentEndDate)
+      const now = new Date()
+      const difference = endDate.getTime() - now.getTime()
+      const days = Math.ceil(difference / (1000 * 3600 * 24))
+      if (days <= -1) {
+        setIsModalOpen(true)
+        setHasModalBeenOpened(true)
+      }
     }
   }, [isRecruitmentActive, hasModalBeenOpened]) // 팝업 렌더링 될 때 보이게 & 모집 마감 된 폼 -> 모달 띄움
 

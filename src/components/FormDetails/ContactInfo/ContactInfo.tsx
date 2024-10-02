@@ -1,7 +1,11 @@
 'use client'
 
 import MainButton from '@/components/Button/MainButton/MainButton'
-import { useUsersMeQuery } from '@/lib/queries/formDetailsQuery'
+import AlertModal from '@/components/Modal/Alert/AlertModal'
+import {
+  useDeleteFormQuery,
+  useUsersMeQuery,
+} from '@/lib/queries/formDetailsQuery'
 import { FormDetailsProps } from '@/lib/types/formTypes'
 import { formatKoreanDate } from '@/lib/utils/formatDate'
 import { useRouter } from 'next/navigation'
@@ -12,6 +16,7 @@ import styles from './ContactInfo.module.scss'
 const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
   const router = useRouter()
   const { data: userRole } = useUsersMeQuery()
+  const { mutate: deleteForm } = useDeleteFormQuery()
   const recruitmentStartDate = formatKoreanDate(
     formDetails?.recruitmentStartDate,
   )
@@ -20,6 +25,7 @@ const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
     formDetails?.recruitmentEndDate &&
     new Date(formDetails.recruitmentEndDate) > new Date()
   const [statusMessage, setStatusMessage] = useState<string>('모집기간 계산 중')
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   useEffect(() => {
     if (recruitmentEndDate) {
@@ -51,11 +57,35 @@ const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
   }
 
   const handleDeleteClick = () => {
-    // 얘는 모달로
+    setIsModalOpen(true)
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+  }
+
+  const handleConfirm = () => {
+    deleteForm(Number(formDetails?.id), {
+      onSuccess: () => {
+        router.push('/')
+        // 페이지네이션 목록으로 가기
+      },
+      onError: () => {
+        console.log('폼 삭제에 실패했습니다.')
+      },
+    })
   }
 
   return (
     <section className={styles['contact-info']}>
+      {isModalOpen && (
+        <AlertModal
+          AlertmodalType="delete"
+          isOpen={isModalOpen}
+          onRequestClose={closeModal}
+          onConfirm={handleConfirm}
+        />
+      )}
       <div className={styles['contact-info-container']}>
         <div
           className={`${styles['contact-info-auth']} ${styles['contact-info-line']}`}
