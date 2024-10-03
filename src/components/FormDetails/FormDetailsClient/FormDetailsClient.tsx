@@ -57,6 +57,8 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [hasModalBeenOpened, setHasModalBeenOpened] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [isListApplicationsModalOpen, setIsListApplicationsModalOpen] =
+    useState(true)
 
   useEffect(() => {
     if (formDetails) {
@@ -189,6 +191,10 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
     setIsDeleteModalOpen(false)
   }
 
+  const closeListApplicationsModal = () => {
+    setIsListApplicationsModalOpen(false)
+  }
+
   return (
     <>
       <div className={styles['form-details-client']}>
@@ -214,7 +220,13 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
             onConfirm={handleDeleteConfirm}
           />
         )}
-        {userRole === 'OWNER' && <ListApplicationsModal />}
+        {userRole === 'OWNER' && (
+          <ListApplicationsModal
+            formId={formId}
+            isOpen={isListApplicationsModalOpen}
+            onRequestClose={closeListApplicationsModal}
+          />
+        )}
         <div className={styles['job-details-container']}>
           <div className={styles['job-details-content']}>
             <section className={styles['job-details-info']}>
