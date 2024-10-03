@@ -79,9 +79,7 @@ const ApplicationStatus: React.FC<ApplicationDetailsProps> = ({
           <h3 className={styles['info-title']}>지원일시</h3>
           <span className={styles['info-date']}>{datestatusMessage}</span>
         </div>
-        <p className={styles['info-content']}>
-          {userRole === 'OWNER' ? ownerApplicationDate : applicationDate}
-        </p>
+        <p className={styles['info-content']}>{applicationDate}</p>
       </div>
 
       <div
