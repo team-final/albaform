@@ -1,0 +1,58 @@
+@use 'src/styles/_color' as color;
+@use 'src/styles/_font' as font;
+
+div.custom {
+  appearance: none;
+  border-radius: 8px;
+  border: 1px solid color.$Background-200;
+  width: 100%;
+  min-height: 64px;
+  max-width: 100%;
+  max-height: 100%;
+  padding: 14px 32px;
+  background-color: color.$Background-200;
+  color: color.$Black-400;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  & input {
+    cursor: pointer;
+  }
+
+  & [class*='ant-picker-input'] > input {
+    @include font.Style(xl, 400);
+  }
+
+  & [class*='ant-picker-range-separator'] {
+    padding: 0 16px;
+
+    & [class*='ant-picker-separator'] {
+      width: auto;
+      height: auto;
+      font-size: 20px;
+    }
+  }
+
+  & [class*='ant-picker-suffix'] [class*='anticon-calendar'] {
+    width: auto;
+    height: auto;
+    font-size: 20px;
+  }
+
+  & [class*='ant-picker-clear'] {
+    width: auto;
+    height: auto;
+    font-size: 20px;
+    inset-inline-end: 32px;
+  }
+
+  & [class*='ant-picker-suffix'],
+  & [class*='ant-picker-range-separator'] [class*='anticon-swap-right'] {
+    color: color.$Black-400;
+  }
+}
