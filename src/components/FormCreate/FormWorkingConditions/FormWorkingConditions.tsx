@@ -5,7 +5,7 @@ import {
   VALUE_PRESET,
   hourlyWageData,
   useFormCreateStore,
-} from '@/lib/stores/useFormCreate'
+} from '@/lib/stores/formCreateStore'
 
 export default function FormWorkingConditions() {
   const { formData, setFormData } = useFormCreateStore()
