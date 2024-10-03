@@ -1,4 +1,4 @@
-import { useFormCreateStore } from '@/lib/stores/useFormCreate'
+import { useFormCreateStore } from '@/lib/stores/formCreateStore'
 import { ChildrenProps } from '@/lib/types/types'
 
 import styles from './FormCreateWrapper.module.scss'

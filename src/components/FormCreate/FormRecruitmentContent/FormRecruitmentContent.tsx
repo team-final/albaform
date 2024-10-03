@@ -1,5 +1,5 @@
 import Form from '@/components/Form/Form'
-import { useFormCreateStore } from '@/lib/stores/useFormCreate'
+import { useFormCreateStore } from '@/lib/stores/formCreateStore'
 
 import styles from './FormRecruitmentContent.module.scss'
 

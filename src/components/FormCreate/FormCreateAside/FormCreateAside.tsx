@@ -1,5 +1,5 @@
 import Form from '@/components/Form/Form'
-import { useFormCreateStore } from '@/lib/stores/useFormCreate'
+import { useFormCreateStore } from '@/lib/stores/formCreateStore'
 import { STEP_BUTTONS, STEP_INDEX } from '@/lib/types/types'
 import classNames from 'classnames'
 

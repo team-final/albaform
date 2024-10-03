@@ -1,6 +1,6 @@
 import Dropdown from '@/components/Dropdown/Dropdown'
 import Form from '@/components/Form/Form'
-import { VALUE_PRESET, useFormCreateStore } from '@/lib/stores/useFormCreate'
+import { VALUE_PRESET, useFormCreateStore } from '@/lib/stores/formCreateStore'
 import {
   AgeType,
   NumberOfPositionsType,
