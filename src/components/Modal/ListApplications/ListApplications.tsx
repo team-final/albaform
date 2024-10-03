@@ -5,9 +5,10 @@ import {
   FORM_STATUS,
   FormStatusType,
 } from '@/lib/types/formTypes'
+import { formatExperienceMonths } from '@/lib/utils/formatDate'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import ReactModal from 'react-modal'
 
 import styles from './ListApplications.module.scss'
@@ -21,22 +22,45 @@ interface Props {
 const ListApplicationsModal = ({ formId, isOpen, onRequestClose }: Props) => {
   const router = useRouter()
   const { data: applicationList } = useListApplicationsQuery(Number(formId))
-  const [statusMessage, setStatusMessage] = useState<string>('')
+  const [isExperienceAscending, setIsExperienceAscending] = useState(true)
+  const [isStatusAscending, setIsStatusAscending] = useState(true)
 
   const handleApplicationDetailsClick = (applicationId: number) => {
     router.push(`/form/${formId}/application/${applicationId}`)
   }
 
-  useEffect(() => {
-    applicationList?.data?.forEach((application: ApplicationProps) => {
-      const currentStatus = application.status
-      if (currentStatus && FORM_STATUS[currentStatus as FormStatusType]) {
-        setStatusMessage(FORM_STATUS[currentStatus as FormStatusType])
-      } else {
-        setStatusMessage('알 수 없음')
-      }
-    })
-  }, [applicationList])
+  const toggleExperienceSort = () => {
+    setIsExperienceAscending(!isExperienceAscending)
+  }
+
+  const toggleStatusSort = () => {
+    setIsStatusAscending(!isStatusAscending)
+  }
+
+  const sortedApplications =
+    applicationList?.data &&
+    [...applicationList.data]
+      .sort((a, b) => {
+        // 경력 정렬
+        if (isExperienceAscending) {
+          return a.experienceMonths - b.experienceMonths
+        } else {
+          return b.experienceMonths - a.experienceMonths
+        }
+      })
+      .sort((a, b) => {
+        // 상태 정렬
+        const currentStatusA =
+          a.status && FORM_STATUS[a.status as FormStatusType]
+        const currentStatusB =
+          b.status && FORM_STATUS[b.status as FormStatusType]
+
+        if (isStatusAscending) {
+          return currentStatusA > currentStatusB ? 1 : -1
+        } else {
+          return currentStatusA < currentStatusB ? 1 : -1
+        }
+      })
 
   return (
     <ReactModal
@@ -51,7 +75,13 @@ const ListApplicationsModal = ({ formId, isOpen, onRequestClose }: Props) => {
           className={styles['application-details-close']}
           onClick={onRequestClose}
         >
-          <Image src="/icons/ic-X.svg" alt="모달 닫기" width={36} height={36} />
+          <Image
+            src="/icons/ic-X.svg"
+            alt="모달 닫기"
+            width={36}
+            height={36}
+            className={styles['close-img']}
+          />
         </button>
       </div>
       <div className={styles['list-description-container']}>
@@ -63,23 +93,39 @@ const ListApplicationsModal = ({ formId, isOpen, onRequestClose }: Props) => {
           <div className={styles['month-status']}>
             <span className={styles['status-list-wrapper']}>
               경력
-              <button className={styles['list-image-button']}>
+              <button
+                className={styles['list-image-button']}
+                onClick={toggleExperienceSort}
+              >
                 <Image
-                  src="/icons/ic-sort-ascending-outlined.svg"
-                  alt="오름차순"
+                  src={
+                    isExperienceAscending
+                      ? '/icons/ic-sort-ascending-outlined.svg'
+                      : '/icons/ic-sort-descending-outlined.svg'
+                  }
+                  alt="정렬"
                   width={36}
                   height={36}
+                  className={styles['ascending-img']}
                 />
               </button>
             </span>
             <span className={styles['status-list-wrapper']}>
               상태
-              <button className={styles['list-image-button']}>
+              <button
+                className={styles['list-image-button']}
+                onClick={toggleStatusSort}
+              >
                 <Image
-                  src="/icons/ic-sort-ascending-outlined.svg"
-                  alt="오름차순"
+                  src={
+                    isStatusAscending
+                      ? '/icons/ic-sort-ascending-outlined.svg'
+                      : '/icons/ic-sort-descending-outlined.svg'
+                  }
+                  alt="정렬"
                   width={36}
                   height={36}
+                  className={styles['ascending-img']}
                 />
               </button>
             </span>
@@ -88,27 +134,37 @@ const ListApplicationsModal = ({ formId, isOpen, onRequestClose }: Props) => {
         <div
           className={styles['application-status-list-description-container']}
         >
-          {applicationList?.data?.length > 0 ? (
-            applicationList.data.map((application: ApplicationProps) => (
-              <div key={application.id} className={styles['list-map']}>
-                <div className={styles['list-name-number']}>
-                  <span
-                    className={styles['description-underline']}
-                    onClick={() =>
-                      handleApplicationDetailsClick(application.id)
-                    }
-                  >
-                    {application.name}
-                  </span>
-                  <span>{application.phoneNumber}</span>
-                </div>
+          {sortedApplications?.length > 0 ? (
+            sortedApplications.map((application: ApplicationProps) => {
+              const currentStatus = application.status
+              const statusText =
+                currentStatus && FORM_STATUS[currentStatus as FormStatusType]
+                  ? FORM_STATUS[currentStatus as FormStatusType]
+                  : '알 수 없음'
 
-                <div className={styles['list-month-status']}>
-                  <span>{application.experienceMonths}</span>
-                  <span>{statusMessage}</span>
+              return (
+                <div key={application.id} className={styles['list-map']}>
+                  <div className={styles['list-name-number']}>
+                    <span
+                      className={styles['description-underline']}
+                      onClick={() =>
+                        handleApplicationDetailsClick(application.id)
+                      }
+                    >
+                      {application.name}
+                    </span>
+                    <span>{application.phoneNumber}</span>
+                  </div>
+
+                  <div className={styles['list-month-status']}>
+                    <span>
+                      {formatExperienceMonths(application.experienceMonths)}
+                    </span>
+                    <span>{statusText}</span>
+                  </div>
                 </div>
-              </div>
-            ))
+              )
+            })
           ) : (
             <p>지원자가 없습니다</p>
           )}
