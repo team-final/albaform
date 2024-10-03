@@ -3,6 +3,7 @@
 import AnnouncementInfo from '@/components/FormDetails/AnnouncementInfo/AnnouncementInfo'
 import ApplicationStatus from '@/components/FormDetails/ApplicationStatus/ApplicationStatus'
 import ImageSlider from '@/components/FormDetails/ImageSlider/ImageSlider'
+import MyApplicationModal from '@/components/Modal/MyApplication/MyApplication'
 import { useFormDetailsQuery } from '@/lib/queries/formDetailsQuery'
 import { Params } from '@/lib/types/types'
 import Image from 'next/image'
@@ -18,6 +19,7 @@ export default function ApplicationDetailsPage({ params }: Params) {
   const [scrapCount, setScrapCount] = useState(0)
   const [applicationCount, setApplicationCount] = useState(0)
   const { applicationId } = params
+  const [isModalOpen, setIsModalOpen] = useState(true)
 
   useEffect(() => {
     if (formDetails) {
@@ -26,9 +28,20 @@ export default function ApplicationDetailsPage({ params }: Params) {
     }
   }, [formDetails])
 
+  const handleCloseClick = () => {
+    setIsModalOpen(false)
+  }
+
   return (
     <>
       <div className={styles['application-details']}>
+        <MyApplicationModal
+          isOpen={isModalOpen}
+          isOwner={true}
+          applicationId={Number(applicationId)}
+          onRequestClose={handleCloseClick}
+        />
+
         <section className={styles['application-details-image']}>
           <ImageSlider formDetails={formDetails} noImageHeight={0} />
         </section>
@@ -47,7 +60,6 @@ export default function ApplicationDetailsPage({ params }: Params) {
                   <h2 className={styles['job-details-name']}>코드잇</h2>
                   <div className={styles['job-details-summary']}>
                     <span>서울 종로구</span>
-                    <span>경력 무관</span>
                   </div>
                 </div>
 
@@ -95,11 +107,7 @@ export default function ApplicationDetailsPage({ params }: Params) {
           </section>
 
           <section className={styles['application-details-info-status']}>
-            <ApplicationStatus
-              formId={Number(formId)}
-              formDetails={formDetails}
-              applicationId={Number(applicationId)}
-            />
+            <ApplicationStatus isOwner={true} formDetails={formDetails} />
           </section>
         </div>
       </div>
