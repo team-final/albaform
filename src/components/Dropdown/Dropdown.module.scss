@@ -1,0 +1,70 @@
+@use 'src/styles/_color' as color;
+@use 'src/styles/_font' as font;
+
+.container {
+  position: relative;
+}
+
+.trigger {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  min-height: 64px;
+  padding: 14px 32px;
+  border: 1px solid color.$Background-200;
+  background-color: color.$Background-200;
+  color: color.$Black-100;
+
+  @include font.Style(xl, 400);
+
+  background-image: url('/icons/ic-drop-down.svg');
+  background-repeat: no-repeat;
+  background-position: right 20px center;
+  background-size: 32px;
+  transition: none;
+
+  &:not(:last-child) {
+    border-color: color.$Grayscale-100;
+    background-image: url('/icons/ic-drop-up.svg');
+  }
+}
+
+.menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 10;
+  display: block;
+  margin-top: 4px;
+  width: 100%;
+  max-width: 100%;
+  border-radius: 6px;
+  // box-shadow: 0px 0px 4px 0px #82828214;
+  border: 1px solid color.$Grayscale-100;
+  background-color: color.$Background-100;
+  overflow: hidden;
+}
+
+.item {
+  position: relative;
+  display: block;
+  border-radius: 0;
+  width: 100%;
+  min-height: 64px;
+  padding: 14px 32px;
+  text-align: left;
+  background-color: transparent;
+
+  @include font.Style(xl, 400);
+
+  &:hover {
+    background-color: color.$Background-300;
+  }
+
+  &[class*='selected'] {
+    background-color: color.$Primary-Orange-50;
+    color: color.$Primary-Orange-300;
+  }
+}
