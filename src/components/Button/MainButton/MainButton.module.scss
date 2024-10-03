@@ -47,6 +47,20 @@
   &:disabled {
     background-color: color.$Grayscale-100;
   }
+
+  &.gray {
+    background-color: color.$Grayscale-200;
+    color: color.$Grayscale-50;
+
+    &:hover,
+    &:focus {
+      background-color: color.$Primary-Orange-200;
+    }
+
+    &:disabled {
+      background-color: color.$Grayscale-100;
+    }
+  }
 }
 
 .outline {

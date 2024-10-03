@@ -3,13 +3,16 @@
 import { ComponentProps } from '@/lib/types/types'
 import classNames from 'classnames'
 import Image from 'next/image'
-import React from 'react'
+import React, { MouseEvent } from 'react'
 
 import style from './MainButton.module.scss'
 
+export type buttonStyle = 'solid' | 'outline'
+export type buttonColor = 'primary' | 'gray'
+
 interface MainButtonProps extends ComponentProps {
-  buttonStyle?: 'solid' | 'outline'
-  color?: 'primary' | 'gray'
+  buttonStyle?: buttonStyle
+  color?: buttonColor
   type?: 'button' | 'submit' | 'reset'
   disabled?: boolean
   onClick?: () => void
@@ -36,12 +39,20 @@ export default function MainButton({
     className,
   )
 
+  const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
+    if (typeof onClick === 'function') onClick()
+    if (e.target) {
+      const target = e.target as HTMLButtonElement
+      target.blur()
+    }
+  }
+
   return (
     <button
       type={type}
       className={buttonClass}
       disabled={disabled}
-      onClick={onClick}
+      onClick={handleClick}
     >
       {children}
     </button>
