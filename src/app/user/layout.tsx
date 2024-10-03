@@ -1,8 +1,8 @@
 'use client'
 
-import QueryProvider from '@/lib/queries/QueryProvider'
-import { LayoutProps } from '@/lib/types/types'
+import DefualtQueryProvider from '@/lib/queries/DefaultQueryProvider'
+import { ComponentProps } from '@/lib/types/types'
 
-export default function UserLayout({ children }: LayoutProps) {
-  return <QueryProvider>{children}</QueryProvider>
+export default function UserLayout({ children }: ComponentProps) {
+  return <DefualtQueryProvider>{children}</DefualtQueryProvider>
 }

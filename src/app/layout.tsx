@@ -2,6 +2,7 @@ import '@/components/FormDetails/ImageSlider/ImageSlider.css'
 import KakaoScript from '@/components/FormDetails/KakaoScript/KakaoScript'
 import GlobalNavigationBar from '@/components/GlobalNavigationBar/GlobalNavigationBar'
 import '@/components/Toastify/Toastify.css'
+import { ComponentProps } from '@/lib/types/types'
 import type { Metadata } from 'next'
 import React from 'react'
 
@@ -14,11 +15,7 @@ export const metadata: Metadata = {
   description: '한 곳에서 관리하는 알바 구인 플랫폼',
 }
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+export default function RootLayout({ children }: Readonly<ComponentProps>) {
   return (
     <html lang="ko">
       <body>

@@ -13,15 +13,8 @@ export interface Params {
   }
 }
 
-export interface LayoutProps {
-  children: ReactNode
-}
-
-export interface ChildrenProps {
+export interface ComponentProps {
   children?: ReactNode
-}
-
-export interface ComponentProps extends ChildrenProps {
   className?: string
 }
 
