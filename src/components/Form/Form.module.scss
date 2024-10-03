@@ -18,21 +18,24 @@
     padding: 16px 0;
   }
 
+  &[class*='create-form'] &-fieldset + &-fieldset {
+    margin-top: 20px;
+  }
+
   &-legend {
     display: flex;
     flex-flow: row wrap;
     justify-content: flex-start;
     align-items: center;
     gap: 4px;
+    color: color.$Black-400;
 
     @include font.Style(xl, 400);
 
-    color: color.$Black-400;
-
-    & .required {
-      @include font.Style(md, 400);
-
+    & [class*='required'] {
       color: color.$Primary-Orange-300;
+
+      @include font.Style(md, 400);
     }
   }
 
@@ -60,11 +63,19 @@
     @include font.Style(xl, 400);
   }
 
-  &-input {
+  &-textarea {
+    resize: none;
+  }
+
+  &-input,
+  &-textarea {
+    appearance: none;
     border-radius: 8px;
     border: 1px solid color.$Grayscale-200;
     width: 100%;
     min-height: 64px;
+    max-width: 100%;
+    max-height: 100%;
     background-color: transparent;
     color: color.$Black-400;
 
@@ -85,6 +96,28 @@
       border-color: color.$Primary-Orange-300;
       caret-color: color.$Primary-Orange-300;
     }
+
+    &[type='number'] {
+      padding-right: 10px !important;
+    }
+  }
+
+  &[class*='create-form'] &-input,
+  &[class*='create-form'] &-textarea {
+    border-color: color.$Background-200;
+    background-color: color.$Background-200;
+    padding: 14px 32px;
+  }
+
+  &-unit {
+    position: absolute;
+    top: 32px;
+    right: 32px;
+    z-index: 10;
+    transform: translateY(-50%);
+    display: block;
+
+    @include font.Style(xl, 400);
   }
 }
 
