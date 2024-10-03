@@ -1,5 +1,4 @@
-import { STEP_INDEX } from '@/lib/stores/useFormCreate'
-import { ChildrenProps } from '@/lib/types/types'
+import { ChildrenProps, STEP_INDEX } from '@/lib/types/types'
 
 import styles from './FormCreateStep.module.scss'
 

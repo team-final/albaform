@@ -1,9 +1,6 @@
 import Form from '@/components/Form/Form'
-import {
-  STEP_BUTTONS,
-  STEP_INDEX,
-  useFormCreateStore,
-} from '@/lib/stores/useFormCreate'
+import { useFormCreateStore } from '@/lib/stores/useFormCreate'
+import { STEP_BUTTONS, STEP_INDEX } from '@/lib/types/types'
 import classNames from 'classnames'
 
 import styles from './FormCreateAside.module.scss'

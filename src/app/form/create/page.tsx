@@ -40,7 +40,6 @@ const EXAMPLE_REQ_BODY = {
   hourlyWage: 0, // 시급
   isPublic: true, // 공개 설정
 }
-console.log('EXAMPLE_REQ_BODY: ', EXAMPLE_REQ_BODY)
 
 const TEMP_CREATE_FORM = 'temp_create_form'
 
@@ -65,6 +64,8 @@ export default function CreateFormPage() {
   }
 
   // const checkProgress = (name) => {}
+
+  console.log('EXAMPLE_REQ_BODY: ', EXAMPLE_REQ_BODY)
 
   return (
     <Form
