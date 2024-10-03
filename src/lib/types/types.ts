@@ -13,6 +13,10 @@ export interface Params {
   }
 }
 
+export interface ClickProps {
+  onClick?: () => void
+}
+
 export interface LayoutProps {
   children: ReactNode
 }
