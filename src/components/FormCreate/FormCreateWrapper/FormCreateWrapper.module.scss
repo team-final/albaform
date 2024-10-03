@@ -1,0 +1,33 @@
+@use 'src/styles/_variables' as var;
+@use 'src/styles/_color' as color;
+@use 'src/styles/_font' as font;
+@use 'src/styles/_media' as media;
+
+.content {
+  position: relative;
+  width: 100%;
+  height: calc(100% - var.$form-title-height-lg);
+  overflow: hidden;
+  transform-origin: left top;
+
+  &[data-step='1'] {
+    & [data-step-item='1'] {
+      left: 0;
+      z-index: 2;
+    }
+  }
+
+  &[data-step='2'] {
+    & [data-step-item='2'] {
+      left: 0;
+      z-index: 2;
+    }
+  }
+
+  &[data-step='3'] {
+    & [data-step-item='3'] {
+      left: 0;
+      z-index: 2;
+    }
+  }
+}
