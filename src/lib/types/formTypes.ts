@@ -26,6 +26,8 @@ export interface FormDetailsProps {
   isScrapped?: boolean
   phoneNumber?: string
   storePhoneNumber?: string
+  storeName?: string
+  isNegotiableWorkDays?: boolean
 }
 
 export interface ApplicationProps {

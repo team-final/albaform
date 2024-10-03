@@ -47,9 +47,8 @@ const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
   }
 
   const handleShowApplicationHistory = () => {
-    console.log('내 지원내역 보기')
-    // 얘는 모달로 // 이건 비회원만
-    // 회원은 바로 페이지로 router.push(`/forms/${formId}/application`)
+    router.push(`/form/${formDetails?.id}/application`)
+    // 지원자 -> 제출 내용 보기
   }
 
   const handleEditClick = () => {

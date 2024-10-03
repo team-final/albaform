@@ -8,8 +8,10 @@ import Location from '@/components/FormDetails/Location/Location'
 import Requirements from '@/components/FormDetails/Requirements/Requirements'
 import WorkScheduleInfo from '@/components/FormDetails/WorkScheduleInfo/WorkScheduleInfo'
 import AlertModal from '@/components/Modal/Alert/AlertModal'
+import ListApplicationsModal from '@/components/Modal/ListApplications/ListApplications'
 import Toastify from '@/components/Toastify/Toastify'
 import {
+  useDeleteFormQuery,
   useFormDetailsQuery,
   useFormScrapDeleteMutation,
   useFormScrapMutation,
@@ -41,6 +43,7 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
     useFormScrapMutation()
   const { mutate: scrapDeleteForm, isPending: isDeleteLoading } =
     useFormScrapDeleteMutation()
+  const { mutate: deleteForm } = useDeleteFormQuery()
   const [isScrapped, setIsScrapped] = useState(formDetails?.isScrapped || false)
   const [scrapCount, setScrapCount] = useState(0)
   const [isPopupVisible, setIsPopupVisible] = useState(false)
@@ -53,6 +56,7 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
   const firstImageUrl = formDetails?.imageUrls?.[0]
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [hasModalBeenOpened, setHasModalBeenOpened] = useState(false)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
   useEffect(() => {
     if (formDetails) {
@@ -93,9 +97,8 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
   }
 
   const handleShowApplicationHistory = () => {
-    console.log('내 지원내역 보기')
-    // 얘는 모달로 // 이건 비회원만
-    // 회원은 바로 페이지로 router.push(`/forms/${formId}/application`)
+    router.push(`/form/${formId}/application`)
+    // 지원자 -> 제출 내용 보기
   }
 
   const handleEditClick = () => {
@@ -103,7 +106,7 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
   }
 
   const handleDeleteClick = () => {
-    // 얘는 모달로
+    setIsDeleteModalOpen(true)
   }
 
   const handleBookmarkClick = () => {
@@ -170,6 +173,22 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
     setIsModalOpen(false)
   }
 
+  const handleDeleteConfirm = () => {
+    deleteForm(Number(formDetails?.id), {
+      onSuccess: () => {
+        router.push('/')
+        // 페이지네이션 목록으로 가기
+      },
+      onError: () => {
+        console.log('폼 삭제에 실패했습니다.')
+      },
+    })
+  }
+
+  const closeDeleteModal = () => {
+    setIsDeleteModalOpen(false)
+  }
+
   return (
     <>
       <div className={styles['form-details-client']}>
@@ -187,6 +206,15 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
             onConfirm={handleConfirm}
           />
         )}
+        {isDeleteModalOpen && (
+          <AlertModal
+            AlertmodalType="delete"
+            isOpen={isDeleteModalOpen}
+            onRequestClose={closeDeleteModal}
+            onConfirm={handleDeleteConfirm}
+          />
+        )}
+        {userRole === 'OWNER' && <ListApplicationsModal />}
         <div className={styles['job-details-container']}>
           <div className={styles['job-details-content']}>
             <section className={styles['job-details-info']}>

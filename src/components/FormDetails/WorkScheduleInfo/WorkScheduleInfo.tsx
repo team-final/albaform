@@ -36,6 +36,7 @@ const WorkScheduleInfo = ({
   const wageFormatted = formatCurrency(formDetails?.hourlyWage)
   const workStartDate = formatDate(formDetails?.workStartDate, isResponsive)
   const workEndDate = formatDate(formDetails?.workEndDate, isResponsive)
+  const [isNegotiableMessge, setIsNegotiableMessge] = useState<string>('')
 
   useEffect(() => {
     const handleResize = () => {
@@ -45,6 +46,14 @@ const WorkScheduleInfo = ({
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
+
+  useEffect(() => {
+    if (formDetails?.isNegotiableWorkDays) {
+      setIsNegotiableMessge('요일 협의 가능')
+    } else {
+      setIsNegotiableMessge('요일 협의 불가능')
+    }
+  }, [formDetails?.isNegotiableWorkDays])
 
   return (
     <section className={styles['work-schedule-info-container']}>
@@ -98,9 +107,14 @@ const WorkScheduleInfo = ({
           </div>
           <div className={styles['work-schedule-info-auth']}>
             <h3 className={styles['info-text']}>요일</h3>
-            <span className={styles['info-content']}>
-              {formDetails?.workDays}
-            </span>
+            <div className={styles['info-workday-container']}>
+              <span className={styles['info-content']}>
+                {formDetails?.workDays}
+              </span>
+              <span className={styles['info-content']}>
+                {isNegotiableMessge}
+              </span>
+            </div>
           </div>
         </div>
 

@@ -29,10 +29,11 @@ const FormDetailsInfo = ({
       <div className={styles['job-details-container']}>
         <div className={styles['job-details-header-container']}>
           <div className={styles['job-details-header']}>
-            <h2 className={styles['job-details-name']}>코드잇</h2>
+            <h2 className={styles['job-details-name']}>
+              {formDetails?.storeName}
+            </h2>
             <div className={styles['job-details-summary']}>
               <span>서울 종로구</span>
-              <span>경력 무관</span>
             </div>
           </div>
 
