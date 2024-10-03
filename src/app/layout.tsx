@@ -2,10 +2,11 @@ import '@/components/FormDetails/ImageSlider/ImageSlider.css'
 import KakaoScript from '@/components/FormDetails/KakaoScript/KakaoScript'
 import GlobalNavigationBar from '@/components/GlobalNavigationBar/GlobalNavigationBar'
 import '@/components/Toastify/Toastify.css'
+import useAuthUser from '@/hooks/auth/useAuthUser'
+import { useUserStore } from '@/lib/stores/userStore'
 import type { Metadata } from 'next'
 import React from 'react'
 
-import ClientProvider from '../lib/queries/QueryClientProvider'
 import '../styles/globals.css'
 import '../styles/reset.css'
 
@@ -19,11 +20,19 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const { user, setUser, setUserType } = useUserStore()
+  const { data: authUser } = useAuthUser()
+
+  if (!user && authUser) {
+    setUser(authUser)
+    setUserType(authUser.role)
+  }
+
   return (
     <html lang="ko">
       <body>
         <GlobalNavigationBar />
-        <ClientProvider>{children}</ClientProvider>
+        {children}
       </body>
       <KakaoScript />
     </html>
