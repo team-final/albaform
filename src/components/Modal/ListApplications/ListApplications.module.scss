@@ -20,6 +20,11 @@
   box-shadow: 6px 6px 16px 0 #7d7d7d40;
   background-color: color.$Grayscale-50;
   border-radius: 24px;
+
+  @include media.tablet {
+    width: 375px;
+    padding: 16px 24px;
+  }
 }
 
 .list-title-container {
@@ -34,15 +39,32 @@
 
   color: color.$Black-500;
   margin: 0;
+
+  @include media.tablet {
+    @include font.Style(2lg, 600);
+  }
 }
 
 .application-details-close {
   background-color: unset;
   border: none;
   min-width: 24px;
+  min-height: 24px;
   width: 36px;
   height: 36px;
   padding: 0;
+
+  @include media.tablet {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.close-img {
+  @include media.tablet {
+    width: 24px;
+    height: 24px;
+  }
 }
 
 .list-description-container {
@@ -58,6 +80,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @include media.tablet {
+    @include font.Style(md, 400);
+  }
 }
 
 .name-number {
@@ -87,7 +113,20 @@
   padding: 0;
   width: 36px;
   min-width: 24px;
+  min-height: 24px;
   height: 36px;
+
+  @include media.tablet {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.ascending-img {
+  @include media.tablet {
+    width: 24px;
+    height: 24px;
+  }
 }
 
 .application-status-list-description-container {
@@ -98,6 +137,10 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  @include media.tablet {
+    @include font.Style(md, 400);
+  }
 }
 
 .list-map {
@@ -108,7 +151,12 @@
 .list-name-number {
   display: flex;
   justify-content: space-between;
-  flex-basis: 34%;
+  flex-basis: 44%;
+
+  @include media.tablet {
+    column-gap: 20px;
+    white-space: nowrap;
+  }
 }
 
 .list-month-status {

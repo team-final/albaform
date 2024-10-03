@@ -36,3 +36,20 @@ export const formatApplicationDate = (dateString?: string) => {
 
   return date.toLocaleDateString('ko-KR', options)
 }
+
+export const formatExperienceMonths = (months: number) => {
+  const years = Math.floor(months / 12)
+  const remainingMonths = months % 12
+
+  let result = ''
+  if (months === 0) {
+    result = '경력 없음'
+  }
+  if (years > 0) {
+    result += `${years}년 `
+  }
+  if (remainingMonths > 0) {
+    result += `${remainingMonths}개월`
+  }
+  return result.trim()
+}
