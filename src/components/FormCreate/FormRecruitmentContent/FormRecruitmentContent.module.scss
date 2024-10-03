@@ -1,0 +1,28 @@
+@use 'src/styles/_variables' as var;
+@use 'src/styles/_color' as color;
+@use 'src/styles/_font' as font;
+@use 'src/styles/_media' as media;
+
+.form-file-images {
+  & label {
+    display: block;
+    border-radius: 8px;
+    width: 116px;
+    height: 116px;
+    background-color: color.$Background-200;
+    background-image: url('/icons/ic-upload.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 36px;
+    font-size: 0;
+    cursor: pointer;
+
+    &:hover {
+      background-color: color.$Background-100;
+    }
+  }
+
+  & input {
+    display: none;
+  }
+}
