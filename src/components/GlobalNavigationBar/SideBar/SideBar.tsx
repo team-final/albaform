@@ -1,8 +1,5 @@
-'use client'
-
 import SignInOutButton from '@/components/Button/SignInOutButton/SignInOutButton'
 import XButton from '@/components/Button/XButton/XButton'
-import QueryProvider from '@/lib/queries/QueryProvider'
 import Link from 'next/link'
 
 import styles from './SideBar.module.scss'
@@ -28,9 +25,7 @@ export default function SideBar({ closeAction }: SideBarProps) {
               </Link>
             </li>
             <li>
-              <QueryProvider>
-                <SignInOutButton className={styles.button} />
-              </QueryProvider>
+              <SignInOutButton className={styles.button} />
             </li>
           </ul>
         </section>

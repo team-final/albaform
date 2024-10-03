@@ -1,10 +1,10 @@
 'use client'
 
 import useSignOut from '@/hooks/auth/useSignOut'
+import QueryProvider from '@/lib/queries/DefaultQueryProvider'
 import { useUserStore } from '@/lib/stores/userStore'
-import { ButtonText, ComponentProps } from '@/lib/types/types'
+import { ComponentProps } from '@/lib/types/types'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
 
 import PlainButton from '../PlainButton/PlainButton'
 import styles from './SignInOutButton.module.scss'
@@ -14,23 +14,24 @@ export default function SignInOutButton({ className = '' }: ComponentProps) {
   const router = useRouter()
   const { user } = useUserStore()
   const signOut = useSignOut()
-  const [buttonText, setButtonText] = useState<ButtonText['signInOut']>()
-  const [handleClick, setHandleClick] = useState<() => void>()
 
-  useEffect(() => {
-    if (!user) {
-      setButtonText('로그인')
-      setHandleClick(() => router.push('/user/sign-in'))
-      return
-    }
-    setButtonText('로그아웃')
-    setHandleClick(() => signOut())
-  }, [user, router, signOut])
+  const moveToSignIn = () => router.push('/user/sign-in')
 
   return (
-    <PlainButton className={className} onClick={handleClick}>
-      <IconLogout className={styles.icon} />
-      <span>{buttonText}</span>
-    </PlainButton>
+    <>
+      {!user ? (
+        <PlainButton className={className} onClick={moveToSignIn}>
+          <IconLogout className={styles.icon} />
+          <span>{'로그인'}</span>
+        </PlainButton>
+      ) : (
+        <QueryProvider>
+          <PlainButton className={className} onClick={signOut}>
+            <IconLogout className={styles.icon} />
+            <span>{'로그아웃'}</span>
+          </PlainButton>
+        </QueryProvider>
+      )}
+    </>
   )
 }

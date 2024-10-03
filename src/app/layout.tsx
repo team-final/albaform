@@ -5,7 +5,6 @@ import '@/components/Toastify/Toastify.css'
 import type { Metadata } from 'next'
 import React from 'react'
 
-import ClientProvider from '../lib/queries/QueryClientProvider'
 import '../styles/globals.css'
 import '../styles/reset.css'
 
@@ -23,7 +22,7 @@ export default function RootLayout({
     <html lang="ko">
       <body>
         <GlobalNavigationBar />
-        <ClientProvider>{children}</ClientProvider>
+        {children}
       </body>
       <KakaoScript />
     </html>

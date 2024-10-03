@@ -1,22 +1,31 @@
 import authAxios from '@/lib/api/authAxios'
 import { AUTH_USER_ERROR_MESSAGE } from '@/lib/data/constants'
+import { useUserStore } from '@/lib/stores/userStore'
 import { User } from '@/lib/types/userTypes'
 import handleError from '@/lib/utils/errorHandler'
 import { useQuery } from '@tanstack/react-query'
 import Cookies from 'js-cookie'
 
-export default function useAuthUser() {
+/**
+ * 최신 유저 정보 필요한 컴포넌트를 <QueryProvider>로 감싸고
+ * const { refetch } = useReloadUser()
+ */
+export default function useReloadUser() {
+  const { user, setUser, setUserType } = useUserStore()
   const accessToken = Cookies.get('accessToken')
-  return useQuery<User | null, Error>({
+  const { refetch } = useQuery<User | null, Error>({
     queryKey: ['user'],
     queryFn: async () => {
       if (!accessToken) {
         return null
       }
       const response = await authAxios.get('/users/me')
-      return response.data
+      const { user: refetchedUser } = response.data
+      setUser(refetchedUser)
+      setUserType(refetchedUser.role)
+      return refetchedUser
     },
-    enabled: !!accessToken,
+    enabled: !user && !!accessToken,
     throwOnError: (error: Error) => {
       handleError(error, AUTH_USER_ERROR_MESSAGE)
       Cookies.remove('accessToken', { path: '/' })
@@ -24,4 +33,5 @@ export default function useAuthUser() {
       return false
     },
   })
+  return { refetch }
 }

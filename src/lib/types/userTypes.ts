@@ -15,3 +15,5 @@ export interface SignInValues {
   email: string
   password: string
 }
+
+export type UserType = 'NOT_SIGN_IN' | 'APPLICANT' | 'OWNER'

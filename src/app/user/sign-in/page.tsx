@@ -2,9 +2,9 @@
 
 import MainButton from '@/components/Button/MainButton/MainButton'
 import Form from '@/components/Form/Form'
-import useAuthUser from '@/hooks/auth/useAuthUser'
 import useSignIn from '@/hooks/auth/useSignIn'
 import { TEST_ID_APPLICANT, TEST_ID_OWNER } from '@/lib/data/constants'
+import { useUserStore } from '@/lib/stores/userStore'
 import { SignInValues } from '@/lib/types/userTypes'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -16,7 +16,7 @@ import style from './page.module.scss'
 export default function SignInPage() {
   const router = useRouter()
   const signIn = useSignIn()
-  const { data, isLoading } = useAuthUser()
+  const { user } = useUserStore()
   const emailPattern = {
     value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
     message: '이메일 형식이 아닙니다.',
@@ -36,17 +36,10 @@ export default function SignInPage() {
   }
 
   useEffect(() => {
-    if (data) {
+    if (user) {
       router.push('/')
     }
-  }, [data, router])
-
-  if (isLoading) {
-    return null
-  }
-  if (!isLoading && data) {
-    window.location.href = '/'
-  }
+  }, [router, user])
 
   return (
     <>
