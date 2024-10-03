@@ -1,14 +1,18 @@
-import MainButton from '@/components/Button/MainButton/MainButton'
+import MainButton, {
+  buttonColor,
+  buttonStyle,
+} from '@/components/Button/MainButton/MainButton'
 import VisibilityToggleButton from '@/components/Button/VisibilityToggleButton/VisibilityToggleButton'
 import {
   ComponentProps,
   FormFieldProps,
   FormProps,
   InputProps,
-  LabelProps,
 } from '@/lib/types/types'
 import classNames from 'classnames'
-import React, {
+import {
+  ChangeEvent,
+  MouseEvent,
   ReactNode,
   createContext,
   useCallback,
@@ -20,12 +24,15 @@ import {
   FieldErrors,
   FieldValues,
   RegisterOptions,
+  UseFormGetValues,
   UseFormRegister,
+  UseFormSetFocus,
   UseFormSetValue,
   UseFormWatch,
   useForm,
 } from 'react-hook-form'
 
+import DateRangePicker from '../DateRangePicker/DateRangePicker'
 import styles from './Form.module.scss'
 
 interface FormContextProps {
@@ -33,10 +40,13 @@ interface FormContextProps {
   register: UseFormRegister<FieldValues>
   errors: FieldErrors
   onSubmit: (data: FieldValues) => void
+  reset: () => void
   isValid: boolean
   isSubmitting: boolean
   setValue: UseFormSetValue<FieldValues>
+  getValues: UseFormGetValues<FieldValues>
   watch: UseFormWatch<FieldValues>
+  setFocus: UseFormSetFocus<FieldValues>
 }
 
 const FormContext = createContext<FormContextProps | undefined>(undefined)
@@ -113,6 +123,7 @@ export default function Form({
   formId,
   onSubmit,
   defaultValues = {},
+  ...rest
 }: FormProps) {
   const FormClass = classNames(styles.form, className)
   const {
@@ -121,6 +132,9 @@ export default function Form({
     formState: { errors, isValid, isSubmitting },
     setValue,
     watch,
+    getValues,
+    setFocus,
+    reset,
   } = useForm({ mode: 'onChange', defaultValues })
 
   return (
@@ -134,9 +148,17 @@ export default function Form({
         isSubmitting,
         setValue,
         watch,
+        getValues,
+        setFocus,
+        reset,
       }}
     >
-      <form id={formId} onSubmit={handleSubmit(onSubmit)} className={FormClass}>
+      <form
+        id={formId}
+        onSubmit={handleSubmit(onSubmit)}
+        className={FormClass}
+        {...rest}
+      >
         {children}
       </form>
     </FormContext.Provider>
@@ -167,6 +189,10 @@ function Legend({ children, className }: ComponentProps) {
   return <p className={cn}>{children}</p>
 }
 
+function RequiredStar() {
+  return <span className={classNames(styles['form-input-required'])}>*</span>
+}
+
 interface LabelContextProps {
   forId: string
 }
@@ -195,6 +221,7 @@ function Field({
   className,
   htmlFor = '',
   isInline = false,
+  hidden,
 }: FormFieldProps) {
   const [forId, setForId] = useState<string>('')
   const { formId } = useFormContext()
@@ -226,7 +253,7 @@ function Field({
 
   return (
     <LabelContext.Provider value={{ forId }}>
-      <label className={cn} htmlFor={forId}>
+      <label className={cn} htmlFor={forId} hidden={hidden}>
         {children}
       </label>
     </LabelContext.Provider>
@@ -236,9 +263,15 @@ function Field({
 /**
  * 해당 input 의 값 또는 이름을 작성하고 스타일랑이 필요합니다.
  */
-function Label({ children, className }: LabelProps) {
+function Label({ children, className }: ComponentProps) {
   const LabelClass = classNames(styles['form-label'], className)
   return <p className={LabelClass}>{children}</p>
+}
+
+function Value({ name }: { name: string }) {
+  const { getValues } = useFormContext()
+  const value = getValues(name)
+  return <p>{value}</p>
 }
 
 /**
@@ -266,9 +299,8 @@ function Wrap({ children, className }: ComponentProps) {
  */
 function Input({
   className,
-  name,
   type = 'text',
-  checked = false,
+  name,
   disabled = false,
   required = false,
   minLength = 1,
@@ -277,6 +309,8 @@ function Input({
   autoComplete = 'off',
   pattern,
   validate,
+  value,
+  ...rest
 }: InputProps) {
   const rules: RegisterOptions = {
     required,
@@ -285,7 +319,7 @@ function Input({
     pattern: pattern || undefined,
     validate,
   }
-  const { register, errors } = useFormContext()
+  const { register, errors, setValue } = useFormContext()
   const { forId } = useLabelContext()
   const cn = classNames(styles['form-input'], className)
 
@@ -296,22 +330,25 @@ function Input({
   const inputType =
     type === 'password' ? (visibility ? 'password' : 'text') : type
 
+  if (value && name !== 'workDays') setValue(name, value)
+
   return (
     <>
       <input
         {...register(name, rules)}
-        className={cn}
         type={inputType}
+        id={forId}
+        className={cn}
         placeholder={placeholder}
         autoComplete={autoComplete}
-        checked={checked}
         disabled={disabled}
-        id={forId}
+        value={value}
+        {...rest}
       />
       {type === 'password' && (
         <VisibilityToggleButton
           visibility={visibility}
-          handleToggle={(e: React.MouseEvent<HTMLButtonElement>) => {
+          handleToggle={(e: MouseEvent<HTMLButtonElement>) => {
             e.stopPropagation()
             setVisibility((prev) => !prev)
           }}
@@ -322,6 +359,10 @@ function Input({
       )}
     </>
   )
+}
+
+function Unit({ unit }: { unit: string }) {
+  return <span className={styles['form-unit']}>{unit}</span>
 }
 
 interface ImageInputProps extends InputProps {
@@ -343,7 +384,7 @@ function ImageInput({
     className,
   )
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (file) {
       setValue(name, file)
@@ -380,6 +421,7 @@ function Textarea({
   minLength = 1,
   maxLength = 200,
   validate,
+  ...rest
 }: InputProps) {
   const rules: RegisterOptions = {
     required,
@@ -389,16 +431,18 @@ function Textarea({
   }
   const { register, errors } = useFormContext()
   const { forId } = useLabelContext()
-  const cn = classNames(styles['form-input'], className)
+  const cn = classNames(styles['form-textarea'], className)
 
   return (
     <>
-      <input
+      <textarea
         {...register(name, rules)}
         className={cn}
         placeholder={placeholder}
         disabled={disabled}
         id={forId}
+        rows={4}
+        {...rest}
       />
       {errors?.[name] && (
         <p className={styles['input-error-message']}>잘못된 입력입니다.</p>
@@ -455,25 +499,81 @@ function KakaoSearchInput({
   )
 }
 
-function RequiredStar() {
-  return <span className={classNames(styles['form-input-required'])}>*</span>
+function DateRangePickerInput({
+  startDate,
+  endDate,
+}: {
+  startDate: string
+  endDate: string
+}) {
+  const { setValue, setFocus } = useFormContext()
+
+  return (
+    <>
+      <Form.Input name={startDate} type="hidden" required />
+      <Form.Input name={endDate} type="hidden" required />
+      <DateRangePicker
+        startDate={startDate}
+        endDate={endDate}
+        setValue={setValue}
+        setFocus={setFocus}
+      />
+    </>
+  )
 }
 
 interface SubmitButtonProps {
-  buttonStyle: 'solid' | 'outline'
+  buttonStyle?: 'solid' | 'outline'
+  color?: 'primary' | 'gray'
   children: ReactNode
 }
 
 /**
  * 해당 form 의 onSubmit prop 으로 등록된 함수를 실행하는 버튼입니다. 1개만 존재 해야합니다.
  */
-function SubmitButton({ buttonStyle, children }: SubmitButtonProps) {
+function SubmitButton({ buttonStyle, color, children }: SubmitButtonProps) {
   const { isValid, isSubmitting } = useFormContext()
   return (
     <MainButton
       buttonStyle={buttonStyle}
-      type="submit"
+      color={color}
+      type={'submit'}
       disabled={!isValid || isSubmitting}
+    >
+      {children}
+    </MainButton>
+  )
+}
+
+interface ResetButtonProps extends ComponentProps {
+  buttonStyle?: buttonStyle
+  color?: buttonColor
+  onClick?: () => void
+}
+
+/**
+ * 해당 form 을 초기화하는 버튼입니다.
+ */
+function ResetButton({
+  children,
+  className,
+  buttonStyle,
+  color,
+  onClick,
+  ...rest
+}: ResetButtonProps) {
+  const { reset } = useFormContext()
+  return (
+    <MainButton
+      type={'reset'}
+      className={className}
+      buttonStyle={buttonStyle}
+      color={color}
+      onClick={() => {
+        if (typeof onClick === 'function') onClick()
+        reset()
+      }}
+      {...rest}
     >
       {children}
     </MainButton>
@@ -486,9 +586,13 @@ Form.Legend = Legend
 Form.Field = Field
 Form.Label = Label
 Form.Wrap = Wrap
+Form.Value = Value
 Form.Input = Input
+Form.Unit = Unit
 Form.Textarea = Textarea
 Form.KakaoSearchInput = KakaoSearchInput
+Form.DateRangePickerInput = DateRangePickerInput
+Form.ResetButton = ResetButton
 Form.SubmitButton = SubmitButton
 Form.RequiredStar = RequiredStar
 Form.ImageInput = ImageInput
