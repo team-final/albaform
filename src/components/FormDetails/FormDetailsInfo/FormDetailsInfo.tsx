@@ -10,9 +10,11 @@ import styles from './FormDetailsInfo.module.scss'
 const FormDetailsInfo = ({
   formDetails,
   count,
+  showAdditionalInfo,
 }: {
   formDetails: FormDetailsProps
   count: number
+  showAdditionalInfo: boolean
 }) => {
   const [applicationStatus, setApplicationStatus] = useState(0)
 
@@ -23,7 +25,13 @@ const FormDetailsInfo = ({
   }, [formDetails])
 
   return (
-    <section className={styles['job-details-info']}>
+    <section
+      className={
+        showAdditionalInfo
+          ? styles['job-details-info']
+          : styles['application-details-info-form']
+      }
+    >
       <AnnouncementInfo formDetails={formDetails} />
 
       <div className={styles['job-details-container']}>
@@ -72,15 +80,17 @@ const FormDetailsInfo = ({
           </div>
         </div>
 
-        <div className={styles['tablet-schedule-contact']}>
-          <div className={styles['tablet-workschedule-info']}>
-            <WorkScheduleInfo formDetails={formDetails} />
-          </div>
+        {showAdditionalInfo && (
+          <div className={styles['tablet-schedule-contact']}>
+            <div className={styles['tablet-workschedule-info']}>
+              <WorkScheduleInfo formDetails={formDetails} />
+            </div>
 
-          <div className={styles['tablet-contact-info']}>
-            <ContactInfo formDetails={formDetails} />
+            <div className={styles['tablet-contact-info']}>
+              <ContactInfo formDetails={formDetails} />
+            </div>
           </div>
-        </div>
+        )}
 
         <p className={styles['job-details-description']}>
           {formDetails?.description}

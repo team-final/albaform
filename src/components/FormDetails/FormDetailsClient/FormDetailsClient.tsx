@@ -77,7 +77,7 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
         setHasModalBeenOpened(true)
       }
     }
-  }, [isRecruitmentActive, hasModalBeenOpened]) // 팝업 렌더링 될 때 보이게 & 모집 마감 된 폼 -> 모달 띄움
+  }, [isRecruitmentActive, hasModalBeenOpened, formDetails?.recruitmentEndDate]) // 팝업 렌더링 될 때 보이게 & 모집 마감 된 폼 -> 모달 띄움
 
   useEffect(() => {
     if (isMenuVisible) {
@@ -218,7 +218,11 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
         <div className={styles['job-details-container']}>
           <div className={styles['job-details-content']}>
             <section className={styles['job-details-info']}>
-              <FormDetailsInfo formDetails={formDetails} count={scrapCount} />
+              <FormDetailsInfo
+                formDetails={formDetails}
+                count={scrapCount}
+                showAdditionalInfo={true}
+              />
             </section>
             <section className={styles['schedule-contact-container']}>
               <WorkScheduleInfo formDetails={formDetails} />

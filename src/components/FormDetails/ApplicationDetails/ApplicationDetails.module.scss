@@ -1,0 +1,37 @@
+@use 'src/styles/_media' as media;
+@use 'src/styles/_color' as color;
+@use 'src/styles/_font' as font;
+
+.application-details-image {
+  @include media.tablet {
+    display: none;
+  }
+}
+
+.application-details-info {
+  display: flex;
+  column-gap: 150px;
+
+  @include media.tablet {
+    flex-direction: column;
+    gap: 40px 0;
+    height: 600px;
+  }
+}
+
+.application-details-title {
+  display: none;
+  margin: 0;
+
+  @include media.tablet {
+    display: block;
+
+    @include font.Style(xl, 600);
+
+    color: color.$Black-500;
+  }
+}
+
+.application-details-info-status {
+  flex-basis: 45.39%;
+}
