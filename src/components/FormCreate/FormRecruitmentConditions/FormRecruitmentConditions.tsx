@@ -1,12 +1,11 @@
 import Dropdown from '@/components/Dropdown/Dropdown'
 import Form from '@/components/Form/Form'
+import { VALUE_PRESET, useFormCreateStore } from '@/lib/stores/useFormCreate'
 import {
   AgeType,
   NumberOfPositionsType,
   PreferredType,
-  VALUE_PRESET,
-  useFormCreateStore,
-} from '@/lib/stores/useFormCreate'
+} from '@/lib/types/types'
 import { useState } from 'react'
 
 export default function FormRecruitmentConditions() {
