@@ -5,6 +5,8 @@ import Form from '@/components/Form/Form'
 import useAuthUser from '@/hooks/auth/useAuthUser'
 import useSignIn from '@/hooks/auth/useSignIn'
 import { TEST_ID_APPLICANT, TEST_ID_OWNER } from '@/lib/data/constants'
+import { PAGE_TITLES } from '@/lib/data/metadata'
+import { usePageStore } from '@/lib/stores/pageStore'
 import { SignInValues } from '@/lib/types/userTypes'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -17,6 +19,9 @@ export default function SignInPage() {
   const router = useRouter()
   const signIn = useSignIn()
   const { data, isLoading } = useAuthUser()
+  const { setPageTitle } = usePageStore()
+  setPageTitle(PAGE_TITLES.SignInPage)
+
   const emailPattern = {
     value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
     message: '이메일 형식이 아닙니다.',
