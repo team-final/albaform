@@ -1,0 +1,23 @@
+@use 'src/styles/_variables' as var;
+@use 'src/styles/_color' as color;
+@use 'src/styles/_font' as font;
+@use 'src/styles/_media' as media;
+
+.form-title {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+  height: var.$form-title-height-lg;
+
+  & p {
+    @include font.Style(3xl, 600);
+
+    color: color.$Black-500;
+  }
+
+  & button {
+    display: inline-flex;
+    width: auto;
+  }
+}
