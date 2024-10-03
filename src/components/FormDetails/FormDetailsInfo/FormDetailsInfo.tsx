@@ -1,4 +1,4 @@
-import { FormDetailsProps } from '@/lib/types/types'
+import { FormDetailsProps } from '@/lib/types/formTypes'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
@@ -10,9 +10,11 @@ import styles from './FormDetailsInfo.module.scss'
 const FormDetailsInfo = ({
   formDetails,
   count,
+  showAdditionalInfo,
 }: {
   formDetails: FormDetailsProps
   count: number
+  showAdditionalInfo: boolean
 }) => {
   const [applicationStatus, setApplicationStatus] = useState(0)
 
@@ -23,16 +25,23 @@ const FormDetailsInfo = ({
   }, [formDetails])
 
   return (
-    <section className={styles['job-details-info']}>
+    <section
+      className={
+        showAdditionalInfo
+          ? styles['job-details-info']
+          : styles['application-details-info-form']
+      }
+    >
       <AnnouncementInfo formDetails={formDetails} />
 
       <div className={styles['job-details-container']}>
         <div className={styles['job-details-header-container']}>
           <div className={styles['job-details-header']}>
-            <h2 className={styles['job-details-name']}>코드잇</h2>
+            <h2 className={styles['job-details-name']}>
+              {formDetails?.storeName}
+            </h2>
             <div className={styles['job-details-summary']}>
               <span>서울 종로구</span>
-              <span>경력 무관</span>
             </div>
           </div>
 
@@ -71,15 +80,17 @@ const FormDetailsInfo = ({
           </div>
         </div>
 
-        <div className={styles['tablet-schedule-contact']}>
-          <div className={styles['tablet-workschedule-info']}>
-            <WorkScheduleInfo formDetails={formDetails} />
-          </div>
+        {showAdditionalInfo && (
+          <div className={styles['tablet-schedule-contact']}>
+            <div className={styles['tablet-workschedule-info']}>
+              <WorkScheduleInfo formDetails={formDetails} />
+            </div>
 
-          <div className={styles['tablet-contact-info']}>
-            <ContactInfo formDetails={formDetails} />
+            <div className={styles['tablet-contact-info']}>
+              <ContactInfo formDetails={formDetails} />
+            </div>
           </div>
-        </div>
+        )}
 
         <p className={styles['job-details-description']}>
           {formDetails?.description}

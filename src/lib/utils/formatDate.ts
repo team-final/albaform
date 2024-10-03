@@ -19,3 +19,20 @@ export const formatKoreanDate = (dateString?: string) => {
     day: '2-digit',
   })
 }
+
+export const formatApplicationDate = (dateString?: string) => {
+  if (!dateString) return ''
+
+  const date = new Date(dateString)
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+    timeZone: 'Asia/Seoul',
+  }
+
+  return date.toLocaleDateString('ko-KR', options)
+}

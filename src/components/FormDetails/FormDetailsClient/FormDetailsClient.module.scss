@@ -1,4 +1,6 @@
 @use 'src/styles/_media' as media;
+@use 'src/styles/_color' as color;
+@use 'src/styles/_font' as font;
 
 .form-details-client {
   position: relative;
@@ -73,6 +75,10 @@
   position: fixed;
   top: 670px;
   right: 180px;
+
+  @include media.mobile {
+    right: 10px;
+  }
 }
 
 .floating-menu-container {
@@ -105,18 +111,13 @@
   }
 }
 
-.toast {
+.owner-button-container {
   display: flex;
-  align-items: center;
   column-gap: 8px;
 }
 
-.toast-icon {
-  width: 36px;
-  height: 36px;
-}
-
-.highlight-text {
-  color: #f89a05;
-  font-weight: 700;
+.button-hide-text {
+  @include media.tablet {
+    display: none;
+  }
 }

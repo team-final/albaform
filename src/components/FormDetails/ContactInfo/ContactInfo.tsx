@@ -1,18 +1,22 @@
 'use client'
 
 import MainButton from '@/components/Button/MainButton/MainButton'
-import { useUsersMeQuery } from '@/lib/queries/formDetailsQuery'
-import { FormDetailsProps } from '@/lib/types/types'
-import { formatKoreanDate } from '@/utils/formatDate'
+import AlertModal from '@/components/Modal/Alert/AlertModal'
+import {
+  useDeleteFormQuery,
+  useUsersMeQuery,
+} from '@/lib/queries/formDetailsQuery'
+import { FormDetailsProps } from '@/lib/types/formTypes'
+import { formatKoreanDate } from '@/lib/utils/formatDate'
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 import styles from './ContactInfo.module.scss'
 
-// import { useRouter } from 'next/navigation'
-
 const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
-  // const router = useRouter()
+  const router = useRouter()
   const { data: userRole } = useUsersMeQuery()
+  const { mutate: deleteForm } = useDeleteFormQuery()
   const recruitmentStartDate = formatKoreanDate(
     formDetails?.recruitmentStartDate,
   )
@@ -21,6 +25,7 @@ const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
     formDetails?.recruitmentEndDate &&
     new Date(formDetails.recruitmentEndDate) > new Date()
   const [statusMessage, setStatusMessage] = useState<string>('모집기간 계산 중')
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   useEffect(() => {
     if (recruitmentEndDate) {
@@ -29,7 +34,7 @@ const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
       const difference = endDate.getTime() - now.getTime()
       const days = Math.ceil(difference / (1000 * 3600 * 24))
 
-      if (days <= -1) {
+      if (typeof days === 'number' && days <= -1) {
         setStatusMessage('모집 완료')
       } else {
         setStatusMessage(`D-${days}`)
@@ -38,27 +43,48 @@ const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
   }, [recruitmentEndDate])
 
   const handleApplyClick = () => {
-    console.log('지원하기')
-    // router.push(`form/${formId}/apply`)
+    router.push(`/form/${formDetails.id}/apply`)
   }
 
   const handleShowApplicationHistory = () => {
-    console.log('내 지원내역 보기')
-    // router.push(`form/${formId}/application/${applicationId}`)
-    // 얘는 모달로
+    router.push(`/form/${formDetails?.id}/application`)
+    // 지원자 -> 제출 내용 보기
   }
 
   const handleEditClick = () => {
-    console.log('수정하기')
-    // router.push(`form/${formId}/edit`)
+    router.push(`form/${formDetails.id}/edit`)
   }
 
   const handleDeleteClick = () => {
-    // 얘는 모달로
+    setIsModalOpen(true)
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+  }
+
+  const handleConfirm = () => {
+    deleteForm(Number(formDetails?.id), {
+      onSuccess: () => {
+        router.push('/')
+        // 페이지네이션 목록으로 가기
+      },
+      onError: () => {
+        console.log('폼 삭제에 실패했습니다.')
+      },
+    })
   }
 
   return (
     <section className={styles['contact-info']}>
+      {isModalOpen && (
+        <AlertModal
+          AlertmodalType="delete"
+          isOpen={isModalOpen}
+          onRequestClose={closeModal}
+          onConfirm={handleConfirm}
+        />
+      )}
       <div className={styles['contact-info-container']}>
         <div
           className={`${styles['contact-info-auth']} ${styles['contact-info-line']}`}
@@ -128,6 +154,7 @@ const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
               buttonStyle="outline"
               disabled={false}
               onClick={handleDeleteClick}
+              color="gray"
             >
               <MainButton.Icon
                 src="/icons/ic-trash-can.svg"

@@ -1,4 +1,4 @@
-import { FormDetailsProps } from '@/lib/types/types'
+import { FormDetailsProps } from '@/lib/types/formTypes'
 import Image from 'next/image'
 import { useState } from 'react'
 import 'swiper/css'
@@ -10,8 +10,10 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 
 export default function ImageSlider({
   formDetails,
+  noImageHeight = 100,
 }: {
   formDetails: FormDetailsProps
+  noImageHeight: number
 }) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const images = Array.isArray(formDetails?.imageUrls)
@@ -46,7 +48,10 @@ export default function ImageSlider({
             {currentIndex + 1} / {images.length}
           </div>
         ) : (
-          <div className="no-image-counter"></div>
+          <div
+            className="no-image-counter"
+            style={{ height: `${noImageHeight}px` }}
+          ></div>
         )}
       </Swiper>
     </div>

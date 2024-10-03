@@ -1,6 +1,6 @@
 'use client'
 
-import { ChildrenProps, ComponentProps } from '@/lib/types/types'
+import { ComponentProps } from '@/lib/types/types'
 import classNames from 'classnames'
 import Image from 'next/image'
 import React from 'react'
@@ -60,8 +60,8 @@ function ButtonIcon({ src, altText = '아이콘' }: IconProps) {
   )
 }
 
-function ButtonText({ children }: ChildrenProps) {
-  return <span>{children}</span>
+function ButtonText({ children, className }: ComponentProps) {
+  return <span className={className}>{children}</span>
 }
 
 MainButton.Icon = ButtonIcon

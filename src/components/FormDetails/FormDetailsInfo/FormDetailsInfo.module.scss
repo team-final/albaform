@@ -12,6 +12,18 @@
   }
 }
 
+.application-details-info-form {
+  flex-basis: 54.61%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 48px;
+  margin-bottom: 96px;
+
+  @include media.tablet {
+    display: none;
+  }
+}
+
 .job-details-header-container {
   display: flex;
   flex-direction: column;

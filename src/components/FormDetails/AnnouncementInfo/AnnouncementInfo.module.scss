@@ -6,6 +6,7 @@
   display: flex;
   align-items: center;
   column-gap: 16px;
+  white-space: nowrap;
 
   @include media.tablet {
     justify-content: space-between;

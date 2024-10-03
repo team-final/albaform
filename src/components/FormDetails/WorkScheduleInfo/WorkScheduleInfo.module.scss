@@ -85,6 +85,11 @@
   }
 }
 
+.info-workday-container {
+  display: flex;
+  flex-direction: column;
+}
+
 @media screen and (width >= 1024px) and (width <= 1890px) {
   .work-schedule-img-container {
     width: 50px;

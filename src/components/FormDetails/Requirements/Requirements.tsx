@@ -1,4 +1,4 @@
-import { FormDetailsProps } from '@/lib/types/types'
+import { FormDetailsProps } from '@/lib/types/formTypes'
 
 import styles from './Requirements.module.scss'
 

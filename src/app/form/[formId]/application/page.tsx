@@ -5,12 +5,12 @@ import MyApplicationModal from '@/components/Modal/MyApplication/MyApplication'
 import { Params } from '@/lib/types/types'
 import { useState } from 'react'
 
-import styles from '../page.module.scss'
+import styles from './page.module.scss'
 
-export default function ApplicationDetailsPage({ params }: Params) {
+// 지원자 -> 지원내역 상세보기 페이지 - 이건 토큰 있어야만함
+
+export default function MyApplicationsPage({ params }: Params) {
   const [isModalOpen, setIsModalOpen] = useState(true)
-
-  // 여긴 사장이 지원 상세 조회 / 상세 수정
 
   const handleCloseClick = () => {
     setIsModalOpen(false)
@@ -20,15 +20,15 @@ export default function ApplicationDetailsPage({ params }: Params) {
     <>
       <MyApplicationModal
         isOpen={isModalOpen}
-        isOwner={true}
-        applicationId={Number(params.applicationId)}
+        formId={Number(params.formId)}
+        isOwner={false}
         onRequestClose={handleCloseClick}
       />
       <div className={styles['application-details']}>
         <ApplicationDetails
-          isApplicationDetailsPage={true}
+          isApplicationDetailsPage={false}
           params={params}
-          isOwner={true}
+          isOwner={false}
         />
       </div>
     </>

@@ -1,0 +1,124 @@
+@use 'src/styles/_media' as media;
+@use 'src/styles/_color' as color;
+@use 'src/styles/_font' as font;
+
+.modal-application-overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  z-index: 101;
+  inset: 0;
+  background-color: rgb(0 0 0 / 60%);
+}
+
+.modal-application-content {
+  width: 770px;
+  height: auto;
+  position: relative;
+  padding: 32px;
+  box-shadow: 6px 6px 16px 0 #7d7d7d40;
+  background-color: color.$Grayscale-50;
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
+.application-details-title-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.application-details {
+  @include font.Style(3xl, 600);
+
+  color: color.$Black-500;
+  margin: 0;
+}
+
+.application-details-close {
+  background-color: unset;
+  border: none;
+  min-width: 24px;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+}
+
+.application-details-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+}
+
+.application-details-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 8px;
+  border-bottom: 1px solid color.$Line-100;
+}
+
+.application-details-content-column-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+}
+
+.application-details-content-column {
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+}
+
+.content-title {
+  @include font.Style(2xl, 400);
+
+  color: color.$Black-100;
+}
+
+.content-description {
+  @include font.Style(2xl, 400);
+
+  color: color.$Black-400;
+}
+
+.content-description-resume {
+  width: auto;
+  height: auto;
+  padding: 16px;
+  background-color: color.$Background-200;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.content-description-resume-title {
+  @include font.Style(xl, 400);
+
+  color: color.$Black-400;
+}
+
+.resume-edit-button {
+  background-color: unset;
+  border: none;
+  width: 36px;
+  min-width: 24px;
+  height: 36px;
+  padding: 0;
+  cursor: pointer;
+}
+
+.content-description-introduction {
+  @include font.Style(xl, 400);
+
+  color: color.$Black-400;
+  width: auto;
+  height: auto;
+  border: 0.5px solid color.$Grayscale-200;
+  border-radius: 8px;
+  padding: 18px 14px;
+}
