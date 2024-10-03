@@ -39,6 +39,7 @@ export interface FormProps extends ComponentProps {
 export interface FormFieldProps extends ComponentProps {
   htmlFor?: string
   isInline?: boolean
+  hidden?: boolean
 }
 
 export interface LabelProps extends ComponentProps {
@@ -62,6 +63,11 @@ export interface InputProps extends ComponentProps {
   value?: any
   validate?: (values: unknown) => boolean | string
   initialValues?: Record<string, any>
+  min?: number
+  max?: number
+  step?: number
+  onClick?: (event?: any) => void
+  onChange?: (event?: any) => void
 }
 
 export interface MessageContext {
