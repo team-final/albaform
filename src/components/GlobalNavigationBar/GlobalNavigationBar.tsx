@@ -28,12 +28,10 @@ export default function GlobalNavigationBar() {
   useEffect(() => {
     const disableScroll: () => void = () => {
       document.body.setAttribute('style', 'height: 100vh; overflow: hidden')
-      console.log(document.body)
     }
 
     const enableScroll: () => void = () => {
       document.body.removeAttribute('style')
-      console.log(document.body)
     }
 
     if (showSideBar) disableScroll()
