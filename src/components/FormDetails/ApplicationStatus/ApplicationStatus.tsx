@@ -2,7 +2,6 @@ import {
   useListApplicationDetailsQuery,
   useMyApplicationQuery,
 } from '@/lib/queries/applicationDetailsQuery'
-import { useUsersMeQuery } from '@/lib/queries/formDetailsQuery'
 import {
   FORM_STATUS,
   FormDetailsProps,
@@ -15,29 +14,32 @@ import React, { useEffect, useState } from 'react'
 import styles from './ApplicationStatus.module.scss'
 
 interface ApplicationDetailsProps {
-  formId: number
+  formId?: number
   formDetails: FormDetailsProps
   applicationId?: number
+  isOwner: boolean
 }
 
 const ApplicationStatus: React.FC<ApplicationDetailsProps> = ({
   formId,
   formDetails,
   applicationId,
+  isOwner,
 }) => {
-  const { data: userRole } = useUsersMeQuery()
-  const { data: myApplication } = useMyApplicationQuery(Number(formId))
+  const { data: myApplication } = useMyApplicationQuery(Number(formId), {
+    enabled: !isOwner,
+  })
   const { data: ownerApplication } = useListApplicationDetailsQuery(
     Number(applicationId),
+    { enabled: isOwner },
   )
   const [isVisible, setIsVisible] = useState(true)
-  const applicationDate = formatApplicationDate(myApplication?.createdAt)
-  const ownerApplicationDate = formatApplicationDate(
-    ownerApplication?.createdAt,
-  )
-  const recruitmentEndDate = formatKoreanDate(formDetails?.recruitmentEndDate)
   const [datestatusMessage, setDateStatusMessage] = useState<string>('계산 중')
   const [statusMessage, setStatusMessage] = useState<string>('')
+  const recruitmentEndDate = formatKoreanDate(formDetails?.recruitmentEndDate)
+
+  const application = isOwner ? ownerApplication : myApplication
+  const applicationDate = formatApplicationDate(application?.createdAt)
 
   const handleTooltipCloseClick = () => {
     setIsVisible(false)
@@ -59,15 +61,14 @@ const ApplicationStatus: React.FC<ApplicationDetailsProps> = ({
   }, [recruitmentEndDate])
 
   useEffect(() => {
-    const currentStatus =
-      userRole === 'OWNER' ? ownerApplication?.status : myApplication?.status
+    const currentStatus = application?.status
 
     if (currentStatus && FORM_STATUS[currentStatus as FormStatusType]) {
       setStatusMessage(FORM_STATUS[currentStatus as FormStatusType])
     } else {
       setStatusMessage('알 수 없음')
     }
-  }, [myApplication?.status, ownerApplication?.status, userRole])
+  }, [application?.status])
 
   return (
     <section className={styles['application-status']}>
@@ -78,9 +79,7 @@ const ApplicationStatus: React.FC<ApplicationDetailsProps> = ({
           <h3 className={styles['info-title']}>지원일시</h3>
           <span className={styles['info-date']}>{datestatusMessage}</span>
         </div>
-        <p className={styles['info-content']}>
-          {userRole === 'OWNER' ? ownerApplicationDate : applicationDate}
-        </p>
+        <p className={styles['info-content']}>{applicationDate}</p>
       </div>
 
       <div
@@ -88,7 +87,7 @@ const ApplicationStatus: React.FC<ApplicationDetailsProps> = ({
       >
         <div className={styles['application-status-button-container']}>
           <h3 className={styles['info-title']}>진행 상태</h3>
-          {userRole === 'OWNER' && (
+          {isOwner && (
             <>
               <button className={styles['status-button']}>
                 <Image

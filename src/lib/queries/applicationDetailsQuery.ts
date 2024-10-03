@@ -7,10 +7,14 @@ import {
   getMyApplicationVerify,
 } from '../api/applicationDetails'
 
-export const useMyApplicationQuery = (formId: number) => {
+export const useMyApplicationQuery = (
+  formId: number,
+  options?: { enabled: boolean },
+) => {
   return useQuery({
     queryKey: ['myApplication'],
     queryFn: () => getMyApplication(formId),
+    enabled: options?.enabled,
   })
 }
 
@@ -28,9 +32,13 @@ export const useListApplicationsQuery = (formId: number) => {
   })
 }
 
-export const useListApplicationDetailsQuery = (applicationId: number) => {
+export const useListApplicationDetailsQuery = (
+  applicationId: number,
+  options?: { enabled: boolean },
+) => {
   return useQuery({
     queryKey: ['applicationDetails'],
     queryFn: () => getListApplicationDetails(applicationId),
+    enabled: options?.enabled,
   })
 }
