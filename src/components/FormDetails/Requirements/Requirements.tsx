@@ -2,7 +2,11 @@ import { FormDetailsProps } from '@/lib/types/formTypes'
 
 import styles from './Requirements.module.scss'
 
-const Requirements = ({ formDetails }: { formDetails: FormDetailsProps }) => {
+export default function Requirements({
+  formDetails,
+}: {
+  formDetails: FormDetailsProps
+}) {
   const formattedNumberOfPositions = formDetails?.numberOfPositions
     ? formDetails.numberOfPositions.toString().padStart(2, '0')
     : '00'
@@ -48,5 +52,3 @@ const Requirements = ({ formDetails }: { formDetails: FormDetailsProps }) => {
     </section>
   )
 }
-
-export default Requirements

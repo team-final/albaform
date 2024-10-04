@@ -4,14 +4,14 @@ import { useState } from 'react'
 
 import styles from './CurrentApplicationPopup.module.scss'
 
-const CurrentApplicationPopup = ({
+export default function CurrentApplicationPopup({
   formDetails,
   isVisible,
 }: {
   formDetails: FormDetailsProps
   isVisible: boolean
-}) => {
-  const [isClosing, setIsClosing] = useState(false)
+}) {
+  const [isClosing, setIsClosing] = useState<boolean>(false)
 
   const handlePopupCloseClick = () => {
     setIsClosing(true)
@@ -56,5 +56,3 @@ const CurrentApplicationPopup = ({
     </div>
   )
 }
-
-export default CurrentApplicationPopup

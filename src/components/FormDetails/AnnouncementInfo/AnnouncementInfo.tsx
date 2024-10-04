@@ -3,11 +3,11 @@ import { formatDetailedDate } from '@/lib/utils/formatDate'
 
 import styles from './AnnouncementInfo.module.scss'
 
-const AnnouncementInfo = ({
+export default function AnnouncementInfo({
   formDetails,
 }: {
   formDetails: FormDetailsProps
-}) => {
+}) {
   const now = new Date()
   const recruitmentStartDate = new Date(
     formDetails?.recruitmentStartDate || new Date(),
@@ -36,5 +36,3 @@ const AnnouncementInfo = ({
     </section>
   )
 }
-
-export default AnnouncementInfo

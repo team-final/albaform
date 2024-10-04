@@ -35,7 +35,7 @@ declare global {
   }
 }
 
-const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
+export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
   const router = useRouter()
   const { data: userRole } = useUsersMeQuery()
   const { data: formDetails } = useFormDetailsQuery(Number(formId))
@@ -46,19 +46,19 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
   const { mutate: deleteForm } = useDeleteFormQuery()
   const [isScrapped, setIsScrapped] = useState(formDetails?.isScrapped || false)
   const [scrapCount, setScrapCount] = useState(0)
-  const [isPopupVisible, setIsPopupVisible] = useState(false)
-  const [isMenuVisible, setIsMenuVisible] = useState(false)
-  const [showFirstButton, setShowFirstButton] = useState(false)
-  const [showSecondButton, setShowSecondButton] = useState(false)
+  const [isPopupVisible, setIsPopupVisible] = useState<boolean>(false)
+  const [isMenuVisible, setIsMenuVisible] = useState<boolean>(false)
+  const [showFirstButton, setShowFirstButton] = useState<boolean>(false)
+  const [showSecondButton, setShowSecondButton] = useState<boolean>(false)
   const isRecruitmentActive =
     formDetails?.recruitmentEndDate &&
     new Date(formDetails.recruitmentEndDate) > new Date()
   const firstImageUrl = formDetails?.imageUrls?.[0]
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [hasModalBeenOpened, setHasModalBeenOpened] = useState(false)
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const [hasModalBeenOpened, setHasModalBeenOpened] = useState<boolean>(false)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
   const [isListApplicationsModalOpen, setIsListApplicationsModalOpen] =
-    useState(true)
+    useState<boolean>(true)
 
   useEffect(() => {
     if (formDetails) {
@@ -374,5 +374,3 @@ const FormDetailsClient: React.FC<FormDetailsClientProps> = ({ formId }) => {
     </>
   )
 }
-
-export default FormDetailsClient

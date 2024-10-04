@@ -27,12 +27,12 @@ const formatDate = (dateString?: string, isResponsive: boolean = false) => {
   return date.toLocaleDateString('ko-KR', options)
 }
 
-const WorkScheduleInfo = ({
+export default function WorkScheduleInfo({
   formDetails,
 }: {
   formDetails: FormDetailsProps
-}) => {
-  const [isResponsive, setIsResponsive] = useState(false)
+}) {
+  const [isResponsive, setIsResponsive] = useState<boolean>(false)
   const wageFormatted = formatCurrency(formDetails?.hourlyWage)
   const workStartDate = formatDate(formDetails?.workStartDate, isResponsive)
   const workEndDate = formatDate(formDetails?.workEndDate, isResponsive)
@@ -139,5 +139,3 @@ const WorkScheduleInfo = ({
     </section>
   )
 }
-
-export default WorkScheduleInfo

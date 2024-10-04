@@ -13,7 +13,11 @@ import { useEffect, useState } from 'react'
 
 import styles from './ContactInfo.module.scss'
 
-const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
+export default function ContactInfo({
+  formDetails,
+}: {
+  formDetails: FormDetailsProps
+}) {
   const router = useRouter()
   const { data: userRole } = useUsersMeQuery()
   const { mutate: deleteForm } = useDeleteFormQuery()
@@ -25,7 +29,7 @@ const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
     formDetails?.recruitmentEndDate &&
     new Date(formDetails.recruitmentEndDate) > new Date()
   const [statusMessage, setStatusMessage] = useState<string>('모집기간 계산 중')
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
   useEffect(() => {
     if (recruitmentEndDate) {
@@ -168,5 +172,3 @@ const ContactInfo = ({ formDetails }: { formDetails: FormDetailsProps }) => {
     </section>
   )
 }
-
-export default ContactInfo

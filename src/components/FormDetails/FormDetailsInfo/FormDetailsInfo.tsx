@@ -7,7 +7,7 @@ import ContactInfo from '../ContactInfo/ContactInfo'
 import WorkScheduleInfo from '../WorkScheduleInfo/WorkScheduleInfo'
 import styles from './FormDetailsInfo.module.scss'
 
-const FormDetailsInfo = ({
+export default function FormDetailsInfo({
   formDetails,
   count,
   showAdditionalInfo,
@@ -15,7 +15,7 @@ const FormDetailsInfo = ({
   formDetails: FormDetailsProps
   count: number
   showAdditionalInfo: boolean
-}) => {
+}) {
   const [applicationStatus, setApplicationStatus] = useState(0)
 
   useEffect(() => {
@@ -99,5 +99,3 @@ const FormDetailsInfo = ({
     </section>
   )
 }
-
-export default FormDetailsInfo

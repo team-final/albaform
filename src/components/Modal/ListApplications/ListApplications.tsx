@@ -19,7 +19,11 @@ interface Props {
   onRequestClose: () => void
 }
 
-const ListApplicationsModal = ({ formId, isOpen, onRequestClose }: Props) => {
+export default function ListApplicationsModal({
+  formId,
+  isOpen,
+  onRequestClose,
+}: Props) {
   const router = useRouter()
   const { data: applicationList } = useListApplicationsQuery(Number(formId))
   const [isExperienceAscending, setIsExperienceAscending] = useState(true)
@@ -174,5 +178,3 @@ const ListApplicationsModal = ({ formId, isOpen, onRequestClose }: Props) => {
     </ReactModal>
   )
 }
-
-export default ListApplicationsModal
