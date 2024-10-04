@@ -4,7 +4,11 @@ import { toast } from 'react-toastify'
 
 import styles from './Location.module.scss'
 
-const Location = ({ formDetails }: { formDetails: FormDetailsProps }) => {
+export default function Location({
+  formDetails,
+}: {
+  formDetails: FormDetailsProps
+}) {
   const handleCopyClipBoard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text)
@@ -39,5 +43,3 @@ const Location = ({ formDetails }: { formDetails: FormDetailsProps }) => {
     </>
   )
 }
-
-export default Location

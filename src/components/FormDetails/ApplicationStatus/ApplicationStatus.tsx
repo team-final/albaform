@@ -20,12 +20,12 @@ interface ApplicationDetailsProps {
   isOwner: boolean
 }
 
-const ApplicationStatus: React.FC<ApplicationDetailsProps> = ({
+export default function ApplicationStatus({
   formId,
   formDetails,
   applicationId,
   isOwner,
-}) => {
+}: ApplicationDetailsProps) {
   const { data: myApplication } = useMyApplicationQuery(Number(formId), {
     enabled: !isOwner,
   })
@@ -137,5 +137,3 @@ const ApplicationStatus: React.FC<ApplicationDetailsProps> = ({
     </section>
   )
 }
-
-export default ApplicationStatus

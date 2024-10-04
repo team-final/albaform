@@ -78,7 +78,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 476px;
+  width: auto;
+  column-gap: 25px;
   background-color: #2a2c3d;
   border-radius: 14px;
   position: absolute;
@@ -124,6 +125,8 @@
 }
 
 .stauts-button-image {
+  padding: 0;
+
   @include media.tablet {
     width: 24px;
     height: 24px;
@@ -144,6 +147,8 @@
   border: none;
   background-color: unset;
   cursor: pointer;
+  padding: 0;
+  min-width: 24px;
 
   &:hover .stauts-button-image {
     filter: brightness(0) invert(1);
@@ -166,7 +171,7 @@
   }
 
   .application-status-tooltip {
-    width: 100%;
+    column-gap: 0;
   }
 
   .application-status-tooltip-text {

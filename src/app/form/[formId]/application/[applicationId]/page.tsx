@@ -12,8 +12,6 @@ import styles from '../page.module.scss'
 export default function ApplicationDetailsPage({ params }: Params) {
   const [isModalOpen, setIsModalOpen] = useState(true)
 
-  // 여긴 사장이 지원 상세 조회 / 상세 수정
-
   const handleCloseClick = () => {
     setIsModalOpen(false)
   }

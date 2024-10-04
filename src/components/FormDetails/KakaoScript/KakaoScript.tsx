@@ -3,7 +3,7 @@
 import Script from 'next/script'
 import { useState } from 'react'
 
-function KakaoScript() {
+export default function KakaoScript() {
   const [isKakaoLoaded, setIsKakaoLoaded] = useState(false)
 
   const onLoad = () => {
@@ -26,5 +26,3 @@ function KakaoScript() {
     />
   )
 }
-
-export default KakaoScript

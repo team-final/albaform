@@ -17,13 +17,13 @@ interface Props {
   onRequestClose: () => void
 }
 
-const MyApplicationModal = ({
+export default function MyApplicationModal({
   isOpen,
   formId,
   isOwner,
   applicationId,
   onRequestClose,
-}: Props) => {
+}: Props) {
   const { data: myApplication } = useMyApplicationQuery(Number(formId), {
     enabled: !isOwner,
   })
@@ -105,5 +105,3 @@ const MyApplicationModal = ({
     </ReactModal>
   )
 }
-
-export default MyApplicationModal

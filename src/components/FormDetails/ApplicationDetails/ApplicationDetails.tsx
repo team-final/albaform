@@ -13,11 +13,11 @@ interface Props {
   isOwner: boolean
 }
 
-const ApplicationDetails = ({
+export default function ApplicationDetails({
   isApplicationDetailsPage,
   params,
   isOwner,
-}: Props) => {
+}: Props) {
   const { formId, applicationId } = params
   const { data: formDetails } = useFormDetailsQuery(Number(formId))
   const [scrapCount, setScrapCount] = useState(0)
@@ -61,5 +61,3 @@ const ApplicationDetails = ({
     </>
   )
 }
-
-export default ApplicationDetails
