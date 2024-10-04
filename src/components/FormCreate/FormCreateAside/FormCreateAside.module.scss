@@ -14,16 +14,28 @@
   padding: 40px;
   background-color: color.$Background-200;
 
-  &-steps {
+  & .steps {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: stretch;
     gap: 8px;
   }
+
+  & .actions {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: stretch;
+    gap: 8px;
+
+    & button {
+      min-height: 72px;
+    }
+  }
 }
 
-.step-button {
+.button {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
@@ -42,7 +54,7 @@
     color: color.$Grayscale-50;
   }
 
-  &-title {
+  & .title {
     display: inline-flex;
     flex-flow: row wrap;
     justify-content: space-between;
@@ -50,7 +62,26 @@
     gap: 24px;
   }
 
-  &-status {
+  & .index {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 9999px;
+    width: 28px;
+    height: 28px;
+    background-color: color.$Background-300;
+    color: color.$Grayscale-200;
+    font-style: normal;
+
+    @include font.Style(xl, 600);
+
+    button[class*='active'] & {
+      background-color: color.$Background-100;
+      color: color.$Primary-Orange-300;
+    }
+  }
+
+  & .status {
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -71,198 +102,4 @@
       color: color.$Grayscale-50;
     }
   }
-}
-
-.number-circle {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 9999px;
-  width: 28px;
-  height: 28px;
-  background-color: color.$Background-300;
-  color: color.$Grayscale-200;
-  font-style: normal;
-
-  @include font.Style(xl, 600);
-
-  button[class*='active'] & {
-    background-color: color.$Background-100;
-    color: color.$Primary-Orange-300;
-  }
-}
-
-.aside-actions {
-  display: flex;
-  flex-flow: column wrap;
-  justify-content: center;
-  align-items: stretch;
-  gap: 8px;
-
-  & button {
-    min-height: 72px;
-  }
-}
-
-.content {
-  flex: 1;
-  display: block;
-  width: calc(100% - var.$form-aside-width-lg);
-  height: 100%;
-  padding: 0 40px;
-  overflow: auto;
-}
-
-.form {
-  &-title {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
-    align-items: center;
-    height: var.$form-title-height-lg;
-
-    & p {
-      @include font.Style(3xl, 600);
-
-      color: color.$Black-500;
-    }
-
-    & button {
-      display: inline-flex;
-      width: auto;
-    }
-  }
-
-  &-container {
-    position: relative;
-    width: 100%;
-    height: calc(100% - var.$form-title-height-lg);
-    overflow: hidden;
-    transform-origin: left top;
-
-    &[data-step='1'] {
-      & [data-step-item='1'] {
-        left: 0;
-        z-index: 2;
-      }
-    }
-
-    &[data-step='2'] {
-      & [data-step-item='2'] {
-        left: 0;
-        z-index: 2;
-      }
-    }
-
-    &[data-step='3'] {
-      & [data-step-item='3'] {
-        left: 0;
-        z-index: 2;
-      }
-    }
-  }
-
-  &-step {
-    position: absolute;
-    z-index: 1;
-    left: 100%;
-    width: 100%;
-    height: 100%;
-    padding: 40px 0;
-    background-color: color.$Grayscale-50;
-    overflow: auto;
-    transition: all 0.16s;
-  }
-
-  &-checkbox {
-    display: inline-flex;
-    flex-flow: row wrap;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 8px;
-    width: fit-content;
-    cursor: pointer;
-
-    & input[class*='form-input'][type='checkbox'] {
-      appearance: none;
-      width: 26px;
-      height: 26px;
-      min-width: auto;
-      min-height: auto;
-      padding: 0;
-      border-radius: 4px;
-      background-image: url('/icons/ic-checkbox-default.svg');
-      background-color: transparent;
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: 24px;
-      cursor: pointer;
-
-      &:checked {
-        background-image: url('/icons/ic-checkbox-checked.svg');
-      }
-
-      &:disabled {
-        background-image: url('/icons/ic-checkbox-disabled.svg');
-      }
-    }
-  }
-
-  &-file-images {
-    & label {
-      display: block;
-      border-radius: 8px;
-      width: 116px;
-      height: 116px;
-      background-color: color.$Background-200;
-      background-image: url('/icons/ic-upload.svg');
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: 36px;
-      font-size: 0;
-      cursor: pointer;
-
-      &:hover {
-        background-color: color.$Background-100;
-      }
-    }
-
-    & input {
-      display: none;
-    }
-  }
-
-  &-day-of-week {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 16px;
-
-    & label[class*='form-field'] {
-      display: flex;
-      flex-flow: row wrap;
-      justify-content: center;
-      align-items: center;
-      border-radius: 16px;
-      width: 50px;
-      height: 64px;
-      background-color: color.$Background-200;
-      color: color.$Grayscale-500;
-      cursor: pointer;
-
-      &:has(input:checked) {
-        background-color: color.$Primary-Orange-300;
-        color: color.$Grayscale-50;
-      }
-    }
-
-    & input {
-      display: none;
-    }
-  }
-}
-
-.input-hidden {
-  display: none;
 }

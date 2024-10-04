@@ -11,29 +11,28 @@ export default function FormCreateAside() {
 
   return (
     <div className={styles.aside}>
-      <section className={styles['aside-steps']}>
+      <section className={styles.steps}>
         {STEP_BUTTONS.map(({ index, title }) => {
-          const cn = 'step-button'
           return (
             <button
-              key={`form-${cn}-${index}`}
-              className={classNames(styles[cn], {
+              key={`form_button_${index}`}
+              className={classNames(styles.button, {
                 [styles.active]: step === index,
               })}
               type={'button'}
               onClick={() => handleSteps(index)}
             >
-              <p className={styles[`${cn}-title`]}>
-                <i className={styles['number-circle']}>{index}</i>
+              <p className={styles.title}>
+                <i className={styles.index}>{index}</i>
                 <span>{title}</span>
               </p>
-              <b className={styles[`${cn}-status`]}>작성중</b>
+              <b className={styles.status}>작성중</b>
             </button>
           )
         })}
       </section>
 
-      <section className={styles['aside-actions']}>
+      <section className={styles.actions}>
         <Form.SubmitButton buttonStyle={'outline'} color={'gray'}>
           임시 저장
         </Form.SubmitButton>

@@ -58,7 +58,7 @@ export default function FormWorkingConditions() {
               <Dropdown.Trigger>{formData.workStartTime}</Dropdown.Trigger>
               <Dropdown.Menu
                 style={{
-                  maxHeight: `${64 * 3}px`,
+                  maxHeight: `${64 * 4}px`,
                   overflow: 'auto',
                 }}
               >
@@ -92,7 +92,7 @@ export default function FormWorkingConditions() {
               <Dropdown.Trigger>{formData.workEndTime}</Dropdown.Trigger>
               <Dropdown.Menu
                 style={{
-                  maxHeight: `${64 * 3}px`,
+                  maxHeight: `${64 * 4}px`,
                   overflow: 'auto',
                 }}
               >
@@ -157,10 +157,13 @@ export default function FormWorkingConditions() {
               type={'number'}
               name={'hourlyWage'}
               placeholder={`최저시급: ${hourlyWageData.min} (${hourlyWageData.as} 기준)`}
-              value={hourlyWageData.min}
+              value={formData.hourlyWage}
               min={hourlyWageData.min}
               step={10}
-              // required
+              onChange={(event) =>
+                setFormData('hourlyWage', event.target.value)
+              }
+              required
             ></Form.Input>
             <Form.Unit unit={'원'} />
           </Form.Wrap>
