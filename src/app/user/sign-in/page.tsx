@@ -1,9 +1,15 @@
 'use client'
 
+import style from '@/app/user/page.module.scss'
 import MainButton from '@/components/Button/MainButton/MainButton'
 import Form from '@/components/Form/Form'
 import useSignIn from '@/hooks/auth/useSignIn'
-import { TEST_ID_APPLICANT, TEST_ID_OWNER } from '@/lib/data/constants'
+import {
+  TEST_ID_APPLICANT,
+  TEST_ID_OWNER,
+  emailPattern,
+  passwordPattern,
+} from '@/lib/data/constants'
 import { useUserStore } from '@/lib/stores/userStore'
 import { SignInValues } from '@/lib/types/userTypes'
 import Link from 'next/link'
@@ -11,20 +17,10 @@ import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { FieldValues } from 'react-hook-form'
 
-import style from './page.module.scss'
-
 export default function SignInPage() {
   const router = useRouter()
   const signIn = useSignIn()
   const { user } = useUserStore()
-  const emailPattern = {
-    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-    message: '이메일 형식이 아닙니다.',
-  }
-  const passwordPattern = {
-    value: /^.{6,}$/,
-    message: '비밀번호는 6자 이상이어야 합니다.',
-  }
 
   async function handleSignIn({ email, password }: SignInValues) {
     await signIn.mutateAsync({ email, password })
@@ -47,7 +43,7 @@ export default function SignInPage() {
         <h1>로그인</h1>
         <p>
           아직 계정이 없으신가요?
-          <Link href={'/sign-up'} className={style['go-to-signup']}>
+          <Link href={'/user/sign-up'} className={style['go-to-signup']}>
             회원가입 하러 가기
           </Link>
         </p>
@@ -86,27 +82,23 @@ export default function SignInPage() {
             </Form.Field>
           </Form.Fieldset>
 
-          <MainButton
-            buttonStyle={'solid'}
-            type={'submit'}
-            disabled={signIn.isPending}
-          >
+          <Form.SubmitButton buttonStyle={'solid'} isPending={signIn.isPending}>
             {signIn.isPending ? '로그인 중...' : '로그인'}
-          </MainButton>
+          </Form.SubmitButton>
         </Form>
 
         <MainButton
           buttonStyle={'outline'}
           onClick={() => handleSignIn(TEST_ID_APPLICANT)}
         >
-          지원자 로그인
+          지원자로 로그인
         </MainButton>
 
         <MainButton
           buttonStyle={'outline'}
           onClick={() => handleSignIn(TEST_ID_OWNER)}
         >
-          사장님 로그인
+          사장님으로 로그인
         </MainButton>
       </div>
     </>
