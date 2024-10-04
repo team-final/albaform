@@ -46,7 +46,13 @@ const MyApplicationModal = ({
           className={styles['application-details-close']}
           onClick={onRequestClose}
         >
-          <Image src="/icons/ic-X.svg" alt="모달 닫기" width={36} height={36} />
+          <Image
+            src="/icons/ic-X.svg"
+            alt="모달 닫기"
+            width={36}
+            height={36}
+            className={styles['close-img']}
+          />
         </button>
       </div>
       <div className={styles['application-details-container']}>
