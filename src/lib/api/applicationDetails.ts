@@ -47,3 +47,36 @@ export const getListApplicationDetails = async (applicationId: number) => {
     throw error
   }
 }
+
+// 이력서 다운로드
+export const getDownloadResume = async (
+  resumeId: number,
+  resumeName: string,
+) => {
+  try {
+    const response = await basicAxios.get(`${resumeId}/download`, {
+      responseType: 'blob',
+    })
+
+    const url = window.URL.createObjectURL(new Blob([response.data]))
+    const link = document.createElement('a')
+    link.href = url
+
+    const contentDisposition = response.headers['content-disposition']
+    const fileName = contentDisposition
+      ? contentDisposition.split('filename=')[1]?.replace(/"/g, '')
+      : resumeName
+
+    link.setAttribute('download', fileName)
+    document.body.appendChild(link)
+    link.click()
+
+    document.body.removeChild(link)
+    window.URL.revokeObjectURL(url)
+
+    return response
+  } catch (error) {
+    console.log('파일 다운로드 중 오류 발생: ', error)
+    throw error
+  }
+}
