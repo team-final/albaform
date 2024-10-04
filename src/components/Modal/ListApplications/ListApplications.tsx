@@ -42,6 +42,7 @@ const ListApplicationsModal = ({ formId, isOpen, onRequestClose }: Props) => {
     [...applicationList.data]
       .sort((a, b) => {
         // 경력 정렬
+        // 경력이 우선순위
         if (isExperienceAscending) {
           return a.experienceMonths - b.experienceMonths
         } else {
