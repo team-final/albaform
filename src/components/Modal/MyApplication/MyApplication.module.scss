@@ -23,6 +23,11 @@
   display: flex;
   flex-direction: column;
   row-gap: 10px;
+
+  @include media.tablet {
+    width: 375px;
+    padding: 16px 24px;
+  }
 }
 
 .application-details-title-container {
@@ -36,21 +41,37 @@
 
   color: color.$Black-500;
   margin: 0;
+
+  @include media.tablet {
+    @include font.Style(2lg, 600);
+  }
 }
 
 .application-details-close {
   background-color: unset;
   border: none;
   min-width: 24px;
+  min-height: 24px;
   width: 36px;
   height: 36px;
   padding: 0;
+}
+
+.close-img {
+  @include media.tablet {
+    width: 24px;
+    height: 24px;
+  }
 }
 
 .application-details-container {
   display: flex;
   flex-direction: column;
   row-gap: 24px;
+
+  @include media.tablet {
+    row-gap: 14px;
+  }
 }
 
 .application-details-content {
@@ -59,30 +80,50 @@
   justify-content: space-between;
   padding: 24px 8px;
   border-bottom: 1px solid color.$Line-100;
+
+  @include media.tablet {
+    padding: 14px 8px;
+  }
 }
 
 .application-details-content-column-container {
   display: flex;
   flex-direction: column;
   row-gap: 24px;
+
+  @include media.tablet {
+    row-gap: 14px;
+  }
 }
 
 .application-details-content-column {
   display: flex;
   flex-direction: column;
   row-gap: 24px;
+
+  @include media.tablet {
+    row-gap: 14px;
+  }
 }
 
 .content-title {
   @include font.Style(2xl, 400);
 
   color: color.$Black-100;
+
+  @include media.tablet {
+    @include font.Style(md, 400);
+  }
 }
 
 .content-description {
   @include font.Style(2xl, 400);
 
   color: color.$Black-400;
+
+  @include media.tablet {
+    @include font.Style(md, 400);
+  }
 }
 
 .content-description-resume {
@@ -94,12 +135,20 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @include media.tablet {
+    padding: 14px;
+  }
 }
 
 .content-description-resume-title {
   @include font.Style(xl, 400);
 
   color: color.$Black-400;
+
+  @include media.tablet {
+    @include font.Style(md, 400);
+  }
 }
 
 .resume-edit-button {
@@ -107,9 +156,22 @@
   border: none;
   width: 36px;
   min-width: 24px;
+  min-height: 24px;
   height: 36px;
   padding: 0;
   cursor: pointer;
+
+  @include media.tablet {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.resume-edit-image {
+  @include media.tablet {
+    width: 24px;
+    height: 24px;
+  }
 }
 
 .content-description-introduction {
@@ -121,4 +183,10 @@
   border: 0.5px solid color.$Grayscale-200;
   border-radius: 8px;
   padding: 18px 14px;
+
+  @include media.tablet {
+    @include font.Style(md, 400);
+
+    padding: 14px;
+  }
 }
