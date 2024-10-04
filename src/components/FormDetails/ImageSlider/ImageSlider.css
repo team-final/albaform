@@ -42,7 +42,6 @@
   z-index: 10;
 }
 
-
 @media screen and (max-width: 1024px) {
   .swiper-button-prev,
   .swiper-button-next {
