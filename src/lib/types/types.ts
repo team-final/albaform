@@ -23,7 +23,6 @@ export interface LayoutProps {
 
 export interface ChildrenProps {
   children?: ReactNode
-  className?: string
 }
 
 export interface ComponentProps extends ChildrenProps {
