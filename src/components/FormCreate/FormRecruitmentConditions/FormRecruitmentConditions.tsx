@@ -35,7 +35,9 @@ export default function FormRecruitmentConditions() {
                     setNumberOfPositions(value)
                     setFormData(
                       'numberOfPositions',
-                      value === '직접입력' ? '' : value,
+                      value === '00명 (인원미정)'
+                        ? 0
+                        : formData.numberOfPositions,
                     )
                   }}
                 >
@@ -48,11 +50,17 @@ export default function FormRecruitmentConditions() {
         <Form.Field hidden={numberOfPositions !== '직접입력'}>
           <Form.Wrap>
             <Form.Input
+              type={'number'}
               name={'numberOfPositions'}
               placeholder={'모집인원'}
-              value={formData.numberOfPositions}
+              value={
+                typeof formData.numberOfPositions === 'number'
+                  ? formData.numberOfPositions
+                  : 0
+              }
+              min={0}
               onChange={(event) =>
-                setFormData('numberOfPositions', event.target.value)
+                setFormData('numberOfPositions', Number(event.target.value))
               }
             />
             <Form.Unit unit={'명'} />

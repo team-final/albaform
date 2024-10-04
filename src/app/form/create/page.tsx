@@ -8,42 +8,16 @@ import FormCreateWrapper from '@/components/FormCreate/FormCreateWrapper/FormCre
 import FormRecruitmentConditions from '@/components/FormCreate/FormRecruitmentConditions/FormRecruitmentConditions'
 import FormRecruitmentContent from '@/components/FormCreate/FormRecruitmentContent/FormRecruitmentContent'
 import FormWorkingConditions from '@/components/FormCreate/FormWorkingConditions/FormWorkingConditions'
+import { createAlbaForm } from '@/lib/api/formCreate'
+import { useFormCreateStore } from '@/lib/stores/formCreateStore'
+import { FORM_DATA } from '@/lib/types/types'
 import classNames from 'classnames'
+import { FieldValues } from 'react-hook-form'
 
 import styles from './page.module.scss'
 
-/**
- * @todo
- * api 요청
- */
-// eslint-disable-next-line no-unused-vars
-const EXAMPLE_REQ_BODY = {
-  /* step 1 */
-  title: 'string', // 알바폼 제목
-  description: 'string', // 소개글
-  recruitmentStartDate: '2024-09-30T20:54:01.317Z', // 모집기간 시작일
-  recruitmentEndDate: '2024-09-30T20:54:01.317Z', // 모집기간 종료일
-  imageUrls: ['string'], // 이미지 파일
-  /* step 2 */
-  numberOfPositions: 0, // 모집인원
-  gender: 'string', // 성별
-  education: 'string', // 학력
-  age: 'string', // 연령
-  preferred: 'string', // 우대사항
-  /* step 3 */
-  location: 'string', // 근무 위치
-  workStartDate: '2024-09-30T20:54:01.317Z', // 근무기간 시작일
-  workEndDate: '2024-09-30T20:54:01.317Z', // 근무기간 종료일
-  workStartTime: 'string', // 근무 시간 시작
-  workEndTime: 'string', // 근무 시간 종료
-  workDays: ['string'], // 근무 요일
-  hourlyWage: 0, // 시급
-  isPublic: true, // 공개 설정
-}
-
-const TEMP_CREATE_FORM = 'temp_create_form'
-
 export default function CreateFormPage() {
+  const { formData } = useFormCreateStore()
   /**
    * @todo 단계 별 작성중 인디케이터 개발
    */
@@ -56,16 +30,28 @@ export default function CreateFormPage() {
   //   [3, false],
   // ])
 
-  const handleSubmit = async (data: object, e?: Event | any) => {
+  const handleSubmit = async (
+    data: FieldValues | FORM_DATA,
+    e?: Event | any,
+  ) => {
+    data.imageUrls = JSON.stringify(formData.imageUrls)
     if (e?.nativeEvent.submitter.innerText === '임시 저장') {
-      console.log('data: ', data)
-      localStorage.setItem(TEMP_CREATE_FORM, JSON.stringify(data))
+      const now = new Date()
+      const YY = now.getFullYear()
+      const MM = (now.getMonth() + 1).toString().padStart(2, '0')
+      const DD = now.getDate().toString().padStart(2, '0')
+      const hh = now.getHours().toString().padStart(2, '0')
+      const mm = now.getMinutes().toString().padStart(2, '0')
+      const ss = now.getSeconds().toString().padStart(2, '0')
+
+      const tempData = { createAt: `${YY}-${MM}-${DD} ${hh}:${mm}:${ss}`, data }
+
+      console.log(tempData)
+      // localStorage.setItem(TEMP_CREATE_FORM, JSON.stringify(data))
+    } else {
+      await createAlbaForm(JSON.stringify(data))
     }
   }
-
-  // const checkProgress = (name) => {}
-
-  console.log('EXAMPLE_REQ_BODY: ', EXAMPLE_REQ_BODY)
 
   return (
     <Form

@@ -3,7 +3,7 @@ import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner'
 import { uploadImage } from '@/lib/api/uploadImageApi'
 import { useFormCreateStore } from '@/lib/stores/formCreateStore'
 import Image from 'next/image'
-import { ChangeEvent, useEffect, useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 
 import styles from './FormRecruitmentContent.module.scss'
 
@@ -39,9 +39,16 @@ export default function FormRecruitmentContent() {
     event.target.value = ''
   }
 
+  const handleChangeImageList = useCallback(
+    (imageList: { url: string; name: string }[]) => {
+      setFormData('imageUrls', imageList)
+    },
+    [setFormData],
+  )
+
   useEffect(() => {
-    setFormData('imageUrls', imageList)
-  }, [imageList])
+    handleChangeImageList(imageList)
+  }, [handleChangeImageList, imageList])
 
   return (
     <>
