@@ -215,6 +215,8 @@ export const useLabelContext = () => {
  * @param children
  * @param className
  * @param isInline - label과 input 한줄로
+ * @param htmlFor
+ * @param hidden
  */
 function Field({
   children,
@@ -319,9 +321,20 @@ function Input({
     pattern: pattern || undefined,
     validate,
   }
-  const { register, errors, setValue } = useFormContext()
+  const { register, errors, setValue, watch } = useFormContext()
   const { forId } = useLabelContext()
   const cn = classNames(styles['form-input'], className)
+
+  /**
+   * confirm으로 시작하는 input의 일치 유효성을 검사하는 함수 설정
+   */
+  const isConfirm = name.startsWith('confirm')
+  const confirmInputName = name.replace('confirm', '').trim().toLowerCase()
+  const confirmInputValue = watch(confirmInputName)
+
+  if (isConfirm) {
+    rules.validate = (value) => value === confirmInputValue
+  }
 
   /**
    * password 내용의 가시성을 토글하기 위한 상수.
@@ -330,7 +343,9 @@ function Input({
   const inputType =
     type === 'password' ? (visibility ? 'password' : 'text') : type
 
-  if (value && name !== 'workDays') setValue(name, value)
+  useEffect(() => {
+    if (value && name !== 'workDays') setValue(name, value)
+  }, [value, name, setValue])
 
   return (
     <>
@@ -526,19 +541,25 @@ interface SubmitButtonProps {
   buttonStyle?: 'solid' | 'outline'
   color?: 'primary' | 'gray'
   children: ReactNode
+  isPending?: boolean
 }
 
 /**
  * 해당 form 의 onSubmit prop 으로 등록된 함수를 실행하는 버튼입니다. 1개만 존재 해야합니다.
  */
-function SubmitButton({ buttonStyle, color, children }: SubmitButtonProps) {
+function SubmitButton({
+  buttonStyle,
+  color,
+  children,
+  isPending,
+}: SubmitButtonProps) {
   const { isValid, isSubmitting } = useFormContext()
   return (
     <MainButton
       buttonStyle={buttonStyle}
       color={color}
       type={'submit'}
-      disabled={!isValid || isSubmitting}
+      disabled={!isValid || isSubmitting || isPending}
     >
       {children}
     </MainButton>
