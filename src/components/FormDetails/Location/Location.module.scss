@@ -60,6 +60,7 @@
   padding: 0;
   white-space: nowrap;
   cursor: pointer;
+  min-width: 0;
 
   @include media.tablet {
     @include font.Style(md, 500);
