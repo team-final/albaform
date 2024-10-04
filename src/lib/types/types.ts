@@ -128,7 +128,7 @@ export const STEP_BUTTONS: { index: STEP_INDEX; title: STEP_TITLE }[] = [
   { index: 3, title: '근무 조건' },
 ]
 
-export type NumberOfPositionsType = '00명 (인원미정)' | '직접입력' | string
+export type NumberOfPositionsType = '00명 (인원미정)' | '직접입력' | number
 export type GenderType = '성별무관' | '남성' | '여성'
 export type EducationType = '학력무관' | '고등학교 졸업' | '대학교 졸업'
 export type AgeType =
@@ -148,7 +148,7 @@ export interface FORM_STEP_1 {
   description: string
   recruitmentStartDate: Date | string
   recruitmentEndDate: Date | string
-  imageUrls: string[]
+  imageUrls: { url: string; name: string }[]
 }
 
 export interface FORM_STEP_2 {

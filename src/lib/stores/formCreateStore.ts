@@ -3,11 +3,9 @@ import { create } from 'zustand'
 import {
   AgeType,
   EducationType,
+  FORM_DATA,
   FORM_DATA_TYPE,
   FORM_DATA_VALUE,
-  FORM_STEP_1,
-  FORM_STEP_2,
-  FORM_STEP_3,
   GenderType,
   NumberOfPositionsType,
   PreferredType,
@@ -65,7 +63,7 @@ export const VALUE_PRESET: {
   workDays: ['일', '월', '화', '수', '목', '금', '토'],
 }
 
-export const INITIAL_FORM_DATA: FORM_STEP_1 & FORM_STEP_2 & FORM_STEP_3 = {
+export const INITIAL_FORM_DATA: FORM_DATA = {
   /* 알바폼 제목 */
   title: '',
   /* 소개글 */
@@ -109,7 +107,7 @@ export const INITIAL_FORM_DATA: FORM_STEP_1 & FORM_STEP_2 & FORM_STEP_3 = {
 interface FormCreateStore {
   step: STEP_INDEX
   setStep: (index: STEP_INDEX) => void
-  formData: FORM_STEP_1 & FORM_STEP_2 & FORM_STEP_3
+  formData: FORM_DATA
   initialFormData: () => void
   setFormData: (key: FORM_DATA_TYPE, value: FORM_DATA_VALUE) => void
   // inProgress: (step: STEP_INDEX) => {
