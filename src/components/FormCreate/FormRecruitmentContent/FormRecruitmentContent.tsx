@@ -1,10 +1,47 @@
 import Form from '@/components/Form/Form'
+import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner'
+import { uploadImage } from '@/lib/api/uploadImageApi'
 import { useFormCreateStore } from '@/lib/stores/formCreateStore'
+import Image from 'next/image'
+import { ChangeEvent, useEffect, useState } from 'react'
 
 import styles from './FormRecruitmentContent.module.scss'
 
 export default function FormRecruitmentContent() {
   const { formData, setFormData } = useFormCreateStore()
+  const [imageList, setImageList] = useState<{ url: string; name: string }[]>(
+    [],
+  )
+  const [isImagePending, setIsImagePending] = useState<boolean>(false)
+
+  const deleteImage = (url: string) => {
+    setImageList((prev) => prev.filter((item) => item.url !== url))
+  }
+
+  const handleUploadImage = async (event: ChangeEvent<HTMLInputElement>) => {
+    const { files } = event.target
+    if (!files) return
+
+    setIsImagePending(true)
+
+    const file = files[0]
+    const formData = new FormData()
+    formData.append('image', file, file.name)
+
+    const response = await uploadImage(formData)
+    if (!response) return
+
+    setImageList((prev) => [
+      ...prev,
+      { url: response.data.url, name: file.name },
+    ])
+    setIsImagePending(false)
+    event.target.value = ''
+  }
+
+  useEffect(() => {
+    setFormData('imageUrls', imageList)
+  }, [imageList])
 
   return (
     <>
@@ -60,13 +97,40 @@ export default function FormRecruitmentContent() {
 
       <Form.Fieldset className={styles['form-file-images']}>
         <Form.Legend>이미지 첨부</Form.Legend>
-        <Form.Field>
-          <Form.Input type={'file'} name={'imageUrls'}></Form.Input>
-        </Form.Field>
-        {/*
-         * @todo
-         * 첨부 이미지 리스트 컴포넌트 개발
-         */}
+        <div className={styles['form-file-images-wrap']}>
+          <Form.Field>
+            <Form.Input
+              type={'file'}
+              name={'imageUrls'}
+              onChange={handleUploadImage}
+            />
+          </Form.Field>
+          {imageList &&
+            imageList.map(({ url, name }, index) => {
+              return (
+                <div
+                  key={`upload_images_${index}`}
+                  className={styles['form-file-images-item']}
+                >
+                  <>
+                    <Image src={url} alt={name} fill sizes={'99vw'} />
+                    <button
+                      type={'button'}
+                      className={styles['form-file-images-delete-button']}
+                      onClick={() => {
+                        deleteImage(url)
+                      }}
+                    ></button>
+                  </>
+                </div>
+              )
+            })}
+          {isImagePending && (
+            <div className={styles['form-file-images-item']}>
+              <LoadingSpinner />
+            </div>
+          )}
+        </div>
       </Form.Fieldset>
     </>
   )

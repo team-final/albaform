@@ -25,4 +25,44 @@
   & input {
     display: none;
   }
+
+  &-wrap {
+    position: relative;
+    display: flex;
+    flex-flow: row wrap;
+    gap: 16px;
+  }
+
+  &-item {
+    position: relative;
+    border-radius: 8px;
+    width: 116px;
+    height: 116px;
+
+    & img {
+      border-radius: 8px;
+    }
+
+    &:has([class*='loading-spinner']) {
+      border: 1px solid color.$Line-100;
+    }
+  }
+
+  &-delete-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    transform: translate(calc(50% - 4px), calc(-50% + 4px));
+    width: 32px;
+    height: 32px;
+    min-width: auto;
+    min-height: auto;
+    padding: 0;
+    background-color: transparent;
+    background-image: url('/icons/ic-X-circle.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 32px;
+  }
 }
