@@ -11,7 +11,7 @@ export default function FormCreateStep({
   step,
 }: FormCreateStepProps) {
   return (
-    <div className={styles['form-step']} data-step-item={step}>
+    <div className={styles.step} data-step-item={step}>
       {children}
     </div>
   )
