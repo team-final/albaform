@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 
 import {
+  getDownloadResume,
   getListApplicationDetails,
   getListApplications,
   getMyApplication,
@@ -40,5 +41,16 @@ export const useListApplicationDetailsQuery = (
     queryKey: ['applicationDetails'],
     queryFn: () => getListApplicationDetails(applicationId),
     enabled: options?.enabled,
+  })
+}
+
+export const useDownloadResumueQuery = (
+  resumeId: number,
+  resumeName: string,
+) => {
+  return useQuery({
+    queryKey: ['myResume'],
+    queryFn: () => getDownloadResume(resumeId, resumeName),
+    enabled: false,
   })
 }
