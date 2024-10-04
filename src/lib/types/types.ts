@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { FieldValues } from 'react-hook-form'
+import { FieldValues, SubmitHandler } from 'react-hook-form'
 
 export interface CustomMessage {
   title?: string
@@ -31,7 +31,7 @@ export interface ComponentProps extends ChildrenProps {
 
 export interface FormProps extends ComponentProps {
   formId: string
-  onSubmit: (values: FieldValues) => void
+  onSubmit: SubmitHandler<FieldValues>
   initialValues?: Record<string, any>
   defaultValues?: FieldValues
 }
