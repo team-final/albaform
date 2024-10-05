@@ -85,7 +85,7 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
         setHasModalBeenOpened(true)
       }
     }
-  }, [formDetails, hasModalBeenOpened]) // 팝업 렌더링 될 때 보이게 & 모집 마감 된 폼 -> 모달 띄움
+  }, [isRecruitmentActive, hasModalBeenOpened, formDetails?.recruitmentEndDate]) // 팝업 렌더링 될 때 보이게 & 모집 마감 된 폼 -> 모달 띄움
 
   const handleApplyClick = () => {
     router.push(`form/${formId}/apply`)
