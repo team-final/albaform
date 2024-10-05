@@ -51,7 +51,7 @@ export default function FormRecruitmentContent({ step }: FormCreateStepProp) {
 
   const handleChangeImageList = useCallback(() => {
     setFormData('imageUrls', imageList)
-  }, [setFormData, imageList])
+  }, [imageList, setFormData])
 
   useEffect(() => {
     handleChangeImageList()
@@ -64,7 +64,7 @@ export default function FormRecruitmentContent({ step }: FormCreateStepProp) {
     setInProgress({ step, isProgress })
     if (isProgress) return
     if (imageList.length > 0) setImageList([])
-  }, [formData, step, setInProgress])
+  }, [imageList, formData, step, setInProgress])
 
   useEffect(() => {
     handleProgress()
