@@ -17,15 +17,16 @@ import styles from './page.module.scss'
 
 export default function CreateFormPage() {
   const { formData } = useFormCreateStore()
-  /**
-   * @todo 임시저장 기능 개발
-   */
-
   const handleSubmit = async (
     data: FieldValues | FORM_DATA,
     e?: Event | any,
   ) => {
     data.imageUrls = JSON.stringify(formData.imageUrls)
+    data.workDays = formData.workDays
+
+    /**
+     * @todo 임시저장 기능 개발
+     */
     if (e?.nativeEvent.submitter.innerText === '임시 저장') {
       const now = new Date()
       const YY = now.getFullYear()
