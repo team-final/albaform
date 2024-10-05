@@ -17,6 +17,7 @@ import {
   useFormScrapMutation,
   useUsersMeQuery,
 } from '@/lib/queries/formDetailsQuery'
+import classNames from 'classnames'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
@@ -46,10 +47,8 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
   const { mutate: deleteForm } = useDeleteFormQuery()
   const [isScrapped, setIsScrapped] = useState(formDetails?.isScrapped || false)
   const [scrapCount, setScrapCount] = useState(0)
-  const [isPopupVisible, setIsPopupVisible] = useState<boolean>(false)
-  const [isMenuVisible, setIsMenuVisible] = useState<boolean>(false)
-  const [showFirstButton, setShowFirstButton] = useState<boolean>(false)
-  const [showSecondButton, setShowSecondButton] = useState<boolean>(false)
+  const [isPopupVisible, setIsPopupVisible] = useState(false)
+  const [isMenuVisible, setIsMenuVisible] = useState(false)
   const isRecruitmentActive =
     formDetails?.recruitmentEndDate &&
     new Date(formDetails.recruitmentEndDate) > new Date()
@@ -80,19 +79,6 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
       }
     }
   }, [isRecruitmentActive, hasModalBeenOpened, formDetails?.recruitmentEndDate]) // 팝업 렌더링 될 때 보이게 & 모집 마감 된 폼 -> 모달 띄움
-
-  useEffect(() => {
-    if (isMenuVisible) {
-      setShowFirstButton(true)
-      const timer = setTimeout(() => {
-        setShowSecondButton(true)
-      }, 70)
-      return () => clearTimeout(timer)
-    } else {
-      setShowFirstButton(false)
-      setShowSecondButton(false)
-    }
-  }, [isMenuVisible]) // 플로팅 메뉴 순차적으로
 
   const handleApplyClick = () => {
     router.push(`form/${formId}/apply`)
@@ -285,32 +271,28 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
               />
             </FloatingButton>
 
-            {isMenuVisible && (
-              <div
-                className={`${styles['floating-menu-container']} ${isMenuVisible ? styles.visible : ''}`}
-              >
-                {showFirstButton && (
-                  <FloatingButton mode="bookmark" onClick={kakaoShareClick}>
-                    <FloatingButton.Icon
-                      src="/icons/ic-logo-kakao2.svg"
-                      altText="카카오 공유"
-                      width={24}
-                      height={24}
-                    />
-                  </FloatingButton>
-                )}
-                {showSecondButton && (
-                  <FloatingButton mode="bookmark" onClick={copyURL}>
-                    <FloatingButton.Icon
-                      src="/icons/ic-copy.svg"
-                      altText="주소 복사"
-                      width={24}
-                      height={24}
-                    />
-                  </FloatingButton>
-                )}
-              </div>
-            )}
+            <div
+              className={classNames(styles['floating-menu-container'], {
+                [styles.visible]: isMenuVisible,
+              })}
+            >
+              <FloatingButton mode="bookmark" onClick={kakaoShareClick}>
+                <FloatingButton.Icon
+                  src="/icons/ic-logo-kakao2.svg"
+                  altText="카카오 공유"
+                  width={24}
+                  height={24}
+                />
+              </FloatingButton>
+              <FloatingButton mode="bookmark" onClick={copyURL}>
+                <FloatingButton.Icon
+                  src="/icons/ic-copy.svg"
+                  altText="주소 복사"
+                  width={24}
+                  height={24}
+                />
+              </FloatingButton>
+            </div>
           </div>
 
           <div className={styles['button-container']}>

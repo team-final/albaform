@@ -69,12 +69,13 @@
 }
 
 .floating-button-container {
+  position: fixed;
+  z-index: 100;
   display: flex;
   flex-direction: column;
   row-gap: 24px;
-  position: fixed;
-  top: 670px;
-  right: 180px;
+  right: 80px;
+  bottom: 80px;
 
   @include media.mobile {
     right: 10px;
@@ -82,18 +83,43 @@
 }
 
 .floating-menu-container {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
   display: flex;
-  flex-direction: column;
-  row-gap: 20px;
-  transform: translateY(-20px);
-  transition:
-    opacity 0.3s ease,
-    transform 0.3s ease;
+  flex-direction: row-reverse;
+  width: fit-content;
+  padding-right: 0;
+  gap: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.24s;
+
+  & button {
+    transition: all 0.24s;
+
+    &:nth-child(1) {
+      transform: translateX(0);
+    }
+
+    &:nth-child(2) {
+      transform: translateX(100%);
+    }
+  }
 }
 
 .floating-menu-container.visible {
+  right: 100%;
+  z-index: 0;
+  padding-right: 20px;
+  gap: 20px;
   opacity: 1;
-  transform: translateY(0);
+  visibility: visible;
+
+  & button {
+    transform: translateX(0);
+  }
 }
 
 .button-container {
