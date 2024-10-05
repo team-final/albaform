@@ -5,7 +5,7 @@ import styles from './Menu.module.scss'
 export default function Menu() {
   return (
     <div className={styles.nav}>
-      <Link href="/" draggable="false" className={styles.active}>
+      <Link href="/forms" draggable="false" className={styles.active}>
         알바 목록
       </Link>
       <Link href="/" draggable="false">
