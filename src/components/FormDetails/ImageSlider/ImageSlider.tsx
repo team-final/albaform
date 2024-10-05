@@ -8,6 +8,8 @@ import 'swiper/css/scrollbar'
 import { A11y, Navigation, Pagination, Scrollbar } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
+import styles from './ImageSlider.module.scss'
+
 export default function ImageSlider({
   formDetails,
   noImageHeight = 100,
@@ -21,7 +23,7 @@ export default function ImageSlider({
     : []
 
   return (
-    <div className="slide-container">
+    <div className={styles.custom}>
       <Swiper
         modules={[Navigation, Pagination, Scrollbar, A11y]}
         spaceBetween={50}
@@ -38,7 +40,7 @@ export default function ImageSlider({
               alt={`슬라이더 이미지 ${index}`}
               width={100}
               height={30}
-              className="job-details-img"
+              className={styles['job-details-img']}
               priority
             />
           </SwiperSlide>
