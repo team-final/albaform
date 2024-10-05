@@ -2,16 +2,50 @@ import FormStyles from '@/app/form/create/page.module.scss'
 import Dropdown from '@/components/Dropdown/Dropdown'
 import Form from '@/components/Form/Form'
 import {
+  INITIAL_FORM_DATA,
   VALUE_PRESET,
   hourlyWageData,
   useFormCreateStore,
 } from '@/lib/stores/formCreateStore'
+import { FORM_STEP_3, FormCreateStepProp } from '@/lib/types/types'
+import { ChangeEvent, useCallback, useEffect } from 'react'
 
-export default function FormWorkingConditions() {
-  const { formData, setFormData } = useFormCreateStore()
+import FormCreateStep from '../FormCreateStep/FormCreateStep'
+
+const FROM_NAME_LIST: (keyof FORM_STEP_3)[] = [
+  'location',
+  'workStartDate',
+  'workEndDate',
+  'workStartTime',
+  'workEndTime',
+  'workDays',
+  'isNegotiableWorkDays',
+  'hourlyWage',
+  'isPublic',
+]
+
+export default function FormWorkingConditions({ step }: FormCreateStepProp) {
+  const { formData, setFormData, setInProgress } = useFormCreateStore()
+
+  const handleProgress = useCallback(() => {
+    console.log('formData: ', formData, INITIAL_FORM_DATA)
+    const isProgress = FROM_NAME_LIST.some((key) => {
+      console.log(formData[key], INITIAL_FORM_DATA[key])
+      if (key === 'workDays') {
+        return formData[key].length > 0
+      } else {
+        return formData[key] !== INITIAL_FORM_DATA[key]
+      }
+    })
+    setInProgress({ step, isProgress })
+  }, [formData, step, setInProgress])
+
+  useEffect(() => {
+    handleProgress()
+  }, [handleProgress])
 
   return (
-    <>
+    <FormCreateStep step={step}>
       <Form.Fieldset>
         <Form.Legend>
           근무 위치<span className={'required'}>*</span>
@@ -122,10 +156,6 @@ export default function FormWorkingConditions() {
           근무 요일<span className={'required'}>*</span>
         </Form.Legend>
         <div className={FormStyles['form-day-of-week']}>
-          {/*
-           * @todo
-           * checkbox 체크 될 때 리렌더링 되서 체크가 안됨..!!
-           */}
           {VALUE_PRESET.workDays.map((value) => {
             return (
               <Form.Field
@@ -133,7 +163,22 @@ export default function FormWorkingConditions() {
                 key={`checkbox-workDays-${value}`}
               >
                 <Form.Label>{value}</Form.Label>
-                <Form.Input type={'checkbox'} name={'workDays'} value={value} />
+                <Form.Input
+                  type={'checkbox'}
+                  name={'workDays'}
+                  value={value}
+                  onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                    const { checked } = event.target
+                    if (checked) {
+                      setFormData('workDays', [...formData.workDays, value])
+                    } else {
+                      setFormData(
+                        'workDays',
+                        formData.workDays.filter((day) => day !== value),
+                      )
+                    }
+                  }}
+                />
               </Form.Field>
             )
           })}
@@ -142,7 +187,13 @@ export default function FormWorkingConditions() {
           htmlFor={`checkbox-workDays-isNegotiableWorkDays`}
           className={FormStyles['form-checkbox']}
         >
-          <Form.Input type={'checkbox'} name={'isNegotiableWorkDays'} />
+          <Form.Input
+            type={'checkbox'}
+            name={'isNegotiableWorkDays'}
+            onChange={(event: ChangeEvent<HTMLInputElement>) =>
+              setFormData('isNegotiableWorkDays', event.target.checked)
+            }
+          />
           <Form.Label>요일 협의 가능</Form.Label>
         </Form.Field>
       </Form.Fieldset>
@@ -160,8 +211,8 @@ export default function FormWorkingConditions() {
               value={formData.hourlyWage}
               min={hourlyWageData.min}
               step={10}
-              onChange={(event) =>
-                setFormData('hourlyWage', event.target.value)
+              onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                setFormData('hourlyWage', Number(event.target.value))
               }
               required
             ></Form.Input>
@@ -177,11 +228,17 @@ export default function FormWorkingConditions() {
           className={FormStyles['form-checkbox']}
         >
           <Form.Wrap>
-            <Form.Input type={'checkbox'} name={'isPublic'} />
+            <Form.Input
+              type={'checkbox'}
+              name={'isPublic'}
+              onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                setFormData('isPublic', event.target.checked)
+              }
+            />
           </Form.Wrap>
           <Form.Label>공개</Form.Label>
         </Form.Field>
       </Form.Fieldset>
-    </>
+    </FormCreateStep>
   )
 }

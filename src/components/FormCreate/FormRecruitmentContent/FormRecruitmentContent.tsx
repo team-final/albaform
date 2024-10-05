@@ -2,13 +2,23 @@ import Form from '@/components/Form/Form'
 import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner'
 import { uploadImage } from '@/lib/api/uploadImageApi'
 import { useFormCreateStore } from '@/lib/stores/formCreateStore'
+import { FORM_STEP_1, FormCreateStepProp } from '@/lib/types/types'
 import Image from 'next/image'
 import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 
+import FormCreateStep from '../FormCreateStep/FormCreateStep'
 import styles from './FormRecruitmentContent.module.scss'
 
-export default function FormRecruitmentContent() {
-  const { formData, setFormData } = useFormCreateStore()
+const FROM_NAME_LIST: (keyof FORM_STEP_1)[] = [
+  'title',
+  'description',
+  'recruitmentStartDate',
+  'recruitmentEndDate',
+  'imageUrls',
+]
+
+export default function FormRecruitmentContent({ step }: FormCreateStepProp) {
+  const { formData, setFormData, setInProgress } = useFormCreateStore()
   const [imageList, setImageList] = useState<{ url: string; name: string }[]>(
     [],
   )
@@ -50,8 +60,19 @@ export default function FormRecruitmentContent() {
     handleChangeImageList(imageList)
   }, [handleChangeImageList, imageList])
 
+  const handleProgress = useCallback(() => {
+    const isProgress = FROM_NAME_LIST.some((key) =>
+      key === 'imageUrls' ? formData[key].length > 0 : Boolean(formData[key]),
+    )
+    setInProgress({ step, isProgress })
+  }, [formData, step, setInProgress])
+
+  useEffect(() => {
+    handleProgress()
+  }, [handleProgress])
+
   return (
-    <>
+    <FormCreateStep step={step}>
       <Form.Fieldset>
         <Form.Legend>
           알바폼 제목<span className={'required'}>*</span>
@@ -63,7 +84,9 @@ export default function FormRecruitmentContent() {
               name={'title'}
               placeholder={'제목을 입력해주세요.'}
               value={formData.title}
-              onChange={(event) => setFormData('title', event.target.value)}
+              onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                setFormData('title', event.target.value)
+              }
               required
             ></Form.Input>
           </Form.Wrap>
@@ -81,7 +104,7 @@ export default function FormRecruitmentContent() {
               name={'description'}
               placeholder={'최대 200자까지 입력 가능합니다.'}
               value={formData.description}
-              onChange={(event) =>
+              onChange={(event: ChangeEvent<HTMLInputElement>) =>
                 setFormData('description', event.target.value)
               }
               required
@@ -139,6 +162,6 @@ export default function FormRecruitmentContent() {
           )}
         </div>
       </Form.Fieldset>
-    </>
+    </FormCreateStep>
   )
 }

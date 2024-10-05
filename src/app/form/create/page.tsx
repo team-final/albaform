@@ -2,7 +2,6 @@
 
 import Form from '@/components/Form/Form'
 import FormCreateAside from '@/components/FormCreate/FormCreateAside/FormCreateAside'
-import FormCreateStep from '@/components/FormCreate/FormCreateStep/FormCreateStep'
 import FormCreateTitle from '@/components/FormCreate/FormCreateTitle/FormCreateTitle'
 import FormCreateWrapper from '@/components/FormCreate/FormCreateWrapper/FormCreateWrapper'
 import FormRecruitmentConditions from '@/components/FormCreate/FormRecruitmentConditions/FormRecruitmentConditions'
@@ -19,16 +18,8 @@ import styles from './page.module.scss'
 export default function CreateFormPage() {
   const { formData } = useFormCreateStore()
   /**
-   * @todo 단계 별 작성중 인디케이터 개발
+   * @todo 임시저장 기능 개발
    */
-  // const [formDataStep1, setFormDataStep1] = useState(INITIAL_FORM_DATA.STEP_1)
-  // const [formDataStep2, setFormDataStep2] = useState(INITIAL_FORM_DATA.STEP_2)
-  // const [formDataStep3, setFormDataStep3] = useState(INITIAL_FORM_DATA.STEP_3)
-  // const [inProgress, setInProgress] = useState<[STEP_INDEX, boolean][]>([
-  //   [1, false],
-  //   [2, false],
-  //   [3, false],
-  // ])
 
   const handleSubmit = async (
     data: FieldValues | FORM_DATA,
@@ -65,17 +56,9 @@ export default function CreateFormPage() {
         <FormCreateTitle />
 
         <FormCreateWrapper>
-          <FormCreateStep step={1}>
-            <FormRecruitmentContent />
-          </FormCreateStep>
-
-          <FormCreateStep step={2}>
-            <FormRecruitmentConditions />
-          </FormCreateStep>
-
-          <FormCreateStep step={3}>
-            <FormWorkingConditions />
-          </FormCreateStep>
+          <FormRecruitmentContent step={1} />
+          <FormRecruitmentConditions step={2} />
+          <FormWorkingConditions step={3} />
         </FormCreateWrapper>
       </div>
     </Form>

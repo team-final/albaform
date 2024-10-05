@@ -3,6 +3,7 @@ import MainButton, {
   buttonStyle,
 } from '@/components/Button/MainButton/MainButton'
 import VisibilityToggleButton from '@/components/Button/VisibilityToggleButton/VisibilityToggleButton'
+import { useFormCreateStore } from '@/lib/stores/formCreateStore'
 import {
   ComponentProps,
   FormFieldProps,
@@ -482,6 +483,7 @@ function KakaoSearchInput({
   placeholder,
   required,
 }: KakaoSearchInputProps) {
+  const { setFormData } = useFormCreateStore()
   const { register, setValue } = useFormContext()
   const { forId } = useLabelContext()
 
@@ -497,6 +499,7 @@ function KakaoSearchInput({
       oncomplete: function (data: any) {
         const roadAddr = data.roadAddress
         setValue(name, roadAddr)
+        setFormData(name, roadAddr)
       },
     }).open()
   }
