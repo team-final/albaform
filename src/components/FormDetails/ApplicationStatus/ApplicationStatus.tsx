@@ -78,12 +78,18 @@ export default function ApplicationStatus({
     }
   }, [application?.status])
 
+  const handleStatusChange = (newStatus: string) => {
+    setStatusMessage(FORM_STATUS[newStatus as FormStatusType]) // 상태 메시지 업데이트
+  }
+
   return (
     <>
       <SelectStatus
         isOpen={isStatusModalOpen}
         onRequestClose={handleStatusCloseClick}
         applicationId={Number(applicationId)}
+        currentStatus={statusMessage}
+        onStatusChange={handleStatusChange}
       />
       <section className={styles['application-status']}>
         <div

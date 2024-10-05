@@ -1,4 +1,3 @@
-import { FormStatusType } from '../types/formTypes'
 import authAxios from './authAxios'
 
 // 회원의 내 지원 내역 조회
@@ -55,7 +54,7 @@ export const patchStatus = async ({
   status,
 }: {
   applicationId: number
-  status: FormStatusType
+  status: string
 }) => {
   try {
     const response = await authAxios.patch(`/applications/${applicationId}`, {

@@ -1,0 +1,130 @@
+@use 'src/styles/_media' as media;
+@use 'src/styles/_color' as color;
+@use 'src/styles/_font' as font;
+
+.modal-select-status-overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  z-index: 101;
+  inset: 0;
+  background-color: rgb(0 0 0 / 60%);
+
+  @include media.mobile {
+    align-items: flex-end;
+    bottom: -10px;
+  }
+}
+
+.modal-select-status-content {
+  width: 440px;
+  height: auto;
+  position: relative;
+  padding: 40px 40px 32px;
+  box-shadow: 6px 6px 16px 0 #7d7d7d40;
+  background-color: color.$Grayscale-50;
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+
+  @include media.tablet {
+    width: 375px;
+    padding: 28px 24px 24px;
+    border-radius: 24px 24px 0 0;
+  }
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+
+  @include media.tablet {
+    row-gap: 24px;
+  }
+}
+
+.form-title-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 16px;
+
+  @include media.tablet {
+    row-gap: 8px;
+  }
+}
+
+.form-title {
+  @include font.Style(2xl, 600);
+
+  color: color.$Black-400;
+  margin: 0;
+}
+
+.form-small-title {
+  @include font.Style(xl, 400);
+
+  color: color.$Grayscale-400;
+}
+
+.form-list-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+}
+
+.form-field-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 60px;
+  border-radius: 8px;
+  border: 1px solid color.$Line-100;
+  padding: 14px;
+}
+
+.form-field-title {
+  @include font.Style(2lg, 400);
+
+  color: color.$Black-400;
+
+  @include media.tablet {
+    @include font.Style(md, 500);
+  }
+}
+
+.input-radio {
+  display: none;
+}
+
+.custom-radio-label {
+  width: 24px;
+  height: 24px;
+  background-image: url('/icons/ic-radio-default.svg');
+  background-size: cover;
+  cursor: pointer;
+}
+
+.input-radio:checked + .custom-radio-label {
+  background-image: url('/icons/ic-radio-checked.svg');
+  background-size: cover;
+}
+
+.button-container {
+  display: flex;
+  column-gap: 8px;
+}
+
+.highlight-border {
+  background-color: color.$Primary-Orange-50;
+  border: 1px solid orange;
+  box-shadow: 1px 1px 2px 0 rgb(209 209 209 / 25%);
+}
+
+.custom-radio-label.selected {
+  background-image: url('/icons/ic-radio-checked.svg');
+  background-size: cover;
+}

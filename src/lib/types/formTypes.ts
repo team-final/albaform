@@ -75,7 +75,7 @@ export interface AnnoucementProps {
 }
 
 export interface ApplicationStatusProps {
-  formId?: number
+  formId: number
   formDetails: {
     recruitmentEndDate: string
   }
@@ -157,3 +157,10 @@ export const FORM_STATUS = {
 
 export type FormStatusType = keyof typeof FORM_STATUS
 export type FormStatusWord = (typeof FORM_STATUS)[FormStatusType]
+
+export const FORM_STATUS_REVERSED = {
+  거절: 'REJECTED',
+  '면접 대기': 'INTERVIEW_PENDING',
+  '면접 완료': 'INTERVIEW_COMPLETED',
+  '채용 완료': 'HIRED',
+} as const
