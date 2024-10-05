@@ -6,13 +6,17 @@ import classNames from 'classnames'
 import styles from './FormCreateAside.module.scss'
 
 export default function FormCreateAside() {
-  const { step, setStep } = useFormCreateStore()
+  const { step, setStep, inProgress } = useFormCreateStore()
   const handleSteps = (index: STEP_INDEX) => setStep(index)
 
   return (
     <div className={styles.aside}>
       <section className={styles.steps}>
         {STEP_BUTTONS.map(({ index, title }) => {
+          const { isProgress } = inProgress
+            .filter(({ step }) => step === index)
+            .pop() ?? { isProgress: false }
+
           return (
             <button
               key={`form_button_${index}`}
@@ -26,7 +30,7 @@ export default function FormCreateAside() {
                 <i className={styles.index}>{index}</i>
                 <span>{title}</span>
               </p>
-              <b className={styles.status}>작성중</b>
+              {isProgress && <b className={styles.status}>작성중</b>}
             </button>
           )
         })}

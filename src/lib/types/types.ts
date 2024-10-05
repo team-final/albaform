@@ -118,7 +118,6 @@ export interface FormDetailsProps {
   storePhoneNumber?: string
 }
 
-/** 알바폼 생성 S */
 export type STEP_INDEX = 1 | 2 | 3
 export type STEP_TITLE = '모집 내용' | '모집 조건' | '근무 조건'
 
@@ -127,6 +126,12 @@ export const STEP_BUTTONS: { index: STEP_INDEX; title: STEP_TITLE }[] = [
   { index: 2, title: '모집 조건' },
   { index: 3, title: '근무 조건' },
 ]
+
+export interface FormCreateStepProp {
+  step: STEP_INDEX
+}
+
+export type FORM_INPROGRESS = { step: STEP_INDEX; isProgress: boolean }
 
 export type NumberOfPositionsType = '00명 (인원미정)' | '직접입력' | number
 export type GenderType = '성별무관' | '남성' | '여성'
@@ -174,4 +179,3 @@ export interface FORM_STEP_3 {
 export interface FORM_DATA extends FORM_STEP_1, FORM_STEP_2, FORM_STEP_3 {}
 export type FORM_DATA_TYPE = keyof FORM_DATA
 export type FORM_DATA_VALUE = FORM_DATA[FORM_DATA_TYPE]
-/** 알바폼 생성 E */

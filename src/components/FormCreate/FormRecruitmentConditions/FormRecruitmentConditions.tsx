@@ -1,23 +1,57 @@
 import Dropdown from '@/components/Dropdown/Dropdown'
 import Form from '@/components/Form/Form'
-import { VALUE_PRESET, useFormCreateStore } from '@/lib/stores/formCreateStore'
+import {
+  INITIAL_FORM_DATA,
+  VALUE_PRESET,
+  useFormCreateStore,
+} from '@/lib/stores/formCreateStore'
 import {
   AgeType,
+  FORM_STEP_2,
+  FormCreateStepProp,
   NumberOfPositionsType,
   PreferredType,
 } from '@/lib/types/types'
-import { useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 
-export default function FormRecruitmentConditions() {
-  const { formData, setFormData } = useFormCreateStore()
+import FormCreateStep from '../FormCreateStep/FormCreateStep'
+
+const FROM_NAME_LIST: (keyof FORM_STEP_2)[] = [
+  'numberOfPositions',
+  'gender',
+  'education',
+  'age',
+  'preferred',
+]
+
+export default function FormRecruitmentConditions({
+  step,
+}: FormCreateStepProp) {
+  const { formData, setFormData, setInProgress } = useFormCreateStore()
 
   const [numberOfPositions, setNumberOfPositions] =
     useState<NumberOfPositionsType>('00명 (인원미정)')
   const [age, setAge] = useState<AgeType>('20세 ~ 29세')
   const [preferred, setPreferred] = useState<PreferredType>('없음')
 
+  const handleProgress = useCallback(() => {
+    const isProgress = FROM_NAME_LIST.some(
+      (key) => formData[key] !== INITIAL_FORM_DATA[key],
+    )
+    setInProgress({ step, isProgress })
+    if (isProgress) return
+
+    setNumberOfPositions('00명 (인원미정)')
+    setAge('20세 ~ 29세')
+    setPreferred('없음')
+  }, [formData, step, setInProgress])
+
+  useEffect(() => {
+    handleProgress()
+  }, [handleProgress])
+
   return (
-    <>
+    <FormCreateStep step={step}>
       <Form.Fieldset>
         <Form.Legend>
           모집인원<span className={'required'}>*</span>
@@ -35,9 +69,7 @@ export default function FormRecruitmentConditions() {
                     setNumberOfPositions(value)
                     setFormData(
                       'numberOfPositions',
-                      value === '00명 (인원미정)'
-                        ? 0
-                        : formData.numberOfPositions,
+                      value === '직접입력' ? '' : value,
                     )
                   }}
                 >
@@ -59,7 +91,7 @@ export default function FormRecruitmentConditions() {
                   : 0
               }
               min={0}
-              onChange={(event) =>
+              onChange={(event: ChangeEvent<HTMLInputElement>) =>
                 setFormData('numberOfPositions', Number(event.target.value))
               }
             />
@@ -159,7 +191,9 @@ export default function FormRecruitmentConditions() {
               name={'age'}
               placeholder={'연령'}
               value={formData.age}
-              onChange={(event) => setFormData('age', event.target.value)}
+              onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                setFormData('age', event.target.value)
+              }
             />
             <Form.Unit unit={'세'} />
           </Form.Wrap>
@@ -196,11 +230,13 @@ export default function FormRecruitmentConditions() {
               name={'preferred'}
               placeholder={'우대사항'}
               value={formData.preferred}
-              onChange={(event) => setFormData('preferred', event.target.value)}
+              onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                setFormData('preferred', event.target.value)
+              }
             />
           </Form.Wrap>
         </Form.Field>
       </Form.Fieldset>
-    </>
+    </FormCreateStep>
   )
 }

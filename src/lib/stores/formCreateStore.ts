@@ -6,11 +6,12 @@ import {
   FORM_DATA,
   FORM_DATA_TYPE,
   FORM_DATA_VALUE,
+  FORM_INPROGRESS,
   GenderType,
   NumberOfPositionsType,
   PreferredType,
   STEP_INDEX,
-  workDaysType,
+  workDays,
 } from '../types/types'
 
 /** 30분 단위 근무시간 배열 생성 */
@@ -39,13 +40,13 @@ export const hourlyWageData: {
  * sat, sun 만 있으면 주말
  */
 export const VALUE_PRESET: {
-  numberOfPositions: NumberOfPositionsType[]
-  gender: GenderType[]
-  education: EducationType[]
-  age: AgeType[]
-  preferred: PreferredType[]
-  workTime: string[]
-  workDays: workDaysType
+  numberOfPositions: readonly NumberOfPositionsType[]
+  gender: readonly GenderType[]
+  education: readonly EducationType[]
+  age: readonly AgeType[]
+  preferred: readonly PreferredType[]
+  workTime: readonly string[]
+  workDays: readonly workDays[]
 } = {
   numberOfPositions: ['00명 (인원미정)', '직접입력'],
   gender: ['성별무관', '남성', '여성'],
@@ -63,7 +64,7 @@ export const VALUE_PRESET: {
   workDays: ['일', '월', '화', '수', '목', '금', '토'],
 }
 
-export const INITIAL_FORM_DATA: FORM_DATA = {
+export const INITIAL_FORM_DATA: Readonly<FORM_DATA> = {
   /* 알바폼 제목 */
   title: '',
   /* 소개글 */
@@ -104,17 +105,26 @@ export const INITIAL_FORM_DATA: FORM_DATA = {
   isPublic: false,
 }
 
-interface FormCreateStore {
+const INPROGRESS_PRESET: FORM_INPROGRESS[] = [
+  { step: 1, isProgress: false },
+  { step: 2, isProgress: false },
+  { step: 3, isProgress: false },
+]
+
+export interface FormCreateStore {
   step: STEP_INDEX
   setStep: (index: STEP_INDEX) => void
-  formData: FORM_DATA
+
+  formData: Readonly<FORM_DATA>
   initialFormData: () => void
-  setFormData: (key: FORM_DATA_TYPE, value: FORM_DATA_VALUE) => void
-  // inProgress: (step: STEP_INDEX) => {
-  //   step: STEP_INDEX
-  //   inProgress: boolean
-  //   state: any
-  // }
+  setFormData: (
+    key: FORM_DATA_TYPE | string,
+    value: FORM_DATA_VALUE | string,
+  ) => void
+
+  inProgress: FORM_INPROGRESS[]
+  initialInProgress: () => void
+  setInProgress: (data: FORM_INPROGRESS) => void
 }
 
 export const useFormCreateStore = create<FormCreateStore>((set) => ({
@@ -125,11 +135,19 @@ export const useFormCreateStore = create<FormCreateStore>((set) => ({
   initialFormData: () =>
     set(() => ({
       formData: INITIAL_FORM_DATA,
+      inProgress: INPROGRESS_PRESET,
     })),
-  setFormData: (key: FORM_DATA_TYPE, value: FORM_DATA_VALUE) =>
-    set((state) => ({ formData: { ...state.formData, [key]: value } })),
-  // inProgress: (step: STEP_INDEX) =>
-  //   set((state: FORM_DATA) => {
-  //     return { step, inProgress: false, state }
-  //   }),
+  setFormData: (
+    key: FORM_DATA_TYPE | string,
+    value: FORM_DATA_VALUE | string,
+  ) => set((state) => ({ formData: { ...state.formData, [key]: value } })),
+
+  inProgress: INPROGRESS_PRESET,
+  initialInProgress: () => set(() => ({ inProgress: INPROGRESS_PRESET })),
+  setInProgress: ({ step, isProgress }: FORM_INPROGRESS) =>
+    set((state) => ({
+      inProgress: state.inProgress.map((item) =>
+        item.step === step ? { step, isProgress } : item,
+      ),
+    })),
 }))

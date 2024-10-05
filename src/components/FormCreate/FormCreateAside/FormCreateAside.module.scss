@@ -49,11 +49,6 @@
 
   @include font.Style(xl, 600);
 
-  &.active {
-    background-color: color.$Primary-Orange-300;
-    color: color.$Grayscale-50;
-  }
-
   & .title {
     display: inline-flex;
     flex-flow: row wrap;
@@ -95,8 +90,13 @@
     @include font.Style(lg, 500);
 
     line-height: 1;
+  }
 
-    button[class*='active'] & {
+  &.active {
+    background-color: color.$Primary-Orange-300;
+    color: color.$Grayscale-50;
+
+    & .status {
       border-color: color.$Grayscale-50;
       background-color: color.$Primary-Orange-200;
       color: color.$Grayscale-50;
