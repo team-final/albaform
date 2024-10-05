@@ -1,11 +1,11 @@
-import { FormDetailsProps } from '@/lib/types/formTypes'
+import { RequirementsProps } from '@/lib/types/formTypes'
 
 import styles from './Requirements.module.scss'
 
 export default function Requirements({
   formDetails,
 }: {
-  formDetails: FormDetailsProps
+  formDetails: RequirementsProps
 }) {
   const formattedNumberOfPositions = formDetails?.numberOfPositions
     ? formDetails.numberOfPositions.toString().padStart(2, '0')

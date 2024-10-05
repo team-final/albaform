@@ -1,4 +1,4 @@
-import { FormDetailsProps } from '@/lib/types/formTypes'
+import { WorkScheduleProps } from '@/lib/types/formTypes'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
@@ -30,7 +30,7 @@ const formatDate = (dateString?: string, isResponsive: boolean = false) => {
 export default function WorkScheduleInfo({
   formDetails,
 }: {
-  formDetails: FormDetailsProps
+  formDetails: WorkScheduleProps
 }) {
   const [isResponsive, setIsResponsive] = useState<boolean>(false)
   const wageFormatted = formatCurrency(formDetails?.hourlyWage)

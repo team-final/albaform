@@ -1,4 +1,4 @@
-import { FormDetailsProps } from '@/lib/types/formTypes'
+import { CombinedFormDetailsProps } from '@/lib/types/formTypes'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
@@ -12,7 +12,7 @@ export default function FormDetailsInfo({
   count,
   showAdditionalInfo,
 }: {
-  formDetails: FormDetailsProps
+  formDetails: CombinedFormDetailsProps
   count: number
   showAdditionalInfo: boolean
 }) {

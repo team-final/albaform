@@ -6,7 +6,7 @@ import {
   useDeleteFormQuery,
   useUsersMeQuery,
 } from '@/lib/queries/formDetailsQuery'
-import { FormDetailsProps } from '@/lib/types/formTypes'
+import { ContactInfoProps } from '@/lib/types/formTypes'
 import { formatDate } from '@/lib/utils/dateFormatters'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -16,7 +16,7 @@ import styles from './ContactInfo.module.scss'
 export default function ContactInfo({
   formDetails,
 }: {
-  formDetails: FormDetailsProps
+  formDetails: ContactInfoProps
 }) {
   const router = useRouter()
   const { data: userRole } = useUsersMeQuery()

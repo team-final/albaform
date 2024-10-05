@@ -1,6 +1,6 @@
 import KakaoMap from '@/components/KakaoMap/KaKaoMap'
 import Toastify from '@/components/Toastify/Toastify'
-import { FormDetailsProps } from '@/lib/types/formTypes'
+import { LocatinProps } from '@/lib/types/formTypes'
 import { toast } from 'react-toastify'
 
 import styles from './Location.module.scss'
@@ -8,7 +8,7 @@ import styles from './Location.module.scss'
 export default function Location({
   formDetails,
 }: {
-  formDetails: FormDetailsProps
+  formDetails: LocatinProps
 }) {
   const handleCopyClipBoard = async (text: string) => {
     try {

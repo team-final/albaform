@@ -1,4 +1,4 @@
-import { FormDetailsProps } from '@/lib/types/formTypes'
+import { AnnoucementProps } from '@/lib/types/formTypes'
 import { formatDate } from '@/lib/utils/dateFormatters'
 
 import styles from './AnnouncementInfo.module.scss'
@@ -6,7 +6,7 @@ import styles from './AnnouncementInfo.module.scss'
 export default function AnnouncementInfo({
   formDetails,
 }: {
-  formDetails: FormDetailsProps
+  formDetails: AnnoucementProps
 }) {
   const now = new Date()
   const recruitmentStartDate = new Date(

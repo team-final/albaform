@@ -1,10 +1,13 @@
+'use client'
+
+import SelectStatus from '@/components/Modal/SelectStatus/SelectStatus'
 import {
   useListApplicationDetailsQuery,
   useMyApplicationQuery,
 } from '@/lib/queries/applicationDetailsQuery'
 import {
+  ApplicationStatusProps,
   FORM_STATUS,
-  FormDetailsProps,
   FormStatusType,
 } from '@/lib/types/formTypes'
 import { formatDate } from '@/lib/utils/dateFormatters'
@@ -13,19 +16,12 @@ import React, { useEffect, useState } from 'react'
 
 import styles from './ApplicationStatus.module.scss'
 
-interface ApplicationDetailsProps {
-  formId?: number
-  formDetails: FormDetailsProps
-  applicationId?: number
-  isOwner: boolean
-}
-
 export default function ApplicationStatus({
   formId,
   formDetails,
   applicationId,
   isOwner,
-}: ApplicationDetailsProps) {
+}: ApplicationStatusProps) {
   const { data: myApplication } = useMyApplicationQuery(Number(formId), {
     enabled: !isOwner,
   })
@@ -43,8 +39,18 @@ export default function ApplicationStatus({
   const application = isOwner ? ownerApplication : myApplication
   const applicationDate = formatDate.toApplication(application?.createdAt)
 
+  const [isStatusModalOpen, setIsStatusModalOpen] = useState<boolean>(false)
+
   const handleTooltipCloseClick = () => {
     setIsVisible(false)
+  }
+
+  const handleStatusOpenClick = () => {
+    setIsStatusModalOpen(true)
+  }
+
+  const handleStatusCloseClick = () => {
+    setIsStatusModalOpen(false)
   }
 
   useEffect(() => {
@@ -73,69 +79,81 @@ export default function ApplicationStatus({
   }, [application?.status])
 
   return (
-    <section className={styles['application-status']}>
-      <div
-        className={`${styles['application-status-info']} ${styles['info-line']}`}
-      >
-        <div className={styles['application-status-info-wrapper']}>
-          <h3 className={styles['info-title']}>지원일시</h3>
-          <span className={styles['info-date']}>{datestatusMessage}</span>
+    <>
+      <SelectStatus
+        isOpen={isStatusModalOpen}
+        onRequestClose={handleStatusCloseClick}
+        applicationId={Number(applicationId)}
+      />
+      <section className={styles['application-status']}>
+        <div
+          className={`${styles['application-status-info']} ${styles['info-line']}`}
+        >
+          <div className={styles['application-status-info-wrapper']}>
+            <h3 className={styles['info-title']}>지원일시</h3>
+            <span className={styles['info-date']}>{datestatusMessage}</span>
+          </div>
+          <p className={styles['info-content']}>{applicationDate}</p>
         </div>
-        <p className={styles['info-content']}>{applicationDate}</p>
-      </div>
 
-      <div
-        className={`${styles['application-status-info']} ${styles['info-no-line']}`}
-      >
-        <div className={styles['application-status-button-container']}>
-          <h3 className={styles['info-title']}>진행 상태</h3>
-          {isOwner && (
-            <>
-              <button className={styles['status-button']}>
-                <Image
-                  src="/icons/ic-edit.svg"
-                  alt="진행 상태 편집"
-                  width={36}
-                  height={36}
-                />
-              </button>
-
-              <div
-                className={`${styles['application-status-tooltip']} ${isVisible ? '' : styles['tooltip-isvisible-false']}`}
-              >
-                <div className={styles['application-status-tooltip-container']}>
-                  <Image
-                    src="/icons/ic-info.svg"
-                    alt="정보"
-                    width={36}
-                    height={36}
-                    className={styles['stauts-button-image']}
-                  />
-                  <span className={styles['application-status-tooltip-text']}>
-                    알바폼 현재 진행상태를 변경할 수 있어요!
-                  </span>
-                </div>
+        <div
+          className={`${styles['application-status-info']} ${styles['info-no-line']}`}
+        >
+          <div className={styles['application-status-button-container']}>
+            <h3 className={styles['info-title']}>진행 상태</h3>
+            {isOwner && (
+              <>
                 <button
                   className={styles['status-button']}
-                  onClick={handleTooltipCloseClick}
+                  onClick={handleStatusOpenClick}
                 >
                   <Image
-                    src="/icons/ic-X.svg"
-                    alt="닫기"
+                    src="/icons/ic-edit.svg"
+                    alt="진행 상태 편집"
                     width={36}
                     height={36}
-                    className={styles['stauts-button-image']}
                   />
                 </button>
-              </div>
-            </>
-          )}
-        </div>
 
-        <p className={styles['info-content']}>
-          {statusMessage || '상태를 가져오는 중'}
-        </p>
-      </div>
-    </section>
+                <div
+                  className={`${styles['application-status-tooltip']} ${isVisible ? '' : styles['tooltip-isvisible-false']}`}
+                >
+                  <div
+                    className={styles['application-status-tooltip-container']}
+                  >
+                    <Image
+                      src="/icons/ic-info.svg"
+                      alt="정보"
+                      width={36}
+                      height={36}
+                      className={styles['stauts-button-image']}
+                    />
+                    <span className={styles['application-status-tooltip-text']}>
+                      알바폼 현재 진행상태를 변경할 수 있어요!
+                    </span>
+                  </div>
+                  <button
+                    className={styles['status-button']}
+                    onClick={handleTooltipCloseClick}
+                  >
+                    <Image
+                      src="/icons/ic-X.svg"
+                      alt="닫기"
+                      width={36}
+                      height={36}
+                      className={styles['stauts-button-image']}
+                    />
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+
+          <p className={styles['info-content']}>
+            {statusMessage || '상태를 가져오는 중'}
+          </p>
+        </div>
+      </section>
+    </>
   )
 }

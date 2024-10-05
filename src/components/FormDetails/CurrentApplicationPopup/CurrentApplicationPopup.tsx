@@ -1,4 +1,4 @@
-import { FormDetailsProps } from '@/lib/types/formTypes'
+import { CurrentApplicationProps } from '@/lib/types/formTypes'
 import Image from 'next/image'
 import { useState } from 'react'
 
@@ -8,7 +8,7 @@ export default function CurrentApplicationPopup({
   formDetails,
   isVisible,
 }: {
-  formDetails: FormDetailsProps
+  formDetails: CurrentApplicationProps
   isVisible: boolean
 }) {
   const [isClosing, setIsClosing] = useState<boolean>(false)

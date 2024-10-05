@@ -67,37 +67,77 @@ export interface TempEditingFormType {
   formData: EditingFormData | FieldValues
 }
 
-export interface FormDetailsProps {
-  updatedAt?: string
-  createdAt?: string
-  preferred?: string
-  age?: string
-  education?: string
-  gender?: string
-  numberOfPositions?: number
-  isPublic?: boolean
-  hourlyWage?: number
-  workDays?: string[]
-  workEndTime?: string
-  workStartTime?: string
-  workEndDate?: string
-  workStartDate?: string
-  location?: string
-  imageUrls?: string[]
-  recruitmentEndDate?: string
-  recruitmentStartDate?: string
-  description?: string
-  title?: string
-  ownerId?: number
-  id?: number
-  scrapCount?: number
-  applyCount?: number
-  isScrapped?: boolean
-  phoneNumber?: string
-  storePhoneNumber?: string
-  storeName?: string
-  isNegotiableWorkDays?: boolean
+export interface AnnoucementProps {
+  createdAt: string
+  recruitmentEndDate: string
+  recruitmentStartDate: string
+  isPublic: boolean
 }
+
+export interface ApplicationStatusProps {
+  formId?: number
+  formDetails: {
+    recruitmentEndDate: string
+  }
+  applicationId?: number
+  isOwner: boolean
+}
+
+export interface ContactInfoProps {
+  id: number
+  recruitmentEndDate: string
+  recruitmentStartDate: string
+  storePhoneNumber: string
+  phoneNumber: string
+}
+
+export interface CurrentApplicationProps {
+  applyCount: number
+}
+
+export interface FormDetailsInfoProps {
+  applyCount: number
+  storeName: string
+  description: string
+}
+
+export interface ImageProps {
+  imageUrls: string
+}
+
+export interface LocatinProps {
+  location: string
+}
+
+export interface RequirementsProps {
+  numberOfPositions: number
+  preferred: string
+  age: string
+  education: string
+  gender: string
+}
+
+export interface WorkScheduleProps {
+  hourlyWage: number
+  workEndDate: string
+  workStartDate: string
+  isNegotiableWorkDays: boolean
+  workDays: string[]
+  workEndTime: string
+  workStartTime: string
+}
+
+export interface FormDetailsProps {
+  applyCount: number
+  storeName: string
+  title: string
+  description: string
+}
+
+export type CombinedFormDetailsProps = FormDetailsProps &
+  AnnoucementProps &
+  WorkScheduleProps &
+  ContactInfoProps
 
 export interface ApplicationProps {
   id: number
