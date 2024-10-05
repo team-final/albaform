@@ -28,9 +28,7 @@ export default function FormWorkingConditions({ step }: FormCreateStepProp) {
   const { formData, setFormData, setInProgress } = useFormCreateStore()
 
   const handleProgress = useCallback(() => {
-    console.log('formData: ', formData, INITIAL_FORM_DATA)
     const isProgress = FROM_NAME_LIST.some((key) => {
-      console.log(formData[key], INITIAL_FORM_DATA[key])
       if (key === 'workDays') {
         return formData[key].length > 0
       } else {
@@ -186,6 +184,7 @@ export default function FormWorkingConditions({ step }: FormCreateStepProp) {
         <Form.Field
           htmlFor={`checkbox-workDays-isNegotiableWorkDays`}
           className={FormStyles['form-checkbox']}
+          isInline
         >
           <Form.Input
             type={'checkbox'}
@@ -226,6 +225,7 @@ export default function FormWorkingConditions({ step }: FormCreateStepProp) {
         <Form.Field
           htmlFor={'isPublic'}
           className={FormStyles['form-checkbox']}
+          isInline
         >
           <Form.Wrap>
             <Form.Input
