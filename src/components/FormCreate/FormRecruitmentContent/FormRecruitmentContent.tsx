@@ -49,22 +49,21 @@ export default function FormRecruitmentContent({ step }: FormCreateStepProp) {
     event.target.value = ''
   }
 
-  const handleChangeImageList = useCallback(
-    (imageList: { url: string; name: string }[]) => {
-      setFormData('imageUrls', imageList)
-    },
-    [setFormData],
-  )
+  const handleChangeImageList = useCallback(() => {
+    setFormData('imageUrls', imageList)
+  }, [setFormData, imageList])
 
   useEffect(() => {
-    handleChangeImageList(imageList)
-  }, [handleChangeImageList, imageList])
+    handleChangeImageList()
+  }, [handleChangeImageList])
 
   const handleProgress = useCallback(() => {
     const isProgress = FROM_NAME_LIST.some((key) =>
       key === 'imageUrls' ? formData[key].length > 0 : Boolean(formData[key]),
     )
     setInProgress({ step, isProgress })
+    if (isProgress) return
+    if (imageList.length > 0) setImageList([])
   }, [formData, step, setInProgress])
 
   useEffect(() => {
