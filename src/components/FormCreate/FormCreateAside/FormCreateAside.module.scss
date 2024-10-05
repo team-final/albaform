@@ -69,11 +69,6 @@
     font-style: normal;
 
     @include font.Style(xl, 600);
-
-    button[class*='active'] & {
-      background-color: color.$Background-100;
-      color: color.$Primary-Orange-300;
-    }
   }
 
   & .status {
@@ -95,6 +90,11 @@
   &.active {
     background-color: color.$Primary-Orange-300;
     color: color.$Grayscale-50;
+
+    & .index {
+      background-color: color.$Background-100;
+      color: color.$Primary-Orange-300;
+    }
 
     & .status {
       border-color: color.$Grayscale-50;
