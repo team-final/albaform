@@ -1,5 +1,5 @@
+import { FormStatusType } from '../types/formTypes'
 import authAxios from './authAxios'
-import basicAxios from './basicAxios'
 
 // 회원의 내 지원 내역 조회
 export const getMyApplication = async (formId: number) => {
@@ -49,13 +49,32 @@ export const getListApplicationDetails = async (applicationId: number) => {
   }
 }
 
+// 상태 수정
+export const patchStatus = async ({
+  applicationId,
+  status,
+}: {
+  applicationId: number
+  status: FormStatusType
+}) => {
+  try {
+    const response = await authAxios.patch(`/applications/${applicationId}`, {
+      status,
+    })
+    return response.data
+  } catch (error) {
+    console.log('데이터 가져오는 중 오류 발생: ', error)
+    throw error
+  }
+}
+
 // 이력서 다운로드
 export const getDownloadResume = async (
   resumeId: number,
   resumeName: string,
 ) => {
   try {
-    const response = await basicAxios.get(`${resumeId}/download`, {
+    const response = await authAxios.get(`${resumeId}/download`, {
       responseType: 'blob',
     })
 

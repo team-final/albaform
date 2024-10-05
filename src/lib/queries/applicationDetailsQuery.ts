@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 
 import {
   getDownloadResume,
@@ -6,6 +6,7 @@ import {
   getListApplications,
   getMyApplication,
   getMyApplicationVerify,
+  patchStatus,
 } from '../api/applicationDetails'
 
 export const useMyApplicationQuery = (
@@ -52,5 +53,11 @@ export const useDownloadResumueQuery = (
     queryKey: ['myResume'],
     queryFn: () => getDownloadResume(resumeId, resumeName),
     enabled: false,
+  })
+}
+
+export const usePatchStatusMutation = () => {
+  return useMutation({
+    mutationFn: patchStatus,
   })
 }
