@@ -1,6 +1,6 @@
 'use client'
 
-import style from '@/app/user/page.module.scss'
+import signInSignUpStyle from '@/app/user/signInSignUp.module.scss'
 import MainButton from '@/components/Button/MainButton/MainButton'
 import Form from '@/components/Form/Form'
 import useSignIn from '@/hooks/auth/useSignIn'
@@ -39,18 +39,21 @@ export default function SignInPage() {
 
   return (
     <>
-      <div className={style.LoginContainer}>
+      <div className={signInSignUpStyle.LoginContainer}>
         <h1>로그인</h1>
         <p>
           아직 계정이 없으신가요?
-          <Link href={'/user/sign-up'} className={style['go-to-signup']}>
+          <Link
+            href={'/user/sign-up'}
+            className={signInSignUpStyle['go-to-signup']}
+          >
             회원가입 하러 가기
           </Link>
         </p>
         <Form
           formId={'signInForm'}
           onSubmit={handleSubmit}
-          className={style['login-form']}
+          className={signInSignUpStyle['login-form']}
         >
           <Form.Fieldset>
             <Form.Legend>이메일</Form.Legend>

@@ -6,7 +6,7 @@ import FormStyles from '@/components/Form/Form.module.scss'
 import { useUserStore } from '@/lib/stores/userStore'
 import { useRouter } from 'next/navigation'
 
-import Styles from './page.module.scss'
+import style from './page.module.scss'
 
 export default function CompleteSignUpPage() {
   const { userRole } = useUserStore()
@@ -63,7 +63,7 @@ export default function CompleteSignUpPage() {
             className={FormStyles['owner-information']}
           >
             <Form.Title>사장님 정보 입력</Form.Title>
-            <div className={Styles['owner-information-sub-title']}>
+            <div className={style['owner-information-sub-title']}>
               추가 정보를 입력하여 회원가입을 완료해주세요.
             </div>
             <Form.Fieldset>
@@ -139,7 +139,7 @@ export default function CompleteSignUpPage() {
                 />
               </Form.Field>
             </Form.Fieldset>
-            <div className={Styles['button-group']}>
+            <div className={style['button-group']}>
               <MainButton
                 buttonStyle="outline"
                 type="button"
