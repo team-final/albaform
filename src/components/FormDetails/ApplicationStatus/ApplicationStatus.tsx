@@ -7,7 +7,7 @@ import {
   FormDetailsProps,
   FormStatusType,
 } from '@/lib/types/formTypes'
-import { formatApplicationDate, formatKoreanDate } from '@/lib/utils/formatDate'
+import { formatDate } from '@/lib/utils/dateFormatters'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 
@@ -36,10 +36,12 @@ export default function ApplicationStatus({
   const [isVisible, setIsVisible] = useState(true)
   const [datestatusMessage, setDateStatusMessage] = useState<string>('계산 중')
   const [statusMessage, setStatusMessage] = useState<string>('')
-  const recruitmentEndDate = formatKoreanDate(formDetails?.recruitmentEndDate)
+  const recruitmentEndDate = formatDate.toKorean(
+    formDetails?.recruitmentEndDate,
+  )
 
   const application = isOwner ? ownerApplication : myApplication
-  const applicationDate = formatApplicationDate(application?.createdAt)
+  const applicationDate = formatDate.toApplication(application?.createdAt)
 
   const handleTooltipCloseClick = () => {
     setIsVisible(false)
