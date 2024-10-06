@@ -2,11 +2,12 @@
 
 import signInSignUpstyle from '@/app/user/signInSignUp.module.scss'
 import Form from '@/components/Form/Form'
+import useCreateUser from '@/hooks/auth/useCreateUser'
 import useSignIn from '@/hooks/auth/useSignIn'
-import useSignUp from '@/hooks/auth/useSignUp'
-import { emailPattern, passwordPattern } from '@/lib/data/constants'
+import { emailPattern, passwordPattern } from '@/lib/data/patterns'
 import { useUserStore } from '@/lib/stores/userStore'
-import { CompleteSignUpValues, SignUpValues } from '@/lib/types/userTypes'
+import { CreateUserValues, SignUpFormValues } from '@/lib/types/userTypes'
+import { generateUniqueNickname } from '@/lib/utils/nicknameGenerator'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
@@ -14,35 +15,39 @@ import { FieldValues } from 'react-hook-form'
 
 export default function SignUpPage() {
   const router = useRouter()
-  const signUp = useSignUp()
-
-  const setDefaultSignupValues = ({ email, password, role }: SignUpValues) => {
-    const signUpValues: CompleteSignUpValues = {
-      email,
-      password,
-      role,
-      name: '이름',
-      nickname: '닉네임',
-      phoneNumber: '010-0000-0000',
-      storeName: '가게이름',
-      storePhoneNumber: '02-0000-0000',
-      location: '서울특별시 강남구 알바폼로 1',
-    }
-    return signUpValues
-  }
+  const createUser = useCreateUser()
   const signIn = useSignIn()
   const { user } = useUserStore()
 
-  const handleSignUp = async (values: SignUpValues) => {
-    const signUpValues: CompleteSignUpValues = setDefaultSignupValues(values)
-    await signUp.mutateAsync(signUpValues)
-    const { email, password } = signUpValues as SignUpValues
+  const setDefaultUser = ({ email, password, role }: SignUpFormValues) => {
+    const defaultNickname = generateUniqueNickname(role)
+    const defaultUser: CreateUserValues = {
+      email,
+      password,
+      role,
+      name: '',
+      nickname: defaultNickname,
+      phoneNumber: '',
+      storeName: '',
+      storePhoneNumber: '',
+      location: '',
+    }
+    return defaultUser
+  }
+
+  const handleSignUp = async (values: SignUpFormValues) => {
+    const createUserValues: CreateUserValues = setDefaultUser(values)
+    await createUser.mutateAsync(createUserValues)
+
+    // 로그인
+    const { email, password } = createUserValues
     await signIn.mutateAsync({ email, password })
   }
 
-  const handleSubmit = async (formValues: FieldValues) => {
-    const values: SignUpValues = formValues as SignUpValues
-    await handleSignUp(values)
+  const handleSubmit = async (values: FieldValues) => {
+    const signUpFormValues: SignUpFormValues = values as SignUpFormValues
+    await handleSignUp(signUpFormValues)
+    router.prefetch('/user/sign-up/complete')
   }
 
   useEffect(() => {
@@ -126,8 +131,11 @@ export default function SignUpPage() {
             </Form.Field>
           </Form.Fieldset>
 
-          <Form.SubmitButton buttonStyle={'solid'} isPending={signUp.isPending}>
-            {signUp.isPending ? '진행 중...' : '회원 가입'}
+          <Form.SubmitButton
+            buttonStyle={'solid'}
+            isPending={createUser.isPending}
+          >
+            {createUser.isPending ? '진행 중...' : '회원 가입'}
           </Form.SubmitButton>
         </Form>
       </div>
