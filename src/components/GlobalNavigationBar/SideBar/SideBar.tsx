@@ -25,7 +25,7 @@ export default function SideBar({ closeAction }: SideBarProps) {
               </Link>
             </li>
             <li>
-              <Link href="/" className={styles.button}>
+              <Link href="/user/me" className={styles.button}>
                 <IconMypage />
                 마이페이지
               </Link>
