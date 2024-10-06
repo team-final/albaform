@@ -42,8 +42,8 @@ export interface FormFieldProps extends ComponentProps {
   hidden?: boolean
 }
 
-export interface LabelProps extends ComponentProps {
-  htmlFor: string
+export interface FormLegendProps extends ComponentProps {
+  required?: boolean
 }
 
 export interface InputProps extends ComponentProps {
@@ -62,7 +62,7 @@ export interface InputProps extends ComponentProps {
   }
   value?: any
   validate?: (values: unknown) => boolean | string
-  initialValues?: Record<string, any>
+  initialValues?: string
   min?: number
   max?: number
   step?: number
