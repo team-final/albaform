@@ -1,5 +1,5 @@
+import useToggle from '@/hooks/useToggle'
 import { ClickProps, ComponentProps } from '@/lib/types/types'
-import useToggle from '@/lib/utils/useToggle'
 import classNames from 'classnames'
 import React, { createContext, useContext } from 'react'
 
