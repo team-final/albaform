@@ -4,12 +4,8 @@ import signInSignUpStyle from '@/app/user/signInSignUp.module.scss'
 import MainButton from '@/components/Button/MainButton/MainButton'
 import Form from '@/components/Form/Form'
 import useSignIn from '@/hooks/auth/useSignIn'
-import {
-  TEST_ID_APPLICANT,
-  TEST_ID_OWNER,
-  emailPattern,
-  passwordPattern,
-} from '@/lib/data/constants'
+import { TEST_ID_APPLICANT, TEST_ID_OWNER } from '@/lib/data/constants'
+import { emailPattern, passwordPattern } from '@/lib/data/patterns'
 import { useUserStore } from '@/lib/stores/userStore'
 import { SignInValues } from '@/lib/types/userTypes'
 import Link from 'next/link'
