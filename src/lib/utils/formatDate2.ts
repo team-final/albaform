@@ -5,7 +5,7 @@ export function formatDateRange(startDate: string, endDate: string): string {
   const start = new Date(startDate)
   const end = new Date(endDate)
 
-  const formattedStart = format(start, 'MM. dd')
+  const formattedStart = format(start, 'yyyy. MM. dd')
   const formattedEnd = format(end, 'yyyy. MM. dd')
 
   return `${formattedStart} ~ ${formattedEnd}`
