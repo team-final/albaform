@@ -5,7 +5,7 @@ import {
   FORM_STATUS,
   FormStatusType,
 } from '@/lib/types/formTypes'
-import { formatExperienceMonths } from '@/lib/utils/formatDate'
+import { formatMonth } from '@/lib/utils/dateFormatters'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -163,7 +163,7 @@ export default function ListApplicationsModal({
 
                   <div className={styles['list-month-status']}>
                     <span>
-                      {formatExperienceMonths(application.experienceMonths)}
+                      {formatMonth.toExperience(application.experienceMonths)}
                     </span>
                     <span>{statusText}</span>
                   </div>

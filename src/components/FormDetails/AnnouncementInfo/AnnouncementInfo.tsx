@@ -1,5 +1,5 @@
 import { FormDetailsProps } from '@/lib/types/formTypes'
-import { formatDetailedDate } from '@/lib/utils/formatDate'
+import { formatDate } from '@/lib/utils/dateFormatters'
 
 import styles from './AnnouncementInfo.module.scss'
 
@@ -19,7 +19,7 @@ export default function AnnouncementInfo({
   const createdAtDate = formDetails?.createdAt
     ? new Date(formDetails.createdAt)
     : undefined
-  const createdFormattedDate = formatDetailedDate(createdAtDate)
+  const createdFormattedDate = formatDate.toDetailed(createdAtDate)
 
   return (
     <section className={styles['announcement-info']}>

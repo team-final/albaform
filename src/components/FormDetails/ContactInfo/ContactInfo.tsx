@@ -7,7 +7,7 @@ import {
   useUsersMeQuery,
 } from '@/lib/queries/formDetailsQuery'
 import { FormDetailsProps } from '@/lib/types/formTypes'
-import { formatKoreanDate } from '@/lib/utils/formatDate'
+import { formatDate } from '@/lib/utils/dateFormatters'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
@@ -21,10 +21,12 @@ export default function ContactInfo({
   const router = useRouter()
   const { data: userRole } = useUsersMeQuery()
   const { mutate: deleteForm } = useDeleteFormQuery()
-  const recruitmentStartDate = formatKoreanDate(
+  const recruitmentStartDate = formatDate.toKorean(
     formDetails?.recruitmentStartDate,
   )
-  const recruitmentEndDate = formatKoreanDate(formDetails?.recruitmentEndDate)
+  const recruitmentEndDate = formatDate.toKorean(
+    formDetails?.recruitmentEndDate,
+  )
   const isRecruitmentActive =
     formDetails?.recruitmentEndDate &&
     new Date(formDetails.recruitmentEndDate) > new Date()
