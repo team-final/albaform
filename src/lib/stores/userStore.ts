@@ -1,12 +1,12 @@
-import { User, UserType } from '@/lib/types/userTypes'
+import { User, UserRole } from '@/lib/types/userTypes'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 export interface UserStore {
   user: User | null
   setUser: (nowUser: User | null) => void
-  userType: UserType
-  setUserType: (nowUserType: UserType) => void
+  userRole: UserRole | null
+  setUserRole: (nowUserRole: UserRole | null) => void
 }
 
 export const useUserStore = create(
@@ -14,8 +14,9 @@ export const useUserStore = create(
     (set) => ({
       user: null,
       setUser: (nowUser: User | null) => set({ user: nowUser }),
-      userType: 'NOT_SIGN_IN',
-      setUserType: (nowUserType: UserType) => set({ userType: nowUserType }),
+      userRole: null,
+      setUserRole: (nowUserRole: UserRole | null) =>
+        set({ userRole: nowUserRole }),
     }),
     {
       name: 'userStorage',
