@@ -15,7 +15,7 @@ export default function useSignOut() {
     Cookies.remove('refreshToken', { path: '/' })
     queryClient.removeQueries({ queryKey: ['user'] }) // 쿼리 캐시에서 user 쿼리 제거
     setUser(null)
-    setUserRole(null)
+    setUserRole(undefined)
     clearUserStorage()
   }
 
