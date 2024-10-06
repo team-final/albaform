@@ -1,7 +1,7 @@
 import MainButton from '@/components/Button/MainButton/MainButton'
 import { usePatchStatusMutation } from '@/lib/queries/applicationDetailsQuery'
 import { FORM_STATUS, FORM_STATUS_REVERSED } from '@/lib/types/formTypes'
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import ReactModal from 'react-modal'
 
 import styles from './SelectStatus.module.scss'
@@ -30,7 +30,7 @@ export default function SelectStatus({
     setSelectedStatus(currentStatus)
   }, [currentStatus])
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = (event: FormEvent) => {
     event.preventDefault()
 
     const englishStatus =
@@ -51,7 +51,7 @@ export default function SelectStatus({
     )
   }
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSelectedStatus(event.target.value)
   }
 
