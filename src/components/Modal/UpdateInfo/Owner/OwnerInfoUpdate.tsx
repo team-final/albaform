@@ -129,10 +129,7 @@ export default function OwnerInfoUpdate({
         </Form.Fieldset>
         <Form.Fieldset>
           <Form.Field htmlFor="nickname">
-            <Form.Legend>
-              닉네임
-              <Form.RequiredStar />
-            </Form.Legend>
+            <Form.Legend required>닉네임</Form.Legend>
             <Form.Input
               name="nickname"
               type="text"
@@ -143,10 +140,7 @@ export default function OwnerInfoUpdate({
         </Form.Fieldset>
         <Form.Fieldset>
           <Form.Field htmlFor="storeName">
-            <Form.Legend>
-              가게 이름
-              <Form.RequiredStar />
-            </Form.Legend>
+            <Form.Legend required>가게 이름</Form.Legend>
             <Form.Input
               name="storeName"
               type="text"
@@ -157,10 +151,7 @@ export default function OwnerInfoUpdate({
         </Form.Fieldset>
         <Form.Fieldset>
           <Form.Field htmlFor="storePhoneNumber">
-            <Form.Legend>
-              가게 전화번호
-              <Form.RequiredStar />
-            </Form.Legend>
+            <Form.Legend required>가게 전화번호</Form.Legend>
             <Form.Input
               name="storePhoneNumber"
               type="tel"
@@ -188,10 +179,7 @@ export default function OwnerInfoUpdate({
           </Form.Field>
         </Form.Fieldset>
         <Form.Fieldset>
-          <Form.Legend>
-            가게 위치
-            <Form.RequiredStar />
-          </Form.Legend>
+          <Form.Legend required>가게 위치</Form.Legend>
           <Form.Field htmlFor="location">
             <Form.KakaoSearchInput
               name="location"

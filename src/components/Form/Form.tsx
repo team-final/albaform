@@ -7,6 +7,7 @@ import { useFormCreateStore } from '@/lib/stores/formCreateStore'
 import {
   ComponentProps,
   FormFieldProps,
+  FormLegendProps,
   FormProps,
   InputProps,
 } from '@/lib/types/types'
@@ -69,7 +70,7 @@ export const useFormContext = () => {
  * @param onSubmit 필수
  * @param children
  * @param className
- * @param initialValues { 'name' : value }의 형태로 각 인풋의 초기값 설정
+ * @param defaultValues { 'name' : value }의 형태로 각 인풋의 초기값 설정
  *
  * @description
  * <Form> => form 태그로 폼을 생성합니다. formId 와 submit 함수가 필요합니다.
@@ -185,13 +186,16 @@ function Fieldset({ children, className }: ComponentProps) {
 /**
  * 해당 input (들)의 이름을 작성할 때 사용합니다.
  */
-function Legend({ children, className }: ComponentProps) {
+function Legend({ children, className, required }: FormLegendProps) {
   const cn = classNames(styles['form-legend'], className)
-  return <p className={cn}>{children}</p>
-}
-
-function RequiredStar() {
-  return <span className={classNames(styles['form-input-required'])}>*</span>
+  return (
+    <p className={cn}>
+      {children}
+      {required && (
+        <span className={classNames(styles['form-input-required'])}>*</span>
+      )}
+    </p>
+  )
 }
 
 interface LabelContextProps {
@@ -618,5 +622,4 @@ Form.KakaoSearchInput = KakaoSearchInput
 Form.DateRangePickerInput = DateRangePickerInput
 Form.ResetButton = ResetButton
 Form.SubmitButton = SubmitButton
-Form.RequiredStar = RequiredStar
 Form.ImageInput = ImageInput
