@@ -1,10 +1,10 @@
 import basicAxios from '@/lib/api/basicAxios'
 import { SIGN_IN_ERROR_MESSAGE } from '@/lib/data/constants'
 import { useUserStore } from '@/lib/stores/userStore'
-import { SignInValues, User } from '@/lib/types/userTypes'
+import { AuthResponse, SignInValues, User } from '@/lib/types/userTypes'
 import handleError from '@/lib/utils/errorHandler'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { AxiosError } from 'axios'
+import { AxiosError, AxiosResponse } from 'axios'
 import Cookies from 'js-cookie'
 
 export default function useSignIn() {
@@ -13,10 +13,13 @@ export default function useSignIn() {
 
   return useMutation({
     mutationFn: async ({ email, password }: SignInValues): Promise<User> => {
-      const response = await basicAxios.post('/auth/sign-in', {
-        email,
-        password,
-      })
+      const response: AxiosResponse<AuthResponse> = await basicAxios.post(
+        '/auth/sign-in',
+        {
+          email,
+          password,
+        },
+      )
       const { user, accessToken, refreshToken } = response.data
       // 쿠키에 토큰 저장
       Cookies.set('accessToken', accessToken, {

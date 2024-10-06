@@ -1,32 +1,36 @@
-export interface User {
-  id: number
-  email: string
-  name: string
-  nickname: string
-  imageUrl: string | null
-  role: 'APPLICANT' | 'OWNER'
-  storeName: undefined | string
-  storePhoneNumber: undefined | string
-  phoneNumber: undefined | string
-  location: undefined | string
-}
-
 export interface SignInValues {
   email: string
   password: string
 }
 
-export interface SignUpValues extends SignInValues {
-  role: 'APPLICANT' | 'OWNER'
-}
-
-export interface CompleteSignUpValues extends SignUpValues {
-  name: string
-  nickname: string
-  storeName: undefined | string
-  storePhoneNumber: undefined | string
-  phoneNumber: undefined | string
-  location: undefined | string
-}
-
 export type UserRole = 'APPLICANT' | 'OWNER'
+
+export interface SignUpFormValues extends SignInValues {
+  role: UserRole
+}
+
+export interface UserCore {
+  nickname: string
+  name: string
+  phoneNumber: string
+  storeName: string
+  storePhoneNumber: string
+  location: string
+}
+
+export interface CreateUserValues extends UserCore, SignUpFormValues {}
+
+export interface UpdateUserValues extends UserCore {
+  imageUrl: string
+}
+
+export interface User extends UpdateUserValues {
+  id: number
+  role: UserRole
+}
+
+export interface AuthResponse {
+  accessToken: string
+  refreshToken: string
+  user: User
+}
