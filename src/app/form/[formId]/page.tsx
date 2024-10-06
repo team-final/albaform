@@ -6,10 +6,10 @@ import styles from './page.module.scss'
 
 // 정적 생성 함수
 export const generateStaticParams = async () => {
-  const LIMIT = 100
+  const LIMIT = 50
   const formLists = await getlistForms(LIMIT)
   const formIds = formLists.data.map((form: { id: number }) => ({
-    id: form.id.toString(),
+    id: form.id,
   }))
   return formIds.map((form: { id: number }) => ({
     params: {

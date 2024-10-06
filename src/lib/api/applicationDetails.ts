@@ -1,9 +1,9 @@
-import basicAxios from './basicAxios'
+import authAxios from './authAxios'
 
 // 회원의 내 지원 내역 조회
 export const getMyApplication = async (formId: number) => {
   try {
-    const response = await basicAxios.get(`/forms/${formId}/my-application`)
+    const response = await authAxios.get(`/forms/${formId}/my-application`)
     return response.data
   } catch (error) {
     console.log('데이터 가져오는 중 오류 발생: ', error)
@@ -14,7 +14,7 @@ export const getMyApplication = async (formId: number) => {
 // 비회원의 내 지원 내역 조회
 export const getMyApplicationVerify = async (formId: number) => {
   try {
-    const response = await basicAxios.get(
+    const response = await authAxios.get(
       `forms/${formId}/my-application/verify`,
     )
     return response.data
@@ -27,7 +27,7 @@ export const getMyApplicationVerify = async (formId: number) => {
 // 사장이 지원 현황 목록 조회 - get
 export const getListApplications = async (formId: number) => {
   try {
-    const response = await basicAxios.get(
+    const response = await authAxios.get(
       `/forms/${formId}/applications?limit=10`,
     )
     return response.data
@@ -40,7 +40,7 @@ export const getListApplications = async (formId: number) => {
 // 사장이 지원 상세 조회
 export const getListApplicationDetails = async (applicationId: number) => {
   try {
-    const response = await basicAxios.get(`/applications/${applicationId}`)
+    const response = await authAxios.get(`/applications/${applicationId}`)
     return response.data
   } catch (error) {
     console.log('데이터 가져오는 중 오류 발생: ', error)

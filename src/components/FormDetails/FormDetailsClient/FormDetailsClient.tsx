@@ -68,18 +68,25 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
   }, [formDetails]) // IsScrapped랑 ScrapCount 값 업데이트
 
   useEffect(() => {
+    console.log('useEffect 실행됨')
+    console.log('formDetails:', formDetails)
+
     setIsPopupVisible(true)
     if (formDetails?.recruitmentEndDate) {
-      const endDate = new Date(formDetails?.recruitmentEndDate)
+      const endDate = new Date(formDetails.recruitmentEndDate)
+      console.log('recruitmentEndDate:', formDetails.recruitmentEndDate)
+
       const now = new Date()
       const difference = endDate.getTime() - now.getTime()
       const days = Math.ceil(difference / (1000 * 3600 * 24))
-      if (days <= -1) {
+      console.log('남은 일수:', days)
+
+      if (days <= 0) {
         setIsModalOpen(true)
         setHasModalBeenOpened(true)
       }
     }
-  }, [isRecruitmentActive, hasModalBeenOpened, formDetails?.recruitmentEndDate]) // 팝업 렌더링 될 때 보이게 & 모집 마감 된 폼 -> 모달 띄움
+  }, [formDetails, hasModalBeenOpened]) // 팝업 렌더링 될 때 보이게 & 모집 마감 된 폼 -> 모달 띄움
 
   useEffect(() => {
     if (isMenuVisible) {
