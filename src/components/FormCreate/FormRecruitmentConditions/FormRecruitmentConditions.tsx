@@ -11,7 +11,7 @@ import {
   FormCreateStepProp,
   NumberOfPositionsType,
   PreferredType,
-} from '@/lib/types/types'
+} from '@/lib/types/formTypes'
 import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 
 import FormCreateStep from '../FormCreateStep/FormCreateStep'
@@ -31,19 +31,46 @@ export default function FormRecruitmentConditions({
 
   const [numberOfPositions, setNumberOfPositions] =
     useState<NumberOfPositionsType>('00명 (인원미정)')
-  const [age, setAge] = useState<AgeType>('20세 ~ 29세')
-  const [preferred, setPreferred] = useState<PreferredType>('없음')
+  const [age, setAge] = useState<AgeType>(
+    [
+      '20세 ~ 29세',
+      '30세 ~ 39세',
+      '40세 ~ 49세',
+      '50세 ~ 59세',
+      '60세 이상',
+    ].includes(formData.age)
+      ? formData.age
+      : '직접입력',
+  )
+  const [preferred, setPreferred] = useState<PreferredType>(
+    ['없음'].includes(formData.preferred) ? '없음' : '직접입력',
+  )
 
   const handleProgress = useCallback(() => {
     const isProgress = FROM_NAME_LIST.some(
       (key) => formData[key] !== INITIAL_FORM_DATA[key],
     )
     setInProgress({ step, isProgress })
-    if (isProgress) return
 
-    setNumberOfPositions('00명 (인원미정)')
-    setAge('20세 ~ 29세')
-    setPreferred('없음')
+    setNumberOfPositions(
+      ['00명 (인원미정)'].includes(String(formData.numberOfPositions))
+        ? '00명 (인원미정)'
+        : '직접입력',
+    )
+
+    setAge(
+      [
+        '20세 ~ 29세',
+        '30세 ~ 39세',
+        '40세 ~ 49세',
+        '50세 ~ 59세',
+        '60세 이상',
+      ].includes(formData.age)
+        ? formData.age
+        : '직접입력',
+    )
+
+    setPreferred(['없음'].includes(formData.preferred) ? '없음' : '직접입력')
   }, [formData, step, setInProgress])
 
   useEffect(() => {
@@ -69,7 +96,7 @@ export default function FormRecruitmentConditions({
                     setNumberOfPositions(value)
                     setFormData(
                       'numberOfPositions',
-                      value === '직접입력' ? '' : value,
+                      value === '직접입력' ? 0 : value,
                     )
                   }}
                 >
@@ -91,9 +118,10 @@ export default function FormRecruitmentConditions({
                   : 0
               }
               min={0}
-              onChange={(event: ChangeEvent<HTMLInputElement>) =>
+              onChange={(event: ChangeEvent<HTMLInputElement>) => {
                 setFormData('numberOfPositions', Number(event.target.value))
-              }
+              }}
+              // required
             />
             <Form.Unit unit={'명'} />
           </Form.Wrap>
@@ -125,7 +153,12 @@ export default function FormRecruitmentConditions({
           </Dropdown.Menu>
         </Dropdown>
         <Form.Field hidden>
-          <Form.Input type={'hidden'} name={'gender'} value={formData.gender} />
+          <Form.Input
+            type={'hidden'}
+            name={'gender'}
+            value={formData.gender}
+            // required
+          />
         </Form.Field>
       </Form.Fieldset>
 
@@ -157,6 +190,7 @@ export default function FormRecruitmentConditions({
             type={'hidden'}
             name={'education'}
             value={formData.education}
+            // required
           />
         </Form.Field>
       </Form.Fieldset>
@@ -194,6 +228,7 @@ export default function FormRecruitmentConditions({
               onChange={(event: ChangeEvent<HTMLInputElement>) =>
                 setFormData('age', event.target.value)
               }
+              // required
             />
             <Form.Unit unit={'세'} />
           </Form.Wrap>
@@ -233,6 +268,7 @@ export default function FormRecruitmentConditions({
               onChange={(event: ChangeEvent<HTMLInputElement>) =>
                 setFormData('preferred', event.target.value)
               }
+              // required
             />
           </Form.Wrap>
         </Form.Field>

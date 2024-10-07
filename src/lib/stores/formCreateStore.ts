@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 
+import { TEMP_CREATE_FORM, hourlyWageData } from '../data/constants'
 import {
   AgeType,
   EducationType,
@@ -11,8 +12,9 @@ import {
   NumberOfPositionsType,
   PreferredType,
   STEP_INDEX,
+  TEMP_CREATE_FORM_TYPE,
   workDays,
-} from '../types/types'
+} from '../types/formTypes'
 
 /** 30분 단위 근무시간 배열 생성 */
 const workTimeArray: () => string[] = (): string[] => {
@@ -22,15 +24,6 @@ const workTimeArray: () => string[] = (): string[] => {
     arr.push(`${hh}:00`, `${hh}:30`)
   }
   return arr
-}
-
-/** 최저시급정보 */
-export const hourlyWageData: {
-  min: number
-  as: number
-} = {
-  min: 9860,
-  as: 2024,
 }
 
 /**
@@ -64,7 +57,7 @@ export const VALUE_PRESET: {
   workDays: ['일', '월', '화', '수', '목', '금', '토'],
 }
 
-export const INITIAL_FORM_DATA: Readonly<FORM_DATA> = {
+export const INITIAL_FORM_DATA: Readonly<FORM_DATA> | any = {
   /* 알바폼 제목 */
   title: '',
   /* 소개글 */
@@ -115,7 +108,7 @@ export interface FormCreateStore {
   step: STEP_INDEX
   setStep: (index: STEP_INDEX) => void
 
-  formData: Readonly<FORM_DATA>
+  formData: Readonly<FORM_DATA> | any
   initialFormData: () => void
   setFormData: (
     key: FORM_DATA_TYPE | string,
@@ -125,6 +118,10 @@ export interface FormCreateStore {
   inProgress: FORM_INPROGRESS[]
   initialInProgress: () => void
   setInProgress: (data: FORM_INPROGRESS) => void
+
+  temporaryFormDatas: TEMP_CREATE_FORM_TYPE[] | []
+  setTemporaryFormData: (tempFormData: TEMP_CREATE_FORM_TYPE[]) => void
+  delTemporaryFormData: ({ id, createAt }: TEMP_CREATE_FORM_TYPE) => void
 }
 
 export const useFormCreateStore = create<FormCreateStore>((set) => ({
@@ -150,4 +147,22 @@ export const useFormCreateStore = create<FormCreateStore>((set) => ({
         item.step === step ? { step, isProgress } : item,
       ),
     })),
+
+  temporaryFormDatas: [],
+  setTemporaryFormData: (tempFormData: TEMP_CREATE_FORM_TYPE[]) =>
+    set(() => {
+      localStorage.setItem(TEMP_CREATE_FORM, JSON.stringify(tempFormData))
+      return { temporaryFormDatas: tempFormData }
+    }),
+  delTemporaryFormData: ({ id, createAt }) =>
+    set((state) => {
+      const filtered = state.temporaryFormDatas.filter(
+        (item) => !(item.id === id && item.createAt === createAt),
+      )
+
+      localStorage.setItem(TEMP_CREATE_FORM, JSON.stringify(filtered))
+      return {
+        temporaryFormDatas: filtered,
+      }
+    }),
 }))

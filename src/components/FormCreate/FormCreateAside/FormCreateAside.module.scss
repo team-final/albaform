@@ -14,14 +14,6 @@
   padding: 40px;
   background-color: color.$Background-200;
 
-  & .steps {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: stretch;
-    gap: 8px;
-  }
-
   & .actions {
     display: flex;
     flex-flow: column wrap;
@@ -35,71 +27,6 @@
   }
 }
 
-.button {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-  border-radius: 16px;
-  min-height: 80px;
-  padding: 20px 32px;
-  background-color: transparent;
-  color: color.$Black-100;
-
-  @include font.Style(xl, 600);
-
-  & .title {
-    display: inline-flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
-    align-items: center;
-    gap: 24px;
-  }
-
-  & .index {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 9999px;
-    width: 28px;
-    height: 28px;
-    background-color: color.$Background-300;
-    color: color.$Grayscale-200;
-    font-style: normal;
-
-    @include font.Style(xl, 600);
-  }
-
-  & .status {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 9999px;
-    border: 1px solid color.$Grayscale-100;
-    padding: 6px 12px;
-    min-height: 38px;
-    background-color: color.$Background-100;
-    color: color.$Grayscale-300;
-
-    @include font.Style(lg, 500);
-
-    line-height: 1;
-  }
-
-  &.active {
-    background-color: color.$Primary-Orange-300;
-    color: color.$Grayscale-50;
-
-    & .index {
-      background-color: color.$Background-100;
-      color: color.$Primary-Orange-300;
-    }
-
-    & .status {
-      border-color: color.$Grayscale-50;
-      background-color: color.$Primary-Orange-200;
-      color: color.$Grayscale-50;
-    }
-  }
+.temporary-form-data-container {
+  display: block;
 }

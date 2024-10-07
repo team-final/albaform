@@ -2,7 +2,7 @@ import Form from '@/components/Form/Form'
 import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner'
 import { uploadImage } from '@/lib/api/uploadImageApi'
 import { useFormCreateStore } from '@/lib/stores/formCreateStore'
-import { FORM_STEP_1, FormCreateStepProp } from '@/lib/types/types'
+import { FORM_STEP_1, FormCreateStepProp } from '@/lib/types/formTypes'
 import Image from 'next/image'
 import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 
@@ -25,7 +25,10 @@ export default function FormRecruitmentContent({ step }: FormCreateStepProp) {
   const [isImagePending, setIsImagePending] = useState<boolean>(false)
 
   const deleteImage = (url: string) => {
-    setImageList((prev) => prev.filter((item) => item.url !== url))
+    setFormData(
+      'imageUrls',
+      imageList.filter((item) => item.url !== url),
+    )
   }
 
   const handleUploadImage = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -41,17 +44,18 @@ export default function FormRecruitmentContent({ step }: FormCreateStepProp) {
     const response = await uploadImage(formData)
     if (!response) return
 
-    setImageList((prev) => [
-      ...prev,
+    setFormData('imageUrls', [
+      ...imageList,
       { url: response.data.url, name: file.name },
     ])
+
     setIsImagePending(false)
     event.target.value = ''
   }
 
   const handleChangeImageList = useCallback(() => {
-    setFormData('imageUrls', imageList)
-  }, [imageList, setFormData])
+    setImageList(formData.imageUrls)
+  }, [formData.imageUrls])
 
   useEffect(() => {
     handleChangeImageList()
@@ -64,7 +68,7 @@ export default function FormRecruitmentContent({ step }: FormCreateStepProp) {
     setInProgress({ step, isProgress })
     if (isProgress) return
     if (imageList.length > 0) setImageList([])
-  }, [imageList, formData, step, setInProgress])
+  }, [formData, imageList, step, setInProgress])
 
   useEffect(() => {
     handleProgress()
@@ -86,7 +90,7 @@ export default function FormRecruitmentContent({ step }: FormCreateStepProp) {
               onChange={(event: ChangeEvent<HTMLInputElement>) =>
                 setFormData('title', event.target.value)
               }
-              required
+              // required
             ></Form.Input>
           </Form.Wrap>
         </Form.Field>
@@ -106,7 +110,7 @@ export default function FormRecruitmentContent({ step }: FormCreateStepProp) {
               onChange={(event: ChangeEvent<HTMLInputElement>) =>
                 setFormData('description', event.target.value)
               }
-              required
+              // required
             ></Form.Textarea>
           </Form.Wrap>
         </Form.Field>
@@ -120,6 +124,7 @@ export default function FormRecruitmentContent({ step }: FormCreateStepProp) {
           <Form.DateRangePickerInput
             startDate={'recruitmentStartDate'}
             endDate={'recruitmentEndDate'}
+            // required
           />
         </Form.Field>
       </Form.Fieldset>

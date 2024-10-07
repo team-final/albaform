@@ -1,16 +1,20 @@
-import FormStyles from '@/app/form/create/page.module.scss'
 import Dropdown from '@/components/Dropdown/Dropdown'
 import Form from '@/components/Form/Form'
+import { hourlyWageData } from '@/lib/data/constants'
 import {
   INITIAL_FORM_DATA,
   VALUE_PRESET,
-  hourlyWageData,
   useFormCreateStore,
 } from '@/lib/stores/formCreateStore'
-import { FORM_STEP_3, FormCreateStepProp } from '@/lib/types/types'
+import {
+  FORM_STEP_3,
+  FormCreateStepProp,
+  workDays,
+} from '@/lib/types/formTypes'
 import { ChangeEvent, useCallback, useEffect } from 'react'
 
 import FormCreateStep from '../FormCreateStep/FormCreateStep'
+import styles from './FormWorkingConditions.module.scss'
 
 const FROM_NAME_LIST: (keyof FORM_STEP_3)[] = [
   'location',
@@ -52,7 +56,7 @@ export default function FormWorkingConditions({ step }: FormCreateStepProp) {
           <Form.KakaoSearchInput
             name={'location'}
             placeholder={'주소 입력'}
-            required
+            // required
           />
         </Form.Field>
       </Form.Fieldset>
@@ -65,6 +69,7 @@ export default function FormWorkingConditions({ step }: FormCreateStepProp) {
           <Form.DateRangePickerInput
             startDate={'workStartDate'}
             endDate={'workEndDate'}
+            // required
           />
         </Form.Field>
       </Form.Fieldset>
@@ -73,10 +78,6 @@ export default function FormWorkingConditions({ step }: FormCreateStepProp) {
         <Form.Legend>
           근무 시간<span className={'required'}>*</span>
         </Form.Legend>
-        {/*
-          "workStartTime": "string", // 근무 시간 시작
-          "workEndTime": "string", // 근무 시간 종료
-        */}
         <div style={{ display: 'flex', gap: '16px' }}>
           <div style={{ width: '210px' }}>
             <Form.Field hidden>
@@ -84,6 +85,7 @@ export default function FormWorkingConditions({ step }: FormCreateStepProp) {
                 type={'hidden'}
                 name={'workStartTime'}
                 value={formData.workStartTime}
+                // required
               />
             </Form.Field>
             <Dropdown sustain>
@@ -118,6 +120,7 @@ export default function FormWorkingConditions({ step }: FormCreateStepProp) {
                 type={'hidden'}
                 name={'workEndTime'}
                 value={formData.workEndTime}
+                // required
               />
             </Form.Field>
             <Dropdown>
@@ -153,7 +156,7 @@ export default function FormWorkingConditions({ step }: FormCreateStepProp) {
         <Form.Legend>
           근무 요일<span className={'required'}>*</span>
         </Form.Legend>
-        <div className={FormStyles['form-day-of-week']}>
+        <div className={styles['day-of-week']}>
           {VALUE_PRESET.workDays.map((value) => {
             return (
               <Form.Field
@@ -172,10 +175,14 @@ export default function FormWorkingConditions({ step }: FormCreateStepProp) {
                     } else {
                       setFormData(
                         'workDays',
-                        formData.workDays.filter((day) => day !== value),
+                        formData.workDays.filter(
+                          (day: workDays) => day !== value,
+                        ),
                       )
                     }
+                    return formData.workDays
                   }}
+                  workDaysValue={formData.workDays}
                 />
               </Form.Field>
             )
@@ -183,7 +190,7 @@ export default function FormWorkingConditions({ step }: FormCreateStepProp) {
         </div>
         <Form.Field
           htmlFor={`checkbox-workDays-isNegotiableWorkDays`}
-          className={FormStyles['form-checkbox']}
+          className={styles.checkbox}
           isInline
         >
           <Form.Input
@@ -213,7 +220,7 @@ export default function FormWorkingConditions({ step }: FormCreateStepProp) {
               onChange={(event: ChangeEvent<HTMLInputElement>) =>
                 setFormData('hourlyWage', Number(event.target.value))
               }
-              required
+              // required
             ></Form.Input>
             <Form.Unit unit={'원'} />
           </Form.Wrap>
@@ -222,11 +229,7 @@ export default function FormWorkingConditions({ step }: FormCreateStepProp) {
 
       <Form.Fieldset>
         <Form.Legend>공개 설정</Form.Legend>
-        <Form.Field
-          htmlFor={'isPublic'}
-          className={FormStyles['form-checkbox']}
-          isInline
-        >
+        <Form.Field htmlFor={'isPublic'} className={styles.checkbox} isInline>
           <Form.Wrap>
             <Form.Input
               type={'checkbox'}
