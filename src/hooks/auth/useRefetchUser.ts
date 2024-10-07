@@ -1,4 +1,4 @@
-import authAxios from '@/lib/api/authAxios'
+import axiosWithCredentials from '@/lib/api/axiosWithCredentials'
 import { AUTH_USER_ERROR_MESSAGE } from '@/lib/data/constants'
 import { useUserStore } from '@/lib/stores/userStore'
 import { User } from '@/lib/types/userTypes'
@@ -19,7 +19,7 @@ export default function useReloadUser() {
       if (!accessToken) {
         return null
       }
-      const response = await authAxios.get('/users/me')
+      const response = await axiosWithCredentials.get('/users/me')
       const { user: refetchedUser } = response.data
       setUser(refetchedUser)
       setUserRole(refetchedUser.role)

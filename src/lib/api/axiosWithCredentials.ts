@@ -1,14 +1,14 @@
 import axios, { AxiosInstance } from 'axios'
 import Cookies from 'js-cookie'
 
-const authAxios: AxiosInstance = axios.create({
+const axiosWithCredentials: AxiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
 })
 
-authAxios.interceptors.request.use(
+axiosWithCredentials.interceptors.request.use(
   (config) => {
     const accessToken = Cookies.get('token')
     if (accessToken) {
@@ -21,7 +21,7 @@ authAxios.interceptors.request.use(
   },
 )
 
-authAxios.interceptors.response.use(
+axiosWithCredentials.interceptors.response.use(
   (response) => {
     return response
   },
@@ -34,12 +34,12 @@ authAxios.interceptors.response.use(
         return Promise.reject(error)
       }
       try {
-        const response = await authAxios.post('/auth/refresh', {
+        const response = await axiosWithCredentials.post('/auth/refresh', {
           refreshToken,
         })
         const accessToken = response.data.accessToken
         Cookies.set('token', accessToken)
-        return authAxios(originalRequest)
+        return axiosWithCredentials(originalRequest)
       } catch (refreshError) {
         console.error('토큰 갱신 실패:', refreshError)
         return Promise.reject(refreshError)
@@ -48,4 +48,4 @@ authAxios.interceptors.response.use(
   },
 )
 
-export default authAxios
+export default axiosWithCredentials
