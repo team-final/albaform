@@ -1,5 +1,5 @@
 import handleError from '../utils/errorHandler'
-import authAxios from './axiosWithCredentials'
+import authAxios from './authAxios'
 
 // 회원의 내 지원 내역 조회
 export const getMyApplication = async (formId: number) => {

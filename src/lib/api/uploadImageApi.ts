@@ -3,7 +3,7 @@
  */
 import { AxiosResponse } from 'axios'
 
-import authAxios from './axiosWithCredentials'
+import authAxios from './authAxios'
 
 const config = {
   headers: {

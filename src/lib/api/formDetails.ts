@@ -1,5 +1,5 @@
 import handleError from '../utils/errorHandler'
-import authAxios from './axiosWithCredentials'
+import authAxios from './authAxios'
 
 // 지원자인지 사장인지 구분하기
 export const getUsersMe = async () => {
