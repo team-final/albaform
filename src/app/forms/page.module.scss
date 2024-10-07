@@ -1,0 +1,62 @@
+@use 'src/styles/_color.scss' as color;
+@use 'src/styles/_font' as font;
+@use 'src/styles/_media' as media;
+
+.list-page {
+  &-container {
+    max-width: 1479px;
+    min-width: 327px;
+    margin: 0 auto;
+
+    @include media.tablet {
+      margin: 0 72px;
+    }
+
+    @include media.mobile {
+      margin: 0 24px;
+    }
+  }
+
+  &-searchBar {
+    margin-top: 24px;
+    margin-bottom: 41px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  &-searchButton {
+    height: 64px;
+    border-radius: 8px;
+    background-color: color.$Primary-Orange-100;
+
+    @include font.Style(xl, 600);
+  }
+
+  &-selectbar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 80px;
+  }
+}
+
+.carditem-container {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
+
+  @media (width <= 1200px) {
+    grid-template-columns: repeat(2, 1fr);
+    margin: 0 72px;
+  }
+
+  @include media.tablet {
+    max-width: 400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}

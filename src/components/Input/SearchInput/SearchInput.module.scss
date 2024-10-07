@@ -1,0 +1,23 @@
+@use 'src/styles/_color' as color;
+@use 'src/styles/_font' as font;
+@use 'src/styles/_media' as media;
+
+.input-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+.input-container-searchbar {
+  font-size: 16px;
+  padding-left: 60px;
+  height: 64px;
+  border-radius: 24px;
+  width: 100%;
+}
+
+.input-container-searchbar-ic {
+  position: absolute;
+  left: 20px;
+}
