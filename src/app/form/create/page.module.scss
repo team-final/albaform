@@ -1,9 +1,9 @@
-@use 'src/styles/_variables' as var;
-@use 'src/styles/_color' as color;
-@use 'src/styles/_font' as font;
-@use 'src/styles/_media' as media;
+@use '@/styles/_variables' as var;
+@use '@/styles/_color' as color;
+@use '@/styles/_font' as font;
+@use '@/styles/_media' as media;
 
-form.container {
+.container {
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-start;
@@ -31,70 +31,4 @@ form.container {
   height: 100%;
   padding: 0 40px;
   overflow: auto;
-}
-
-.form {
-  &-checkbox {
-    display: inline-flex;
-    flex-flow: row wrap;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 8px;
-    width: fit-content;
-    cursor: pointer;
-
-    & input[class*='form-input'][type='checkbox'] {
-      appearance: none;
-      width: 26px;
-      height: 26px;
-      min-width: auto;
-      min-height: auto;
-      padding: 0;
-      border-radius: 4px;
-      background-image: url('/icons/ic-checkbox-default.svg');
-      background-color: transparent;
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: 24px;
-      cursor: pointer;
-
-      &:checked {
-        background-image: url('/icons/ic-checkbox-checked.svg');
-      }
-
-      &:disabled {
-        background-image: url('/icons/ic-checkbox-disabled.svg');
-      }
-    }
-  }
-
-  &-day-of-week {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 16px;
-
-    & label[class*='form-field'] {
-      display: flex;
-      flex-flow: row wrap;
-      justify-content: center;
-      align-items: center;
-      border-radius: 16px;
-      width: 50px;
-      height: 64px;
-      background-color: color.$Background-200;
-      color: color.$Grayscale-500;
-      cursor: pointer;
-
-      &:has(input:checked) {
-        background-color: color.$Primary-Orange-300;
-        color: color.$Grayscale-50;
-      }
-    }
-
-    & input {
-      display: none;
-    }
-  }
 }

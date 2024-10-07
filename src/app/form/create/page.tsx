@@ -9,7 +9,7 @@ import FormRecruitmentContent from '@/components/FormCreate/FormRecruitmentConte
 import FormWorkingConditions from '@/components/FormCreate/FormWorkingConditions/FormWorkingConditions'
 import { createAlbaForm } from '@/lib/api/formCreate'
 import { useFormCreateStore } from '@/lib/stores/formCreateStore'
-import { FORM_DATA } from '@/lib/types/types'
+import { FORM_DATA } from '@/lib/types/formTypes'
 import classNames from 'classnames'
 import { FieldValues } from 'react-hook-form'
 
@@ -17,32 +17,20 @@ import styles from './page.module.scss'
 
 export default function CreateFormPage() {
   const { formData } = useFormCreateStore()
-  const handleSubmit = async (
-    data: FieldValues | FORM_DATA,
-    e?: Event | any,
-  ) => {
-    data.imageUrls = JSON.stringify(formData.imageUrls)
-    data.workDays = formData.workDays
 
-    /**
-     * @todo 임시저장 기능 개발
-     */
-    if (e?.nativeEvent.submitter.innerText === '임시 저장') {
-      const now = new Date()
-      const YY = now.getFullYear()
-      const MM = (now.getMonth() + 1).toString().padStart(2, '0')
-      const DD = now.getDate().toString().padStart(2, '0')
-      const hh = now.getHours().toString().padStart(2, '0')
-      const mm = now.getMinutes().toString().padStart(2, '0')
-      const ss = now.getSeconds().toString().padStart(2, '0')
+  const handleSubmit = async (data: FORM_DATA | FieldValues) => {
+    if (!data) return
 
-      const tempData = { createAt: `${YY}-${MM}-${DD} ${hh}:${mm}:${ss}`, data }
-
-      console.log(tempData)
-      // localStorage.setItem(TEMP_CREATE_FORM, JSON.stringify(data))
-    } else {
-      await createAlbaForm(JSON.stringify(data))
+    const params = {
+      ...formData,
+      imageUrls: JSON.stringify(formData.imageUrls),
+      numberOfPositions: isNaN(Number(formData.numberOfPositions))
+        ? 0
+        : formData.numberOfPositions,
     }
+
+    const response = await createAlbaForm(JSON.stringify(params))
+    console.log('response: ', response)
   }
 
   return (

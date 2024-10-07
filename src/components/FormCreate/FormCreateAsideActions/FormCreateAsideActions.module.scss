@@ -1,0 +1,16 @@
+@use 'src/styles/_variables' as var;
+@use 'src/styles/_color' as color;
+@use 'src/styles/_font' as font;
+@use 'src/styles/_media' as media;
+
+.actions {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: stretch;
+  gap: 8px;
+
+  & button {
+    min-height: 72px;
+  }
+}

@@ -3,7 +3,11 @@ import MainButton, {
   buttonStyle,
 } from '@/components/Button/MainButton/MainButton'
 import VisibilityToggleButton from '@/components/Button/VisibilityToggleButton/VisibilityToggleButton'
-import { useFormCreateStore } from '@/lib/stores/formCreateStore'
+import {
+  INITIAL_FORM_DATA,
+  useFormCreateStore,
+} from '@/lib/stores/formCreateStore'
+import { FORM_DATA_TYPE } from '@/lib/types/formTypes'
 import {
   ComponentProps,
   FormFieldProps,
@@ -26,6 +30,7 @@ import {
   FieldErrors,
   FieldValues,
   RegisterOptions,
+  UseFormGetFieldState,
   UseFormGetValues,
   UseFormRegister,
   UseFormSetFocus,
@@ -39,15 +44,16 @@ import styles from './Form.module.scss'
 
 interface FormContextProps {
   formId: string
-  register: UseFormRegister<FieldValues>
-  errors: FieldErrors
   onSubmit: (data: FieldValues) => void
-  reset: () => void
+  watch: UseFormWatch<FieldValues>
+  getValues: UseFormGetValues<FieldValues>
+  getFieldState: UseFormGetFieldState<FieldValues>
+  setValue: UseFormSetValue<FieldValues>
+  errors: FieldErrors
   isValid: boolean
   isSubmitting: boolean
-  setValue: UseFormSetValue<FieldValues>
-  getValues: UseFormGetValues<FieldValues>
-  watch: UseFormWatch<FieldValues>
+  reset: () => void
+  register: UseFormRegister<FieldValues>
   setFocus: UseFormSetFocus<FieldValues>
 }
 
@@ -129,30 +135,32 @@ export default function Form({
 }: FormProps) {
   const FormClass = classNames(styles.form, className)
   const {
-    register,
-    handleSubmit,
-    formState: { errors, isValid, isSubmitting },
-    setValue,
     watch,
     getValues,
-    setFocus,
+    getFieldState,
+    setValue,
+    formState: { errors, isValid, isSubmitting },
     reset,
+    handleSubmit,
+    register,
+    setFocus,
   } = useForm({ mode: 'onChange', defaultValues })
 
   return (
     <FormContext.Provider
       value={{
         formId,
-        register,
-        errors,
         onSubmit,
-        isValid,
-        isSubmitting,
-        setValue,
         watch,
         getValues,
-        setFocus,
+        getFieldState,
+        setValue,
+        errors,
+        isValid,
+        isSubmitting,
         reset,
+        register,
+        setFocus,
       }}
     >
       <form
@@ -317,6 +325,7 @@ function Input({
   pattern,
   validate,
   value,
+  workDaysValue,
   ...rest
 }: InputProps) {
   const rules: RegisterOptions = {
@@ -326,7 +335,7 @@ function Input({
     pattern: pattern || undefined,
     validate,
   }
-  const { register, errors, setValue, watch } = useFormContext()
+  const { register, errors, setValue, watch, getValues } = useFormContext()
   const { forId } = useLabelContext()
   const cn = classNames(styles['form-input'], className)
 
@@ -348,9 +357,19 @@ function Input({
   const inputType =
     type === 'password' ? (visibility ? 'password' : 'text') : type
 
-  useEffect(() => {
+  const handleEffect = useCallback(() => {
     if (value && name !== 'workDays') setValue(name, value)
-  }, [value, name, setValue])
+
+    if (name === 'workDays') {
+      const prev = getValues(name)
+      if (JSON.stringify(prev) !== JSON.stringify(workDaysValue))
+        setValue(name, workDaysValue)
+    }
+  }, [getValues, name, setValue, value, workDaysValue])
+
+  useEffect(() => {
+    handleEffect()
+  }, [handleEffect])
 
   return (
     <>
@@ -487,8 +506,8 @@ function KakaoSearchInput({
   placeholder,
   required,
 }: KakaoSearchInputProps) {
-  const { setFormData } = useFormCreateStore()
-  const { register, setValue } = useFormContext()
+  const { formData, setFormData } = useFormCreateStore()
+  const { formId, register, setValue } = useFormContext()
   const { forId } = useLabelContext()
 
   useEffect(() => {
@@ -503,10 +522,15 @@ function KakaoSearchInput({
       oncomplete: function (data: any) {
         const roadAddr = data.roadAddress
         setValue(name, roadAddr)
-        setFormData(name, roadAddr)
+        if (formId === 'createForm') setFormData(name, roadAddr)
       },
     }).open()
   }
+
+  const getFormDataValue =
+    formId === 'createForm' && formData && name === 'location'
+      ? formData.location
+      : undefined
 
   return (
     <input
@@ -515,6 +539,7 @@ function KakaoSearchInput({
       className={classNames(styles['form-input'], styles['form-input-kakao'])}
       onClick={handleAddressSearch}
       placeholder={placeholder}
+      value={getFormDataValue}
       readOnly
       id={forId}
     />
@@ -524,52 +549,41 @@ function KakaoSearchInput({
 function DateRangePickerInput({
   startDate,
   endDate,
+  required = false,
 }: {
-  startDate: string
-  endDate: string
+  startDate: FORM_DATA_TYPE
+  endDate: FORM_DATA_TYPE
+  required?: boolean
 }) {
-  const { setValue, setFocus } = useFormContext()
+  const { formId, setFocus } = useFormContext()
+  const { formData } = useFormCreateStore()
+
+  useEffect(() => {}, [formData])
 
   return (
     <>
-      <Form.Input name={startDate} type="hidden" required />
-      <Form.Input name={endDate} type="hidden" required />
+      <div hidden>
+        <Form.Input
+          type="hidden"
+          name={startDate}
+          required={required}
+          value={formId === 'createForm' && formData[startDate]}
+        />
+        <Form.Input
+          type="hidden"
+          name={endDate}
+          required={required}
+          value={formId === 'createForm' && formData[endDate]}
+        />
+      </div>
       <DateRangePicker
         startDate={startDate}
         endDate={endDate}
-        setValue={setValue}
         setFocus={setFocus}
+        startDateVal={formId === 'createForm' && formData[startDate]}
+        endDateVal={formId === 'createForm' && formData[endDate]}
       />
     </>
-  )
-}
-
-interface SubmitButtonProps {
-  buttonStyle?: 'solid' | 'outline'
-  color?: 'primary' | 'gray'
-  children: ReactNode
-  isPending?: boolean
-}
-
-/**
- * 해당 form 의 onSubmit prop 으로 등록된 함수를 실행하는 버튼입니다. 1개만 존재 해야합니다.
- */
-function SubmitButton({
-  buttonStyle,
-  color,
-  children,
-  isPending,
-}: SubmitButtonProps) {
-  const { isValid, isSubmitting } = useFormContext()
-  return (
-    <MainButton
-      buttonStyle={buttonStyle}
-      color={color}
-      type={'submit'}
-      disabled={!isValid || isSubmitting || isPending}
-    >
-      {children}
-    </MainButton>
   )
 }
 
@@ -602,6 +616,73 @@ function ResetButton({
         reset()
       }}
       {...rest}
+    >
+      {children}
+    </MainButton>
+  )
+}
+
+interface SubmitButtonProps {
+  children: ReactNode
+  buttonStyle?: 'solid' | 'outline'
+  color?: 'primary' | 'gray'
+  isPending?: boolean
+}
+
+/**
+ * 해당 form 의 onSubmit prop 으로 등록된 함수를 실행하는 버튼입니다.
+ */
+function SubmitButton({
+  children,
+  buttonStyle,
+  color,
+  isPending,
+}: SubmitButtonProps) {
+  const { formId, isValid, isSubmitting } = useFormContext()
+  const { formData } = useFormCreateStore()
+  const [isComplete, setIsComplete] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (formId === 'createForm') {
+      setIsComplete(() => {
+        const checkArr = []
+
+        for (const key in formData) {
+          if (
+            [
+              'imageUrls',
+              'numberOfPositions',
+              'gender',
+              'education',
+              'age',
+              'preferred',
+              'workStartTime',
+              'workEndTime',
+              'isNegotiableWorkDays',
+              'hourlyWage',
+              'isPublic',
+            ].includes(key)
+          )
+            continue
+
+          checkArr.push(
+            key === 'workDays'
+              ? formData[key].length === 0
+              : formData[key] === INITIAL_FORM_DATA[key],
+          )
+        }
+
+        return checkArr.every((item) => item === false)
+      })
+    }
+  }, [formId, formData])
+
+  return (
+    <MainButton
+      type={'submit'}
+      buttonStyle={buttonStyle}
+      color={color}
+      disabled={!isComplete || !isValid || isSubmitting || isPending}
     >
       {children}
     </MainButton>

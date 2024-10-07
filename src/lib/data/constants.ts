@@ -27,3 +27,15 @@ export const TEST_ID_OWNER = {
   email: 'testOwner@email.com',
   password: '00000000',
 }
+
+/** 알바폼 만들기 임시 저장 */
+export const TEMP_CREATE_FORM = 'albaform_create_temporary_save'
+
+/** 최저시급정보 */
+export const hourlyWageData: {
+  min: number
+  as: number
+} = {
+  min: 9860,
+  as: 2024,
+}

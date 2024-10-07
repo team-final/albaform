@@ -29,26 +29,32 @@ const globalBuddhistLocale: typeof koKR = {
 dayjs.extend(customParseFormat)
 
 interface DateRangePickerProps {
-  startDate: string
-  endDate: string
-  setValue: (key: string, value: string) => void
+  startDate: string | any
+  endDate: string | any
   setFocus: any
+  startDateVal?: any
+  endDateVal?: any
 }
 
 export default function DateRangePicker({
   startDate,
   endDate,
-  setValue,
   setFocus,
+  startDateVal,
+  endDateVal,
 }: DateRangePickerProps) {
   const { setFormData } = useFormCreateStore()
 
   const handleChange: DatePickerProps['onChange'] = (_, dateStr) => {
-    setValue(startDate, dateStr[0])
-    setValue(endDate, dateStr[1])
     setFormData(startDate, dateStr[0])
     setFormData(endDate, dateStr[1])
   }
+
+  const valueArr: any = startDateVal &&
+    endDateVal && [
+      dayjs(startDateVal, 'YYYY-MM-DD'),
+      dayjs(endDateVal, 'YYYY-MM-DD'),
+    ]
 
   return (
     <ConfigProvider locale={globalBuddhistLocale}>
@@ -63,6 +69,7 @@ export default function DateRangePicker({
             setFocus(endDate)
           }
         }}
+        value={valueArr}
       />
     </ConfigProvider>
   )
