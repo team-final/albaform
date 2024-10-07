@@ -235,3 +235,8 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+# Service account key
+/credentials/
+
+# 임시보관함
+/src/temp/
