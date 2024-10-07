@@ -3,10 +3,20 @@
 import signInSignUpStyles from '@/app/user/signInSignUp.module.scss'
 import Form from '@/components/Form/Form'
 import useCreateUser from '@/hooks/auth/useCreateUser'
+import useGoogleAuth from '@/hooks/auth/useGoogleAuth'
 import useSignIn from '@/hooks/auth/useSignIn'
 import { emailPattern, passwordPattern } from '@/lib/data/patterns'
 import { useUserStore } from '@/lib/stores/userStore'
-import { CreateUserValues, SignUpFormValues } from '@/lib/types/userTypes'
+import {
+  CreateUserValues,
+  SignUpFormValues
+  CompleteOauthSignUpValues,
+  CompleteSignUpValues,
+  OauthSignUpValues,
+  SignUpValues,
+  UserRole,
+} from '@/lib/types/userTypes'
+import {  } from '@/lib/types/userTypes'
 import { generateUniqueNickname } from '@/lib/utils/nicknameGenerator'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -60,6 +70,39 @@ export default function SignUpPage() {
   if (user) {
     router.back()
     return null
+  }
+  const setDefaultOauthSignupValues = ({
+    token,
+    redirectUri,
+    role,
+  }: OauthSignUpValues) => {
+    const OauthSignUpValues: CompleteOauthSignUpValues = {
+      token,
+      redirectUri,
+      role,
+      name: '이름',
+      nickname: '닉네임',
+      phoneNumber: '010-0000-0000',
+      storeName: '가게이름',
+      storePhoneNumber: '02-0000-0000',
+      location: '서울특별시 강남구 알바폼로 1',
+    }
+    return { OauthSignUpValues, role }
+  }
+
+  const { oauthSignUp, oauthSignIn } = useGoogleAuth()
+  const handleGoogleSignUp = async ({
+    values,
+    role,
+  }: {
+    values: OauthSignUpValues
+    role: UserRole
+  }) => {
+    const oauthSignUpValues: CompleteOauthSignUpValues =
+      setDefaultOauthSignupValues(values, role)
+    await oauthSignUp(oauthSignUpValues)
+    const { token } = oauthSignUpValues
+    await oauthSignIn(token)
   }
 
   return (
@@ -162,13 +205,13 @@ export default function SignUpPage() {
           </div>
           <ul className={signInSignUpStyles['sns-list']}>
             <li>
-              <Link href={'#'} className={signInSignUpStyles['sns-button']}>
+              <button onClick={() => handleGoogleSignUp()} className={signInSignUpStyles['sns-button']}>
                 <Image
                   src={'/icons/ic-logo-google.svg'}
                   alt={'GOOGLE 아이콘'}
                   fill
                 />
-              </Link>
+              </button>
             </li>
             <li>
               <Link href={'#'} className={signInSignUpStyles['sns-button']}>

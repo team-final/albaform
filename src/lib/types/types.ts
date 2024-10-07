@@ -74,14 +74,6 @@ export interface InputProps extends ComponentProps {
   workDaysValue?: WorkDaysType
 }
 
-export interface MessageContext {
-  message?: CustomMessage
-}
-
-export interface ButtonText {
-  signInOut: '로그인' | '로그아웃'
-}
-
 export interface FormDetailsProps {
   updatedAt?: string
   createdAt?: string

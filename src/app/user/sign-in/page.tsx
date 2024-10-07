@@ -3,6 +3,7 @@
 import signInSignUpStyles from '@/app/user/signInSignUp.module.scss'
 import MainButton from '@/components/Button/MainButton/MainButton'
 import Form from '@/components/Form/Form'
+import useGoogleAuth from '@/hooks/auth/useGoogleAuth'
 import useSignIn from '@/hooks/auth/useSignIn'
 import {
   TEST_ACOUNT,
@@ -23,6 +24,13 @@ export default function SignInPage() {
   const user = useUserStore.getState().user
   const router = useRouter()
   const signIn = useSignIn()
+  const { signInGoogle, oauthSignIn } = useGoogleAuth()
+
+  const handleGoogleSignIn = async () => {
+    await signInGoogle.mutateAsync()
+    const { accessToken } = await signInGoogle.mutateAsync()
+    if (accessToken) await oauthSignIn(accessToken)
+  }
 
   async function handleSignIn({ email, password }: SignInValues) {
     await signIn.mutateAsync({ email, password })
@@ -166,6 +174,14 @@ export default function SignInPage() {
           >
             사장님 되기
           </MainButton>
+        </section>
+
+        <section>
+          <h3>SNS 계정으로 로그인</h3>
+          <MainButton onClick={handleGoogleSignIn}>구글</MainButton>
+          {/* {userLoading && <p>Loading user data...</p>} */}
+          {/* {userError && <p>Error fetching user data: {userError.message}</p>} */}
+          {/* {albaformUser && <p>Logged in as: {albaformUser.name}</p>} */}
         </section>
       </div>
     </article>

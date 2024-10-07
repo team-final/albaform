@@ -3,7 +3,7 @@
  */
 import { AxiosResponse } from 'axios'
 
-import authAxios from './authAxios'
+import authAxios from './axiosWithCredentials'
 
 export const postAlbaForm = async (
   requestBody: string,
