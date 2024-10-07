@@ -33,7 +33,6 @@ function ListCardItem({
   isPublic,
   isRecruiting,
 }: ListItem) {
-  console.log(isRecruiting)
   const handleClick = () => {
     console.log(id)
   }
