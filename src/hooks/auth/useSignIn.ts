@@ -1,5 +1,5 @@
 import basicAxios from '@/lib/api/basicAxios'
-import { SIGNIN_ERROR_MESSAGE } from '@/lib/data/constants'
+import { SIGN_IN_ERROR_MESSAGE } from '@/lib/data/constants'
 import { useUserStore } from '@/lib/stores/userStore'
 import { SignInValues, User } from '@/lib/types/userTypes'
 import handleError from '@/lib/utils/errorHandler'
@@ -9,7 +9,7 @@ import Cookies from 'js-cookie'
 
 export default function useSignIn() {
   const queryClient = useQueryClient()
-  const { setUser, setUserType } = useUserStore()
+  const { setUser, setUserRole } = useUserStore()
 
   return useMutation({
     mutationFn: async ({ email, password }: SignInValues): Promise<User> => {
@@ -34,10 +34,10 @@ export default function useSignIn() {
     onSuccess: (user) => {
       queryClient.setQueryData(['user'], user) // 쿼리 캐시에 유저 정보 저장
       setUser(user) // Zustand 스토어에 유저 정보 저장
-      setUserType(user.role)
+      setUserRole(user.role)
     },
     onError: (error: AxiosError) => {
-      handleError(error, SIGNIN_ERROR_MESSAGE)
+      handleError(error, SIGN_IN_ERROR_MESSAGE)
     },
   })
 }

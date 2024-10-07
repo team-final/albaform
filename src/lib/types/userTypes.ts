@@ -16,4 +16,17 @@ export interface SignInValues {
   password: string
 }
 
-export type UserType = 'NOT_SIGN_IN' | 'APPLICANT' | 'OWNER'
+export interface SignUpValues extends SignInValues {
+  role: 'APPLICANT' | 'OWNER'
+}
+
+export interface CompleteSignUpValues extends SignUpValues {
+  name: string
+  nickname: string
+  storeName: undefined | string
+  storePhoneNumber: undefined | string
+  phoneNumber: undefined | string
+  location: undefined | string
+}
+
+export type UserRole = 'APPLICANT' | 'OWNER'

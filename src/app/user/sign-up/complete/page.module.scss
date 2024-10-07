@@ -1,6 +1,6 @@
-@use 'src/styles/_color' as color;
-@use 'src/styles/_font' as font;
-@use 'src/styles/_media' as media;
+@use '@/styles/color' as color;
+@use '@/styles/font' as font;
+@use '@/styles/media' as media;
 
 .owner-information-sub-title {
   margin-top: 16px;
