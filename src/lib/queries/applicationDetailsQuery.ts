@@ -1,11 +1,11 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 
 import {
-  getDownloadResume,
-  getListApplicationDetails,
-  getListApplications,
   getMyApplication,
-  getMyApplicationVerify,
+  getResumeFile,
+  listApplicationDetails,
+  listApplications,
+  patchStatus,
 } from '../api/applicationDetails'
 
 export const useMyApplicationQuery = (
@@ -19,17 +19,10 @@ export const useMyApplicationQuery = (
   })
 }
 
-export const useMyApplicationVerityQuery = (formId: number) => {
-  return useQuery({
-    queryKey: ['myApplicationVerify'],
-    queryFn: () => getMyApplicationVerify(formId),
-  })
-}
-
 export const useListApplicationsQuery = (formId: number) => {
   return useQuery({
     queryKey: ['applicationsList'],
-    queryFn: () => getListApplications(formId),
+    queryFn: () => listApplications(formId),
   })
 }
 
@@ -39,18 +32,21 @@ export const useListApplicationDetailsQuery = (
 ) => {
   return useQuery({
     queryKey: ['applicationDetails'],
-    queryFn: () => getListApplicationDetails(applicationId),
+    queryFn: () => listApplicationDetails(applicationId),
     enabled: options?.enabled,
   })
 }
 
-export const useDownloadResumueQuery = (
-  resumeId: number,
-  resumeName: string,
-) => {
+export const useResumeFileQuery = (resumeId: number, resumeName: string) => {
   return useQuery({
     queryKey: ['myResume'],
-    queryFn: () => getDownloadResume(resumeId, resumeName),
+    queryFn: () => getResumeFile(resumeId, resumeName),
     enabled: false,
+  })
+}
+
+export const usePatchStatusMutation = () => {
+  return useMutation({
+    mutationFn: patchStatus,
   })
 }

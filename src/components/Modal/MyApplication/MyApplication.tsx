@@ -1,10 +1,11 @@
 // 지원자 & 사장 -> 제출 내용 조회
 import Toastify from '@/components/Toastify/Toastify'
 import {
-  useDownloadResumueQuery,
   useListApplicationDetailsQuery,
   useMyApplicationQuery,
+  useResumeFileQuery,
 } from '@/lib/queries/applicationDetailsQuery'
+import { formatPhoneNumber } from '@/lib/utils/formatDate'
 import classNames from 'classnames'
 import Image from 'next/image'
 import ReactModal from 'react-modal'
@@ -12,7 +13,7 @@ import { toast } from 'react-toastify'
 
 import styles from './MyApplication.module.scss'
 
-interface Props {
+interface MyApplicationModalProps {
   isOpen: boolean
   formId?: number
   isOwner: boolean
@@ -26,7 +27,7 @@ export default function MyApplicationModal({
   isOwner,
   applicationId,
   onRequestClose,
-}: Props) {
+}: MyApplicationModalProps) {
   const { data: myApplication } = useMyApplicationQuery(Number(formId), {
     enabled: !isOwner,
   })
@@ -34,11 +35,13 @@ export default function MyApplicationModal({
     Number(applicationId),
     { enabled: isOwner },
   )
-  const { refetch } = useDownloadResumueQuery(
-    Number(myApplication?.resumeId),
-    myApplication?.resumeName,
-  )
+
   const application = isOwner ? ownerApplication : myApplication
+
+  const { refetch } = useResumeFileQuery(
+    Number(application?.resumeId),
+    application?.resumeName,
+  )
 
   const handleDownloadResumeClick = () => {
     refetch()
@@ -80,7 +83,7 @@ export default function MyApplicationModal({
             <div className={styles['application-details-content']}>
               <h2 className={styles['content-title']}>연락처</h2>
               <span className={styles['content-description']}>
-                {application?.phoneNumber}
+                {formatPhoneNumber(application?.phoneNumber)}
               </span>
             </div>
             <div className={styles['application-details-content']}>

@@ -1,4 +1,3 @@
-import '@/components/FormDetails/ImageSlider/ImageSlider.css'
 import KakaoScript from '@/components/FormDetails/KakaoScript/KakaoScript'
 import GlobalNavigationBar from '@/components/GlobalNavigationBar/GlobalNavigationBar'
 import '@/components/Toastify/Toastify.css'

@@ -5,7 +5,7 @@
 .location-info {
   display: flex;
   flex-direction: column;
-  row-gap: 40px;
+  row-gap: 24px;
 
   @include media.tablet {
     row-gap: 16px;
@@ -60,7 +60,7 @@
   padding: 0;
   white-space: nowrap;
   cursor: pointer;
-  min-width: 0;
+  min-width: auto;
 
   @include media.tablet {
     @include font.Style(md, 500);

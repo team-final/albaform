@@ -5,7 +5,6 @@ import {
   deleteFormScrap,
   getFormDetails,
   getUsersMe,
-  patchForm,
   postFormScrap,
 } from '../api/formDetails'
 
@@ -32,12 +31,6 @@ export const useFormScrapMutation = () => {
 export const useFormScrapDeleteMutation = () => {
   return useMutation({
     mutationFn: deleteFormScrap,
-  })
-}
-
-export const usePatchFormQuery = () => {
-  return useMutation({
-    mutationFn: patchForm,
   })
 }
 

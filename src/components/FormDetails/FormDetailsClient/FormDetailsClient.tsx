@@ -17,6 +17,7 @@ import {
   useFormScrapMutation,
   useUsersMeQuery,
 } from '@/lib/queries/formDetailsQuery'
+import handleError from '@/lib/utils/errorHandler'
 import classNames from 'classnames'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
@@ -40,10 +41,8 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
   const router = useRouter()
   const { data: userRole } = useUsersMeQuery()
   const { data: formDetails } = useFormDetailsQuery(Number(formId))
-  const { mutate: scrapForm, isPending: isScrapLoading } =
-    useFormScrapMutation()
-  const { mutate: scrapDeleteForm, isPending: isDeleteLoading } =
-    useFormScrapDeleteMutation()
+  const { mutate: scrapForm } = useFormScrapMutation()
+  const { mutate: scrapDeleteForm } = useFormScrapDeleteMutation()
   const { mutate: deleteForm } = useDeleteFormQuery()
   const [isScrapped, setIsScrapped] = useState(formDetails?.isScrapped || false)
   const [scrapCount, setScrapCount] = useState(0)
@@ -67,19 +66,13 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
   }, [formDetails]) // IsScrapped랑 ScrapCount 값 업데이트
 
   useEffect(() => {
-    console.log('useEffect 실행됨')
-    // warning  React Hook useEffect has a missing dependency: 'formDetails'. Either include it or remove the dependency array
-    // console.log('formDetails:', formDetails)
-
     setIsPopupVisible(true)
     if (formDetails?.recruitmentEndDate) {
       const endDate = new Date(formDetails.recruitmentEndDate)
-      console.log('recruitmentEndDate:', formDetails.recruitmentEndDate)
 
       const now = new Date()
       const difference = endDate.getTime() - now.getTime()
       const days = Math.ceil(difference / (1000 * 3600 * 24))
-      console.log('남은 일수:', days)
 
       if (days <= 0) {
         setIsModalOpen(true)
@@ -107,10 +100,10 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
 
   const handleBookmarkClick = () => {
     setScrapCount((prevCount) => prevCount + 1)
+    setIsScrapped(true)
 
     scrapForm(formId, {
       onSuccess: () => {
-        setIsScrapped(true)
         toast.success('스크랩 하였습니다!')
       },
       onError: () => {
@@ -123,10 +116,10 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
 
   const handleBookmarkDeleteClick = () => {
     setScrapCount((prevCount) => prevCount - 1)
+    setIsScrapped(false)
 
     scrapDeleteForm(formId, {
       onSuccess: () => {
-        setIsScrapped(false)
         toast.success('스크랩을 취소하였습니다!')
       },
       onError: () => {
@@ -157,7 +150,10 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
         },
       })
     } else {
-      console.error('Kakao SDK가 로드되지 않았거나 초기화되지 않았습니다.')
+      handleError(new Error('Kakao SDK 오류'), {
+        title: 'Kakao 공유 실패',
+        message: 'Kakao SDK가 로드되지 않았거나 초기화되지 않았습니다.',
+      })
     }
   }
 
@@ -176,7 +172,7 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
         // 페이지네이션 목록으로 가기
       },
       onError: () => {
-        console.log('폼 삭제에 실패했습니다.')
+        handleError(new Error('폼 삭제 실패'))
       },
     })
   }
@@ -250,7 +246,6 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
               <FloatingButton
                 mode="bookmark"
                 onClick={handleBookmarkDeleteClick}
-                disabled={isDeleteLoading}
               >
                 <FloatingButton.Icon
                   src="/icons/ic-bookmark.svg"
@@ -258,11 +253,7 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
                 />
               </FloatingButton>
             ) : (
-              <FloatingButton
-                mode="bookmark"
-                onClick={handleBookmarkClick}
-                disabled={isScrapLoading}
-              >
+              <FloatingButton mode="bookmark" onClick={handleBookmarkClick}>
                 <FloatingButton.Icon
                   src="/icons/ic-bookmark-fill.svg"
                   altText="북마크 취소"

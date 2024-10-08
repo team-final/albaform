@@ -5,6 +5,9 @@ import {
   FORM_STATUS,
   FormStatusType,
 } from '@/lib/types/formTypes'
+import {
+  formatPhoneNumber,
+} from '@/lib/utils/formatDate'
 import { formatMonth } from '@/lib/utils/dateFormatters'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -13,7 +16,7 @@ import ReactModal from 'react-modal'
 
 import styles from './ListApplications.module.scss'
 
-interface Props {
+interface ListModalProps {
   formId: number
   isOpen: boolean
   onRequestClose: () => void
@@ -23,7 +26,7 @@ export default function ListApplicationsModal({
   formId,
   isOpen,
   onRequestClose,
-}: Props) {
+}: ListModalProps) {
   const router = useRouter()
   const { data: applicationList } = useListApplicationsQuery(Number(formId))
   const [isExperienceAscending, setIsExperienceAscending] = useState(true)
@@ -158,7 +161,7 @@ export default function ListApplicationsModal({
                     >
                       {application.name}
                     </span>
-                    <span>{application.phoneNumber}</span>
+                    <span>{formatPhoneNumber(application.phoneNumber)}</span>
                   </div>
 
                   <div className={styles['list-month-status']}>

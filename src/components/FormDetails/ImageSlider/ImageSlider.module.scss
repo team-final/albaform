@@ -1,0 +1,56 @@
+.custom {
+  position: relative;
+
+  & [class~='swiper'] {
+    width: 100%;
+  }
+
+  & [class~='swiper-button-prev'],
+  & [class~='swiper-button-next'] {
+    color: #040404 !important;
+  }
+
+  & [class~='swiper-pagination-bullet'] {
+    background-color: #373737 !important;
+  }
+
+  & [class~='swiper-pagination-bullet-active'] {
+    background-color: #040404 !important;
+  }
+
+  & [class~='image-counter'] {
+    position: absolute;
+    bottom: 13px;
+    right: -1%;
+    transform: translateX(-50%);
+    background: rgb(0 0 0 / 20%);
+    color: #fff;
+    border-radius: 100px;
+    padding: 8px 16px;
+    width: auto;
+    display: flex;
+    justify-content: center;
+    z-index: 10;
+  }
+
+  @media screen and (width <= 1024px) {
+    & [class~='swiper-button-prev'],
+    & [class~='swiper-button-next'] {
+      display: none !important;
+    }
+
+    & [class~='image-counter'] {
+      padding: 4px 8px;
+      font-size: 13px;
+      right: -2%;
+    }
+  }
+}
+
+.job-details-img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 0.5;
+  object-fit: contain;
+  border-radius: 8px;
+}

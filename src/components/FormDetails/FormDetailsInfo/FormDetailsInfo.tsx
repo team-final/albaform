@@ -1,4 +1,4 @@
-import { FormDetailsProps } from '@/lib/types/formTypes'
+import { CombinedFormDetailsProps } from '@/lib/types/formTypes'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
@@ -12,7 +12,7 @@ export default function FormDetailsInfo({
   count,
   showAdditionalInfo,
 }: {
-  formDetails: FormDetailsProps
+  formDetails: CombinedFormDetailsProps
   count: number
   showAdditionalInfo: boolean
 }) {
@@ -23,6 +23,13 @@ export default function FormDetailsInfo({
       setApplicationStatus(formDetails.applyCount ?? 0)
     }
   }, [formDetails])
+
+  const getLocationSecondSpace = (location: string) => {
+    const secondSpaceIndex = location?.indexOf(' ', location.indexOf(' ') + 1)
+    return secondSpaceIndex !== -1
+      ? location?.slice(0, secondSpaceIndex)
+      : location
+  }
 
   return (
     <section
@@ -41,7 +48,7 @@ export default function FormDetailsInfo({
               {formDetails?.storeName}
             </h2>
             <div className={styles['job-details-summary']}>
-              <span>서울 종로구</span>
+              <span>{getLocationSecondSpace(formDetails?.location)}</span>
             </div>
           </div>
 

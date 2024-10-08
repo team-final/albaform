@@ -18,8 +18,9 @@ export const generateStaticParams = async () => {
   }))
 }
 
-const FormDetailsPage = async ({ params }: Params) => {
+const FormDetailsPage = ({ params }: Params) => {
   const { formId } = params
+
   return (
     <main className={styles['job-details']}>
       <FormDetailsClient formId={Number(formId)} />
