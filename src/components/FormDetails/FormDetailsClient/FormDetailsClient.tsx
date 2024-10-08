@@ -1,7 +1,6 @@
 'use client'
 
 import FloatingButton from '@/components/Button/FloatingButton/FloatingButton'
-import MainButton from '@/components/Button/MainButton/MainButton'
 import ContactInfo from '@/components/FormDetails/ContactInfo/ContactInfo'
 import FormDetailsInfo from '@/components/FormDetails/FormDetailsInfo/FormDetailsInfo'
 import Location from '@/components/FormDetails/Location/Location'
@@ -11,7 +10,6 @@ import AlertModal from '@/components/Modal/Alert/AlertModal'
 import ListApplicationsModal from '@/components/Modal/ListApplications/ListApplications'
 import Toastify from '@/components/Toastify/Toastify'
 import {
-  useDeleteFormQuery,
   useFormDetailsQuery,
   useFormScrapDeleteMutation,
   useFormScrapMutation,
@@ -23,6 +21,7 @@ import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
+import ActionButtons from '../ActionButtons/ActionButtons'
 import CurrentApplicationPopup from '../CurrentApplicationPopup/CurrentApplicationPopup'
 import ImageSlider from '../ImageSlider/ImageSlider'
 import styles from './FormDetailsClient.module.scss'
@@ -43,18 +42,16 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
   const { data: formDetails } = useFormDetailsQuery(Number(formId))
   const { mutate: scrapForm } = useFormScrapMutation()
   const { mutate: scrapDeleteForm } = useFormScrapDeleteMutation()
-  const { mutate: deleteForm } = useDeleteFormQuery()
   const [isScrapped, setIsScrapped] = useState(formDetails?.isScrapped || false)
   const [scrapCount, setScrapCount] = useState(0)
   const [isPopupVisible, setIsPopupVisible] = useState(false)
   const [isMenuVisible, setIsMenuVisible] = useState(false)
   const isRecruitmentActive =
-    formDetails?.recruitmentEndDate &&
+    Boolean(formDetails?.recruitmentEndDate) &&
     new Date(formDetails.recruitmentEndDate) > new Date()
   const firstImageUrl = formDetails?.imageUrls?.[0]
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [hasModalBeenOpened, setHasModalBeenOpened] = useState<boolean>(false)
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
   const [isListApplicationsModalOpen, setIsListApplicationsModalOpen] =
     useState<boolean>(true)
 
@@ -80,23 +77,6 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
       }
     }
   }, [isRecruitmentActive, hasModalBeenOpened, formDetails?.recruitmentEndDate]) // 팝업 렌더링 될 때 보이게 & 모집 마감 된 폼 -> 모달 띄움
-
-  const handleApplyClick = () => {
-    router.push(`form/${formId}/apply`)
-  }
-
-  const handleShowApplicationHistory = () => {
-    router.push(`/form/${formId}/application`)
-    // 지원자 -> 제출 내용 보기
-  }
-
-  const handleEditClick = () => {
-    router.push(`form/${formId}/edit`)
-  }
-
-  const handleDeleteClick = () => {
-    setIsDeleteModalOpen(true)
-  }
 
   const handleBookmarkClick = () => {
     setScrapCount((prevCount) => prevCount + 1)
@@ -165,22 +145,6 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
     setIsModalOpen(false)
   }
 
-  const handleDeleteConfirm = () => {
-    deleteForm(Number(formDetails?.id), {
-      onSuccess: () => {
-        router.push('/')
-        // 페이지네이션 목록으로 가기
-      },
-      onError: () => {
-        handleError(new Error('폼 삭제 실패'))
-      },
-    })
-  }
-
-  const closeDeleteModal = () => {
-    setIsDeleteModalOpen(false)
-  }
-
   const closeListApplicationsModal = () => {
     setIsListApplicationsModalOpen(false)
   }
@@ -200,14 +164,6 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
             isOpen={isModalOpen}
             onRequestClose={closeModal}
             onConfirm={handleConfirm}
-          />
-        )}
-        {isDeleteModalOpen && (
-          <AlertModal
-            AlertmodalType="delete"
-            isOpen={isDeleteModalOpen}
-            onRequestClose={closeDeleteModal}
-            onConfirm={handleDeleteConfirm}
           />
         )}
         {userRole === 'OWNER' && (
@@ -295,60 +251,11 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
           </div>
 
           <div className={styles['button-container']}>
-            {userRole === 'APPLICANT' ? (
-              <>
-                <MainButton
-                  buttonStyle="solid"
-                  disabled={!isRecruitmentActive}
-                  onClick={handleApplyClick}
-                >
-                  <MainButton.Icon
-                    src="/icons/ic-writing.svg"
-                    altText="지원하기"
-                  />
-                  <MainButton.Text>지원하기</MainButton.Text>
-                </MainButton>
-                <MainButton
-                  buttonStyle="outline"
-                  disabled={!isRecruitmentActive}
-                  onClick={handleShowApplicationHistory}
-                >
-                  <MainButton.Icon
-                    src="/icons/ic-apply-list.svg"
-                    altText="내 지원내역 보기"
-                  />
-                  <MainButton.Text>내 지원내역 보기</MainButton.Text>
-                </MainButton>
-              </>
-            ) : (
-              <div className={styles['owner-button-container']}>
-                <MainButton
-                  buttonStyle="outline"
-                  disabled={false}
-                  onClick={handleDeleteClick}
-                  color="gray"
-                >
-                  <MainButton.Icon
-                    src="/icons/ic-trash-can.svg"
-                    altText="삭제하기"
-                  />
-                  <MainButton.Text className={styles['button-hide-text']}>
-                    삭제하기
-                  </MainButton.Text>
-                </MainButton>
-                <MainButton
-                  buttonStyle="solid"
-                  disabled={false}
-                  onClick={handleEditClick}
-                >
-                  <MainButton.Icon
-                    src="/icons/ic-edit2.svg"
-                    altText="수정하기"
-                  />
-                  <MainButton.Text>수정하기</MainButton.Text>
-                </MainButton>
-              </div>
-            )}
+            <ActionButtons
+              userRole={userRole}
+              isRecruitmentActive={isRecruitmentActive}
+              formId={formId}
+            />
           </div>
         </div>
       </div>
