@@ -25,9 +25,9 @@ export default function FormDetailsInfo({
   }, [formDetails])
 
   const getLocationSecondSpace = (location: string) => {
-    const secondSpaceIndex = location.indexOf(' ', location.indexOf(' ') + 1)
+    const secondSpaceIndex = location?.indexOf(' ', location.indexOf(' ') + 1)
     return secondSpaceIndex !== -1
-      ? location.slice(0, secondSpaceIndex)
+      ? location?.slice(0, secondSpaceIndex)
       : location
   }
 

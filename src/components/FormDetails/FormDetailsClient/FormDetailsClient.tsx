@@ -19,6 +19,7 @@ import {
 } from '@/lib/queries/formDetailsQuery'
 import handleError from '@/lib/utils/errorHandler'
 import classNames from 'classnames'
+import Cookies from 'js-cookie'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
@@ -59,6 +60,13 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
   const [isListApplicationsModalOpen, setIsListApplicationsModalOpen] =
     useState<boolean>(true)
+
+  useEffect(() => {
+    const accessToken = Cookies.get('token')
+    if (!accessToken) {
+      router.push('/user/sign-in')
+    }
+  }, [router])
 
   useEffect(() => {
     if (formDetails) {
