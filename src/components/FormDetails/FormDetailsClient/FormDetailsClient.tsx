@@ -69,12 +69,10 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
     setIsPopupVisible(true)
     if (formDetails?.recruitmentEndDate) {
       const endDate = new Date(formDetails.recruitmentEndDate)
-      console.log('recruitmentEndDate:', formDetails.recruitmentEndDate)
 
       const now = new Date()
       const difference = endDate.getTime() - now.getTime()
       const days = Math.ceil(difference / (1000 * 3600 * 24))
-      console.log('남은 일수:', days)
 
       if (days <= 0) {
         setIsModalOpen(true)
