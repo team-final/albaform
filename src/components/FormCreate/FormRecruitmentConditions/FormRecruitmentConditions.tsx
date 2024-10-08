@@ -80,9 +80,7 @@ export default function FormRecruitmentConditions({
   return (
     <FormCreateStep step={step}>
       <Form.Fieldset>
-        <Form.Legend>
-          모집인원<span className={'required'}>*</span>
-        </Form.Legend>
+        <Form.Legend required>모집인원</Form.Legend>
         <Dropdown>
           <Dropdown.Trigger>{numberOfPositions}</Dropdown.Trigger>
           <Dropdown.Menu>
@@ -129,9 +127,7 @@ export default function FormRecruitmentConditions({
       </Form.Fieldset>
 
       <Form.Fieldset>
-        <Form.Legend>
-          성별<span className={'required'}>*</span>
-        </Form.Legend>
+        <Form.Legend required>성별</Form.Legend>
         {/* gender: string */}
         <Dropdown>
           <Dropdown.Trigger>{formData.gender}</Dropdown.Trigger>
@@ -163,9 +159,7 @@ export default function FormRecruitmentConditions({
       </Form.Fieldset>
 
       <Form.Fieldset>
-        <Form.Legend>
-          학력<span className={'required'}>*</span>
-        </Form.Legend>
+        <Form.Legend required>학력</Form.Legend>
         <Dropdown>
           <Dropdown.Trigger>{formData.education}</Dropdown.Trigger>
           <Dropdown.Menu>
@@ -196,9 +190,7 @@ export default function FormRecruitmentConditions({
       </Form.Fieldset>
 
       <Form.Fieldset>
-        <Form.Legend>
-          연령<span className={'required'}>*</span>
-        </Form.Legend>
+        <Form.Legend required>연령</Form.Legend>
         <Dropdown>
           <Dropdown.Trigger>{age}</Dropdown.Trigger>
           <Dropdown.Menu>
@@ -236,9 +228,7 @@ export default function FormRecruitmentConditions({
       </Form.Fieldset>
 
       <Form.Fieldset>
-        <Form.Legend>
-          우대사항<span className={'required'}>*</span>
-        </Form.Legend>
+        <Form.Legend required>우대사항</Form.Legend>
         <Dropdown>
           <Dropdown.Trigger>{preferred}</Dropdown.Trigger>
           <Dropdown.Menu>

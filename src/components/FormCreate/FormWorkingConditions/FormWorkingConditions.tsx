@@ -49,9 +49,7 @@ export default function FormWorkingConditions({ step }: FormCreateStepProp) {
   return (
     <FormCreateStep step={step}>
       <Form.Fieldset>
-        <Form.Legend>
-          근무 위치<span className={'required'}>*</span>
-        </Form.Legend>
+        <Form.Legend required>근무 위치</Form.Legend>
         <Form.Field>
           <Form.KakaoSearchInput
             name={'location'}
@@ -62,9 +60,7 @@ export default function FormWorkingConditions({ step }: FormCreateStepProp) {
       </Form.Fieldset>
 
       <Form.Fieldset>
-        <Form.Legend>
-          근무 기간<span className={'required'}>*</span>
-        </Form.Legend>
+        <Form.Legend required>근무 기간</Form.Legend>
         <Form.Field>
           <Form.DateRangePickerInput
             startDate={'workStartDate'}
@@ -75,9 +71,7 @@ export default function FormWorkingConditions({ step }: FormCreateStepProp) {
       </Form.Fieldset>
 
       <Form.Fieldset>
-        <Form.Legend>
-          근무 시간<span className={'required'}>*</span>
-        </Form.Legend>
+        <Form.Legend required>근무 시간</Form.Legend>
         <div style={{ display: 'flex', gap: '16px' }}>
           <div style={{ width: '210px' }}>
             <Form.Field hidden>
@@ -153,9 +147,7 @@ export default function FormWorkingConditions({ step }: FormCreateStepProp) {
       </Form.Fieldset>
 
       <Form.Fieldset>
-        <Form.Legend>
-          근무 요일<span className={'required'}>*</span>
-        </Form.Legend>
+        <Form.Legend required>근무 요일</Form.Legend>
         <div className={styles['day-of-week']}>
           {VALUE_PRESET.workDays.map((value) => {
             return (
@@ -205,9 +197,7 @@ export default function FormWorkingConditions({ step }: FormCreateStepProp) {
       </Form.Fieldset>
 
       <Form.Fieldset>
-        <Form.Legend>
-          시급<span className={'required'}>*</span>
-        </Form.Legend>
+        <Form.Legend required>시급</Form.Legend>
         <Form.Field>
           <Form.Wrap>
             <Form.Input
