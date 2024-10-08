@@ -60,30 +60,30 @@ function ListCardItem({
   const imageUrl = getImageUrl()
 
   return (
-    <Link href={`/form/${id}`} style={{ textDecoration: 'none' }}>
-      <div className={Styles['listcard-outcontainer']}>
-        {!isPublic ? (
-          <div className={Styles['listcard-outcontainer-privateImg']}>
-            <PrivateImg width={100} height={100} />
-            <p className={Styles['listcard-outcontainer-privateImg-text']}>
-              비공개 처리된 알바폼이에요
-            </p>
-          </div>
-        ) : isRecruiting === false ? (
-          <div className={Styles['listcard-outcontainer-notRecruiting']}>
-            <NotRecurit width={100} height={100} />
-            <p className={Styles['listcard-outcontainer-notRecruiting-text']}>
-              현재 모집하고 있지 않아요!
-            </p>
-          </div>
-        ) : calculateDaysLeft(recruitmentEndDate) === '마감' ? (
-          <div className={Styles['listcard-outcontainer-doneRecruiting']}>
-            <DoneFormIc width={100} height={100} />
-            <p className={Styles['listcard-outcontainer-doneRecruiting-text']}>
-              모집 기간이 종료됐어요!
-            </p>
-          </div>
-        ) : null}
+    <div className={Styles['listcard-outcontainer']}>
+      {!isPublic ? (
+        <div className={Styles['listcard-outcontainer-privateImg']}>
+          <PrivateImg width={100} height={100} />
+          <p className={Styles['listcard-outcontainer-privateImg-text']}>
+            비공개 처리된 알바폼이에요
+          </p>
+        </div>
+      ) : isRecruiting === false ? (
+        <div className={Styles['listcard-outcontainer-notRecruiting']}>
+          <NotRecurit width={100} height={100} />
+          <p className={Styles['listcard-outcontainer-notRecruiting-text']}>
+            현재 모집하고 있지 않아요!
+          </p>
+        </div>
+      ) : calculateDaysLeft(recruitmentEndDate) === '마감' ? (
+        <div className={Styles['listcard-outcontainer-doneRecruiting']}>
+          <DoneFormIc width={100} height={100} />
+          <p className={Styles['listcard-outcontainer-doneRecruiting-text']}>
+            모집 기간이 종료됐어요!
+          </p>
+        </div>
+      ) : null}
+      <Link href={`/form/${id}`} style={{ textDecoration: 'none' }}>
         <div className={Styles['listcard-main']}>
           <Image
             src={imageUrl}
@@ -127,8 +127,8 @@ function ListCardItem({
             {calculateDaysLeft(recruitmentEndDate)}
           </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
   )
 }
 
