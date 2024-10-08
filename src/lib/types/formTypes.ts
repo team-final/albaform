@@ -105,8 +105,9 @@ export interface ImageProps {
   imageUrls: string
 }
 
-export interface LocatinProps {
+export interface LocationProps {
   location: string
+  storeName: string
 }
 
 export interface RequirementsProps {

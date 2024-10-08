@@ -1,5 +1,6 @@
 'use client'
 
+import handleError from '@/lib/utils/errorHandler'
 import Script from 'next/script'
 import { useState } from 'react'
 
@@ -12,7 +13,7 @@ export default function KakaoScript() {
       setIsKakaoLoaded(true)
     } else {
       console.log(isKakaoLoaded)
-      console.error('Kakao SDK가 로드되지 않았습니다.')
+      handleError(new Error('Kakao SDK가 로드 실패'))
     }
   }
 

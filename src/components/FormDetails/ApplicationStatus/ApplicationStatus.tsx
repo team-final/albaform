@@ -45,12 +45,8 @@ export default function ApplicationStatus({
     setIsVisible(false)
   }
 
-  const handleStatusOpenClick = () => {
-    setIsStatusModalOpen(true)
-  }
-
-  const handleStatusCloseClick = () => {
-    setIsStatusModalOpen(false)
+  const toggleStatusModal = () => {
+    setIsStatusModalOpen((prev) => !prev)
   }
 
   useEffect(() => {
@@ -79,14 +75,14 @@ export default function ApplicationStatus({
   }, [application?.status])
 
   const handleStatusChange = (newStatus: string) => {
-    setStatusMessage(FORM_STATUS[newStatus as FormStatusType]) // 상태 메시지 업데이트
+    setStatusMessage(FORM_STATUS[newStatus as FormStatusType])
   }
 
   return (
     <>
       <SelectStatus
         isOpen={isStatusModalOpen}
-        onRequestClose={handleStatusCloseClick}
+        onRequestClose={toggleStatusModal}
         applicationId={Number(applicationId)}
         currentStatus={statusMessage}
         onStatusChange={handleStatusChange}
@@ -111,7 +107,7 @@ export default function ApplicationStatus({
               <>
                 <button
                   className={styles['status-button']}
-                  onClick={handleStatusOpenClick}
+                  onClick={toggleStatusModal}
                 >
                   <Image
                     src="/icons/ic-edit.svg"

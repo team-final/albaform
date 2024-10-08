@@ -1,6 +1,6 @@
 import KakaoMap from '@/components/KakaoMap/KaKaoMap'
 import Toastify from '@/components/Toastify/Toastify'
-import { LocatinProps } from '@/lib/types/formTypes'
+import { LocationProps } from '@/lib/types/formTypes'
 import { toast } from 'react-toastify'
 
 import styles from './Location.module.scss'
@@ -8,14 +8,13 @@ import styles from './Location.module.scss'
 export default function Location({
   formDetails,
 }: {
-  formDetails: LocatinProps
+  formDetails: LocationProps
 }) {
   const handleCopyClipBoard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text)
       toast.success('복사 성공!')
-    } catch (error) {
-      console.log(error)
+    } catch {
       toast.error('복사 실패!')
     }
   }

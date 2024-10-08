@@ -1,3 +1,4 @@
+import handleError from '../utils/errorHandler'
 import authAxios from './authAxios'
 
 // 회원의 내 지원 내역 조회
@@ -6,45 +7,29 @@ export const getMyApplication = async (formId: number) => {
     const response = await authAxios.get(`/forms/${formId}/my-application`)
     return response.data
   } catch (error) {
-    console.log('데이터 가져오는 중 오류 발생: ', error)
-    throw error
-  }
-}
-
-// 비회원의 내 지원 내역 조회
-export const getMyApplicationVerify = async (formId: number) => {
-  try {
-    const response = await authAxios.get(
-      `forms/${formId}/my-application/verify`,
-    )
-    return response.data
-  } catch (error) {
-    console.log('데이터 가져오는 중 오류 발생: ', error)
-    throw error
+    handleError(error)
   }
 }
 
 // 사장이 지원 현황 목록 조회 - get
-export const getListApplications = async (formId: number) => {
+export const listApplications = async (formId: number) => {
   try {
     const response = await authAxios.get(
       `/forms/${formId}/applications?limit=10`,
     )
     return response.data
   } catch (error) {
-    console.log('데이터 가져오는 중 오류 발생: ', error)
-    throw error
+    handleError(error)
   }
 }
 
 // 사장이 지원 상세 조회
-export const getListApplicationDetails = async (applicationId: number) => {
+export const listApplicationDetails = async (applicationId: number) => {
   try {
     const response = await authAxios.get(`/applications/${applicationId}`)
     return response.data
   } catch (error) {
-    console.log('데이터 가져오는 중 오류 발생: ', error)
-    throw error
+    handleError(error)
   }
 }
 
@@ -62,16 +47,12 @@ export const patchStatus = async ({
     })
     return response.data
   } catch (error) {
-    console.log('데이터 가져오는 중 오류 발생: ', error)
-    throw error
+    handleError(error)
   }
 }
 
 // 이력서 다운로드
-export const getDownloadResume = async (
-  resumeId: number,
-  resumeName: string,
-) => {
+export const getResumeFile = async (resumeId: number, resumeName?: string) => {
   try {
     const response = await authAxios.get(`${resumeId}/download`, {
       responseType: 'blob',
@@ -94,8 +75,7 @@ export const getDownloadResume = async (
     window.URL.revokeObjectURL(url)
 
     return response
-  } catch (error) {
-    console.log('파일 다운로드 중 오류 발생: ', error)
-    throw error
+  } catch {
+    handleError(new Error('파일 다운로드 실패'))
   }
 }

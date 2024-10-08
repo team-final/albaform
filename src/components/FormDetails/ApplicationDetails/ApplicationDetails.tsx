@@ -7,7 +7,7 @@ import FormDetailsInfo from '../FormDetailsInfo/FormDetailsInfo'
 import ImageSlider from '../ImageSlider/ImageSlider'
 import styles from './ApplicationDetails.module.scss'
 
-interface Props {
+interface ApplicationDetailsProps {
   params: Params['params']
   isApplicationDetailsPage: boolean
   isOwner: boolean
@@ -17,7 +17,7 @@ export default function ApplicationDetails({
   isApplicationDetailsPage,
   params,
   isOwner,
-}: Props) {
+}: ApplicationDetailsProps) {
   const { formId, applicationId } = params
   const { data: formDetails } = useFormDetailsQuery(Number(formId))
   const [scrapCount, setScrapCount] = useState(0)

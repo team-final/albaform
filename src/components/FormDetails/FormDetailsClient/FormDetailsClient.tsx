@@ -17,6 +17,7 @@ import {
   useFormScrapMutation,
   useUsersMeQuery,
 } from '@/lib/queries/formDetailsQuery'
+import handleError from '@/lib/utils/errorHandler'
 import classNames from 'classnames'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
@@ -67,10 +68,6 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
   }, [formDetails]) // IsScrapped랑 ScrapCount 값 업데이트
 
   useEffect(() => {
-    console.log('useEffect 실행됨')
-    // warning  React Hook useEffect has a missing dependency: 'formDetails'. Either include it or remove the dependency array
-    // console.log('formDetails:', formDetails)
-
     setIsPopupVisible(true)
     if (formDetails?.recruitmentEndDate) {
       const endDate = new Date(formDetails.recruitmentEndDate)
@@ -157,7 +154,10 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
         },
       })
     } else {
-      console.error('Kakao SDK가 로드되지 않았거나 초기화되지 않았습니다.')
+      handleError(new Error('Kakao SDK 오류'), {
+        title: 'Kakao 공유 실패',
+        message: 'Kakao SDK가 로드되지 않았거나 초기화되지 않았습니다.',
+      })
     }
   }
 
@@ -176,7 +176,7 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
         // 페이지네이션 목록으로 가기
       },
       onError: () => {
-        console.log('폼 삭제에 실패했습니다.')
+        handleError(new Error('폼 삭제 실패'))
       },
     })
   }

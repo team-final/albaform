@@ -13,7 +13,7 @@ import ReactModal from 'react-modal'
 
 import styles from './ListApplications.module.scss'
 
-interface Props {
+interface ListModalProps {
   formId: number
   isOpen: boolean
   onRequestClose: () => void
@@ -23,7 +23,7 @@ export default function ListApplicationsModal({
   formId,
   isOpen,
   onRequestClose,
-}: Props) {
+}: ListModalProps) {
   const router = useRouter()
   const { data: applicationList } = useListApplicationsQuery(Number(formId))
   const [isExperienceAscending, setIsExperienceAscending] = useState(true)
@@ -66,6 +66,10 @@ export default function ListApplicationsModal({
           return currentStatusA < currentStatusB ? 1 : -1
         }
       })
+
+  const formatPhoneNumber = (phoneNumber: string): string => {
+    return phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3')
+  }
 
   return (
     <ReactModal
@@ -158,7 +162,7 @@ export default function ListApplicationsModal({
                     >
                       {application.name}
                     </span>
-                    <span>{application.phoneNumber}</span>
+                    <span>{formatPhoneNumber(application.phoneNumber)}</span>
                   </div>
 
                   <div className={styles['list-month-status']}>
