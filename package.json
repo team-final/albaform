@@ -40,6 +40,7 @@
     "react-query": "^3.39.3",
     "react-toastify": "^10.0.5",
     "sass": "^1.77.8",
+    "sharp": "^0.33.5",
     "swiper": "^11.1.14",
     "zustand": "^5.0.0-rc.2"
   },
