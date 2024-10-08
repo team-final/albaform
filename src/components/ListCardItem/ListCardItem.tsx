@@ -1,5 +1,6 @@
 import { calculateDaysLeft, formatDateRange } from '@/lib/utils/formatDate2'
 import Image from 'next/image'
+import Link from 'next/link'
 import DoneFormIc from 'public/icons/ic-circle-check.svg'
 import React from 'react'
 
@@ -33,10 +34,6 @@ function ListCardItem({
   isPublic,
   isRecruiting,
 }: ListItem) {
-  const handleClick = () => {
-    console.log(id)
-  }
-
   const getImageUrl = (): string => {
     if (imageUrls && imageUrls.length > 0) {
       const firstImage = imageUrls[0]
@@ -63,7 +60,7 @@ function ListCardItem({
   const imageUrl = getImageUrl()
 
   return (
-    <div className={Styles['listcard-outcontainer']} onClick={handleClick}>
+    <div className={Styles['listcard-outcontainer']}>
       {!isPublic ? (
         <div className={Styles['listcard-outcontainer-privateImg']}>
           <PrivateImg width={100} height={100} />
@@ -86,49 +83,50 @@ function ListCardItem({
           </p>
         </div>
       ) : null}
-      <div className={Styles['listcard-main']}>
-        <Image
-          src={imageUrl}
-          alt={'Recruitment Image'}
-          className={Styles['listcard-Img']}
-          width={477}
-          height={304}
-          quality={100}
-        />
-        <div className={Styles['listcard-info']}>
-          <div className={Styles['listcard-info-isPublic']}>
-            <div className={Styles['listcard-info-isPublic-tag']}>
-              {isPublic ? '공개' : '비공개'}
-            </div>
-
-            {calculateDaysLeft(recruitmentEndDate) === '마감' ? (
-              <div className={Styles['listcard-info-isPublic-tag-end']}>
-                모집 종료
-              </div>
-            ) : (
+      <Link href={`/form/${id}`} style={{ textDecoration: 'none' }}>
+        <div className={Styles['listcard-main']}>
+          <Image
+            src={imageUrl}
+            alt={'Recruitment Image'}
+            className={Styles['listcard-Img']}
+            width={477}
+            height={304}
+            quality={100}
+          />
+          <div className={Styles['listcard-info']}>
+            <div className={Styles['listcard-info-isPublic']}>
               <div className={Styles['listcard-info-isPublic-tag']}>
-                모집 중
+                {isPublic ? '공개' : '비공개'}
               </div>
-            )}
-          </div>
-          <div className={Styles['listcard-info-date']}>
-            {formatDateRange(recruitmentStartDate, recruitmentEndDate)}
-          </div>
-        </div>
-        <div className={Styles['listcard-info-title']}>{title}</div>
-      </div>
 
-      <div className={Styles['listcard-info-bottom']}>
-        <div className={Styles['listcard-info-bottom-children']}>
-          지원자 {applyCount}명
+              {calculateDaysLeft(recruitmentEndDate) === '마감' ? (
+                <div className={Styles['listcard-info-isPublic-tag-end']}>
+                  모집 종료
+                </div>
+              ) : (
+                <div className={Styles['listcard-info-isPublic-tag']}>
+                  모집 중
+                </div>
+              )}
+            </div>
+            <div className={Styles['listcard-info-date']}>
+              {formatDateRange(recruitmentStartDate, recruitmentEndDate)}
+            </div>
+          </div>
+          <div className={Styles['listcard-info-title']}>{title}</div>
+          <div className={Styles['listcard-info-bottom']}>
+            <div className={Styles['listcard-info-bottom-children']}>
+              지원자 {applyCount}명
+            </div>
+            <div className={Styles['listcard-info-bottom-children']}>
+              스크랩 {scrapCount}명
+            </div>
+            <div className={Styles['listcard-info-bottom-children']}>
+              {calculateDaysLeft(recruitmentEndDate)}
+            </div>
+          </div>{' '}
         </div>
-        <div className={Styles['listcard-info-bottom-children']}>
-          스크랩 {scrapCount}명
-        </div>
-        <div className={Styles['listcard-info-bottom-children']}>
-          {calculateDaysLeft(recruitmentEndDate)}
-        </div>
-      </div>
+      </Link>
     </div>
   )
 }

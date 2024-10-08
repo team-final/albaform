@@ -15,6 +15,10 @@
     @include media.mobile {
       margin: 0 24px;
     }
+
+    @media (width <= 1526px) {
+      margin: 0 20px;
+    }
   }
 
   &-searchBar {
@@ -58,5 +62,18 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+  }
+}
+
+.goto-top-button {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 3;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-15px);
   }
 }

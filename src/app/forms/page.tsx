@@ -3,11 +3,14 @@
 import SearchInput from '@/components/Input/SearchInput/SearchInput'
 import ListCardItem from '@/components/ListCardItem/ListCardItem'
 import { GetFormListProps, getFormList } from '@/lib/api/getFormList'
+import { useUserStore } from '@/lib/stores/userStore'
 import { useInfiniteQuery } from '@tanstack/react-query'
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 import FormLayout from './layout'
 import Styles from './page.module.scss'
+import GotoTopButton from '/public/icons/ic-goto-top.png'
 
 interface ListItem {
   id: number
@@ -28,6 +31,8 @@ interface ServerResponse {
 }
 
 export default function Page() {
+  const user = useUserStore.getState().user
+  console.log(user)
   const [orderBy, setOrderBy] =
     useState<GetFormListProps['orderBy']>('mostRecent')
   const [isRecruiting, setIsRecruiting] = useState<boolean | null>(null)
@@ -53,6 +58,13 @@ export default function Page() {
       initialPageParam: undefined,
     })
 
+  const handleGoToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'auto',
+    })
+  }
+
   useEffect(() => {
     const handleScroll = () => {
       const nearBottom =
@@ -72,6 +84,14 @@ export default function Page() {
 
   return (
     <FormLayout>
+      <Image
+        src={GotoTopButton}
+        onClick={handleGoToTop}
+        alt={'goto-top'}
+        width={40}
+        height={50}
+        className={Styles['goto-top-button']}
+      />
       <div className={Styles['list-page-container']}>
         <div className={Styles['list-page-searchBar']}>
           <SearchInput

@@ -10,11 +10,6 @@
     height: 100%;
     position: relative;
     border-radius: 16px;
-    transition: transform 0.3s ease;
-
-    &:hover {
-      transform: translateY(-10px);
-    }
 
     &-notRecruiting {
       display: flex;
@@ -28,7 +23,7 @@
       left: 0;
       background-color: #3e3e3e99;
       border-radius: 16px;
-      backdrop-filter: blur(1px);
+      backdrop-filter: blur(8px);
       z-index: 1;
 
       &-text {
@@ -39,7 +34,6 @@
     }
 
     &-doneRecruiting {
-      cursor: pointer;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -87,8 +81,12 @@
     display: flex;
     flex-direction: column;
     gap: 24px;
-    margin-bottom: 32px;
     cursor: pointer;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: translateY(-10px);
+    }
   }
 
   &-Img {
