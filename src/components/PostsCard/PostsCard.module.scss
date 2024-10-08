@@ -1,0 +1,154 @@
+@use 'src/styles/_variables' as var;
+@use 'src/styles/_color' as color;
+@use 'src/styles/_font' as font;
+@use 'src/styles/_media' as media;
+
+.card {
+  position: relative;
+  margin: 40px 25px;
+  border-radius: 16px;
+  width: 477px;
+  height: 328px;
+  padding: 24px;
+  background-color: color.$Grayscale-50;
+  box-shadow:
+    0 0 1px 0 #aaaaaa14,
+    0 1px 4px 0 #aaaaaa14,
+    0 1px 8px 0 #aaaaaa1f;
+  overflow: hidden;
+
+  &-inner {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    align-items: stretch;
+    width: 100%;
+    height: 100%;
+    gap: 24px;
+  }
+
+  &-head {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &-info {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+
+  &-created-text {
+    @include font.Style(lg, 400);
+
+    color: color.$Grayscale-400;
+  }
+
+  &-created-date {
+    position: relative;
+    padding-left: 16px;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      display: block;
+      border: 1px solid color.$Line-100;
+      height: 16px;
+    }
+  }
+
+  &-resume {
+    position: relative;
+
+    &-button {
+      appearance: none;
+      border-bottom: 1px solid color.$Black-400;
+      border-radius: 0;
+      padding: 0;
+      min-width: auto;
+      min-height: auto;
+      background-color: transparent;
+      color: color.$Black-400;
+
+      @include font.Style(lg, 400);
+
+      line-height: 1;
+    }
+  }
+
+  &-body {
+    flex: 1;
+  }
+
+  &-store {
+    position: relative;
+    display: flex;
+    flex-flow: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 14px;
+
+    &-image {
+      position: relative;
+      border-radius: 9999px;
+      overflow: hidden;
+      width: 48px;
+      height: 48px;
+    }
+
+    &-name {
+      @include font.Style(lg, 500);
+
+      color: color.$Black-300;
+    }
+  }
+
+  &-title {
+    margin-top: 16px;
+
+    @include font.Style(2lg, 600);
+
+    color: color.$Black-400;
+  }
+
+  &-description {
+    margin-top: 8px;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+
+    @include font.Style(lg, 400);
+
+    color: color.$Grayscale-500;
+  }
+
+  &-foot {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &-tag {
+    display: inline-block;
+    border-radius: 4px;
+    border: 1px solid color.$Primary-Orange-100;
+    min-width: 64px;
+    height: 38px;
+    padding: 6px 12px;
+    background-color: color.$Primary-Orange-50;
+    color: color.$Primary-Orange-300;
+    text-align: center;
+    white-space: nowrap;
+    word-break: keep-all;
+  }
+}
