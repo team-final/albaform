@@ -12,7 +12,7 @@ import {
 import { emailPattern, passwordPattern } from '@/lib/data/patterns'
 import { useUserStore } from '@/lib/stores/userStore'
 import { SignInValues } from '@/lib/types/userTypes'
-import { randomInt } from 'crypto'
+import { getRandomInt } from '@/lib/utils/acountGenerator'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -35,7 +35,7 @@ export default function SignInPage() {
 
   const randomSignIn = async (role: any) => {
     const userList = TEST_ACOUNT[role]
-    const user = userList[randomInt(0, userList.length)]
+    const user = userList[getRandomInt(userList.length)]
     console.log(`${role === 'APPLICANT' ? '지원자' : '사장님'} 테스트 계졍: `, {
       email: user.email,
       password: user.password,
