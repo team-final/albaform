@@ -19,7 +19,12 @@ export default function ImageSlider({
 }) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const images = Array.isArray(formDetails?.imageUrls)
-    ? formDetails.imageUrls.filter((url) => url.startsWith('http'))
+    ? formDetails.imageUrls
+        .map((url) => {
+          const parsedUrls = JSON.parse(url)
+          return parsedUrls.map((image: { url: string }) => image.url) // URL만 가져오기
+        })
+        .flat() // 중첩배열에서 -> URL을 단일 배열로 만들기 위해 배열을 평탄화
     : []
 
   return (
