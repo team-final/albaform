@@ -114,18 +114,17 @@ function ListCardItem({
             </div>
           </div>
           <div className={Styles['listcard-info-title']}>{title}</div>
-        </div>
-
-        <div className={Styles['listcard-info-bottom']}>
-          <div className={Styles['listcard-info-bottom-children']}>
-            지원자 {applyCount}명
-          </div>
-          <div className={Styles['listcard-info-bottom-children']}>
-            스크랩 {scrapCount}명
-          </div>
-          <div className={Styles['listcard-info-bottom-children']}>
-            {calculateDaysLeft(recruitmentEndDate)}
-          </div>
+          <div className={Styles['listcard-info-bottom']}>
+            <div className={Styles['listcard-info-bottom-children']}>
+              지원자 {applyCount}명
+            </div>
+            <div className={Styles['listcard-info-bottom-children']}>
+              스크랩 {scrapCount}명
+            </div>
+            <div className={Styles['listcard-info-bottom-children']}>
+              {calculateDaysLeft(recruitmentEndDate)}
+            </div>
+          </div>{' '}
         </div>
       </Link>
     </div>
