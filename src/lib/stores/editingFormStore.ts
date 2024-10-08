@@ -1,23 +1,23 @@
 import { create } from 'zustand'
 
-import { TEMP_CREATE_FORM, hourlyWageData } from '../data/constants'
+import { HOURLY_WAGE_DATA, TEMP_CREATE_FORM } from '../data/constants'
 import {
   AgeType,
+  EditingFormData,
+  EditingFormDataTypes,
+  EditingFormDataValues,
   EducationType,
-  FORM_DATA,
-  FORM_DATA_TYPE,
-  FORM_DATA_VALUE,
-  FORM_INPROGRESS,
+  FormInProgress,
   GenderType,
   NumberOfPositionsType,
   PreferredType,
-  STEP_INDEX,
-  TEMP_CREATE_FORM_TYPE,
-  workDays,
+  StepIndex,
+  TempEditingFormType,
+  WorkDaysType,
 } from '../types/formTypes'
 
 /** 30분 단위 근무시간 배열 생성 */
-const workTimeArray: () => string[] = (): string[] => {
+const genWorkTimeArray: () => string[] = (): string[] => {
   const arr: string[] = []
   for (let i = 0; i < 24; i++) {
     const hh: string = (i * 0.01).toFixed(2).split('.').pop() || '00'
@@ -39,7 +39,7 @@ export const VALUE_PRESET: {
   age: readonly AgeType[]
   preferred: readonly PreferredType[]
   workTime: readonly string[]
-  workDays: readonly workDays[]
+  workDays: readonly WorkDaysType[]
 } = {
   numberOfPositions: ['00명 (인원미정)', '직접입력'],
   gender: ['성별무관', '남성', '여성'],
@@ -53,11 +53,11 @@ export const VALUE_PRESET: {
     '직접입력',
   ],
   preferred: ['없음', '직접입력'],
-  workTime: workTimeArray(),
+  workTime: genWorkTimeArray(),
   workDays: ['일', '월', '화', '수', '목', '금', '토'],
 }
 
-export const INITIAL_FORM_DATA: Readonly<FORM_DATA> | any = {
+export const INITIAL_EDITING_FORM_DATA: Readonly<EditingFormData> | any = {
   /* 알바폼 제목 */
   title: '',
   /* 소개글 */
@@ -93,55 +93,55 @@ export const INITIAL_FORM_DATA: Readonly<FORM_DATA> | any = {
   /* 요일 협의 가능 */
   isNegotiableWorkDays: false,
   /* 시급 */
-  hourlyWage: hourlyWageData.min,
+  hourlyWage: HOURLY_WAGE_DATA.min,
   /* 공개 설정 */
   isPublic: false,
 }
 
-const INPROGRESS_PRESET: FORM_INPROGRESS[] = [
+const INPROGRESS_PRESET: FormInProgress[] = [
   { step: 1, isProgress: false },
   { step: 2, isProgress: false },
   { step: 3, isProgress: false },
 ]
 
 export interface FormCreateStore {
-  step: STEP_INDEX
-  setStep: (index: STEP_INDEX) => void
+  step: StepIndex
+  setStep: (index: StepIndex) => void
 
-  formData: Readonly<FORM_DATA> | any
+  formData: Readonly<EditingFormData> | any
   initialFormData: () => void
   setFormData: (
-    key: FORM_DATA_TYPE | string,
-    value: FORM_DATA_VALUE | string,
+    key: EditingFormDataTypes | string,
+    value: EditingFormDataValues | string,
   ) => void
 
-  inProgress: FORM_INPROGRESS[]
+  inProgress: FormInProgress[]
   initialInProgress: () => void
-  setInProgress: (data: FORM_INPROGRESS) => void
+  setInProgress: (data: FormInProgress) => void
 
-  temporaryFormDatas: TEMP_CREATE_FORM_TYPE[] | []
-  setTemporaryFormData: (tempFormData: TEMP_CREATE_FORM_TYPE[]) => void
-  delTemporaryFormData: ({ id, createAt }: TEMP_CREATE_FORM_TYPE) => void
+  temporaryFormDatas: TempEditingFormType[] | []
+  setTemporaryFormData: (tempFormData: TempEditingFormType[]) => void
+  delTemporaryFormData: ({ id, createAt }: TempEditingFormType) => void
 }
 
-export const useFormCreateStore = create<FormCreateStore>((set) => ({
+export const useEditingFormStore = create<FormCreateStore>((set) => ({
   step: 1,
-  setStep: (index: STEP_INDEX) => set(() => ({ step: index })),
+  setStep: (index: StepIndex) => set(() => ({ step: index })),
 
-  formData: INITIAL_FORM_DATA,
+  formData: INITIAL_EDITING_FORM_DATA,
   initialFormData: () =>
     set(() => ({
-      formData: INITIAL_FORM_DATA,
+      formData: INITIAL_EDITING_FORM_DATA,
       inProgress: INPROGRESS_PRESET,
     })),
   setFormData: (
-    key: FORM_DATA_TYPE | string,
-    value: FORM_DATA_VALUE | string,
+    key: EditingFormDataTypes | string,
+    value: EditingFormDataValues | string,
   ) => set((state) => ({ formData: { ...state.formData, [key]: value } })),
 
   inProgress: INPROGRESS_PRESET,
   initialInProgress: () => set(() => ({ inProgress: INPROGRESS_PRESET })),
-  setInProgress: ({ step, isProgress }: FORM_INPROGRESS) =>
+  setInProgress: ({ step, isProgress }: FormInProgress) =>
     set((state) => ({
       inProgress: state.inProgress.map((item) =>
         item.step === step ? { step, isProgress } : item,
@@ -149,7 +149,7 @@ export const useFormCreateStore = create<FormCreateStore>((set) => ({
     })),
 
   temporaryFormDatas: [],
-  setTemporaryFormData: (tempFormData: TEMP_CREATE_FORM_TYPE[]) =>
+  setTemporaryFormData: (tempFormData: TempEditingFormType[]) =>
     set(() => {
       localStorage.setItem(TEMP_CREATE_FORM, JSON.stringify(tempFormData))
       return { temporaryFormDatas: tempFormData }

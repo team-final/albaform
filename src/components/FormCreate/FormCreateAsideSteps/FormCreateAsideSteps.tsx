@@ -1,12 +1,12 @@
-import { useFormCreateStore } from '@/lib/stores/formCreateStore'
-import { STEP_BUTTONS, STEP_INDEX } from '@/lib/types/formTypes'
+import { useEditingFormStore } from '@/lib/stores/editingFormStore'
+import { STEP_BUTTONS, StepIndex } from '@/lib/types/formTypes'
 import classNames from 'classnames'
 
 import styles from './FormCreateAsideSteps.module.scss'
 
 export default function FormCreateAsideSteps() {
-  const { step, setStep, inProgress } = useFormCreateStore()
-  const handleSteps = (index: STEP_INDEX) => setStep(index)
+  const { step, setStep, inProgress } = useEditingFormStore()
+  const handleSteps = (index: StepIndex) => setStep(index)
 
   return (
     <section className={styles.steps}>

@@ -4,10 +4,10 @@ import MainButton, {
 } from '@/components/Button/MainButton/MainButton'
 import VisibilityToggleButton from '@/components/Button/VisibilityToggleButton/VisibilityToggleButton'
 import {
-  INITIAL_FORM_DATA,
-  useFormCreateStore,
-} from '@/lib/stores/formCreateStore'
-import { FORM_DATA_TYPE } from '@/lib/types/formTypes'
+  INITIAL_EDITING_FORM_DATA,
+  useEditingFormStore,
+} from '@/lib/stores/editingFormStore'
+import { EditingFormDataTypes } from '@/lib/types/formTypes'
 import {
   ComponentProps,
   FormFieldProps,
@@ -506,7 +506,7 @@ function KakaoSearchInput({
   placeholder,
   required,
 }: KakaoSearchInputProps) {
-  const { formData, setFormData } = useFormCreateStore()
+  const { formData, setFormData } = useEditingFormStore()
   const { formId, register, setValue } = useFormContext()
   const { forId } = useLabelContext()
 
@@ -551,12 +551,12 @@ function DateRangePickerInput({
   endDate,
   required = false,
 }: {
-  startDate: FORM_DATA_TYPE
-  endDate: FORM_DATA_TYPE
+  startDate: EditingFormDataTypes
+  endDate: EditingFormDataTypes
   required?: boolean
 }) {
   const { formId, setFocus } = useFormContext()
-  const { formData } = useFormCreateStore()
+  const { formData } = useEditingFormStore()
 
   useEffect(() => {}, [formData])
 
@@ -639,7 +639,7 @@ function SubmitButton({
   isPending,
 }: SubmitButtonProps) {
   const { formId, isValid, isSubmitting } = useFormContext()
-  const { formData } = useFormCreateStore()
+  const { formData } = useEditingFormStore()
   const [isComplete, setIsComplete] = useState<boolean>(false)
 
   useEffect(() => {
@@ -668,7 +668,7 @@ function SubmitButton({
           checkArr.push(
             key === 'workDays'
               ? formData[key].length === 0
-              : formData[key] === INITIAL_FORM_DATA[key],
+              : formData[key] === INITIAL_EDITING_FORM_DATA[key],
           )
         }
 

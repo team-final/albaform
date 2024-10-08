@@ -1,14 +1,14 @@
 import Dropdown from '@/components/Dropdown/Dropdown'
 import Form from '@/components/Form/Form'
 import {
-  INITIAL_FORM_DATA,
+  INITIAL_EDITING_FORM_DATA,
   VALUE_PRESET,
-  useFormCreateStore,
-} from '@/lib/stores/formCreateStore'
+  useEditingFormStore,
+} from '@/lib/stores/editingFormStore'
 import {
   AgeType,
-  FORM_STEP_2,
   FormCreateStepProp,
+  FormStep2,
   NumberOfPositionsType,
   PreferredType,
 } from '@/lib/types/formTypes'
@@ -16,7 +16,7 @@ import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 
 import FormCreateStep from '../FormCreateStep/FormCreateStep'
 
-const FROM_NAME_LIST: (keyof FORM_STEP_2)[] = [
+const FROM_NAME_LIST: (keyof FormStep2)[] = [
   'numberOfPositions',
   'gender',
   'education',
@@ -27,7 +27,7 @@ const FROM_NAME_LIST: (keyof FORM_STEP_2)[] = [
 export default function FormRecruitmentConditions({
   step,
 }: FormCreateStepProp) {
-  const { formData, setFormData, setInProgress } = useFormCreateStore()
+  const { formData, setFormData, setInProgress } = useEditingFormStore()
 
   const [numberOfPositions, setNumberOfPositions] =
     useState<NumberOfPositionsType>('00명 (인원미정)')
@@ -48,7 +48,7 @@ export default function FormRecruitmentConditions({
 
   const handleProgress = useCallback(() => {
     const isProgress = FROM_NAME_LIST.some(
-      (key) => formData[key] !== INITIAL_FORM_DATA[key],
+      (key) => formData[key] !== INITIAL_EDITING_FORM_DATA[key],
     )
     setInProgress({ step, isProgress })
 

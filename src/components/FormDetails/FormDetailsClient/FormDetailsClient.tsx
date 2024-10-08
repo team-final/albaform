@@ -68,7 +68,8 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
 
   useEffect(() => {
     console.log('useEffect 실행됨')
-    console.log('formDetails:', formDetails)
+    // warning  React Hook useEffect has a missing dependency: 'formDetails'. Either include it or remove the dependency array
+    // console.log('formDetails:', formDetails)
 
     setIsPopupVisible(true)
     if (formDetails?.recruitmentEndDate) {

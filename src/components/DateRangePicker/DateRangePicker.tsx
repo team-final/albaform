@@ -1,4 +1,4 @@
-import { useFormCreateStore } from '@/lib/stores/formCreateStore'
+import { useEditingFormStore } from '@/lib/stores/editingFormStore'
 import { ConfigProvider, DatePicker, DatePickerProps } from 'antd'
 import ko from 'antd/es/date-picker/locale/ko_KR'
 import koKR from 'antd/es/locale/ko_KR'
@@ -43,7 +43,7 @@ export default function DateRangePicker({
   startDateVal,
   endDateVal,
 }: DateRangePickerProps) {
-  const { setFormData } = useFormCreateStore()
+  const { setFormData } = useEditingFormStore()
 
   const handleChange: DatePickerProps['onChange'] = (_, dateStr) => {
     setFormData(startDate, dateStr[0])

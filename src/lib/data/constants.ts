@@ -32,7 +32,7 @@ export const TEST_ID_OWNER = {
 export const TEMP_CREATE_FORM = 'albaform_create_temporary_save'
 
 /** 최저시급정보 */
-export const hourlyWageData: {
+export const HOURLY_WAGE_DATA: {
   min: number
   as: number
 } = {

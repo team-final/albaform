@@ -1,10 +1,10 @@
-import { STEP_INDEX } from '@/lib/types/formTypes'
+import { StepIndex } from '@/lib/types/formTypes'
 import { ChildrenProps } from '@/lib/types/types'
 
 import styles from './FormCreateStep.module.scss'
 
 interface FormCreateStepProps extends ChildrenProps {
-  step: STEP_INDEX
+  step: StepIndex
 }
 
 export default function FormCreateStep({

@@ -1,10 +1,10 @@
 import Form from '@/components/Form/Form'
-import { useFormCreateStore } from '@/lib/stores/formCreateStore'
+import { useEditingFormStore } from '@/lib/stores/editingFormStore'
 
 import styles from './FormCreateTitle.module.scss'
 
 export default function FormCreateTitle() {
-  const { initialFormData } = useFormCreateStore()
+  const { initialFormData } = useEditingFormStore()
 
   return (
     <section className={styles.title}>

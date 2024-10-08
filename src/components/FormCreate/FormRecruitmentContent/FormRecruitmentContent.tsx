@@ -1,15 +1,15 @@
 import Form from '@/components/Form/Form'
 import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner'
 import { uploadImage } from '@/lib/api/uploadImageApi'
-import { useFormCreateStore } from '@/lib/stores/formCreateStore'
-import { FORM_STEP_1, FormCreateStepProp } from '@/lib/types/formTypes'
+import { useEditingFormStore } from '@/lib/stores/editingFormStore'
+import { FormCreateStepProp, FormStep1 } from '@/lib/types/formTypes'
 import Image from 'next/image'
 import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 
 import FormCreateStep from '../FormCreateStep/FormCreateStep'
 import styles from './FormRecruitmentContent.module.scss'
 
-const FROM_NAME_LIST: (keyof FORM_STEP_1)[] = [
+const FROM_NAME_LIST: (keyof FormStep1)[] = [
   'title',
   'description',
   'recruitmentStartDate',
@@ -18,7 +18,7 @@ const FROM_NAME_LIST: (keyof FORM_STEP_1)[] = [
 ]
 
 export default function FormRecruitmentContent({ step }: FormCreateStepProp) {
-  const { formData, setFormData, setInProgress } = useFormCreateStore()
+  const { formData, setFormData, setInProgress } = useEditingFormStore()
   const [imageList, setImageList] = useState<{ url: string; name: string }[]>(
     [],
   )

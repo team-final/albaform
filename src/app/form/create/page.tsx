@@ -8,17 +8,17 @@ import FormRecruitmentConditions from '@/components/FormCreate/FormRecruitmentCo
 import FormRecruitmentContent from '@/components/FormCreate/FormRecruitmentContent/FormRecruitmentContent'
 import FormWorkingConditions from '@/components/FormCreate/FormWorkingConditions/FormWorkingConditions'
 import { createAlbaForm } from '@/lib/api/formCreate'
-import { useFormCreateStore } from '@/lib/stores/formCreateStore'
-import { FORM_DATA } from '@/lib/types/formTypes'
+import { useEditingFormStore } from '@/lib/stores/editingFormStore'
+import { EditingFormData } from '@/lib/types/formTypes'
 import classNames from 'classnames'
 import { FieldValues } from 'react-hook-form'
 
 import styles from './page.module.scss'
 
 export default function CreateFormPage() {
-  const { formData } = useFormCreateStore()
+  const { formData } = useEditingFormStore()
 
-  const handleSubmit = async (data: FORM_DATA | FieldValues) => {
+  const handleSubmit = async (data: EditingFormData | FieldValues) => {
     if (!data) return
 
     const params = {
