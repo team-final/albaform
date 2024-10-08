@@ -83,10 +83,7 @@ export default function ApplyPage() {
       <Form formId="applyForm" onSubmit={handleSubmit}>
         <Form.Fieldset>
           <Form.Field htmlFor="name">
-            <Form.Legend>
-              이름
-              <Form.RequiredStar />
-            </Form.Legend>
+            <Form.Legend required>이름</Form.Legend>
             <Form.Input
               name="name"
               type="text"
@@ -98,10 +95,7 @@ export default function ApplyPage() {
 
         <Form.Fieldset>
           <Form.Field htmlFor="phoneNumber">
-            <Form.Legend>
-              연락처
-              <Form.RequiredStar />
-            </Form.Legend>
+            <Form.Legend required>연락처</Form.Legend>
             <Form.Input
               name="phoneNumber"
               type="text"
@@ -113,10 +107,7 @@ export default function ApplyPage() {
 
         <Form.Fieldset>
           <Form.Field htmlFor="experienceMonths">
-            <Form.Legend>
-              경력 (개월)
-              <Form.RequiredStar />
-            </Form.Legend>
+            <Form.Legend required>경력 (개월)</Form.Legend>
             <Form.Input
               name="experienceMonths"
               type="number"
@@ -128,10 +119,7 @@ export default function ApplyPage() {
 
         <Form.Fieldset>
           <Form.Field htmlFor="resumeFile">
-            <Form.Legend>
-              이력서
-              <Form.RequiredStar />
-            </Form.Legend>
+            <Form.Legend required>이력서</Form.Legend>
             <Form.Input
               name="resumeFile"
               type="file"
@@ -147,10 +135,7 @@ export default function ApplyPage() {
 
         <Form.Fieldset>
           <Form.Field htmlFor="introduction">
-            <Form.Legend>
-              자기소개
-              <Form.RequiredStar />
-            </Form.Legend>
+            <Form.Legend required>자기소개</Form.Legend>
             <Form.Textarea
               name="introduction"
               required
@@ -161,10 +146,7 @@ export default function ApplyPage() {
 
         <Form.Fieldset>
           <Form.Field htmlFor="password">
-            <Form.Legend>
-              비밀번호
-              <Form.RequiredStar />
-            </Form.Legend>
+            <Form.Legend required>비밀번호</Form.Legend>
             <Form.Input
               name="password"
               type="password"
