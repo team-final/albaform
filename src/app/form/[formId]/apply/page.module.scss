@@ -1,0 +1,44 @@
+@use 'src/styles/_media' as media;
+
+.apply-form {
+  margin: 78px 320px;
+
+  @include media.tablet {
+    margin: 0 184px 50px;
+    row-gap: 32px;
+  }
+
+  @include media.mobile {
+    margin: 0;
+    margin-bottom: 50px;
+  }
+}
+
+.header-container {
+  display: flex;
+  place-content: center space-between;
+}
+
+.cancel-button {
+  height: 50px;
+}
+
+.button-container {
+  margin-top: 30px;
+  display: flex;
+  gap: 8px;
+
+  @include media.tablet {
+    flex-direction: column;
+  }
+
+  @include media.mobile {
+    flex-direction: column;
+  }
+}
+
+@media screen and (width >= 1024px) and (width <= 1500px) {
+  .apply-form {
+    margin: 78px 30px 0;
+  }
+}
