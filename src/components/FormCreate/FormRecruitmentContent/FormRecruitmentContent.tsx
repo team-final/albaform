@@ -77,9 +77,7 @@ export default function FormRecruitmentContent({ step }: FormCreateStepProp) {
   return (
     <FormCreateStep step={step}>
       <Form.Fieldset>
-        <Form.Legend>
-          알바폼 제목<span className={'required'}>*</span>
-        </Form.Legend>
+        <Form.Legend required>알바폼 제목</Form.Legend>
         <Form.Field>
           <Form.Wrap>
             <Form.Input
@@ -97,9 +95,7 @@ export default function FormRecruitmentContent({ step }: FormCreateStepProp) {
       </Form.Fieldset>
 
       <Form.Fieldset>
-        <Form.Legend>
-          소개글<span className={'required'}>*</span>
-        </Form.Legend>
+        <Form.Legend required>소개글</Form.Legend>
         <Form.Field>
           <Form.Wrap>
             <Form.Textarea
@@ -117,9 +113,7 @@ export default function FormRecruitmentContent({ step }: FormCreateStepProp) {
       </Form.Fieldset>
 
       <Form.Fieldset>
-        <Form.Legend>
-          모집 기간<span className={'required'}>*</span>
-        </Form.Legend>
+        <Form.Legend required>모집 기간</Form.Legend>
         <Form.Field>
           <Form.DateRangePickerInput
             startDate={'recruitmentStartDate'}
