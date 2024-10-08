@@ -1,3 +1,8 @@
+@use 'src/styles/_variables' as var;
+@use 'src/styles/_color' as color;
+@use 'src/styles/_font' as font;
+@use 'src/styles/_media' as media;
+
 .go-to-signup {
   margin-top: 20px;
   text-align: center;
@@ -10,4 +15,197 @@
 .error-message {
   color: red;
   margin-top: 10px;
+}
+
+.container {
+  display: block;
+  width: 100vw;
+  height: calc(100vh - var.$root_header_height_lg);
+  overflow: auto;
+
+  @include media.tablet {
+    height: calc(100vh - var.$root_header_height_md);
+  }
+
+  @include media.mobile {
+    height: calc(100vh - var.$root_header_height_sm);
+  }
+}
+
+.inner {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: stretch;
+  align-items: stretch;
+  margin: auto;
+  width: 100%;
+  height: fit-content;
+  max-width: 640px;
+  padding: 48px 24px;
+  gap: 64px;
+
+  @include media.tablet {
+    gap: 56px;
+  }
+
+  @include media.mobile {
+    gap: 48px;
+  }
+}
+
+.header {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-between;
+  align-items: stretch;
+  text-align: center;
+
+  & .title {
+    @include font.Style(3xl, 600);
+
+    @include media.tablet {
+      @include font.Style(2xl, 600);
+    }
+  }
+
+  & .description {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+
+    @include font.Style(xl, 400);
+
+    @include media.tablet {
+      @include font.Style(md, 600);
+    }
+
+    @include media.mobile {
+      @include font.Style(xs, 600);
+    }
+
+    &-text {
+      color: color.$Black-100;
+    }
+
+    &-link {
+      color: color.$Black-400;
+      text-decoration: underline;
+    }
+  }
+}
+
+.body {
+  & button[type='submit'] {
+    margin-top: 40px;
+
+    @include media.tablet {
+      margin-top: 16px;
+    }
+  }
+}
+
+.sns {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: stretch;
+  gap: 40px;
+
+  @include media.tablet {
+    gap: 24px;
+  }
+
+  &-title {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 32px;
+
+    @include media.tablet {
+      gap: 16px;
+    }
+
+    &::before,
+    &::after {
+      content: '';
+      display: block;
+      flex: 1;
+      width: 100%;
+      height: 1px;
+      background-color: color.$Grayscale-100;
+    }
+
+    &-text {
+      @include font.Style(xl, 400);
+
+      color: color.$Grayscale-300;
+
+      @include media.tablet {
+        @include font.Style(md, 400);
+      }
+    }
+  }
+
+  &-list {
+    position: relative;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+  }
+
+  &-button {
+    position: relative;
+    display: inline-flex;
+    width: 72px;
+    height: 72px;
+  }
+}
+
+.footer {
+  position: relative;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+
+  & button {
+    position: relative;
+  }
+}
+
+.user-role-select {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: stretch;
+  align-items: center;
+  gap: 16px;
+
+  & label[class*='form-field'] {
+    flex: 1;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    border-radius: 16px;
+    width: 50px;
+    height: 64px;
+    background-color: color.$Background-200;
+    color: color.$Grayscale-500;
+    cursor: pointer;
+
+    &:has(input:checked) {
+      background-color: color.$Primary-Orange-300;
+      color: color.$Grayscale-50;
+    }
+  }
+
+  & input {
+    display: none;
+  }
 }
