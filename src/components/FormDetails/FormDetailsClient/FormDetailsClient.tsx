@@ -19,7 +19,6 @@ import {
 } from '@/lib/queries/formDetailsQuery'
 import handleError from '@/lib/utils/errorHandler'
 import classNames from 'classnames'
-import Cookies from 'js-cookie'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
@@ -42,10 +41,8 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
   const router = useRouter()
   const { data: userRole } = useUsersMeQuery()
   const { data: formDetails } = useFormDetailsQuery(Number(formId))
-  const { mutate: scrapForm, isPending: isScrapLoading } =
-    useFormScrapMutation()
-  const { mutate: scrapDeleteForm, isPending: isDeleteLoading } =
-    useFormScrapDeleteMutation()
+  const { mutate: scrapForm } = useFormScrapMutation()
+  const { mutate: scrapDeleteForm } = useFormScrapDeleteMutation()
   const { mutate: deleteForm } = useDeleteFormQuery()
   const [isScrapped, setIsScrapped] = useState(formDetails?.isScrapped || false)
   const [scrapCount, setScrapCount] = useState(0)
@@ -60,13 +57,6 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
   const [isListApplicationsModalOpen, setIsListApplicationsModalOpen] =
     useState<boolean>(true)
-
-  useEffect(() => {
-    const accessToken = Cookies.get('token')
-    if (!accessToken) {
-      router.push('/user/sign-in')
-    }
-  }, [router])
 
   useEffect(() => {
     if (formDetails) {
@@ -112,10 +102,10 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
 
   const handleBookmarkClick = () => {
     setScrapCount((prevCount) => prevCount + 1)
+    setIsScrapped(true)
 
     scrapForm(formId, {
       onSuccess: () => {
-        setIsScrapped(true)
         toast.success('스크랩 하였습니다!')
       },
       onError: () => {
@@ -128,10 +118,10 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
 
   const handleBookmarkDeleteClick = () => {
     setScrapCount((prevCount) => prevCount - 1)
+    setIsScrapped(false)
 
     scrapDeleteForm(formId, {
       onSuccess: () => {
-        setIsScrapped(false)
         toast.success('스크랩을 취소하였습니다!')
       },
       onError: () => {
@@ -258,7 +248,6 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
               <FloatingButton
                 mode="bookmark"
                 onClick={handleBookmarkDeleteClick}
-                disabled={isDeleteLoading}
               >
                 <FloatingButton.Icon
                   src="/icons/ic-bookmark.svg"
@@ -266,11 +255,7 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
                 />
               </FloatingButton>
             ) : (
-              <FloatingButton
-                mode="bookmark"
-                onClick={handleBookmarkClick}
-                disabled={isScrapLoading}
-              >
+              <FloatingButton mode="bookmark" onClick={handleBookmarkClick}>
                 <FloatingButton.Icon
                   src="/icons/ic-bookmark-fill.svg"
                   altText="북마크 취소"
