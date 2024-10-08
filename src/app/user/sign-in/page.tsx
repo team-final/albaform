@@ -121,6 +121,7 @@ export default function SignInPage() {
                   src={'/icons/ic-logo-google.svg'}
                   alt={'GOOGLE 아이콘'}
                   fill
+                  priority
                 />
               </Link>
             </li>
@@ -130,6 +131,7 @@ export default function SignInPage() {
                   src={'/icons/ic-logo-kakao.svg'}
                   alt={'KAKAO 아이콘'}
                   fill
+                  priority
                 />
               </Link>
             </li>
