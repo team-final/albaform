@@ -102,7 +102,7 @@ export interface FormDetailsInfoProps {
 }
 
 export interface ImageProps {
-  imageUrls: string
+  imageUrls: string[] | string
 }
 
 export interface LocationProps {
