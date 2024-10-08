@@ -2,7 +2,6 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 
 import {
   getMyApplication,
-  getMyApplicationVerify,
   getResumeFile,
   listApplicationDetails,
   listApplications,
@@ -17,13 +16,6 @@ export const useMyApplicationQuery = (
     queryKey: ['myApplication'],
     queryFn: () => getMyApplication(formId),
     enabled: options?.enabled,
-  })
-}
-
-export const useMyApplicationVerityQuery = (formId: number) => {
-  return useQuery({
-    queryKey: ['myApplicationVerify'],
-    queryFn: () => getMyApplicationVerify(formId),
   })
 }
 
