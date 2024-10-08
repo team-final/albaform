@@ -1,16 +1,16 @@
 import MainButton from '@/components/Button/MainButton/MainButton'
 import Form from '@/components/Form/Form'
 import { TEMP_CREATE_FORM } from '@/lib/data/constants'
-import { useFormCreateStore } from '@/lib/stores/formCreateStore'
+import { useEditingFormStore } from '@/lib/stores/editingFormStore'
 import { useUserStore } from '@/lib/stores/userStore'
-import { TEMP_CREATE_FORM_TYPE } from '@/lib/types/formTypes'
+import { TempEditingFormType } from '@/lib/types/formTypes'
 
 import TemporatyFormData from '../TemporatyFormData/TemporatyFormData'
 import styles from './FormCreateAsideActions.module.scss'
 
 export default function FormCreateAsideActions() {
   const { user } = useUserStore()
-  const { formData, setTemporaryFormData } = useFormCreateStore()
+  const { formData, setTemporaryFormData } = useEditingFormStore()
 
   const handleSubmit = () => {
     if (user === null) return
@@ -29,13 +29,13 @@ export default function FormCreateAsideActions() {
     const mm = now.getMinutes().toString().padStart(2, '0')
     const ss = now.getSeconds().toString().padStart(2, '0')
 
-    const tempData: TEMP_CREATE_FORM_TYPE = {
+    const tempData: TempEditingFormType = {
       id,
       createAt: `${YY}-${MM}-${DD} ${hh}:${mm}:${ss}`,
       formData: data,
     }
 
-    const getTempCreateForm: TEMP_CREATE_FORM_TYPE[] = JSON.parse(
+    const getTempCreateForm: TempEditingFormType[] = JSON.parse(
       localStorage[TEMP_CREATE_FORM] ?? '[]',
     )
 

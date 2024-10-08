@@ -1,22 +1,22 @@
 import Dropdown from '@/components/Dropdown/Dropdown'
 import Form from '@/components/Form/Form'
-import { hourlyWageData } from '@/lib/data/constants'
+import { HOURLY_WAGE_DATA } from '@/lib/data/constants'
 import {
-  INITIAL_FORM_DATA,
+  INITIAL_EDITING_FORM_DATA,
   VALUE_PRESET,
-  useFormCreateStore,
-} from '@/lib/stores/formCreateStore'
+  useEditingFormStore,
+} from '@/lib/stores/editingFormStore'
 import {
-  FORM_STEP_3,
   FormCreateStepProp,
-  workDays,
+  FormStep3,
+  WorkDaysType,
 } from '@/lib/types/formTypes'
 import { ChangeEvent, useCallback, useEffect } from 'react'
 
 import FormCreateStep from '../FormCreateStep/FormCreateStep'
 import styles from './FormWorkingConditions.module.scss'
 
-const FROM_NAME_LIST: (keyof FORM_STEP_3)[] = [
+const FROM_NAME_LIST: (keyof FormStep3)[] = [
   'location',
   'workStartDate',
   'workEndDate',
@@ -29,14 +29,14 @@ const FROM_NAME_LIST: (keyof FORM_STEP_3)[] = [
 ]
 
 export default function FormWorkingConditions({ step }: FormCreateStepProp) {
-  const { formData, setFormData, setInProgress } = useFormCreateStore()
+  const { formData, setFormData, setInProgress } = useEditingFormStore()
 
   const handleProgress = useCallback(() => {
     const isProgress = FROM_NAME_LIST.some((key) => {
       if (key === 'workDays') {
         return formData[key].length > 0
       } else {
-        return formData[key] !== INITIAL_FORM_DATA[key]
+        return formData[key] !== INITIAL_EDITING_FORM_DATA[key]
       }
     })
     setInProgress({ step, isProgress })
@@ -176,7 +176,7 @@ export default function FormWorkingConditions({ step }: FormCreateStepProp) {
                       setFormData(
                         'workDays',
                         formData.workDays.filter(
-                          (day: workDays) => day !== value,
+                          (day: WorkDaysType) => day !== value,
                         ),
                       )
                     }
@@ -213,9 +213,9 @@ export default function FormWorkingConditions({ step }: FormCreateStepProp) {
             <Form.Input
               type={'number'}
               name={'hourlyWage'}
-              placeholder={`최저시급: ${hourlyWageData.min} (${hourlyWageData.as} 기준)`}
+              placeholder={`최저시급: ${HOURLY_WAGE_DATA.min} (${HOURLY_WAGE_DATA.as} 기준)`}
               value={formData.hourlyWage}
-              min={hourlyWageData.min}
+              min={HOURLY_WAGE_DATA.min}
               step={10}
               onChange={(event: ChangeEvent<HTMLInputElement>) =>
                 setFormData('hourlyWage', Number(event.target.value))

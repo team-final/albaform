@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 import { FieldValues, SubmitHandler } from 'react-hook-form'
 
-import { workDays } from './formTypes'
+import { WorkDaysType } from './formTypes'
 
 export interface CustomMessage {
   title?: string
@@ -70,7 +70,7 @@ export interface InputProps extends ComponentProps {
   step?: number
   onClick?: (event?: any) => void
   onChange?: (event?: any) => void
-  workDaysValue?: workDays[]
+  workDaysValue?: WorkDaysType
 }
 
 export interface MessageContext {

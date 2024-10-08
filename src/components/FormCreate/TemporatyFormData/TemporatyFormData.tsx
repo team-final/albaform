@@ -1,7 +1,7 @@
 import { TEMP_CREATE_FORM } from '@/lib/data/constants'
-import { useFormCreateStore } from '@/lib/stores/formCreateStore'
+import { useEditingFormStore } from '@/lib/stores/editingFormStore'
 import { useUserStore } from '@/lib/stores/userStore'
-import { FORM_DATA, TEMP_CREATE_FORM_TYPE } from '@/lib/types/formTypes'
+import { EditingFormData, TempEditingFormType } from '@/lib/types/formTypes'
 import type { DropdownProps, MenuProps } from 'antd'
 import { Button, Dropdown, Flex } from 'antd'
 import Image from 'next/image'
@@ -17,27 +17,27 @@ export default function TemporatyFormData() {
     temporaryFormDatas,
     setTemporaryFormData,
     delTemporaryFormData,
-  } = useFormCreateStore()
+  } = useEditingFormStore()
 
   const [open, setOpen] = useState(false)
   const [items, setItems] = useState<MenuProps['items']>()
 
   const handleTempCreateFormList = useCallback(() => {
-    const getTempCreateFormList: TEMP_CREATE_FORM_TYPE[] = JSON.parse(
+    const getTempCreateFormList: TempEditingFormType[] = JSON.parse(
       localStorage[TEMP_CREATE_FORM] ?? '[]',
     )
     setTemporaryFormData(getTempCreateFormList)
   }, [setTemporaryFormData])
 
   const deleteTempCreateFormList = useCallback(
-    (tempFormData: TEMP_CREATE_FORM_TYPE) => {
+    (tempFormData: TempEditingFormType) => {
       delTemporaryFormData(tempFormData)
     },
     [delTemporaryFormData],
   )
 
   const injectFormData = useCallback(
-    (formData: FORM_DATA | FieldValues | any) => {
+    (formData: EditingFormData | FieldValues | any) => {
       for (const key in formData) {
         if (key === 'imageUrls') {
           setFormData(
