@@ -60,7 +60,7 @@ function ListCardItem({
   const imageUrl = getImageUrl()
 
   return (
-    <Link href={`/form/${id}`}>
+    <Link href={`/form/${id}`} style={{ textDecoration: 'none' }}>
       <div className={Styles['listcard-outcontainer']}>
         {!isPublic ? (
           <div className={Styles['listcard-outcontainer-privateImg']}>
