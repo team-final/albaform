@@ -5,6 +5,9 @@ import {
   FORM_STATUS,
   FormStatusType,
 } from '@/lib/types/formTypes'
+import {
+  formatPhoneNumber,
+} from '@/lib/utils/formatDate'
 import { formatMonth } from '@/lib/utils/dateFormatters'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -66,10 +69,6 @@ export default function ListApplicationsModal({
           return currentStatusA < currentStatusB ? 1 : -1
         }
       })
-
-  const formatPhoneNumber = (phoneNumber: string): string => {
-    return phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3')
-  }
 
   return (
     <ReactModal

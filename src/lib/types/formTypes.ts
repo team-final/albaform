@@ -138,7 +138,9 @@ export interface FormDetailsProps {
 export type CombinedFormDetailsProps = FormDetailsProps &
   AnnoucementProps &
   WorkScheduleProps &
-  ContactInfoProps
+  ContactInfoProps & {
+    location: string
+  }
 
 export interface ApplicationProps {
   id: number

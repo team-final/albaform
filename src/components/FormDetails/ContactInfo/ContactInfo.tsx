@@ -8,6 +8,7 @@ import {
 } from '@/lib/queries/formDetailsQuery'
 import { ContactInfoProps } from '@/lib/types/formTypes'
 import handleError from '@/lib/utils/errorHandler'
+import { formatPhoneNumber } from '@/lib/utils/formatDate'
 import { formatDate } from '@/lib/utils/dateFormatters'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -110,7 +111,7 @@ export default function ContactInfo({
         >
           <h3 className={styles['contact-info-title']}>가게 전화번호</h3>
           <p className={styles['contact-info-content']}>
-            {formDetails?.storePhoneNumber}
+            {formatPhoneNumber(formDetails?.storePhoneNumber)}
           </p>
         </div>
 
@@ -119,7 +120,7 @@ export default function ContactInfo({
         >
           <h3 className={styles['contact-info-title']}>사장님 전화번호</h3>
           <p className={styles['contact-info-content']}>
-            {formDetails?.phoneNumber}
+            {formatPhoneNumber(formDetails?.phoneNumber)}
           </p>
         </div>
       </div>

@@ -5,6 +5,7 @@ import {
   useMyApplicationQuery,
   useResumeFileQuery,
 } from '@/lib/queries/applicationDetailsQuery'
+import { formatPhoneNumber } from '@/lib/utils/formatDate'
 import classNames from 'classnames'
 import Image from 'next/image'
 import ReactModal from 'react-modal'
@@ -82,7 +83,7 @@ export default function MyApplicationModal({
             <div className={styles['application-details-content']}>
               <h2 className={styles['content-title']}>연락처</h2>
               <span className={styles['content-description']}>
-                {application?.phoneNumber}
+                {formatPhoneNumber(application?.phoneNumber)}
               </span>
             </div>
             <div className={styles['application-details-content']}>
