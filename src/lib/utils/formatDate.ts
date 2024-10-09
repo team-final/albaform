@@ -57,3 +57,16 @@ export const formatExperienceMonths = (months: number) => {
 export const formatPhoneNumber = (phoneNumber: string): string => {
   return phoneNumber?.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3')
 }
+
+export const formatStoreNumber = (phoneNumber: string): string => {
+  if (!phoneNumber) return ''
+
+  // 02로 시작하는 경우
+  if (phoneNumber.startsWith('02')) {
+    return phoneNumber.replace(/(^02)(\d{4})(\d{4})/, '$1-$2-$3')
+  }
+  // 그 외 3자리 지역번호
+  else {
+    return phoneNumber.replace(/(^\d{3})(\d{3,4})(\d{4})/, '$1-$2-$3')
+  }
+}

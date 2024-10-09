@@ -3,7 +3,7 @@
 import { useUsersMeQuery } from '@/lib/queries/formDetailsQuery'
 import { ContactInfoProps } from '@/lib/types/formTypes'
 import { formatDate } from '@/lib/utils/dateFormatters'
-import { formatPhoneNumber } from '@/lib/utils/formatDate'
+import { formatPhoneNumber, formatStoreNumber } from '@/lib/utils/formatDate'
 import { useEffect, useState } from 'react'
 
 import ActionButtons from '../ActionButtons/ActionButtons'
@@ -72,7 +72,7 @@ export default function ContactInfo({
         >
           <h3 className={styles['contact-info-title']}>가게 전화번호</h3>
           <p className={styles['contact-info-content']}>
-            {formatPhoneNumber(formDetails?.storePhoneNumber)}
+            {formatStoreNumber(formDetails?.storePhoneNumber)}
           </p>
         </div>
 
