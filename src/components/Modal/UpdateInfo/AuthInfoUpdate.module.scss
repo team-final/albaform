@@ -15,36 +15,41 @@ $padding_size_y: 32px;
   &-owner {
     &-overlay {
       background-color: rgb(0 0 0 / 60%);
+      position: fixed;
+      inset: 0;
+      z-index: 8;
       display: flex;
       justify-content: center;
       align-items: center;
-      position: fixed;
-      inset: 0;
-      z-index: 1000;
+      padding: 32px;
     }
 
     &-content {
+      position: relative;
+      display: block;
+      width: fit-content;
+      margin: 0 auto;
+      max-height: 100%;
       gap: 24px;
       background-color: color.$Grayscale-50;
       border-radius: 24px;
       box-shadow: 6px 6px 16px 0 #7d7d7d40;
       padding: $padding_size_y $padding_size_x;
       text-align: center;
-      position: relative;
       margin-bottom: 10px;
+      overflow: auto;
 
       @include media.desktop {
         min-width: $min_width_lg;
-        min-height: $min_height_lg;
       }
 
       @include media.tablet {
         min-width: $min_width_md;
-        min-height: $min_height_md;
       }
 
       &-buttongroup {
         display: flex;
+        margin-top: 24px;
         gap: 12px;
       }
     }
@@ -94,12 +99,10 @@ $padding_size_y: 32px;
 
   @include media.desktop {
     min-width: calc($min_width_lg - $padding_size_x);
-    min-height: calc($min_height_lg - $padding_size_y);
   }
 
   @include media.tablet {
     min-width: calc($min_width_md - $padding_size_x);
-    min-height: calc($min_height_md - $padding_size_y);
   }
 }
 
