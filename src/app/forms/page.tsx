@@ -30,7 +30,7 @@ interface ServerResponse {
   nextCursor: number | null
 }
 
-export default function Page() {
+export default function FormsPage() {
   const user = useUserStore.getState().user
   console.log(user)
   const [orderBy, setOrderBy] =
@@ -38,6 +38,7 @@ export default function Page() {
   const [isRecruiting, setIsRecruiting] = useState<boolean | null>(null)
   const [keyword, setKeyword] = useState('')
   const [searchKeyword, setSearchKeyword] = useState('')
+
   const handleSearch = () => {
     setSearchKeyword(keyword)
   }
