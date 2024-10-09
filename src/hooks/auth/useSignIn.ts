@@ -9,7 +9,7 @@ import Cookies from 'js-cookie'
 
 export default function useSignIn() {
   const queryClient = useQueryClient()
-  const { setUser, setUserRole } = useUserStore()
+  const { setUser } = useUserStore()
 
   return useMutation({
     mutationFn: async ({ email, password }: SignInValues): Promise<User> => {
@@ -37,7 +37,6 @@ export default function useSignIn() {
     onSuccess: (user) => {
       queryClient.setQueryData(['user'], user) // 쿼리 캐시에 유저 정보 저장
       setUser(user) // Zustand 스토어에 유저 정보 저장
-      setUserRole(user.role)
     },
     onError: (error: AxiosError) => {
       handleError(error, SIGN_IN_ERROR_MESSAGE)
