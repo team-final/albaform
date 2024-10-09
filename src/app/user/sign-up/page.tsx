@@ -11,7 +11,6 @@ import { generateUniqueNickname } from '@/lib/utils/nicknameGenerator'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
 import { FieldValues } from 'react-hook-form'
 
 export default function SignUpPage() {
@@ -43,19 +42,20 @@ export default function SignUpPage() {
     // 로그인
     const { email, password } = createUserValues
     await signIn.mutateAsync({ email, password })
+    await router.prefetch('/user/sign-up/complete')
+    await router.push('/user/sign-up/complete')
   }
 
   const handleSubmit = async (values: FieldValues) => {
     const signUpFormValues: SignUpFormValues = values as SignUpFormValues
     await handleSignUp(signUpFormValues)
-    router.prefetch('/user/sign-up/complete')
   }
 
-  useEffect(() => {
-    if (user) {
-      router.push('/user/sign-up/complete')
-    }
-  }, [router, user])
+  // useEffect(() => {
+  //   if (user) {
+  //     router.push('/user/sign-up/complete')
+  //   }
+  // }, [router, user])
 
   if (user) {
     router.back()
