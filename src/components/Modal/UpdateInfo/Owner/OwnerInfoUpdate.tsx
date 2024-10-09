@@ -78,8 +78,8 @@ export default function OwnerInfoUpdate({
       <Form
         formId="updateFormOwnerStep2"
         onSubmit={onConfirm}
-        className={styles.inner}
         defaultValues={initialValues}
+        className={styles.inner}
       >
         <div>
           <Form.Title>사장님 정보 관리</Form.Title>
