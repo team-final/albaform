@@ -73,8 +73,8 @@ export default function OwnerInfoUpdate({
       ariaHideApp={false}
       onRequestClose={onRequestClose}
       onAfterOpen={onAfterOpen}
-      overlayClassName={classNames(styles['modal-owner-overlay'])}
-      className={classNames(styles['modal-owner-content'])}
+      overlayClassName={classNames(styles['modal-overlay'])}
+      className={classNames(styles['modal-content'])}
     >
       <Form
         formId="updateFormOwnerStep2"
@@ -178,7 +178,7 @@ export default function OwnerInfoUpdate({
           </Form.Fieldset>
         </div>
 
-        <div className={classNames(styles['modal-owner-content-buttongroup'])}>
+        <div className={classNames(styles['modal-content-buttongroup'])}>
           <MainButton
             buttonStyle="outline"
             type="button"
@@ -186,7 +186,7 @@ export default function OwnerInfoUpdate({
           >
             취소
           </MainButton>
-          <Form.SubmitButton buttonStyle="solid">수정하기</Form.SubmitButton>
+          <Form.SubmitButton>수정하기</Form.SubmitButton>
         </div>
       </Form>
     </ReactModal>
