@@ -30,6 +30,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { FieldValues } from 'react-hook-form'
+import { useUserStore } from '@/lib/stores/userStore'
 
 import styles from './page.module.scss'
 
@@ -52,7 +53,11 @@ interface ServerResponse {
 }
 
 export default function MyPage() {
+  const user = useUserStore.getState().user
   const router = useRouter()
+
+  if (user?.role === undefined) router.replace('/user/sign-in')
+
   const [userRole, setUserRole] = useState<UserRole | undefined>(undefined)
 
   useEffect(() => {
@@ -186,10 +191,6 @@ export default function MyPage() {
       window.removeEventListener('scroll', handleScroll)
     }
   }, [hasNextPage, isFetchingNextPage, fetchNextPage])
-
-  if (!userRole) {
-    return null
-  }
 
   return (
     <>

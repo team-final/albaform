@@ -3,8 +3,8 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 export interface UserStore {
-  user: User | null
-  setUser: (nowUser: User | null) => void
+  user: User | undefined
+  setUser: (nowUser: User | undefined) => void
   userRole: UserRole | undefined
   setUserRole: (nowUserRole: UserRole | undefined) => void
 }
@@ -12,8 +12,8 @@ export interface UserStore {
 export const useUserStore = create(
   persist<UserStore>(
     (set) => ({
-      user: null,
-      setUser: (nowUser: User | null) => set({ user: nowUser }),
+      user: undefined,
+      setUser: (nowUser: User | undefined) => set({ user: nowUser }),
       userRole: undefined,
       setUserRole: (nowUserRole: UserRole | undefined) =>
         set({ userRole: nowUserRole }),

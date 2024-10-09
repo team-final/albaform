@@ -16,13 +16,14 @@ import { getRandomInt } from '@/lib/utils/acountGenerator'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
 import { FieldValues } from 'react-hook-form'
 
 export default function SignInPage() {
+  const user = useUserStore.getState().user
   const router = useRouter()
   const signIn = useSignIn()
-  const { user } = useUserStore()
+
+  if (user?.role) router.back()
 
   async function handleSignIn({ email, password }: SignInValues) {
     await signIn.mutateAsync({ email, password })
@@ -31,6 +32,8 @@ export default function SignInPage() {
   async function handleSubmit(formValues: FieldValues) {
     const values: SignInValues = formValues as SignInValues
     await signIn.mutateAsync(values)
+
+    router.push('/')
   }
 
   const randomSignIn = async (role: any) => {
@@ -42,12 +45,6 @@ export default function SignInPage() {
     })
     handleSignIn({ email: user.email, password: user.password })
   }
-
-  useEffect(() => {
-    if (user) {
-      router.push('/')
-    }
-  }, [router, user])
 
   return (
     <article className={signInSignUpStyles.container}>
