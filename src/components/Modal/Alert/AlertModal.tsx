@@ -101,7 +101,11 @@ const AlertModal = ({
           {buttonText || modalData[AlertmodalType].buttonText}
         </MainButton>
         {showSecondButton && (
-          <MainButton buttonStyle="outline" onClick={onRequestClose}>
+          <MainButton
+            buttonStyle="outline"
+            onClick={onRequestClose}
+            className={styles['main-button-border']}
+          >
             {modalData.delete.buttonText2}
           </MainButton>
         )}

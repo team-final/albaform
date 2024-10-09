@@ -6,6 +6,10 @@
   display: flex;
   flex-direction: column;
   row-gap: 40px;
+
+  @include media.tablet {
+    row-gap: 0;
+  }
 }
 
 .contact-info-container {
@@ -80,15 +84,5 @@
 
   @include media.tablet {
     padding: 14px 0;
-  }
-}
-
-.button-container {
-  display: flex;
-  flex-direction: column;
-  row-gap: 16px;
-
-  @include media.tablet {
-    display: none;
   }
 }
