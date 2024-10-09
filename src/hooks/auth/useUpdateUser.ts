@@ -1,4 +1,4 @@
-import authAxios from '@/lib/api/authAxios'
+import authAxios from '@/lib/api/axiosWithCredentials'
 import { SAVE_ERROR_MESSAGE } from '@/lib/data/constants'
 import { useUserStore } from '@/lib/stores/userStore'
 import { UpdateUserValues, User } from '@/lib/types/userTypes'
