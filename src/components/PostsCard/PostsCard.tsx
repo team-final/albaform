@@ -1,36 +1,43 @@
-import { ChildrenProps } from '@/lib/types/types'
+import { formatKoreanDate } from '@/lib/utils/formatDate'
+import { calculateDaysLeft } from '@/lib/utils/formatDate2'
 import classNames from 'classnames'
 import Image from 'next/image'
+import Link from 'next/link'
 
-import styles from './PostsCard.module.scss'
+import Styles from './PostsCard.module.scss'
+import BasicImg from '/public/images/landing/md/01.png'
 
-interface ParagraphWithIconProps extends ChildrenProps {
-  data: {
-    id: number
-    resumeId: number
-    resumeName: string
-    createdAt: string
-    updatedAt: string
-    status: 'REJECTED' | 'INTERVIEW_PENDING' | 'INTERVIEW_COMPLETED' | 'HIRED'
-    form: {
+interface PostsCardProps {
+  status:
+    | 'INTERVIEW_PENDING'
+    | 'INTERVIEW_COMPLETED'
+    | 'HIRED'
+    | 'REJECTED'
+    | string
+  createdAt: string
+  recruitmentEndDate: string
+  form: {
+    owner: {
+      imageUrl: string[]
+      storeName: string
       id: number
-      title: string
-      description: string
-      recruitmentStartDate: string
-      recruitmentEndDate: string
-      owner: {
-        id: number
-        storeName: string
-        imageUrl: string
-      }
     }
+    recruitmentEndDate: string
+    recruitmentStartDate: string
+    description: string
+    title: string
+    id: number
   }
-  className?: string
+  resumeId: number
 }
 
-export default function PostsCard({ data, className }: ParagraphWithIconProps) {
-  let status: string = ''
-  switch (data.status) {
+export default function PostsCard({
+  status,
+  createdAt,
+  recruitmentEndDate,
+  form,
+}: PostsCardProps) {
+  switch (status) {
     case 'INTERVIEW_PENDING':
       status = '면접대기'
       break
@@ -45,62 +52,75 @@ export default function PostsCard({ data, className }: ParagraphWithIconProps) {
       break
   }
 
-  const recruitmentStatus: string =
-    new Date(data.form.recruitmentEndDate) > new Date()
-      ? '모집 중'
-      : '모집 마감'
+  const formatDate = calculateDaysLeft(recruitmentEndDate)
+  const getImageUrl = (): string => {
+    if (form.owner.imageUrl && form.owner.imageUrl.length > 0) {
+      const firstImage = form.owner.imageUrl[0]
+
+      if (typeof firstImage === 'string') {
+        if (firstImage.startsWith('https')) {
+          return firstImage
+        } else if (firstImage === 'string') {
+          return BasicImg.src
+        } else {
+          try {
+            const parsedImage = JSON.parse(firstImage)
+            return parsedImage[0]?.url || BasicImg.src
+          } catch (error) {
+            console.error('Error parsing image URL:', error)
+            return BasicImg.src
+          }
+        }
+      }
+    }
+    return BasicImg.src
+  }
+
+  const imageUrl = getImageUrl()
+  const applyDate = formatKoreanDate(createdAt)
 
   return (
-    <article className={classNames(styles.card, className)}>
-      <div className={styles['card-inner']}>
-        <section className={styles['card-head']}>
-          <div className={styles['card-info']}>
-            <p className={styles['card-created-text']}>지원일시</p>
-            <p
-              className={classNames(
-                styles['card-created-text'],
-                styles['card-created-date'],
-              )}
-            >
-              {data.createdAt}
-            </p>
-          </div>
-          <div className={styles['card-resume']}>
-            <button type="button" className={styles['card-resume-button']}>
-              이력서 보기
-            </button>
-          </div>
-        </section>
-
-        <section className={styles['card-body']}>
-          <div className={styles['card-store']}>
-            <div className={styles['card-store-image']}>
-              <Image
-                src={data.form.owner.imageUrl}
-                alt={`${data.form.owner.storeName} 이미지`}
-                fill
-                priority
-              />
+    <Link href={`/form/${form.id}`} style={{ textDecoration: 'none' }}>
+      <article className={classNames(Styles.card)}>
+        <div className={Styles['card-inner']}>
+          <section className={Styles['card-head']}>
+            <div className={Styles['card-info']}>
+              <p className={Styles['card-created-text']}>지원일시</p>
+              <p
+                className={classNames(
+                  Styles['card-created-text'],
+                  Styles['card-created-date'],
+                )}
+              >
+                {applyDate}
+              </p>
             </div>
-            <div className={styles['card-store-name']}>
-              {data?.form.owner.storeName}
+            <div className={Styles['card-resume']}></div>
+          </section>
+          <section className={Styles['card-body']}>
+            <div className={Styles['card-store']}>
+              <div className={Styles['card-store-image']}>
+                <Image
+                  src={imageUrl}
+                  alt={`${form.owner.storeName} 이미지`}
+                  fill
+                  priority
+                />
+              </div>
+              <div className={Styles['card-store-name']}>
+                {form.owner.storeName}
+              </div>
             </div>
-          </div>
-          <p className={styles['card-title']}>{data.form.title}</p>
-          <p className={styles['card-description']}>{data.form.description}</p>
-        </section>
+            <p className={Styles['card-title']}>{form.title}</p>
+            <p className={Styles['card-description']}>{form.description}</p>
+          </section>
 
-        <section className={styles['card-foot']}>
-          <p className={styles['card-tag']}>{status}</p>
-          <p className={styles['card-tag']}>{recruitmentStatus}</p>
-        </section>
-      </div>
-    </article>
+          <section className={Styles['card-foot']}>
+            <p className={Styles['card-tag']}>{status}</p>
+            <p className={Styles['card-tag']}>{formatDate}</p>
+          </section>
+        </div>
+      </article>
+    </Link>
   )
 }
-
-function Title({ children }: ChildrenProps) {
-  return <p className={styles['card-title']}>{children}</p>
-}
-
-PostsCard.Title = Title

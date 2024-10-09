@@ -1,0 +1,58 @@
+@use 'src/styles/_color.scss' as color;
+@use 'src/styles/_font' as font;
+@use 'src/styles/_media' as media;
+
+.out-container {
+  max-width: 1479px;
+  margin: 30px auto;
+
+  &-search {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  @media (width <= 1566px) {
+    margin: 30px 72px;
+  }
+
+  @include media.mobile {
+    margin: 30px auto;
+  }
+}
+
+.item-container {
+  margin: 0 auto;
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
+  max-width: 1479px;
+
+  @media (width <= 1566px) {
+    grid-template-columns: repeat(2, 1fr);
+    margin: 0 72px;
+  }
+
+  @include media.tablet {
+    max-width: 400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.goto-top-button {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 3;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-15px);
+  }
+}
