@@ -3,8 +3,10 @@
 import MainButton from '@/components/Button/MainButton/MainButton'
 import Dropdown from '@/components/Dropdown/Dropdown'
 import ListCardItem from '@/components/ListCardItem/ListCardItem'
+import ApplicantInfoUpdate from '@/components/Modal/UpdateInfo/Applicant/ApplicantInfoUpdate'
 import OwnerInfoUpdate from '@/components/Modal/UpdateInfo/Owner/OwnerInfoUpdate'
 import { getScrapList } from '@/lib/api/getScrapList'
+import { patchMyInfo } from '@/lib/api/patchMyInfo'
 import {
   MY_CONTENT_MENUS,
   PUBLIC_SORT_CONDITION,
@@ -18,12 +20,13 @@ import {
   RecrutingSortCondition,
   ScrapListSortCondition,
 } from '@/lib/types/types'
-import { UserRole } from '@/lib/types/userTypes'
+import { UpdateUserValues, UserRole } from '@/lib/types/userTypes'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { FieldValues } from 'react-hook-form'
+import { useMutation } from 'react-query'
 
 import styles from './page.module.scss'
 
@@ -49,6 +52,22 @@ export default function MyPage() {
   const router = useRouter()
   const [userRole, setUserRole] = useState<UserRole | undefined>(undefined)
   const { user } = useUserStore()
+  const userInfoData = {
+    OWNER: {
+      imageUrl: user?.imageUrl ?? '',
+      nickname: user?.nickname ?? '',
+      storeName: user?.storeName ?? '',
+      storePhoneNumber: user?.storePhoneNumber ?? '',
+      phoneNumber: user?.phoneNumber ?? '',
+      location: user?.location ?? '',
+    },
+    APPLICANT: {
+      imageUrl: user?.imageUrl ?? '',
+      name: user?.name ?? '',
+      nickname: user?.nickname ?? '',
+      phoneNumber: user?.phoneNumber ?? '',
+    },
+  }
 
   useEffect(() => {
     const role = useUserStore.getState().userRole
@@ -96,8 +115,30 @@ export default function MyPage() {
     })
   }
 
+  const mutation = useMutation({
+    mutationFn: patchMyInfo,
+    onSuccess: (data) => {
+      console.log('업데이트 성공:', data)
+      // 성공 후 추가 작업 (예: 모달 닫기, 사용자 데이터 리패칭 등)
+    },
+    onError: (error) => {
+      console.error('업데이트 실패:', error)
+      // 에러 처리 (예: 에러 메시지 표시)
+    },
+  })
+
   const handleInfoChange = (data: FieldValues) => {
-    console.log(user, data)
+    const updatedData: UpdateUserValues = {
+      location: data.location || user?.location,
+      phoneNumber: data.phoneNumber || user?.phoneNumber,
+      storePhoneNumber: data.storePhoneNumber || user?.storePhoneNumber,
+      storeName: data.storeName || user?.storeName,
+      imageUrl: data.imageUrl || user?.imageUrl,
+      nickname: data.nickname || user?.nickname,
+      name: data.name || user?.name,
+    }
+
+    mutation.mutate({ data: updatedData })
   }
 
   useEffect(() => {
@@ -123,6 +164,22 @@ export default function MyPage() {
 
   return (
     <>
+      {userRole === 'APPLICANT' && (
+        <ApplicantInfoUpdate
+          isOpen={userInfoModal}
+          onRequestClose={() => setUserInfoModal(false)}
+          onConfirm={handleInfoChange}
+          initialValues={userInfoData.APPLICANT}
+        />
+      )}
+      {userRole === 'OWNER' && (
+        <OwnerInfoUpdate
+          isOpen={userInfoModal}
+          onRequestClose={() => setUserInfoModal(false)}
+          onConfirm={handleInfoChange}
+          initialValues={userInfoData.OWNER}
+        />
+      )}
       <Image
         src="/icons/ic-goto-top.png"
         onClick={handleGoToTop}
