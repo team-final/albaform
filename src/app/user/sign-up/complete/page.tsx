@@ -3,16 +3,21 @@
 import MainButton from '@/components/Button/MainButton/MainButton'
 import Form from '@/components/Form/Form'
 import FormStyles from '@/components/Form/Form.module.scss'
+import updateUserModalStyles from '@/components/Modal/UpdateInfo/AuthInfoUpdate.module.scss'
 import useUpdateUser from '@/hooks/auth/useUpdateUser'
 import { USER_ROLE_CONFIG } from '@/lib/data/constants'
 import { phoneNumberPattern } from '@/lib/data/patterns'
 import { useUserStore } from '@/lib/stores/userStore'
 import { UpdateUserValues } from '@/lib/types/userTypes'
 import dynamic from 'next/dynamic'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import React, { useState } from 'react'
 import { FieldValues } from 'react-hook-form'
 
 import styles from './page.module.scss'
+import EditIc from '/public/icons/ic-edit-circle.svg'
+import BasicUserProfile from '/public/icons/ic-user-profile-circle.svg'
 
 const NoSSR = dynamic(() => import('@/components/Form/Form'), { ssr: false })
 
@@ -26,11 +31,29 @@ export default function CompleteSignUpPage() {
   const userRoleName = USER_ROLE_CONFIG[userRole].title
   const isOwner = Boolean(userRole === 'OWNER')
   const updateUser = useUpdateUser()
+  const [previewImage, setPreviewImage] = useState<string | null>(
+    user?.imageUrl || null,
+  )
+
+  const handleImageChange = (file: File) => {
+    const reader = new FileReader()
+    reader.onloadend = () => {
+      setPreviewImage(reader.result as string)
+    }
+    reader.readAsDataURL(file)
+  }
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      handleImageChange(file)
+    }
+  }
 
   const handleSubmit = async (values: FieldValues) => {
     const completeSignUpFormValues = values as UpdateUserValues
     await updateUser.mutateAsync(completeSignUpFormValues)
-    router.replace('/forms')
+    await router.replace('/forms')
   }
 
   return (
@@ -46,6 +69,47 @@ export default function CompleteSignUpPage() {
           <div className={styles['owner-information-sub-title']}>
             추가 정보를 입력하여 회원가입을 완료해주세요.
           </div>
+          <Form.Fieldset>
+            <div className={updateUserModalStyles['image-preview-container']}>
+              <Form.Field
+                className={updateUserModalStyles['image-upload-area']}
+              >
+                <Form.Input
+                  type={'file'}
+                  name={'imageUrl'}
+                  onChange={handleFileChange}
+                />
+                {previewImage ? (
+                  <Image
+                    src={previewImage || '/icons/ic-user-profile-circle.svg'}
+                    alt="Profile Preview"
+                    className={updateUserModalStyles['image-preview']}
+                    width={100}
+                    height={100}
+                  />
+                ) : user?.imageUrl ? (
+                  <Image
+                    src={user.imageUrl}
+                    alt="Profile Preview"
+                    className={updateUserModalStyles['image-preview']}
+                    width={100}
+                    height={100}
+                  />
+                ) : (
+                  <BasicUserProfile
+                    width={100}
+                    height={100}
+                    className={updateUserModalStyles['image-preview']}
+                  />
+                )}
+              </Form.Field>
+              <EditIc
+                width={36}
+                heigth={36}
+                className={updateUserModalStyles['image-basic-edit']}
+              />
+            </div>
+          </Form.Fieldset>
           <Form.Fieldset>
             <Form.Field htmlFor="nickname">
               <Form.Legend required>닉네임</Form.Legend>
