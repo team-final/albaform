@@ -3,9 +3,9 @@
 import MainButton from '@/components/Button/MainButton/MainButton'
 import Form from '@/components/Form/Form'
 import basicAxios from '@/lib/api/basicAxios'
-import { useParams, useRouter } from 'next/navigation'
-import React, { useState, useEffect } from 'react'
 import { useUserStore } from '@/lib/stores/userStore'
+import { useParams, useRouter } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
 
 import styles from './page.module.scss'
 
@@ -42,8 +42,7 @@ export default function ApplyPage() {
     name: '',
   })
 
-  const handleClick = () => {
-  }
+  const handleClick = () => {}
 
   const handleResumeUpload = async (file: File) => {
     const uploadData = new FormData()

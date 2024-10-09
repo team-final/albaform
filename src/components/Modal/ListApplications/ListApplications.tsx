@@ -5,10 +5,8 @@ import {
   FORM_STATUS,
   FormStatusType,
 } from '@/lib/types/formTypes'
-import {
-  formatPhoneNumber,
-} from '@/lib/utils/formatDate'
 import { formatMonth } from '@/lib/utils/dateFormatters'
+import { formatPhoneNumber } from '@/lib/utils/formatDate'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
