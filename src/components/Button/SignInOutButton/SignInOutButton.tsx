@@ -9,7 +9,7 @@ import PlainButton from '../PlainButton/PlainButton'
 import styles from './SignInOutButton.module.scss'
 import IconLogout from '/public/icons/ic-logout.svg'
 
-export default function SignInOutButton({ className = '' }: ComponentProps) {
+export default function SignInOutButton({ className }: ComponentProps) {
   const router = useRouter()
   const { user } = useUserStore()
   const signOut = useSignOut()

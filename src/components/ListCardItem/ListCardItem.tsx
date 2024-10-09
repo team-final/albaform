@@ -88,10 +88,11 @@ function ListCardItem({
           <Image
             src={imageUrl}
             alt={'Recruitment Image'}
-            className={Styles['listcard-Img']}
+            className={Styles['listcard-img']}
             width={477}
             height={304}
             quality={100}
+            priority={false}
           />
           <div className={Styles['listcard-info']}>
             <div className={Styles['listcard-info-isPublic']}>
