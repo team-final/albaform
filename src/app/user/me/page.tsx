@@ -47,12 +47,12 @@ interface ServerResponse {
 
 export default function MyPage() {
   const router = useRouter()
-  const [userRole, setUserRole] = useState<UserRole | null>(null)
+  const [userRole, setUserRole] = useState<UserRole | undefined>(undefined)
   const { user } = useUserStore()
 
   useEffect(() => {
     const role = useUserStore.getState().userRole
-    if (role === null) {
+    if (role === undefined) {
       router.push('/user/sign-in')
     } else {
       setUserRole(role)
