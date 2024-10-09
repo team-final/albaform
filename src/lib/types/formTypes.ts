@@ -85,6 +85,7 @@ export interface ApplicationStatusProps {
 
 export interface ContactInfoProps {
   id: number
+  ownerId: number
   recruitmentEndDate: string
   recruitmentStartDate: string
   storePhoneNumber: string
@@ -92,6 +93,7 @@ export interface ContactInfoProps {
 }
 
 export interface CurrentApplicationProps {
+  ownerId: number
   applyCount: number
 }
 

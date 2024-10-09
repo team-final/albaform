@@ -69,6 +69,24 @@
   }
 }
 
+.show-applications {
+  min-width: auto;
+  min-height: auto;
+  padding: 0 16px;
+  background-color: transparent;
+  color: color.$Grayscale-50;
+
+  @include font.Style(xl, 500);
+
+  @include media.tablet {
+    @include font.Style(sm, 500);
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 .count {
   color: color.$Primary-Orange-300;
 }

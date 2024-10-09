@@ -1,6 +1,7 @@
 import MainButton from '@/components/Button/MainButton/MainButton'
 import AlertModal from '@/components/Modal/Alert/AlertModal'
 import { useDeleteFormQuery } from '@/lib/queries/formDetailsQuery'
+import { useUserStore } from '@/lib/stores/userStore'
 import handleError from '@/lib/utils/errorHandler'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
@@ -11,13 +12,16 @@ interface ActionButtonsProps {
   userRole: string
   isRecruitmentActive: boolean
   formId: number
+  ownerId: number
 }
 
 const ActionButtons: React.FC<ActionButtonsProps> = ({
   userRole,
   isRecruitmentActive,
   formId,
+  ownerId,
 }) => {
+  const user = useUserStore.getState().user
   const router = useRouter()
   const { mutate: deleteForm } = useDeleteFormQuery()
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
@@ -65,7 +69,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
         />
       )}
       <div className={styles['button-container']}>
-        {userRole === 'OWNER' ? (
+        {userRole === 'OWNER' && user?.id === ownerId ? (
           <>
             <MainButton
               buttonStyle="solid"
