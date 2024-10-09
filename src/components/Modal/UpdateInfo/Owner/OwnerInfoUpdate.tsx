@@ -2,7 +2,7 @@ import MainButton from '@/components/Button/MainButton/MainButton'
 import Form from '@/components/Form/Form'
 import classNames from 'classnames'
 import Image from 'next/image'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FieldValues } from 'react-hook-form'
 import ReactModal from 'react-modal'
 
@@ -40,7 +40,6 @@ export default function OwnerInfoUpdate({
   const [previewImage, setPreviewImage] = useState<string | null>(
     initialValues?.imageUrl || null,
   )
-  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handleImageChange = (file: File) => {
     const reader = new FileReader()
@@ -48,10 +47,6 @@ export default function OwnerInfoUpdate({
       setPreviewImage(reader.result as string)
     }
     reader.readAsDataURL(file)
-  }
-
-  const handleImageClick = () => {
-    fileInputRef.current?.click()
   }
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,13 +83,15 @@ export default function OwnerInfoUpdate({
           <Form.Title>사장님 정보 관리</Form.Title>
           <Form.Fieldset>
             <div className={styles['image-preview-container']}>
-              <div
-                className={styles['image-upload-area']}
-                onClick={handleImageClick}
-              >
+              <Form.Field className={styles['image-upload-area']}>
+                <Form.Input
+                  type={'file'}
+                  name={'imageUrl'}
+                  onChange={handleFileChange}
+                />
                 {previewImage ? (
                   <Image
-                    src={previewImage}
+                    src={previewImage || '/icons/ic-user-profile-circle.svg'}
                     alt="Profile Preview"
                     className={styles['image-preview']}
                     width={100}
@@ -102,11 +99,7 @@ export default function OwnerInfoUpdate({
                   />
                 ) : initialValues?.imageUrl ? (
                   <Image
-                    src={
-                      initialValues.imageUrl.startsWith('http')
-                        ? initialValues.imageUrl
-                        : `/${initialValues.imageUrl}`
-                    }
+                    src={initialValues.imageUrl}
                     alt="Profile Preview"
                     className={styles['image-preview']}
                     width={100}
@@ -119,14 +112,7 @@ export default function OwnerInfoUpdate({
                     className={styles['image-preview']}
                   />
                 )}
-              </div>
-              <input
-                type="file"
-                ref={fileInputRef}
-                onChange={handleFileChange}
-                accept="image/*"
-                style={{ display: 'none' }}
-              />
+              </Form.Field>
               <EditIc
                 width={36}
                 heigth={36}
@@ -196,7 +182,7 @@ export default function OwnerInfoUpdate({
             </Form.Field>
           </Form.Fieldset>
         </div>
-        <button>데이터 확인</button>
+
         <div className={classNames(styles['modal-owner-content-buttongroup'])}>
           <MainButton
             buttonStyle="outline"

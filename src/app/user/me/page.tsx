@@ -6,8 +6,10 @@ import ListCardItem from '@/components/ListCardItem/ListCardItem'
 import ApplicantInfoUpdate from '@/components/Modal/UpdateInfo/Applicant/ApplicantInfoUpdate'
 import CompleteInfoUpdate from '@/components/Modal/UpdateInfo/Complete/CompleteInfoUpdate'
 import OwnerInfoUpdate from '@/components/Modal/UpdateInfo/Owner/OwnerInfoUpdate'
+import UpdateUserPassword from '@/components/Modal/UpdateInfo/UpdateUserPassword/UpdateUserPassword'
 import { getScrapList } from '@/lib/api/getScrapList'
 import { patchMyInfo } from '@/lib/api/patchMyInfo'
+import { updateUserPassword } from '@/lib/api/updateUserPassword'
 import { uploadImage } from '@/lib/api/uploadImageApi'
 import {
   MY_CONTENT_MENUS,
@@ -55,10 +57,10 @@ export default function MyPage() {
 
   useEffect(() => {
     const role = useUserStore.getState().userRole
-    if (role) {
-      setUserRole(role)
+    if (role === undefined) {
+      router.push('/user/sign-in')
     } else {
-      return router.push('/user/sign-in')
+      setUserRole(role)
     }
   }, [router])
 
@@ -92,10 +94,10 @@ export default function MyPage() {
   )
 
   const [userInfoModal, setUserInfoModal] = useState<boolean>(false)
-  // const [userPwChangeModal, setUserPwChangeModal] = useState<boolean>(false)
+  const [userPwChangeModal, setUserPwChangeModal] = useState<boolean>(false)
   const [completeModal, setCompleteModal] = useState<boolean>(false)
   const [completeState, setCompleteState] = useState<{
-    name: string
+    name: '내 정보 수정' | '비밀번호 변경' | ''
     status: boolean
   }>({ name: '', status: false })
 
@@ -124,12 +126,16 @@ export default function MyPage() {
 
   const handleInfoChange = async (data: FieldValues) => {
     let responseUploadImage: string = ''
-    const file = data.imageUrl[0]
-    const formData = new FormData()
-    formData.append('image', file, file.name)
+    if (String(data.imageUrl).startsWith('http')) {
+      responseUploadImage = data.imageUrl
+    } else {
+      const file = data.imageUrl[0]
+      const formData = new FormData()
+      formData.append('image', file, file.name)
 
-    const response = await uploadImage(formData)
-    if (response) responseUploadImage = response.data.url
+      const response = await uploadImage(formData)
+      if (response) responseUploadImage = response.data.url
+    }
 
     const updatedData: UpdateUserValues = {
       location: data.location || user?.location,
@@ -148,6 +154,19 @@ export default function MyPage() {
     setCompleteState({
       name: '내 정보 수정',
       status: Boolean(res),
+    })
+  }
+
+  const handleChangePassword = async (data: FieldValues) => {
+    const response = await updateUserPassword({
+      newPassword: data.newPassword,
+      currentPassword: data.currentPassword,
+    })
+
+    setCompleteModal(true)
+    setCompleteState({
+      name: '비밀번호 변경',
+      status: Boolean(response),
     })
   }
 
@@ -190,11 +209,19 @@ export default function MyPage() {
           initialValues={userInfoData.OWNER}
         />
       )}
+      <UpdateUserPassword
+        isOpen={userPwChangeModal}
+        onRequestClose={() => setUserPwChangeModal(false)}
+        onConfirm={handleChangePassword}
+      />
       <CompleteInfoUpdate
         isOpen={completeModal}
         onRequestClose={() => {
           setCompleteModal(false)
-          if (completeState) setUserInfoModal(false)
+          if (completeState.status) {
+            setUserInfoModal(false)
+            setUserPwChangeModal(false)
+          }
         }}
         state={completeState}
       />
@@ -217,7 +244,7 @@ export default function MyPage() {
               </MainButton>
               <MainButton
                 buttonStyle={'outline'}
-                // onClick={() => setUserPwChangeModal(true)}
+                onClick={() => setUserPwChangeModal(true)}
               >
                 비밀번호 변경
               </MainButton>
