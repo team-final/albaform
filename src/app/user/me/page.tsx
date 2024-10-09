@@ -2,6 +2,7 @@
 
 import MainButton from '@/components/Button/MainButton/MainButton'
 import Dropdown from '@/components/Dropdown/Dropdown'
+import EmptyContent from '@/components/EmptyContent/EmptyContent'
 import ListCardItem from '@/components/ListCardItem/ListCardItem'
 import ApplicantInfoUpdate from '@/components/Modal/UpdateInfo/Applicant/ApplicantInfoUpdate'
 import CompleteInfoUpdate from '@/components/Modal/UpdateInfo/Complete/CompleteInfoUpdate'
@@ -241,7 +242,7 @@ export default function MyPage() {
               </MainButton>
             </div>
           </div>
-          {user?.role === 'APPLICANT' && (
+          {user?.role === 'APPLICANT' ? (
             <div className={styles.content}>
               <div className={styles.conditions}>
                 <div className={styles['tab-menu']}>
@@ -316,18 +317,24 @@ export default function MyPage() {
               </div>
 
               <div className={styles['carditem-container']}>
-                {data?.pages.map((page, i) =>
-                  page.data.map((item: ListItem) => (
-                    <ListCardItem
-                      key={`${item.id}-${i}`}
-                      {...item}
-                      isRecruiting={isRecruiting.value}
-                      isPublic={isPublic.value}
-                    />
-                  )),
+                {data?.pages && data?.pages[0].data.length === 0 ? (
+                  <EmptyContent type={'bookmark'} />
+                ) : (
+                  data?.pages.map((page, i) =>
+                    page.data.map((item: ListItem) => (
+                      <ListCardItem
+                        key={`${item.id}-${i}`}
+                        {...item}
+                        isRecruiting={isRecruiting.value}
+                        isPublic={isPublic.value}
+                      />
+                    )),
+                  )
                 )}
               </div>
             </div>
+          ) : (
+            <EmptyContent type={'prepare'} />
           )}
         </div>
       </div>
