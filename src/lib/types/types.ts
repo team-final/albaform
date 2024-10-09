@@ -110,3 +110,31 @@ export interface FormDetailsProps {
   phoneNumber?: string
   storePhoneNumber?: string
 }
+
+export type MyContentMenuType = 'posts' | 'comments' | 'scrap'
+export interface MyContentMenu {
+  value: MyContentMenuType
+  label: string
+}
+
+export type ScrapListSortConditionType =
+  | 'mostRecent'
+  | 'highestWage'
+  | 'mostApplied'
+  | 'mostScrapped'
+export interface ScrapListSortCondition {
+  value: ScrapListSortConditionType
+  label: string
+}
+
+export type RecrutingSortConditionType = null | boolean
+export interface RecrutingSortCondition {
+  value: RecrutingSortConditionType
+  label: string
+}
+
+export type PublicSortConditionType = boolean
+export interface PublicSortCondition {
+  value: PublicSortConditionType
+  label: string
+}

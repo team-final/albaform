@@ -1,4 +1,168 @@
+@use 'src/styles/_variables' as var;
+@use 'src/styles/_color' as color;
+@use 'src/styles/_font' as font;
+@use 'src/styles/_media' as media;
+
+.container {
+  padding: 0 120px;
+
+  @include media.tablet {
+    padding: 0 72px;
+  }
+
+  @include media.mobile {
+    padding: 0 24px;
+  }
+}
+
+.inner {
+  margin: 0 auto;
+  width: 100%;
+  max-width: var.$max_width_lg;
+  height: calc(100vh - var.$root_header_height_lg);
+
+  @include media.tablet {
+    height: calc(100vh - var.$root_header_height_md);
+  }
+
+  @include media.mobile {
+    height: calc(100vh - var.$root_header_height_sm);
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32px 0;
+}
+
+.title {
+  @include font.Style(3xl, 600);
+
+  color: color.$Black-500;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+
+  & button {
+    min-width: 180px;
+    white-space: nowrap;
+  }
+}
+
+.content {
+  position: relative;
+}
+
+.conditions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+}
+
+.tab-menu {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  padding: 6px;
+  gap: 10px;
+  background-color: color.$Background-200;
+
+  & button {
+    min-width: 130px;
+    min-height: 38px;
+    background-color: transparent;
+    color: color.$Grayscale-400;
+
+    @include font.Style(lg, 500);
+
+    transition: all 0.16s;
+
+    &[class~='active'] {
+      box-shadow: 4px 4px 10px 0 rgb(226 226 226 / 20%);
+      background-color: color.$Grayscale-50;
+      color: color.$Black-400;
+    }
+  }
+}
+
+.list-page-selectbar {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  & select {
+    cursor: pointer;
+  }
+}
+
+.dropdown-condition {
+  min-width: 120px;
+
+  & button[class*='trigger'] {
+    padding: 6px 16px;
+    padding-right: 36px;
+    min-height: 32px;
+    border: none;
+    background-color: transparent;
+    background-image: url('/icons/ic-chevron-thin-down.svg');
+    background-position: right 6px center;
+    background-size: 24px;
+    color: color.$Black-300;
+
+    @include font.Style(lg, 600);
+
+    &:not(:last-child) {
+      border-color: color.$Grayscale-100;
+      background-image: url('/icons/ic-chevron-thin-up.svg');
+    }
+  }
+
+  & div[class*='menu'] {
+    left: auto;
+    right: 0;
+    width: fit-content;
+    min-width: 100%;
+    max-width: none;
+  }
+
+  & button[class*='item'] {
+    padding: 12px 28px;
+    min-height: 32px;
+
+    @include font.Style(lg, 600);
+
+    white-space: nowrap;
+
+    &.active {
+      background-color: color.$Primary-Orange-50;
+      color: color.$Primary-Orange-300;
+    }
+  }
+}
+
 .carditem-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  padding: 24px;
+  gap: 48px 24px;
+}
+
+.goto-top-button {
+  position: fixed;
+  left: 50%;
+  bottom: 32px;
+  z-index: 16;
+  transform: translateX(-50%);
+  cursor: pointer;
 }

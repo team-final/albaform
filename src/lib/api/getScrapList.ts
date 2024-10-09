@@ -1,3 +1,4 @@
+import { ScrapListSortConditionType } from '../types/types'
 import authAxios from './authAxios'
 
 export interface GetScrapListProps {
@@ -5,6 +6,7 @@ export interface GetScrapListProps {
   cursor?: number | null
   isRecruiting?: boolean | null
   isPublic: boolean
+  orderBy?: ScrapListSortConditionType
 }
 
 export const getScrapList = async ({
@@ -12,6 +14,7 @@ export const getScrapList = async ({
   cursor,
   isPublic,
   isRecruiting = true,
+  orderBy = 'mostRecent',
 }: GetScrapListProps) => {
   try {
     const response = await authAxios.get(`users/me/scrap`, {
@@ -20,6 +23,7 @@ export const getScrapList = async ({
         cursor,
         isPublic,
         isRecruiting,
+        orderBy,
       },
     })
     return response.data

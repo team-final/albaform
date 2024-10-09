@@ -1,17 +1,31 @@
 'use client'
 
 import MainButton from '@/components/Button/MainButton/MainButton'
+import Dropdown from '@/components/Dropdown/Dropdown'
 import ListCardItem from '@/components/ListCardItem/ListCardItem'
+import OwnerInfoUpdate from '@/components/Modal/UpdateInfo/Owner/OwnerInfoUpdate'
 import { getScrapList } from '@/lib/api/getScrapList'
+import {
+  MY_CONTENT_MENUS,
+  PUBLIC_SORT_CONDITION,
+  RECRUTING_SORT_CONDITION,
+  SCRAP_LIST_SORT_CONDITION,
+} from '@/lib/data/constants'
 import { useUserStore } from '@/lib/stores/userStore'
+import {
+  MyContentMenuType,
+  PublicSortCondition,
+  RecrutingSortCondition,
+  ScrapListSortCondition,
+} from '@/lib/types/types'
+import { UserRole } from '@/lib/types/userTypes'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { FieldValues } from 'react-hook-form'
 
-import ScrapLayout from './layout'
-import Styles from './page.module.scss'
-import GotoTopButton from '/public/icons/ic-goto-top.png'
+import styles from './page.module.scss'
 
 interface ListItem {
   id: number
@@ -33,25 +47,42 @@ interface ServerResponse {
 
 export default function MyPage() {
   const router = useRouter()
-  const userRole = useUserStore.getState().userRole
-  useEffect(() => {
-    if (userRole === null || userRole === undefined) {
-      router.push('/user/sign-in')
-    }
-  }, [userRole, router])
+  const [userRole, setUserRole] = useState<UserRole | null>(null)
+  const { user } = useUserStore()
 
-  const [isRecruiting, setIsRecruiting] = useState<boolean | null>(null)
-  const [isPublic, setIsPublic] = useState<boolean>(true)
+  useEffect(() => {
+    const role = useUserStore.getState().userRole
+    if (role === null) {
+      router.push('/user/sign-in')
+    } else {
+      setUserRole(role)
+    }
+  }, [router])
+
+  const [tabMenu, setTabMenu] = useState<MyContentMenuType>('scrap')
+  const [isRecruiting, setIsRecruiting] = useState<RecrutingSortCondition>(
+    RECRUTING_SORT_CONDITION[0],
+  )
+  const [isPublic, setIsPublic] = useState<PublicSortCondition>(
+    PUBLIC_SORT_CONDITION[0],
+  )
+  const [orderBy, setOrderBy] = useState<ScrapListSortCondition>(
+    SCRAP_LIST_SORT_CONDITION[0],
+  )
+
+  const [userInfoModal, setUserInfoModal] = useState<boolean>(false)
+  const [userPwChangeModal, setUserPwChangeModal] = useState<boolean>(false)
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
-      queryKey: ['forms', isRecruiting, isPublic],
+      queryKey: ['forms', isRecruiting, isPublic, orderBy],
       queryFn: ({ pageParam = undefined }) =>
         getScrapList({
-          limit: 18,
+          limit: 6,
           cursor: pageParam as number | undefined,
-          isRecruiting,
-          isPublic,
+          isRecruiting: isRecruiting.value,
+          isPublic: isPublic.value,
+          orderBy: orderBy.value,
         }),
       getNextPageParam: (lastPage: ServerResponse) =>
         lastPage.nextCursor ?? undefined,
@@ -63,6 +94,10 @@ export default function MyPage() {
       top: 0,
       behavior: 'auto',
     })
+  }
+
+  const handleInfoChange = (data: FieldValues) => {
+    console.log(user, data)
   }
 
   useEffect(() => {
@@ -82,65 +117,170 @@ export default function MyPage() {
     }
   }, [hasNextPage, isFetchingNextPage, fetchNextPage])
 
-  if (userRole === null || userRole === undefined) {
+  if (!userRole) {
     return null
   }
 
   return (
-    <ScrapLayout>
+    <>
       <Image
-        src={GotoTopButton}
+        src="/icons/ic-goto-top.png"
         onClick={handleGoToTop}
         alt={'goto-top'}
         width={40}
         height={50}
-        className={Styles['goto-top-button']}
+        priority
+        className={styles['goto-top-button']}
       />
-      <div className={Styles['list-page-container']}>
-        <h1>마이페이지</h1>
-        <div>
-          <MainButton>내 정보 수정</MainButton>
-          <MainButton buttonStyle={'outline'}>비밀번호 변경</MainButton>
-        </div>
-        {userRole === 'APPLICANT' ? (
-          <div>
-            {' '}
-            <div className={Styles['list-page-selectbar']}>
-              <select
-                value={isRecruiting === null ? '' : isRecruiting.toString()}
-                onChange={(e) =>
-                  setIsRecruiting(
-                    e.target.value === '' ? null : e.target.value === 'true',
-                  )
-                }
+      <div className={styles.container}>
+        <div className={styles.inner}>
+          <div className={styles.header}>
+            <h1 className={styles.title}>마이페이지</h1>
+            <div className={styles.actions}>
+              <MainButton onClick={() => setUserInfoModal(true)}>
+                내 정보 수정
+              </MainButton>
+              <MainButton
+                buttonStyle={'outline'}
+                onClick={() => setUserPwChangeModal(true)}
               >
-                <option value="">모두</option>
-                <option value="true">모집 중</option>
-                <option value="false">모집 완료</option>
-              </select>
-              <select
-                value={isPublic.toString()}
-                onChange={(e) => setIsPublic(e.target.value === 'true')}
-              >
-                <option value="true">공개</option>
-                <option value="false">비공개</option>
-              </select>
-            </div>
-            <div className={Styles['carditem-container']}>
-              {data?.pages.map((page, i) =>
-                page.data.map((item: ListItem) => (
-                  <ListCardItem
-                    key={`${item.id}-${i}`}
-                    {...item}
-                    isRecruiting={isRecruiting}
-                    isPublic={isPublic}
-                  />
-                )),
-              )}
+                비밀번호 변경
+              </MainButton>
             </div>
           </div>
-        ) : null}
+          {userRole === 'APPLICANT' && (
+            <div className={styles.content}>
+              <div className={styles.conditions}>
+                <div className={styles['tab-menu']}>
+                  {MY_CONTENT_MENUS.map(({ value, label }) => (
+                    <button
+                      type={'button'}
+                      key={`sort_condition_${value}`}
+                      className={value === tabMenu ? 'active' : ''}
+                      onClick={() => {
+                        setTabMenu(value)
+                      }}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+
+                <div className={styles['list-page-selectbar']}>
+                  <Dropdown className={styles['dropdown-condition']}>
+                    <Dropdown.Trigger>{isRecruiting.label}</Dropdown.Trigger>
+                    <Dropdown.Menu>
+                      {RECRUTING_SORT_CONDITION.map((item) => (
+                        <Dropdown.Item
+                          key={`sort_condition_${item.value}`}
+                          className={
+                            item.value === isRecruiting.value
+                              ? styles.active
+                              : ''
+                          }
+                          onClick={() => setIsRecruiting(item)}
+                        >
+                          {item.label}
+                        </Dropdown.Item>
+                      ))}
+                    </Dropdown.Menu>
+                  </Dropdown>
+
+                  <Dropdown className={styles['dropdown-condition']}>
+                    <Dropdown.Trigger>{isPublic.label}</Dropdown.Trigger>
+                    <Dropdown.Menu>
+                      {PUBLIC_SORT_CONDITION.map((item) => (
+                        <Dropdown.Item
+                          key={`sort_condition_${item.value}`}
+                          className={
+                            item.value === isPublic.value ? styles.active : ''
+                          }
+                          onClick={() => setIsPublic(item)}
+                        >
+                          {item.label}
+                        </Dropdown.Item>
+                      ))}
+                    </Dropdown.Menu>
+                  </Dropdown>
+
+                  <Dropdown className={styles['dropdown-condition']}>
+                    <Dropdown.Trigger>{orderBy.label}</Dropdown.Trigger>
+                    <Dropdown.Menu>
+                      {SCRAP_LIST_SORT_CONDITION.map((item) => (
+                        <Dropdown.Item
+                          key={`sort_condition_${item.value}`}
+                          className={
+                            item.value === orderBy.value ? styles.active : ''
+                          }
+                          onClick={() => setOrderBy(item)}
+                        >
+                          {item.label}
+                        </Dropdown.Item>
+                      ))}
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </div>
+              </div>
+
+              <div className={styles['carditem-container']}>
+                {data?.pages.map((page, i) =>
+                  page.data.map((item: ListItem) => (
+                    <ListCardItem
+                      key={`${item.id}-${i}`}
+                      {...item}
+                      isRecruiting={isRecruiting.value}
+                      isPublic={isPublic.value}
+                    />
+                  )),
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+        {userRole === 'APPLICANT' ? (
+          <>
+            <OwnerInfoUpdate
+              isOpen={userInfoModal}
+              onRequestClose={() => setUserInfoModal(false)}
+              onConfirm={handleInfoChange}
+              initialValues={{
+                nickname: 'string',
+                storeName: 'string',
+                storePhoneNumber: 'string',
+                phoneNumber: 'string',
+                location: 'string',
+                imageUrl: 'string',
+              }}
+            />
+            <OwnerInfoUpdate
+              isOpen={userPwChangeModal}
+              onRequestClose={() => setUserPwChangeModal(false)}
+              onConfirm={() => console.log(userRole, 'userPwChangeModal')}
+            />
+          </>
+        ) : (
+          <>
+            <OwnerInfoUpdate
+              isOpen={userInfoModal}
+              onRequestClose={() => setUserInfoModal(false)}
+              onConfirm={handleInfoChange}
+              initialValues={{
+                nickname: 'string',
+                storeName: 'string',
+                storePhoneNumber: 'string',
+                phoneNumber: 'string',
+                location: 'string',
+                imageUrl: '',
+              }}
+            />
+            <OwnerInfoUpdate
+              isOpen={userPwChangeModal}
+              onRequestClose={() => setUserPwChangeModal(false)}
+              onConfirm={() => console.log(userRole, 'userPwChangeModal')}
+            />
+          </>
+        )}
       </div>
-    </ScrapLayout>
+    </>
   )
 }
