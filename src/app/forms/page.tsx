@@ -3,7 +3,6 @@
 import SearchInput from '@/components/Input/SearchInput/SearchInput'
 import ListCardItem from '@/components/ListCardItem/ListCardItem'
 import { GetFormListProps, getFormList } from '@/lib/api/getFormList'
-import { useUserStore } from '@/lib/stores/userStore'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
@@ -30,9 +29,7 @@ interface ServerResponse {
   nextCursor: number | null
 }
 
-export default function FormsPage() {
-  const user = useUserStore.getState().user
-  console.log(user)
+export default function Page() {
   const [orderBy, setOrderBy] =
     useState<GetFormListProps['orderBy']>('mostRecent')
   const [isRecruiting, setIsRecruiting] = useState<boolean | null>(null)
