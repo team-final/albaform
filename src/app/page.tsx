@@ -3,6 +3,7 @@
  * 랜딩페이지 퍼블리싱
  */
 import Image from 'next/image'
+import Link from 'next/link'
 
 import styles from './page.module.scss'
 import Image02lg from '/public/images/landing/lg/02.png'
@@ -39,7 +40,9 @@ export default function Home() {
       <section className={styles.visual}>
         <LogoText />
         <h1>한 곳에서 관리하는 알바 구인 플랫폼</h1>
-        <button className={styles.button}>알바폼 시작하기</button>
+        <Link href={'/forms'} className={styles.button}>
+          알바폼 시작하기
+        </Link>
         <div>
           <Image
             fill
@@ -86,7 +89,9 @@ export default function Home() {
             <br />
             알바 구인 플랫폼
           </h1>
-          <button className={styles.button}>알바폼 시작하기</button>
+          <Link href={'/forms'} className={styles.button}>
+            알바폼 시작하기
+          </Link>
         </div>
       </section>
     </main>

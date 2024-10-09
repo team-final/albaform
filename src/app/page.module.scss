@@ -81,8 +81,16 @@
   min-height: 32px;
   padding: 24px 36px;
   background-color: color.$Primary-Blue-300;
-  color: color.$Grayscale-50;
   cursor: pointer;
+  color: color.$Grayscale-50;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  &:visited {
+    color: color.$Grayscale-50;
+  }
 
   @include font.Style(2xl, 700);
 
