@@ -640,7 +640,7 @@ function SubmitButton({
 }: SubmitButtonProps) {
   const { formId, isValid, isSubmitting } = useFormContext()
   const { formData } = useEditingFormStore()
-  const [isComplete, setIsComplete] = useState<boolean>(false)
+  const [isComplete, setIsComplete] = useState<boolean>(true)
 
   useEffect(() => {
     if (formId === 'createForm') {
@@ -672,7 +672,7 @@ function SubmitButton({
           )
         }
 
-        return checkArr.every((item) => item === false)
+        return checkArr.every((item) => item === !true)
       })
     }
   }, [formId, formData])
