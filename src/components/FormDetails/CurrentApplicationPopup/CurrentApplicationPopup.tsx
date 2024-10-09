@@ -48,10 +48,10 @@ export default function CurrentApplicationPopup({
           height={36}
           className={styles['popup-image']}
         />
-        <span className={styles['poopup-current-application']}>
+        <span className={styles['popup-current-application']}>
           현재{' '}
           <span
-            className={`${styles['poopup-current-application']} ${styles.count}`}
+            className={`${styles['popup-current-application']} ${styles.count}`}
           >
             {formDetails?.applyCount}
           </span>
