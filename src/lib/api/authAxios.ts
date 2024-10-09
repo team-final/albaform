@@ -10,7 +10,7 @@ const authAxios: AxiosInstance = axios.create({
 
 authAxios.interceptors.request.use(
   (config) => {
-    const accessToken = Cookies.get('token')
+    const accessToken = Cookies.get('accessToken')
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`
     }
@@ -38,7 +38,7 @@ authAxios.interceptors.response.use(
           refreshToken,
         })
         const accessToken = response.data.accessToken
-        Cookies.set('token', accessToken)
+        Cookies.set('accessToken', accessToken)
         return authAxios(originalRequest)
       } catch (refreshError) {
         console.error('토큰 갱신 실패:', refreshError)
