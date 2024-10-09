@@ -1,0 +1,48 @@
+@use 'src/styles/_color' as color;
+@use 'src/styles/_font' as font;
+@use 'src/styles/_media' as media;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(0 0 0 / 60%);
+
+  @include media.mobile {
+    align-items: flex-end;
+    bottom: 0;
+  }
+}
+
+.modal {
+  position: relative;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  align-items: stretch;
+  border-radius: 24px;
+  width: 100%;
+  max-width: 520px;
+  min-height: 384px;
+  padding: 32px 40px;
+  gap: 24px;
+  box-shadow: 6px 6px 16px 0 #7d7d7d40;
+  background-color: color.$Grayscale-50;
+  text-align: center;
+}
+
+.content {
+  padding: 32px;
+
+  & p {
+    @include font.Style(xl, 500);
+  }
+}
+
+.buttongroup {
+  display: flex;
+  flex-direction: column;
+}
