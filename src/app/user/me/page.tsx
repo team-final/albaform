@@ -4,9 +4,11 @@ import MainButton from '@/components/Button/MainButton/MainButton'
 import Dropdown from '@/components/Dropdown/Dropdown'
 import ListCardItem from '@/components/ListCardItem/ListCardItem'
 import ApplicantInfoUpdate from '@/components/Modal/UpdateInfo/Applicant/ApplicantInfoUpdate'
+import CompleteInfoUpdate from '@/components/Modal/UpdateInfo/Complete/CompleteInfoUpdate'
 import OwnerInfoUpdate from '@/components/Modal/UpdateInfo/Owner/OwnerInfoUpdate'
 import { getScrapList } from '@/lib/api/getScrapList'
 import { patchMyInfo } from '@/lib/api/patchMyInfo'
+import { uploadImage } from '@/lib/api/uploadImageApi'
 import {
   MY_CONTENT_MENUS,
   PUBLIC_SORT_CONDITION,
@@ -26,7 +28,6 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { FieldValues } from 'react-hook-form'
-import { useMutation } from 'react-query'
 
 import styles from './page.module.scss'
 
@@ -51,7 +52,17 @@ interface ServerResponse {
 export default function MyPage() {
   const router = useRouter()
   const [userRole, setUserRole] = useState<UserRole | undefined>(undefined)
-  const { user } = useUserStore()
+
+  useEffect(() => {
+    const role = useUserStore.getState().userRole
+    if (role) {
+      setUserRole(role)
+    } else {
+      return router.push('/user/sign-in')
+    }
+  }, [router])
+
+  const { user, setUser } = useUserStore()
   const userInfoData = {
     OWNER: {
       imageUrl: user?.imageUrl ?? '',
@@ -69,15 +80,6 @@ export default function MyPage() {
     },
   }
 
-  useEffect(() => {
-    const role = useUserStore.getState().userRole
-    if (role === undefined) {
-      router.push('/user/sign-in')
-    } else {
-      setUserRole(role)
-    }
-  }, [router])
-
   const [tabMenu, setTabMenu] = useState<MyContentMenuType>('scrap')
   const [isRecruiting, setIsRecruiting] = useState<RecrutingSortCondition>(
     RECRUTING_SORT_CONDITION[0],
@@ -90,7 +92,12 @@ export default function MyPage() {
   )
 
   const [userInfoModal, setUserInfoModal] = useState<boolean>(false)
-  const [userPwChangeModal, setUserPwChangeModal] = useState<boolean>(false)
+  // const [userPwChangeModal, setUserPwChangeModal] = useState<boolean>(false)
+  const [completeModal, setCompleteModal] = useState<boolean>(false)
+  const [completeState, setCompleteState] = useState<{
+    name: string
+    status: boolean
+  }>({ name: '', status: false })
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
@@ -115,30 +122,33 @@ export default function MyPage() {
     })
   }
 
-  const mutation = useMutation({
-    mutationFn: patchMyInfo,
-    onSuccess: (data) => {
-      console.log('업데이트 성공:', data)
-      // 성공 후 추가 작업 (예: 모달 닫기, 사용자 데이터 리패칭 등)
-    },
-    onError: (error) => {
-      console.error('업데이트 실패:', error)
-      // 에러 처리 (예: 에러 메시지 표시)
-    },
-  })
+  const handleInfoChange = async (data: FieldValues) => {
+    let responseUploadImage: string = ''
+    const file = data.imageUrl[0]
+    const formData = new FormData()
+    formData.append('image', file, file.name)
 
-  const handleInfoChange = (data: FieldValues) => {
+    const response = await uploadImage(formData)
+    if (response) responseUploadImage = response.data.url
+
     const updatedData: UpdateUserValues = {
       location: data.location || user?.location,
       phoneNumber: data.phoneNumber || user?.phoneNumber,
       storePhoneNumber: data.storePhoneNumber || user?.storePhoneNumber,
       storeName: data.storeName || user?.storeName,
-      imageUrl: data.imageUrl || user?.imageUrl,
+      imageUrl: responseUploadImage || user?.imageUrl || '',
       nickname: data.nickname || user?.nickname,
       name: data.name || user?.name,
     }
 
-    mutation.mutate({ data: updatedData })
+    const res = await patchMyInfo(updatedData)
+    if (res) setUser(res)
+
+    setCompleteModal(true)
+    setCompleteState({
+      name: '내 정보 수정',
+      status: Boolean(res),
+    })
   }
 
   useEffect(() => {
@@ -180,6 +190,14 @@ export default function MyPage() {
           initialValues={userInfoData.OWNER}
         />
       )}
+      <CompleteInfoUpdate
+        isOpen={completeModal}
+        onRequestClose={() => {
+          setCompleteModal(false)
+          if (completeState) setUserInfoModal(false)
+        }}
+        state={completeState}
+      />
       <Image
         src="/icons/ic-goto-top.png"
         onClick={handleGoToTop}
@@ -199,7 +217,7 @@ export default function MyPage() {
               </MainButton>
               <MainButton
                 buttonStyle={'outline'}
-                onClick={() => setUserPwChangeModal(true)}
+                // onClick={() => setUserPwChangeModal(true)}
               >
                 비밀번호 변경
               </MainButton>
@@ -294,49 +312,6 @@ export default function MyPage() {
             </div>
           )}
         </div>
-        {userRole === 'APPLICANT' ? (
-          <>
-            <OwnerInfoUpdate
-              isOpen={userInfoModal}
-              onRequestClose={() => setUserInfoModal(false)}
-              onConfirm={handleInfoChange}
-              initialValues={{
-                nickname: 'string',
-                storeName: 'string',
-                storePhoneNumber: 'string',
-                phoneNumber: 'string',
-                location: 'string',
-                imageUrl: 'string',
-              }}
-            />
-            <OwnerInfoUpdate
-              isOpen={userPwChangeModal}
-              onRequestClose={() => setUserPwChangeModal(false)}
-              onConfirm={() => console.log(userRole, 'userPwChangeModal')}
-            />
-          </>
-        ) : (
-          <>
-            <OwnerInfoUpdate
-              isOpen={userInfoModal}
-              onRequestClose={() => setUserInfoModal(false)}
-              onConfirm={handleInfoChange}
-              initialValues={{
-                nickname: 'string',
-                storeName: 'string',
-                storePhoneNumber: 'string',
-                phoneNumber: 'string',
-                location: 'string',
-                imageUrl: '',
-              }}
-            />
-            <OwnerInfoUpdate
-              isOpen={userPwChangeModal}
-              onRequestClose={() => setUserPwChangeModal(false)}
-              onConfirm={() => console.log(userRole, 'userPwChangeModal')}
-            />
-          </>
-        )}
       </div>
     </>
   )

@@ -2,7 +2,7 @@ import MainButton from '@/components/Button/MainButton/MainButton'
 import Form from '@/components/Form/Form'
 import classNames from 'classnames'
 import Image from 'next/image'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FieldValues } from 'react-hook-form'
 import ReactModal from 'react-modal'
 
@@ -33,7 +33,6 @@ export default function ApplicantInfoUpdate({
   const [previewImage, setPreviewImage] = useState<string | null>(
     initialValues?.imageUrl || null,
   )
-  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handleImageChange = (file: File) => {
     const reader = new FileReader()
@@ -41,10 +40,6 @@ export default function ApplicantInfoUpdate({
       setPreviewImage(reader.result as string)
     }
     reader.readAsDataURL(file)
-  }
-
-  const handleImageClick = () => {
-    fileInputRef.current?.click()
   }
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,8 +56,6 @@ export default function ApplicantInfoUpdate({
       setPreviewImage(null)
     }
   }, [isOpen, initialValues])
-
-  console.log(initialValues?.imageUrl)
 
   return (
     <ReactModal
@@ -82,10 +75,12 @@ export default function ApplicantInfoUpdate({
         <Form.Title>내 정보 수정</Form.Title>
         <Form.Fieldset>
           <div className={styles['image-preview-container']}>
-            <div
-              className={styles['image-upload-area']}
-              onClick={handleImageClick}
-            >
+            <Form.Field className={styles['image-upload-area']}>
+              <Form.Input
+                type={'file'}
+                name={'imageUrl'}
+                onChange={handleFileChange}
+              />
               {previewImage ? (
                 <Image
                   src={previewImage || '/icons/ic-user-profile-circle.svg'}
@@ -109,14 +104,7 @@ export default function ApplicantInfoUpdate({
                   className={styles['image-preview']}
                 />
               )}
-            </div>
-            <input
-              type="file"
-              ref={fileInputRef}
-              onChange={handleFileChange}
-              accept="image/*"
-              style={{ display: 'none' }}
-            />
+            </Form.Field>
             <EditIc
               width={36}
               heigth={36}
@@ -164,13 +152,15 @@ export default function ApplicantInfoUpdate({
           className={classNames(styles['modal-applicant-content-buttongroup'])}
         >
           <MainButton
-            buttonStyle="outline"
             type="button"
+            buttonStyle="outline"
+            color="gray"
             onClick={onRequestClose}
           >
             취소
           </MainButton>
-          <Form.SubmitButton buttonStyle="solid">수정하기</Form.SubmitButton>
+
+          <MainButton type="submit">수정하기</MainButton>
         </div>
       </Form>
     </ReactModal>

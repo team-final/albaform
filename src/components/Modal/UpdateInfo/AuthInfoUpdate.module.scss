@@ -70,6 +70,7 @@
 
       &-buttongroup {
         display: flex;
+        margin-top: 16px;
         gap: 12px;
       }
     }
@@ -87,6 +88,19 @@
   border-radius: 50%;
   overflow: hidden;
   background-color: color.$Background-200;
+
+  & input[type='file'] {
+    position: absolute;
+    z-index: 1;
+    left: 100%;
+    border: 0;
+    width: 0;
+    height: 0;
+    padding: 0;
+    min-width: auto;
+    min-height: auto;
+    font-size: 0;
+  }
 }
 
 .image-placeholder {
@@ -104,6 +118,7 @@
   align-self: center;
   justify-content: center;
   position: relative;
+  cursor: pointer;
 }
 
 .image-basic-edit {
