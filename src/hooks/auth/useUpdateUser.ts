@@ -8,7 +8,7 @@ import { AxiosError, AxiosResponse } from 'axios'
 
 export default function useUpdateUser() {
   const queryClient = useQueryClient()
-  const { setUser, setUserRole } = useUserStore()
+  const { setUser } = useUserStore()
 
   return useMutation({
     mutationFn: async ({
@@ -35,7 +35,6 @@ export default function useUpdateUser() {
     onSuccess: (user) => {
       queryClient.setQueryData(['user'], user)
       setUser(user)
-      setUserRole(user.role)
     },
     onError: (error: AxiosError) => {
       handleError(error, SAVE_ERROR_MESSAGE)

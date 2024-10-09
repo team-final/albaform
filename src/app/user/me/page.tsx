@@ -24,13 +24,12 @@ import {
   RecrutingSortCondition,
   ScrapListSortCondition,
 } from '@/lib/types/types'
-import { UpdateUserValues, UserRole } from '@/lib/types/userTypes'
+import { UpdateUserValues } from '@/lib/types/userTypes'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { FieldValues } from 'react-hook-form'
-import { useUserStore } from '@/lib/stores/userStore'
 
 import styles from './page.module.scss'
 
@@ -58,18 +57,8 @@ export default function MyPage() {
 
   if (user?.role === undefined) router.replace('/user/sign-in')
 
-  const [userRole, setUserRole] = useState<UserRole | undefined>(undefined)
+  const { setUser } = useUserStore()
 
-  useEffect(() => {
-    const role = useUserStore.getState().userRole
-    if (role === undefined) {
-      router.push('/user/sign-in')
-    } else {
-      setUserRole(role)
-    }
-  }, [router])
-
-  const { user, setUser } = useUserStore()
   const userInfoData = {
     OWNER: {
       imageUrl: user?.imageUrl ?? '',
@@ -100,6 +89,7 @@ export default function MyPage() {
 
   const [userInfoModal, setUserInfoModal] = useState<boolean>(false)
   const [userPwChangeModal, setUserPwChangeModal] = useState<boolean>(false)
+
   const [completeModal, setCompleteModal] = useState<boolean>(false)
   const [completeState, setCompleteState] = useState<{
     name: '내 정보 수정' | '비밀번호 변경' | ''
@@ -194,7 +184,7 @@ export default function MyPage() {
 
   return (
     <>
-      {userRole === 'APPLICANT' && (
+      {user?.role === 'APPLICANT' && (
         <ApplicantInfoUpdate
           isOpen={userInfoModal}
           onRequestClose={() => setUserInfoModal(false)}
@@ -202,7 +192,7 @@ export default function MyPage() {
           initialValues={userInfoData.APPLICANT}
         />
       )}
-      {userRole === 'OWNER' && (
+      {user?.role === 'OWNER' && (
         <OwnerInfoUpdate
           isOpen={userInfoModal}
           onRequestClose={() => setUserInfoModal(false)}
@@ -251,7 +241,7 @@ export default function MyPage() {
               </MainButton>
             </div>
           </div>
-          {userRole === 'APPLICANT' && (
+          {user?.role === 'APPLICANT' && (
             <div className={styles.content}>
               <div className={styles.conditions}>
                 <div className={styles['tab-menu']}>

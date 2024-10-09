@@ -11,7 +11,7 @@ import Cookies from 'js-cookie'
  * const { refetch } = useReloadUser()
  */
 export default function useReloadUser() {
-  const { user, setUser, setUserRole } = useUserStore()
+  const { user, setUser } = useUserStore()
   const accessToken = Cookies.get('accessToken')
   const { refetch } = useQuery<User | null, Error>({
     queryKey: ['user'],
@@ -22,7 +22,6 @@ export default function useReloadUser() {
       const response = await authAxios.get('/users/me')
       const { user: refetchedUser } = response.data
       setUser(refetchedUser)
-      setUserRole(refetchedUser.role)
       return refetchedUser
     },
     enabled: !user && !!accessToken,
