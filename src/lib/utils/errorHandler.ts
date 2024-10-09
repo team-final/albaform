@@ -1,4 +1,4 @@
-import { DEFAULT_ERROR_MESSAGE } from '@/lib/data/constants'
+import { DEFAULT_ERROR_MESSAGE } from '@/lib/data/messages'
 import { HttpStatus, HttpStatusType } from '@/lib/types/HttpTypes'
 import { CustomMessage } from '@/lib/types/types'
 import { AxiosError } from 'axios'

@@ -104,3 +104,18 @@ export const PUBLIC_SORT_CONDITION: PublicSortCondition[] = [
   { value: true, label: '공개' },
   { value: false, label: '비공개' },
 ]
+
+export const USER_ROLE_CONFIG = {
+  APPLICANT: {
+    title: '지원자',
+    myFormUrl: '/applications',
+  },
+  OWNER: {
+    title: '사장님',
+    myFormUrl: '/forms/created',
+  },
+  '': {
+    title: '',
+    myFormUrl: '/user/sign-in',
+  },
+}

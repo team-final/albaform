@@ -1,5 +1,5 @@
 import authAxios from '@/lib/api/authAxios'
-import { AUTH_USER_ERROR_MESSAGE } from '@/lib/data/constants'
+import { AUTH_USER_ERROR_MESSAGE } from '@/lib/data/messages'
 import { useUserStore } from '@/lib/stores/userStore'
 import { User } from '@/lib/types/userTypes'
 import handleError from '@/lib/utils/errorHandler'
