@@ -9,11 +9,12 @@ import TemporatyFormData from '../TemporatyFormData/TemporatyFormData'
 import styles from './FormCreateAsideActions.module.scss'
 
 export default function FormCreateAsideActions() {
-  const { user } = useUserStore()
+  const user = useUserStore.getState().user
   const { formData, setTemporaryFormData } = useEditingFormStore()
 
   const handleSubmit = () => {
-    if (user === null) return
+    if (user === undefined) return
+
     const { id } = user
 
     const data = {

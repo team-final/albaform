@@ -9,14 +9,27 @@ import FormRecruitmentContent from '@/components/FormCreate/FormRecruitmentConte
 import FormWorkingConditions from '@/components/FormCreate/FormWorkingConditions/FormWorkingConditions'
 import { createAlbaForm } from '@/lib/api/formCreate'
 import { useEditingFormStore } from '@/lib/stores/editingFormStore'
+import { useUserStore } from '@/lib/stores/userStore'
 import { EditingFormData } from '@/lib/types/formTypes'
 import classNames from 'classnames'
+import { useRouter } from 'next/navigation'
 import { FieldValues } from 'react-hook-form'
 
 import styles from './page.module.scss'
 
 export default function CreateFormPage() {
+  const user = useUserStore.getState().user
+  const router = useRouter()
   const { formData } = useEditingFormStore()
+
+  switch (user?.role) {
+    case undefined:
+      router.replace('/user/sign-in')
+      break
+    case 'APPLICANT':
+      router.back()
+      break
+  }
 
   const handleSubmit = async (data: EditingFormData | FieldValues) => {
     if (!data) return

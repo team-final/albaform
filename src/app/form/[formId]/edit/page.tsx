@@ -16,8 +16,24 @@ import { Params } from '@/lib/types/types'
 import classNames from 'classnames'
 import { useCallback, useEffect } from 'react'
 import { FieldValues } from 'react-hook-form'
+import { useUserStore } from '@/lib/stores/userStore'
+import { useRouter } from 'next/navigation'
 
 export default function EditFormPage({ params }: Params) {
+  const user = useUserStore.getState().user
+  const router = useRouter()
+
+  useEffect(() => {
+    switch (user?.role) {
+      case undefined:
+        router.replace('/user/sign-in')
+        break
+      case 'APPLICANT':
+        router.back()
+        break
+    }
+  }, [router, user])
+
   const { formId } = params
   const { data: formDetails } = useFormDetailsQuery(Number(formId))
   const { formData, setFormData } = useEditingFormStore()

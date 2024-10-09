@@ -15,10 +15,10 @@ import { useEffect } from 'react'
 import { FieldValues } from 'react-hook-form'
 
 export default function SignUpPage() {
+  const user = useUserStore.getState().user
   const router = useRouter()
   const createUser = useCreateUser()
   const signIn = useSignIn()
-  const { user } = useUserStore()
 
   const setDefaultUser = ({ email, password, role }: SignUpFormValues) => {
     const defaultNickname = generateUniqueNickname(role)
@@ -56,6 +56,11 @@ export default function SignUpPage() {
       router.push('/user/sign-up/complete')
     }
   }, [router, user])
+
+  if (user) {
+    router.back()
+    return null
+  }
 
   return (
     <article className={signInSignUpStyles.container}>

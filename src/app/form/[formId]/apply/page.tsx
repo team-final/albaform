@@ -3,8 +3,9 @@
 import MainButton from '@/components/Button/MainButton/MainButton'
 import Form from '@/components/Form/Form'
 import basicAxios from '@/lib/api/basicAxios'
-import { useParams } from 'next/navigation'
-import React, { useState } from 'react'
+import { useParams, useRouter } from 'next/navigation'
+import React, { useState, useEffect } from 'react'
+import { useUserStore } from '@/lib/stores/userStore'
 
 import styles from './page.module.scss'
 
@@ -22,6 +23,14 @@ const STORAGE_KEY = 'formData'
 
 export default function ApplyPage() {
   const { formId } = useParams()
+  const user = useUserStore.getState().user
+  const router = useRouter()
+
+  useEffect(() => {
+    if (user?.role === 'OWNER') {
+      router.back()
+    }
+  }, [router, user])
 
   const [formData, setFormData] = useState<FormData>({
     password: '',
@@ -34,7 +43,6 @@ export default function ApplyPage() {
   })
 
   const handleClick = () => {
-    alert('버튼 클릭~')
   }
 
   const handleResumeUpload = async (file: File) => {

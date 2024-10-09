@@ -11,7 +11,7 @@ import { FieldValues } from 'react-hook-form'
 import styles from './TemporatyFormData.module.scss'
 
 export default function TemporatyFormData() {
-  const { user } = useUserStore()
+  const user = useUserStore.getState().user
   const {
     setFormData,
     temporaryFormDatas,
@@ -61,7 +61,7 @@ export default function TemporatyFormData() {
   }
 
   useEffect(() => {
-    if (user === null) return
+    if (user === undefined) return
     const { id } = user
 
     const temporaryFormDatasById = temporaryFormDatas.filter(
