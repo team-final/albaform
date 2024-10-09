@@ -53,7 +53,7 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [hasModalBeenOpened, setHasModalBeenOpened] = useState<boolean>(false)
   const [isListApplicationsModalOpen, setIsListApplicationsModalOpen] =
-    useState<boolean>(true)
+    useState<boolean>(false)
 
   useEffect(() => {
     if (formDetails) {
@@ -156,6 +156,7 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
         <CurrentApplicationPopup
           formDetails={formDetails}
           isVisible={isPopupVisible}
+          modalOpen={() => setIsListApplicationsModalOpen(true)}
         />
         <ImageSlider formDetails={formDetails} noImageHeight={100} />
         {isModalOpen && (
@@ -255,6 +256,7 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
               userRole={userRole}
               isRecruitmentActive={isRecruitmentActive}
               formId={formId}
+              ownerId={formDetails?.ownerId}
             />
           </div>
         </div>

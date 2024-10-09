@@ -92,6 +92,7 @@ export default function ContactInfo({
             userRole={userRole}
             isRecruitmentActive={isRecruitmentActive}
             formId={formDetails?.id}
+            ownerId={formDetails?.ownerId}
           />
         )}
       </div>

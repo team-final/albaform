@@ -1,3 +1,4 @@
+import { useUserStore } from '@/lib/stores/userStore'
 import { CurrentApplicationProps } from '@/lib/types/formTypes'
 import Image from 'next/image'
 import { useState } from 'react'
@@ -7,15 +8,31 @@ import styles from './CurrentApplicationPopup.module.scss'
 export default function CurrentApplicationPopup({
   formDetails,
   isVisible,
+  modalOpen,
 }: {
   formDetails: CurrentApplicationProps
   isVisible: boolean
+  modalOpen: () => void
 }) {
+  const user = useUserStore.getState().user
   const [isClosing, setIsClosing] = useState<boolean>(false)
 
   const handlePopupCloseClick = () => {
     setIsClosing(true)
   }
+
+  const showApplications =
+    user?.id === formDetails?.ownerId ? (
+      <button
+        type={'button'}
+        onClick={modalOpen}
+        className={styles['show-applications']}
+      >
+        지원목록 보기
+      </button>
+    ) : (
+      false
+    )
 
   return (
     <div
@@ -40,6 +57,7 @@ export default function CurrentApplicationPopup({
           </span>
           명이 지원했어요!
         </span>
+        {showApplications}
       </div>
       <button
         className={styles['popup-close-button']}
