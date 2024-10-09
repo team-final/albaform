@@ -8,13 +8,16 @@
   flex-direction: row;
   justify-content: flex-start;
   gap: 24px;
+  color: color.$Grayscale-300;
 
   @include media.mobile {
     gap: 16px;
   }
 
-  & a {
-    color: color.$Grayscale-300;
+  & a,
+  div {
+    cursor: pointer;
+    color: inherit;
 
     @include font.Style(xl, 500);
 
@@ -32,6 +35,7 @@
 
     &.active {
       color: color.$Primary-Orange-300;
+      text-decoration: none;
 
       @include font.Style(xl, 700);
 

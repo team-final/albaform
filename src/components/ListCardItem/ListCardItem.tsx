@@ -17,7 +17,7 @@ interface ListItem {
   imageUrls: string[]
   applyCount: number
   scrapCount: number
-  isPublic: boolean
+  isPublic: boolean | null
   createdAt: string
   updatedAt: string
   isRecruiting: boolean | null
@@ -61,7 +61,7 @@ function ListCardItem({
 
   return (
     <div className={Styles['listcard-outcontainer']}>
-      {!isPublic ? (
+      {!isPublic && isPublic !== null ? (
         <div className={Styles['listcard-outcontainer-privateImg']}>
           <PrivateImg width={100} height={100} />
           <p className={Styles['listcard-outcontainer-privateImg-text']}>

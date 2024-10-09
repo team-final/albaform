@@ -68,11 +68,12 @@
       background-color: #3e3e3e99;
       border-radius: 16px;
       backdrop-filter: blur(3px);
-      pointer-events: none;
       z-index: 1;
 
       &-text {
         color: color.$Grayscale-50;
+
+        @include font.Style(xl, 600);
       }
     }
   }
