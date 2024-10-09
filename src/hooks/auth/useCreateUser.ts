@@ -1,5 +1,5 @@
 import basicAxios from '@/lib/api/basicAxios'
-import { SIGN_UP_ERROR_MESSAGE } from '@/lib/data/constants'
+import { SIGN_UP_ERROR_MESSAGE } from '@/lib/data/messages'
 import { AuthResponse, CreateUserValues, User } from '@/lib/types/userTypes'
 import handleError from '@/lib/utils/errorHandler'
 import { useMutation } from '@tanstack/react-query'

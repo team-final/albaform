@@ -1,5 +1,5 @@
 import basicAxios from '@/lib/api/basicAxios'
-import { SIGN_IN_ERROR_MESSAGE } from '@/lib/data/constants'
+import { SIGN_IN_ERROR_MESSAGE } from '@/lib/data/messages'
 import { useUserStore } from '@/lib/stores/userStore'
 import { AuthResponse, SignInValues, User } from '@/lib/types/userTypes'
 import handleError from '@/lib/utils/errorHandler'
