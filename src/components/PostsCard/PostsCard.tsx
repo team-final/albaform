@@ -18,7 +18,7 @@ interface PostsCardProps {
   recruitmentEndDate: string
   form: {
     owner: {
-      imageUrl: string[]
+      imageUrl: string
       storeName: string
       id: number
     }
