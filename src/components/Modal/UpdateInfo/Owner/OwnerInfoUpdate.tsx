@@ -37,9 +37,7 @@ export default function OwnerInfoUpdate({
   onConfirm,
   initialValues,
 }: ModalProps) {
-  const [previewImage, setPreviewImage] = useState<string | null>(
-    initialValues?.imageUrl || null,
-  )
+  const [previewImage, setPreviewImage] = useState<string | null>(null)
 
   const handleImageChange = (file: File) => {
     const reader = new FileReader()
@@ -58,7 +56,12 @@ export default function OwnerInfoUpdate({
 
   useEffect(() => {
     if (isOpen) {
-      setPreviewImage(initialValues?.imageUrl || null)
+      setPreviewImage(
+        initialValues?.imageUrl &&
+          !String(initialValues?.imageUrl).startsWith('string')
+          ? initialValues.imageUrl
+          : '/icons/ic-user-profile-circle.svg',
+      )
     } else {
       setPreviewImage(null)
     }
@@ -91,15 +94,7 @@ export default function OwnerInfoUpdate({
                 />
                 {previewImage ? (
                   <Image
-                    src={previewImage || '/icons/ic-user-profile-circle.svg'}
-                    alt="Profile Preview"
-                    className={styles['image-preview']}
-                    width={100}
-                    height={100}
-                  />
-                ) : initialValues?.imageUrl ? (
-                  <Image
-                    src={initialValues.imageUrl}
+                    src={previewImage}
                     alt="Profile Preview"
                     className={styles['image-preview']}
                     width={100}
