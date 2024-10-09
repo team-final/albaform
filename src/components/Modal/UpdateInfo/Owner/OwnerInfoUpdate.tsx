@@ -6,7 +6,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { FieldValues } from 'react-hook-form'
 import ReactModal from 'react-modal'
 
-import styles from './OwnerInfoUpdate.module.scss'
+import styles from '../AuthInfoUpdate.module.scss'
 import EditIc from '/public/icons/ic-edit-circle.svg'
 import BasicUserProfile from '/public/icons/ic-user-profile-circle.svg'
 
@@ -102,7 +102,11 @@ export default function OwnerInfoUpdate({
                   />
                 ) : initialValues?.imageUrl ? (
                   <Image
-                    src={initialValues.imageUrl}
+                    src={
+                      initialValues.imageUrl.startsWith('http')
+                        ? initialValues.imageUrl
+                        : `/${initialValues.imageUrl}`
+                    }
                     alt="Profile Preview"
                     className={styles['image-preview']}
                     width={100}
@@ -111,7 +115,7 @@ export default function OwnerInfoUpdate({
                 ) : (
                   <BasicUserProfile
                     width={100}
-                    heigth={100}
+                    height={100}
                     className={styles['image-preview']}
                   />
                 )}
