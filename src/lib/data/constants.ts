@@ -1,3 +1,10 @@
+import {
+  MyContentMenu,
+  PublicSortCondition,
+  RecrutingSortCondition,
+  ScrapListSortCondition,
+} from '../types/types'
+
 export const DEFAULT_ERROR_MESSAGE = {
   title: '오류',
 }
@@ -73,3 +80,27 @@ export const HOURLY_WAGE_DATA: {
   min: 9860,
   as: 2024,
 }
+
+export const MY_CONTENT_MENUS: MyContentMenu[] = [
+  { value: 'posts', label: '내가 쓴 글' },
+  { value: 'comments', label: '내가 쓴 댓글' },
+  { value: 'scrap', label: '스크랩' },
+]
+
+export const SCRAP_LIST_SORT_CONDITION: ScrapListSortCondition[] = [
+  { value: 'mostRecent', label: '최근' },
+  { value: 'highestWage', label: '높은 임금' },
+  { value: 'mostApplied', label: '지원자' },
+  { value: 'mostScrapped', label: '스크랩' },
+]
+
+export const RECRUTING_SORT_CONDITION: RecrutingSortCondition[] = [
+  { value: null, label: '모두' },
+  { value: true, label: '모집 중' },
+  { value: false, label: '모집 완료' },
+]
+
+export const PUBLIC_SORT_CONDITION: PublicSortCondition[] = [
+  { value: true, label: '공개' },
+  { value: false, label: '비공개' },
+]
