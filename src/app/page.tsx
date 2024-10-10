@@ -6,25 +6,40 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import styles from './page.module.scss'
-import Image02lg from '/public/images/landing/lg/02.png'
-import Image03lg from '/public/images/landing/lg/03.png'
-import Image04lg from '/public/images/landing/lg/04.png'
-import Image05lg from '/public/images/landing/lg/05.png'
-import Image01md from '/public/images/landing/md/01.png'
-import Image02md from '/public/images/landing/md/02.png'
-import Image03md from '/public/images/landing/md/03.png'
-import Image04md from '/public/images/landing/md/04.png'
-import Image05md from '/public/images/landing/md/05.png'
-import Image02sm from '/public/images/landing/sm/02.png'
-import Image03sm from '/public/images/landing/sm/03.png'
-import Image04sm from '/public/images/landing/sm/04.png'
-import Image05sm from '/public/images/landing/sm/05.png'
+// import Image02lg from '/images/landing/lg/02.png'
+// import Image03lg from '/images/landing/lg/03.png'
+// import Image04lg from '/images/landing/lg/04.png'
+// import Image05lg from '/images/landing/lg/05.png'
+// import Image01md from '/images/landing/md/01.png'
+// import Image02md from '/images/landing/md/02.png'
+// import Image03md from '/images/landing/md/03.png'
+// import Image04md from '/images/landing/md/04.png'
+// import Image05md from '/images/landing/md/05.png'
+// import Image02sm from '/images/landing/sm/02.png'
+// import Image03sm from '/images/landing/sm/03.png'
+// import Image04sm from '/images/landing/sm/04.png'
+// import Image05sm from '/images/landing/sm/05.png'
 import LogoText from '/public/images/logo/logo-text.svg'
 
 const IMAGES = [
-  [Image02lg, Image03lg, Image04lg, Image05lg],
-  [Image02md, Image03md, Image04md, Image05md],
-  [Image02sm, Image03sm, Image04sm, Image05sm],
+  [
+    '/images/landing/lg/02.png',
+    '/images/landing/lg/03.png',
+    '/images/landing/lg/04.png',
+    '/images/landing/lg/05.png',
+  ],
+  [
+    '/images/landing/md/02.png',
+    '/images/landing/md/03.png',
+    '/images/landing/md/04.png',
+    '/images/landing/md/05.png',
+  ],
+  [
+    '/images/landing/sm/02.png',
+    '/images/landing/sm/03.png',
+    '/images/landing/sm/04.png',
+    '/images/landing/sm/05.png',
+  ],
 ]
 
 const IMAGE_DESC = [
@@ -46,7 +61,7 @@ export default function Home() {
         <div>
           <Image
             fill
-            src={Image01md}
+            src={'/images/landing/md/01.png'}
             alt="albaform 서류 뭉치 이미지"
             style={{ objectFit: 'contain' }}
             draggable="false"
