@@ -1,3 +1,5 @@
+import MainButton from '@/components/Button/MainButton/MainButton'
+import MyApplicationModal from '@/components/Modal/MyApplication/MyApplication'
 import { useFormDetailsQuery } from '@/lib/queries/formDetailsQuery'
 import { Params } from '@/lib/types/types'
 import { useEffect, useState } from 'react'
@@ -21,6 +23,7 @@ export default function ApplicationDetails({
   const { formId, applicationId } = params
   const { data: formDetails } = useFormDetailsQuery(Number(formId))
   const [scrapCount, setScrapCount] = useState(0)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   useEffect(() => {
     if (formDetails) {
@@ -30,6 +33,13 @@ export default function ApplicationDetails({
 
   return (
     <>
+      <MyApplicationModal
+        isOpen={isModalOpen}
+        isOwner={isOwner}
+        formId={!isOwner ? Number(formId) : undefined}
+        applicationId={isOwner ? Number(params.applicationId) : undefined}
+        onRequestClose={() => setIsModalOpen(false)}
+      />
       <div>
         <section className={styles['application-details-image']}>
           <ImageSlider formDetails={formDetails} noImageHeight={0} />
@@ -56,6 +66,17 @@ export default function ApplicationDetails({
             }
             isOwner={isOwner}
           />
+          <MainButton
+            buttonStyle="outline"
+            onClick={() => setIsModalOpen(true)}
+            className={styles['application-button']}
+          >
+            <MainButton.Icon
+              src="/icons/ic-apply-list.svg"
+              altText="지원내역 상세보기"
+            />
+            <MainButton.Text>지원내역 상세보기</MainButton.Text>
+          </MainButton>
         </section>
       </div>
     </>

@@ -1,11 +1,9 @@
 'use client'
 
 import ApplicationDetails from '@/components/FormDetails/ApplicationDetails/ApplicationDetails'
-import MyApplicationModal from '@/components/Modal/MyApplication/MyApplication'
 import { useUserStore } from '@/lib/stores/userStore'
 import { Params } from '@/lib/types/types'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
 
 import styles from '../page.module.scss'
 
@@ -23,20 +21,8 @@ export default function ApplicationDetailsPage({ params }: Params) {
       router.back()
   }
 
-  const [isModalOpen, setIsModalOpen] = useState(true)
-
-  const handleCloseClick = () => {
-    setIsModalOpen(false)
-  }
-
   return (
     <>
-      <MyApplicationModal
-        isOpen={isModalOpen}
-        isOwner={true}
-        applicationId={Number(params.applicationId)}
-        onRequestClose={handleCloseClick}
-      />
       <div className={styles['application-details']}>
         <ApplicationDetails
           isApplicationDetailsPage={true}

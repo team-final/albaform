@@ -71,7 +71,6 @@ export default function ApplicantInfoUpdate({
       <Form
         formId="applicantUpdate"
         onSubmit={onConfirm}
-        className={styles.inner}
         defaultValues={initialValues}
       >
         <div>
