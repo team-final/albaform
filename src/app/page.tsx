@@ -10,7 +10,6 @@ import Image02lg from '/public/images/landing/lg/02.png'
 import Image03lg from '/public/images/landing/lg/03.png'
 import Image04lg from '/public/images/landing/lg/04.png'
 import Image05lg from '/public/images/landing/lg/05.png'
-import Image01md from '/public/images/landing/md/01.png'
 import Image02md from '/public/images/landing/md/02.png'
 import Image03md from '/public/images/landing/md/03.png'
 import Image04md from '/public/images/landing/md/04.png'
@@ -46,7 +45,7 @@ export default function Home() {
         <div>
           <Image
             fill
-            src={Image01md}
+            src={'/images/landing/md/01.png'}
             alt="albaform 서류 뭉치 이미지"
             style={{ objectFit: 'contain' }}
             draggable="false"
