@@ -112,9 +112,9 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
             >
               <MainButton.Icon
                 src="/icons/ic-apply-list.svg"
-                altText="내 지원내역 보기"
+                altText="지원상태 보기"
               />
-              <MainButton.Text>내 지원내역 보기</MainButton.Text>
+              <MainButton.Text>지원상태 보기</MainButton.Text>
             </MainButton>
           </>
         )}
