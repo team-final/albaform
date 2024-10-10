@@ -23,22 +23,22 @@ import LogoText from '/public/images/logo/logo-text.svg'
 
 const IMAGES = [
   [
-    '%PUBLIC%/images/landing/lg/02.png',
-    '%PUBLIC%/images/landing/lg/03.png',
-    '%PUBLIC%/images/landing/lg/04.png',
-    '%PUBLIC%/images/landing/lg/05.png',
+    '/images/landing/lg/02.png',
+    '/images/landing/lg/03.png',
+    '/images/landing/lg/04.png',
+    '/images/landing/lg/05.png',
   ],
   [
-    '%PUBLIC%/images/landing/md/02.png',
-    '%PUBLIC%/images/landing/md/03.png',
-    '%PUBLIC%/images/landing/md/04.png',
-    '%PUBLIC%/images/landing/md/05.png',
+    '/images/landing/md/02.png',
+    '/images/landing/md/03.png',
+    '/images/landing/md/04.png',
+    '/images/landing/md/05.png',
   ],
   [
-    '%PUBLIC%/images/landing/sm/02.png',
-    '%PUBLIC%/images/landing/sm/03.png',
-    '%PUBLIC%/images/landing/sm/04.png',
-    '%PUBLIC%/images/landing/sm/05.png',
+    '/images/landing/sm/02.png',
+    '/images/landing/sm/03.png',
+    '/images/landing/sm/04.png',
+    '/images/landing/sm/05.png',
   ],
 ]
 
