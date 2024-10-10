@@ -11,46 +11,39 @@ $max_height_md: 842px;
 $padding_size_x: 40px;
 $padding_size_y: 32px;
 
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 32px;
+  backdrop-filter: blur(2px);
+  background-color: rgb(0 0 0 / 60%);
+}
+
 .modal {
-  &-overlay {
-    background-color: rgb(0 0 0 / 60%);
-    position: fixed;
-    inset: 0;
-    z-index: 8;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 32px;
+  position: relative;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  border-radius: 24px;
+  width: 100%;
+  max-height: 100%;
+  gap: 24px;
+  padding: $padding_size_y $padding_size_x;
+  box-shadow: 6px 6px 16px 0 #7d7d7d40;
+  background-color: color.$Grayscale-50;
+  text-align: center;
+  overflow: auto;
+
+  @include media.desktop {
+    max-width: $max_width_lg;
   }
 
-  &-content {
-    position: relative;
-    display: block;
-    width: 100%;
-    margin: 0 auto;
-    max-height: 100%;
-    gap: 24px;
-    background-color: color.$Grayscale-50;
-    border-radius: 24px;
-    box-shadow: 6px 6px 16px 0 #7d7d7d40;
-    padding: $padding_size_y $padding_size_x;
-    text-align: center;
-    margin-bottom: 10px;
-    overflow: auto;
-
-    @include media.desktop {
-      max-width: $max_width_lg;
-    }
-
-    @include media.tablet {
-      max-width: $max_width_md;
-    }
-
-    &-buttongroup {
-      display: flex;
-      margin-top: 24px;
-      gap: 12px;
-    }
+  @include media.tablet {
+    max-width: $max_width_md;
   }
 }
 
@@ -60,6 +53,12 @@ $padding_size_y: 32px;
   justify-content: space-between;
   align-items: stretch;
   width: 100%;
+}
+
+.buttongroup {
+  display: flex;
+  margin-top: 24px;
+  gap: 12px;
 }
 
 .image-upload-area {

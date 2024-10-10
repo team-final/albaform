@@ -5,10 +5,12 @@
 .overlay {
   position: fixed;
   inset: 0;
-  z-index: 1000;
+  z-index: 16;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 32px;
+  backdrop-filter: blur(2px);
   background-color: rgb(0 0 0 / 60%);
 
   @include media.mobile {
@@ -19,19 +21,18 @@
 
 .modal {
   position: relative;
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: space-between;
-  align-items: stretch;
+  display: block;
+  margin: 0 auto;
   border-radius: 24px;
   width: 100%;
   max-width: 520px;
-  min-height: 384px;
+  max-height: 100%;
   padding: 32px 40px;
   gap: 24px;
   box-shadow: 6px 6px 16px 0 #7d7d7d40;
   background-color: color.$Grayscale-50;
   text-align: center;
+  overflow: auto;
 }
 
 .content {
