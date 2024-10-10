@@ -1,6 +1,5 @@
 import MainButton from '@/components/Button/MainButton/MainButton'
 import Form from '@/components/Form/Form'
-import classNames from 'classnames'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { FieldValues } from 'react-hook-form'
@@ -73,8 +72,8 @@ export default function OwnerInfoUpdate({
       ariaHideApp={false}
       onRequestClose={onRequestClose}
       onAfterOpen={onAfterOpen}
-      overlayClassName={classNames(styles['modal-overlay'])}
-      className={classNames(styles['modal-content'])}
+      overlayClassName={styles.overlay}
+      className={styles.modal}
     >
       <Form
         formId="updateFormOwnerStep2"
@@ -178,7 +177,7 @@ export default function OwnerInfoUpdate({
           </Form.Fieldset>
         </div>
 
-        <div className={classNames(styles['modal-content-buttongroup'])}>
+        <div className={styles.buttongroup}>
           <MainButton
             buttonStyle="outline"
             type="button"
