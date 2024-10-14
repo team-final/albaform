@@ -9,12 +9,13 @@ import WorkScheduleInfo from '@/components/FormDetails/WorkScheduleInfo/WorkSche
 import AlertModal from '@/components/Modal/Alert/AlertModal'
 import ListApplicationsModal from '@/components/Modal/ListApplications/ListApplications'
 import Toastify from '@/components/Toastify/Toastify'
+// import { useListApplicationsQuery } from '@/lib/queries/applicationDetailsQuery'
 import {
   useFormDetailsQuery,
   useFormScrapDeleteMutation,
   useFormScrapMutation,
-  useUsersMeQuery,
 } from '@/lib/queries/formDetailsQuery'
+import { useUserStore } from '@/lib/stores/userStore'
 import handleError from '@/lib/utils/errorHandler'
 import classNames from 'classnames'
 import { useRouter } from 'next/navigation'
@@ -37,8 +38,8 @@ declare global {
 }
 
 export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
+  const user = useUserStore.getState().user
   const router = useRouter()
-  const { data: userRole } = useUsersMeQuery()
   const { data: formDetails } = useFormDetailsQuery(Number(formId))
   const { mutate: scrapForm } = useFormScrapMutation()
   const { mutate: scrapDeleteForm } = useFormScrapDeleteMutation()
@@ -46,7 +47,7 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
   const [scrapCount, setScrapCount] = useState(0)
   const [isPopupVisible, setIsPopupVisible] = useState(false)
   const [isMenuVisible, setIsMenuVisible] = useState(false)
-  const isRecruitmentActive =
+  const isInRecruitPeriod =
     Boolean(formDetails?.recruitmentEndDate) &&
     new Date(formDetails.recruitmentEndDate) > new Date()
   const firstImageUrl = formDetails?.imageUrls?.[0]
@@ -54,6 +55,11 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
   const [hasModalBeenOpened, setHasModalBeenOpened] = useState<boolean>(false)
   const [isListApplicationsModalOpen, setIsListApplicationsModalOpen] =
     useState<boolean>(false)
+  // @TODO 지원한 알바폼일 경우 지원하기 버튼 대신 지원상태 보기 버튼
+  // const applicationList = useListApplicationsQuery(Number(formId)).data || []
+  // const isApplied = applicationList
+  //   ? Boolean(applicationList.some((app) => app.applicationId === user?.id))
+  //   : false
 
   useEffect(() => {
     if (formDetails) {
@@ -76,7 +82,7 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
         setHasModalBeenOpened(true)
       }
     }
-  }, [isRecruitmentActive, hasModalBeenOpened, formDetails?.recruitmentEndDate]) // 팝업 렌더링 될 때 보이게 & 모집 마감 된 폼 -> 모달 띄움
+  }, [isInRecruitPeriod, hasModalBeenOpened, formDetails?.recruitmentEndDate]) // 팝업 렌더링 될 때 보이게 & 모집 마감 된 폼 -> 모달 띄움
 
   const handleBookmarkClick = () => {
     setScrapCount((prevCount) => prevCount + 1)
@@ -159,6 +165,7 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
           modalOpen={() => setIsListApplicationsModalOpen(true)}
         />
         <ImageSlider formDetails={formDetails} noImageHeight={100} />
+
         {isModalOpen && (
           <AlertModal
             AlertmodalType="done"
@@ -167,7 +174,8 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
             onConfirm={handleConfirm}
           />
         )}
-        {userRole === 'OWNER' && (
+
+        {user?.id === formDetails?.ownerId && ( // 로그인한 사용자와 조회하는 폼의 작성자 아이디가 같을 때
           <ListApplicationsModal
             formId={formId}
             isOpen={isListApplicationsModalOpen}
@@ -253,8 +261,8 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
 
           <div className={styles['button-container']}>
             <ActionButtons
-              userRole={userRole}
-              isRecruitmentActive={isRecruitmentActive}
+              // isApplied={isApplied}
+              isInRecruitPeriod={isInRecruitPeriod}
               formId={formId}
               ownerId={formDetails?.ownerId}
             />

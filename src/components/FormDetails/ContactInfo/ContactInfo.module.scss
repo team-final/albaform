@@ -77,6 +77,12 @@
   @include media.tablet {
     @include font.Style(md, 400);
   }
+
+  &.hidden {
+    filter: blur(10px);
+    user-select: none;
+    pointer-events: none;
+  }
 }
 
 .contact-info-no-line {

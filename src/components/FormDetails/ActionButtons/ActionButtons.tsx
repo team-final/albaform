@@ -9,17 +9,17 @@ import React, { useState } from 'react'
 import styles from './ActionButton.module.scss'
 
 interface ActionButtonsProps {
-  userRole: string
-  isRecruitmentActive: boolean
+  isInRecruitPeriod: boolean
   formId: number
   ownerId: number
+  isApplied?: boolean
 }
 
 const ActionButtons: React.FC<ActionButtonsProps> = ({
-  userRole,
-  isRecruitmentActive,
+  isInRecruitPeriod,
   formId,
   ownerId,
+  // isApplied,
 }) => {
   const user = useUserStore.getState().user
   const router = useRouter()
@@ -58,6 +58,62 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
     })
   }
 
+  if (user?.id === ownerId) {
+    return (
+      <div className={styles['button-container']}>
+        <MainButton
+          buttonStyle="solid"
+          disabled={false}
+          onClick={handleEditClick}
+        >
+          <MainButton.Icon src="/icons/ic-edit2.svg" altText="수정하기" />
+          <MainButton.Text>수정하기</MainButton.Text>
+        </MainButton>
+        <MainButton
+          buttonStyle="outline"
+          disabled={false}
+          onClick={handleDeleteClick}
+          color="gray"
+          className={styles['delete-tablet-button']}
+        >
+          <MainButton.Icon src="/icons/ic-trash-can.svg" altText="삭제하기" />
+          <MainButton.Text className={styles['no-text']}>
+            삭제하기
+          </MainButton.Text>
+        </MainButton>
+      </div>
+    )
+  }
+
+  if (user?.role === 'APPLICANT') {
+    return (
+      <div className={styles['button-container']}>
+        {/* {!isApplied ? ( */}
+        <MainButton
+          buttonStyle="solid"
+          disabled={!isInRecruitPeriod}
+          onClick={handleApplyClick}
+        >
+          <MainButton.Icon src="/icons/ic-writing.svg" altText="지원하기" />
+          <MainButton.Text>지원하기</MainButton.Text>
+        </MainButton>
+        {/* ) : ( */}
+        <MainButton
+          buttonStyle="outline"
+          disabled={!isInRecruitPeriod}
+          onClick={handleShowApplicationHistory}
+        >
+          <MainButton.Icon
+            src="/icons/ic-apply-list.svg"
+            altText="지원상태 보기"
+          />
+          <MainButton.Text>지원상태 보기</MainButton.Text>
+        </MainButton>
+        {/* )} */}
+      </div>
+    )
+  }
+
   return (
     <>
       {isDeleteModalOpen && (
@@ -68,57 +124,6 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
           onConfirm={handleConfirm}
         />
       )}
-      <div className={styles['button-container']}>
-        {userRole === 'OWNER' && user?.id === ownerId ? (
-          <>
-            <MainButton
-              buttonStyle="solid"
-              disabled={false}
-              onClick={handleEditClick}
-            >
-              <MainButton.Icon src="/icons/ic-edit2.svg" altText="수정하기" />
-              <MainButton.Text>수정하기</MainButton.Text>
-            </MainButton>
-            <MainButton
-              buttonStyle="outline"
-              disabled={false}
-              onClick={handleDeleteClick}
-              color="gray"
-              className={styles['delete-tablet-button']}
-            >
-              <MainButton.Icon
-                src="/icons/ic-trash-can.svg"
-                altText="삭제하기"
-              />
-              <MainButton.Text className={styles['no-text']}>
-                삭제하기
-              </MainButton.Text>
-            </MainButton>
-          </>
-        ) : (
-          <>
-            <MainButton
-              buttonStyle="solid"
-              disabled={!isRecruitmentActive}
-              onClick={handleApplyClick}
-            >
-              <MainButton.Icon src="/icons/ic-writing.svg" altText="지원하기" />
-              <MainButton.Text>지원하기</MainButton.Text>
-            </MainButton>
-            <MainButton
-              buttonStyle="outline"
-              disabled={!isRecruitmentActive}
-              onClick={handleShowApplicationHistory}
-            >
-              <MainButton.Icon
-                src="/icons/ic-apply-list.svg"
-                altText="지원상태 보기"
-              />
-              <MainButton.Text>지원상태 보기</MainButton.Text>
-            </MainButton>
-          </>
-        )}
-      </div>
     </>
   )
 }
