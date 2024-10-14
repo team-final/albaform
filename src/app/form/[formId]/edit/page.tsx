@@ -10,7 +10,10 @@ import FormRecruitmentContent from '@/components/FormCreate/FormRecruitmentConte
 import FormWorkingConditions from '@/components/FormCreate/FormWorkingConditions/FormWorkingConditions'
 import { createAlbaForm } from '@/lib/api/formCreate'
 import { useFormDetailsQuery } from '@/lib/queries/formDetailsQuery'
-import { useEditingFormStore } from '@/lib/stores/editingFormStore'
+import {
+  INITIAL_EDITING_FORM_DATA,
+  useEditingFormStore,
+} from '@/lib/stores/editingFormStore'
 import { useUserStore } from '@/lib/stores/userStore'
 import { EditingFormData } from '@/lib/types/formTypes'
 import { Params } from '@/lib/types/types'
@@ -18,6 +21,8 @@ import classNames from 'classnames'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect } from 'react'
 import { FieldValues } from 'react-hook-form'
+
+const INITIAL_EDITING_FORM_DATA_KEYS = Object.keys(INITIAL_EDITING_FORM_DATA)
 
 export default function EditFormPage({ params }: Params) {
   const user = useUserStore.getState().user
@@ -51,6 +56,9 @@ export default function EditFormPage({ params }: Params) {
 
     const response = await createAlbaForm(JSON.stringify(params))
     console.log('response: ', response)
+    if (response) {
+      router.replace(`/form/${response.data.id}`)
+    }
   }
 
   const injectFormData = useCallback(() => {
@@ -64,7 +72,7 @@ export default function EditFormPage({ params }: Params) {
             formDetails[key][0] === 'string' ? [] : formDetails[key],
           )
         }
-      } else {
+      } else if (INITIAL_EDITING_FORM_DATA_KEYS.includes(key)) {
         setFormData(key, formDetails[key])
       }
     }

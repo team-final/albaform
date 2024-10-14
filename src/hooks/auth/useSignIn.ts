@@ -1,4 +1,4 @@
-import basicAxios from '@/lib/api/basicAxios'
+import authAxios from '@/lib/api/authAxios'
 import { SIGN_IN_ERROR_MESSAGE } from '@/lib/data/messages'
 import { useUserStore } from '@/lib/stores/userStore'
 import { AuthResponse, SignInValues, User } from '@/lib/types/userTypes'
@@ -13,7 +13,7 @@ export default function useSignIn() {
 
   return useMutation({
     mutationFn: async ({ email, password }: SignInValues): Promise<User> => {
-      const response: AxiosResponse<AuthResponse> = await basicAxios.post(
+      const response: AxiosResponse<AuthResponse> = await authAxios.post(
         '/auth/sign-in',
         {
           email,
