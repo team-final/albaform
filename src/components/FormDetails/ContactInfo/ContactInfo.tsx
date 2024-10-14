@@ -1,9 +1,9 @@
 'use client'
 
-import { useUsersMeQuery } from '@/lib/queries/formDetailsQuery'
 import { ContactInfoProps } from '@/lib/types/formTypes'
 import { formatDate } from '@/lib/utils/dateFormatters'
 import { formatPhoneNumber, formatStoreNumber } from '@/lib/utils/formatDate'
+import classNames from 'classnames'
 import { useEffect, useState } from 'react'
 
 import ActionButtons from '../ActionButtons/ActionButtons'
@@ -14,7 +14,6 @@ export default function ContactInfo({
 }: {
   formDetails: ContactInfoProps
 }) {
-  const { data: userRole } = useUsersMeQuery()
   const recruitmentStartDate = formatDate.toKorean(
     formDetails?.recruitmentStartDate,
   )
@@ -80,7 +79,12 @@ export default function ContactInfo({
           className={`${styles['contact-info-auth']} ${styles['contact-info-no-line']}`}
         >
           <h3 className={styles['contact-info-title']}>사장님 전화번호</h3>
-          <p className={styles['contact-info-content']}>
+          <p
+            className={classNames(
+              styles['contact-info-content'],
+              styles.hidden,
+            )}
+          >
             {formatPhoneNumber(formDetails?.phoneNumber)}
           </p>
         </div>
@@ -89,8 +93,7 @@ export default function ContactInfo({
       <div className={styles['button-container']}>
         {!isTablet && (
           <ActionButtons
-            userRole={userRole}
-            isRecruitmentActive={isRecruitmentActive}
+            isInRecruitPeriod={isRecruitmentActive}
             formId={formDetails?.id}
             ownerId={formDetails?.ownerId}
           />
