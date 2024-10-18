@@ -21,10 +21,6 @@ export default function Menu() {
     }
   }
 
-  const preparaeAlert = () => {
-    alert('준비 단계입니다!')
-  }
-
   return (
     <div className={styles.nav}>
       <Link
@@ -34,7 +30,17 @@ export default function Menu() {
       >
         알바 목록
       </Link>
-      <div onClick={preparaeAlert}>알바토크</div>
+      <Link
+        href="/albatalk"
+        draggable="false"
+        className={
+          ['/albatalk', '/albatalks', '/addtalk'].includes(pathname)
+            ? styles.active
+            : ''
+        }
+      >
+        알바토크
+      </Link>
       <div
         onClick={handleMyFormsClick}
         draggable="false"

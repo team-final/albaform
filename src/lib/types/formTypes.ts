@@ -29,12 +29,19 @@ export type AgeType =
 export type PreferredType = '없음' | '직접입력' | string
 export type WorkDaysType = '일' | '월' | '화' | '수' | '목' | '금' | '토'
 
+export interface ImageUrl {
+  /** 이미지 주소 */
+  url: string
+  /** 이미지 이름 */
+  name: string
+}
+
 export interface FormStep1 {
   title: string
   description: string
   recruitmentStartDate: Date | string
   recruitmentEndDate: Date | string
-  imageUrls: { url: string; name: string }[]
+  imageUrls: ImageUrl[]
 }
 
 export interface FormStep2 {
@@ -65,6 +72,41 @@ export interface TempEditingFormType {
   id: number
   createAt: string
   formData: EditingFormData | FieldValues
+}
+
+export interface AddtalkProps {
+  title: string
+  content: string
+  imageUrl: string
+}
+
+export interface AlbatalkProps {
+  writer: {
+    /** 작성자 프로필 */
+    imageUrl: string
+    /** 작성자 이름 */
+    nickname: string
+    /** 작성자 식별번호 */
+    id: number
+  }
+  /** 수정일 */
+  updatedAt: string
+  /** 생성일 */
+  createdAt: string
+  /** 댓글 수 */
+  commentCount: number
+  /** 좋아요 수 */
+  likeCount: number
+  /** 첨부 이미지 */
+  imageUrl: string
+  /** 내용 */
+  content: string
+  /** 제목 */
+  title: string
+  /** 게시물 식별번호 */
+  id: number
+  /** 좋아요 여부 */
+  isLiked: true
 }
 
 export interface AnnoucementProps {
