@@ -4,9 +4,10 @@
 
 .make-your-form {
   position: fixed;
-  right: 20px;
-  top: 50%;
+  bottom: 32px;
+  left: 50%;
   z-index: 2;
+  transform: translateX(-50%);
 }
 
 .list-page {
