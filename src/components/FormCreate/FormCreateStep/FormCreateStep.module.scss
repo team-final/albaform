@@ -13,4 +13,13 @@
   background-color: color.$Grayscale-50;
   overflow: auto;
   transition: all 0.16s;
+
+  @include media.tablet {
+    display: none;
+    position: relative;
+    left: auto;
+    width: 100%;
+    height: fit-content;
+    padding: 0;
+  }
 }

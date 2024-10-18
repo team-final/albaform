@@ -10,24 +10,35 @@
   overflow: hidden;
   transform-origin: left top;
 
-  &[data-step='1'] {
-    & [data-step-item='1'] {
-      left: 0;
-      z-index: 2;
+  @include media.tablet {
+    inset: auto;
+    height: fit-content;
+  }
+
+  &[data-step='1'] > [data-step-item='1'] {
+    left: 0;
+    z-index: 2;
+
+    @include media.tablet {
+      display: block;
     }
   }
 
-  &[data-step='2'] {
-    & [data-step-item='2'] {
-      left: 0;
-      z-index: 2;
+  &[data-step='2'] > [data-step-item='2'] {
+    left: 0;
+    z-index: 2;
+
+    @include media.tablet {
+      display: block;
     }
   }
 
-  &[data-step='3'] {
-    & [data-step-item='3'] {
-      left: 0;
-      z-index: 2;
+  &[data-step='3'] > [data-step-item='3'] {
+    left: 0;
+    z-index: 2;
+
+    @include media.tablet {
+      display: block;
     }
   }
 }

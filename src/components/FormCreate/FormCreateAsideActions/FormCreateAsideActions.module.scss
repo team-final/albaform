@@ -13,4 +13,19 @@
   & button {
     min-height: 72px;
   }
+
+  @include media.tablet {
+    position: absolute;
+    z-index: 16;
+    inset: 0;
+    top: auto;
+    margin: 0 auto;
+    max-width: var.$max_width_lg;
+    padding: 20px 24px;
+    background-color: color.$Grayscale-50;
+
+    & button {
+      min-height: 56px;
+    }
+  }
 }

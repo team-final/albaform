@@ -9,6 +9,62 @@
   justify-content: flex-start;
   align-items: stretch;
   gap: 8px;
+
+  @include media.tablet {
+    & > .button {
+      display: none;
+    }
+  }
+
+  & > [class*='Dropdown_container'] {
+    display: none;
+  }
+
+  @include media.tablet {
+    & > [class*='Dropdown_container'] {
+      display: block;
+
+      & > [class*='Dropdown_trigger'] {
+        border: none;
+        min-height: auto;
+        padding: 0;
+
+        & > .button {
+          display: none;
+          width: 100%;
+
+          &.active {
+            position: relative;
+            display: flex;
+
+            &::after {
+              content: '';
+              display: block;
+              position: absolute;
+              top: 50%;
+              right: 16px;
+              transform-origin: center;
+              transform: translateY(-50%) rotateX(0deg);
+              width: 32px;
+              height: 32px;
+              background-image: url('/icons/ic-chevron-down.svg');
+              background-repeat: no-repeat;
+              background-size: 32px;
+              background-position: right center;
+              filter: brightness(2);
+              transition: 0.16s;
+            }
+          }
+        }
+
+        &:not(:last-child) {
+          & > .button.active::after {
+            transform: translateY(-50%) rotateX(180deg);
+          }
+        }
+      }
+    }
+  }
 }
 
 .button {
@@ -25,12 +81,29 @@
 
   @include font.Style(xl, 600);
 
+  &[class*='Dropdown_item'] {
+    border-radius: 0;
+  }
+
+  @include media.tablet {
+    justify-content: flex-start;
+    gap: 12px;
+    min-height: 52px;
+    padding: 12px 24px;
+
+    @include font.Style(lg, 600);
+  }
+
   & .title {
     display: inline-flex;
     flex-flow: row wrap;
     justify-content: space-between;
     align-items: center;
     gap: 24px;
+
+    @include media.tablet {
+      gap: 10px;
+    }
   }
 
   & .index {
@@ -45,6 +118,13 @@
     font-style: normal;
 
     @include font.Style(xl, 600);
+
+    @include media.tablet {
+      width: 20px;
+      height: 20px;
+
+      @include font.Style(md, 600);
+    }
   }
 
   & .status {
@@ -61,6 +141,11 @@
     @include font.Style(lg, 500);
 
     line-height: 1;
+
+    @include media.tablet {
+      min-height: 28px;
+      padding: 4px 8px;
+    }
   }
 
   &.active {
