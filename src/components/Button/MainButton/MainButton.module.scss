@@ -17,6 +17,8 @@
   @include font.Style(xl, 600);
 
   @include media.tablet {
+    min-height: 40px;
+
     @include font.Style(lg, 600);
   }
 

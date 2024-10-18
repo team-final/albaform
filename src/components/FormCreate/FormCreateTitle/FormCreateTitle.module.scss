@@ -10,10 +10,22 @@
   align-items: center;
   height: var.$form-title-height-lg;
 
+  @include media.tablet {
+    position: absolute;
+    inset: 0;
+    bottom: auto;
+    height: var.$form-title-height-md;
+    padding: 20px 24px;
+  }
+
   & p {
     @include font.Style(3xl, 600);
 
     color: color.$Black-500;
+
+    @include media.tablet {
+      @include font.Style(xl, 600);
+    }
   }
 
   & button {
