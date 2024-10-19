@@ -12,7 +12,7 @@ export interface Params {
   params: {
     formId?: string
     applicationId?: string
-    postId?: string
+    postId?: number
   }
 }
 
