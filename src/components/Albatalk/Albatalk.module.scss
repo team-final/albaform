@@ -1,0 +1,167 @@
+@use 'src/styles/_variables' as var;
+@use 'src/styles/_color' as color;
+@use 'src/styles/_font' as font;
+@use 'src/styles/_media' as media;
+
+.container {
+  position: relative;
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  border-bottom: 1px solid color.$Line-100;
+  min-height: 52px;
+  padding-bottom: 16px;
+}
+
+.title {
+  @include font.Style(2xl, 600);
+}
+
+.menu {
+  & [class*='Dropdown_trigger'] {
+    border: none;
+    width: 36px;
+    height: 36px;
+    min-width: auto;
+    min-height: auto;
+    padding: 0;
+    background-color: transparent;
+    background-image: url('/icons/ic-kebab-menu.svg');
+    background-size: 36px;
+    background-position: center;
+    font: unset;
+  }
+
+  & [class*='Dropdown_menu'] {
+    right: 0;
+    left: auto;
+    border: 1px solid color.$Line-50;
+    border-radius: 8px;
+    width: fit-content;
+    max-width: none;
+    background-color: color.$Grayscale-50;
+    box-shadow: 4px 4px 4px 0 rgb(228 228 228 / 10%);
+  }
+
+  & [class*='Dropdown_item'] {
+    position: relative;
+    min-width: 80px;
+    min-height: 56px;
+    padding: 8px 32px;
+    color: color.$Grayscale-400;
+
+    @include font.Style(lg, 500);
+
+    text-align: center;
+    white-space: nowrap;
+
+    & + [class*='Dropdown_item'] {
+      margin-top: -8px;
+    }
+
+    &:hover {
+      background-color: transparent;
+      color: color.$Black-400;
+
+      @include font.Style(lg, 600);
+
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 8px;
+        z-index: -1;
+        border-radius: 8px;
+        background-color: color.$Primary-Orange-50;
+      }
+    }
+  }
+}
+
+$gap_size_lg: 16px;
+$gap_size_md: 12px;
+$gap_size_sm: 8px;
+
+.about {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 40px auto 88px;
+
+  &-post {
+    display: flex;
+    align-items: center;
+
+    & > p {
+      position: relative;
+      margin-left: $gap_size_lg;
+      padding-left: $gap_size_lg;
+      color: color.$Grayscale-500;
+
+      @include font.Style(lg, 400);
+
+      @include media.tablet {
+        margin-left: $gap_size_md;
+        padding-left: $gap_size_md;
+
+        @include font.Style(xs, 400);
+      }
+
+      @include media.mobile {
+        margin-left: $gap_size_sm;
+        padding-left: $gap_size_sm;
+      }
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        z-index: 2;
+        transform: translate(-50%, -50%);
+        border: 1px solid color.$Line-100;
+        height: $gap_size_lg;
+        font: unset;
+
+        @include media.tablet {
+          height: $gap_size_md;
+        }
+
+        @include media.mobile {
+          height: $gap_size_sm;
+        }
+      }
+    }
+  }
+
+  &-counts {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+  }
+}
+
+.body {
+  position: relative;
+}
+
+.content {
+  color: color.$Grayscale-500;
+
+  @include font.Style(xl, 400);
+}
+
+.image {
+  position: relative;
+  margin-top: 32px;
+
+  & > img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+}
