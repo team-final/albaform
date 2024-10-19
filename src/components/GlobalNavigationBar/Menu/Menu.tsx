@@ -1,5 +1,10 @@
 'use client'
 
+import {
+  ALBATALK_EDIT_PATH_NAME,
+  ALBATALK_LIST_PATH_NAME,
+  ALBATALK_POST_PATH_NAME,
+} from '@/lib/data/constants'
 import { useUserStore } from '@/lib/stores/userStore'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
@@ -31,10 +36,14 @@ export default function Menu() {
         알바 목록
       </Link>
       <Link
-        href="/albatalk"
+        href={`/${ALBATALK_LIST_PATH_NAME}`}
         draggable="false"
         className={
-          ['/albatalk', '/albatalks', '/addtalk'].includes(pathname)
+          [
+            ALBATALK_LIST_PATH_NAME,
+            ALBATALK_POST_PATH_NAME,
+            ALBATALK_EDIT_PATH_NAME,
+          ].includes(pathname.split('/')[1])
             ? styles.active
             : ''
         }
