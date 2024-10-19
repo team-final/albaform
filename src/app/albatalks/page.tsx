@@ -42,7 +42,7 @@ export default function AlbatalksPage() {
       queryKey: ['listAlbatalk', orderBy, searchKeyword],
       queryFn: ({ pageParam = undefined }) =>
         listAlbatalk({
-          limit: 6,
+          limit: 18,
           cursor: pageParam as number | undefined,
           orderBy,
           keyword: searchKeyword,
