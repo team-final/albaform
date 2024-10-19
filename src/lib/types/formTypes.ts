@@ -73,13 +73,6 @@ export interface TempEditingFormType {
   createAt: string
   formData: EditingFormData | FieldValues
 }
-
-export interface AddtalkProps {
-  title: string
-  content: string
-  imageUrl: string
-}
-
 export interface AlbatalkProps {
   writer: {
     /** 작성자 프로필 */
@@ -108,6 +101,17 @@ export interface AlbatalkProps {
   /** 좋아요 여부 */
   isLiked: true
 }
+
+export type AlbatalkPropsType =
+  | 'updatedAt'
+  | 'createdAt'
+  | 'commentCount'
+  | 'likeCount'
+  | 'imageUrl'
+  | 'content'
+  | 'title'
+  | 'id'
+  | 'isLiked'
 
 export interface AnnoucementProps {
   createdAt: string
