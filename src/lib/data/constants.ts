@@ -119,3 +119,7 @@ export const USER_ROLE_CONFIG = {
     myFormUrl: '/user/sign-in',
   },
 }
+
+export const ALBATALK_LIST_PATH_NAME = 'albatalks'
+export const ALBATALK_POST_PATH_NAME = 'albatalk'
+export const ALBATALK_EDIT_PATH_NAME = 'addtalk'
