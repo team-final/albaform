@@ -46,15 +46,19 @@
 }
 
 .title {
-  margin-top: 16px;
+  width: calc(100% - 3rem);
+  color: color.$Black-400;
 
   @include font.Style(2lg, 600);
 
-  color: color.$Black-400;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: break-all;
 }
 
 .menu {
-  & [class*='Dropdown_trigger'] {
+  .head & [class*='Dropdown_trigger'] {
     border: none;
     width: 36px;
     height: 36px;
@@ -118,7 +122,7 @@
 }
 
 .description {
-  margin-top: 8px;
+  margin-bottom: 8px;
   width: 100%;
   max-height: 128px;
   white-space: pre;

@@ -9,11 +9,13 @@ import {
 import { useUserStore } from '@/lib/stores/userStore'
 import { AlbatalkProps } from '@/lib/types/formTypes'
 import { formatKoreanDate } from '@/lib/utils/formatDate'
+import { useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 
 import styles from './AlbatalkCard.module.scss'
 
 export default function AlbatalkCard({ ...item }: AlbatalkProps) {
+  const queryClient = useQueryClient()
   const user = useUserStore.getState().user
   const router = useRouter()
   const { id, title, content, writer, createdAt, commentCount, likeCount } =
@@ -26,6 +28,7 @@ export default function AlbatalkCard({ ...item }: AlbatalkProps) {
   const handleDelete = async () => {
     try {
       await deleteAlbatalk(id)
+      queryClient.invalidateQueries()
     } catch {}
   }
 
