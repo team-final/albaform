@@ -39,14 +39,15 @@ export default function FormRecruitmentContent({ step }: FormCreateStepProp) {
 
     const file = files[0]
     const formData = new FormData()
-    formData.append('image', file, file.name)
+    const fileName = file.name.replaceAll(' ', '')
+    formData.append('image', file, fileName)
 
     const response = await uploadImage(formData)
     if (!response) return
 
     setFormData('imageUrls', [
       ...imageList,
-      { url: response.data.url, name: file.name },
+      { url: response.data.url, name: fileName },
     ])
 
     setIsImagePending(false)

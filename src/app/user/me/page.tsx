@@ -127,7 +127,8 @@ export default function MyPage() {
     } else {
       const file = data.imageUrl[0]
       const formData = new FormData()
-      formData.append('image', file, file.name)
+      const fileName = file.name.replaceAll(' ', '')
+      formData.append('image', file, fileName)
 
       const response = await uploadImage(formData)
       if (response) responseUploadImage = response.data.url
