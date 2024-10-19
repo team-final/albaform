@@ -1,0 +1,50 @@
+@use 'src/styles/_variables' as var;
+@use 'src/styles/_color' as color;
+@use 'src/styles/_font' as font;
+@use 'src/styles/_media' as media;
+
+.container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  height: 36px;
+  gap: 4px;
+}
+
+.profile {
+  position: relative;
+  border-radius: 9999px;
+  margin: 5px;
+  width: 26px;
+  height: 26px;
+  overflow: hidden;
+
+  @include media.tablet {
+    margin: 2px;
+    width: 24px;
+    height: 24px;
+  }
+
+  &.skeleton {
+    margin: 0;
+    width: 36px;
+    height: 36px;
+
+    @include media.tablet {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+.name {
+  position: relative;
+  color: color.$Grayscale-500;
+
+  @include font.Style(lg, 400);
+
+  @include media.tablet {
+    @include font.Style(xs, 400);
+  }
+}
