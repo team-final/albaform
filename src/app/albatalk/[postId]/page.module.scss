@@ -1,0 +1,41 @@
+@use '@/styles/_variables' as var;
+@use '@/styles/_color' as color;
+@use '@/styles/_font' as font;
+@use '@/styles/_media' as media;
+
+.container {
+  padding: 88px 120px;
+
+  @include media.tablet {
+    padding: 80px 72px;
+  }
+
+  @include media.mobile {
+    padding: 40px 24px;
+  }
+}
+
+.inner {
+  margin: 0 auto;
+  max-width: var.$max_width_lg;
+}
+
+.loading {
+  position: fixed;
+  inset: var.$root_header_height_lg * 4;
+
+  @include media.tablet {
+    inset: var.$root_header_height_md * 4;
+  }
+
+  @include media.tablet {
+    inset: var.$root_header_height_sm * 4;
+  }
+
+  & [class*='loading-circle'] {
+    width: 2rem;
+    height: 2rem;
+    max-width: none;
+    max-height: none;
+  }
+}
