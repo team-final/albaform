@@ -12,6 +12,7 @@ import {
 import { useAlbatalkStore } from '@/lib/stores/albatalkStore'
 import { useUserStore } from '@/lib/stores/userStore'
 import { AlbatalkProps, ImageUrl } from '@/lib/types/formTypes'
+import { useQueryClient } from '@tanstack/react-query'
 import classNames from 'classnames'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -26,6 +27,7 @@ const INITIAL_IMAGE: ImageUrl = {
 }
 
 export default function Addtalk({ postId }: { postId?: number }) {
+  const queryClient = useQueryClient()
   const user = useUserStore.getState().user
   const router = useRouter()
   if (!user) router.replace(`/${ALBATALK_LIST_PATH_NAME}`)
@@ -71,8 +73,10 @@ export default function Addtalk({ postId }: { postId?: number }) {
     } else {
       response = await postAlbatalk(JSON.stringify(data))
     }
-    if (response)
+    if (response) {
       router.replace(`/${ALBATALK_POST_PATH_NAME}/${response.data.id}`)
+      queryClient.invalidateQueries()
+    }
   }
 
   const request = useCallback(async () => {
