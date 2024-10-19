@@ -1,0 +1,48 @@
+@use 'src/styles/_variables' as var;
+@use 'src/styles/_color' as color;
+@use 'src/styles/_font' as font;
+@use 'src/styles/_media' as media;
+
+$icon_size_lg: 36px;
+$icon_size_md: 24px;
+
+.container {
+  position: relative;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  border: none;
+  border-radius: 0;
+  min-width: auto;
+  min-height: auto;
+  padding: 0;
+  gap: 2px;
+  background-color: transparent;
+  font: unset;
+}
+
+button.container {
+  cursor: pointer;
+}
+
+.icon {
+  position: relative;
+  width: $icon_size_lg;
+  height: $icon_size_lg;
+
+  @include media.tablet {
+    width: $icon_size_md;
+    height: $icon_size_md;
+  }
+}
+
+.text {
+  color: color.$Grayscale-500;
+
+  @include font.Style(lg, 400);
+
+  @include media.tablet {
+    @include font.Style(xs, 400);
+  }
+}
