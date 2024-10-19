@@ -26,7 +26,7 @@ const INITIAL_IMAGE: ImageUrl = {
   name: '',
 }
 
-export default function Addtalk({ postId }: { postId?: number }) {
+export default function Addtalk({ talkId }: { talkId?: number }) {
   const queryClient = useQueryClient()
   const user = useUserStore.getState().user
   const router = useRouter()
@@ -68,8 +68,8 @@ export default function Addtalk({ postId }: { postId?: number }) {
     data.imageUrl = JSON.stringify(imageObj)
 
     let response
-    if (postId) {
-      response = await patchAlbatalk(postId, JSON.stringify(data))
+    if (talkId) {
+      response = await patchAlbatalk(talkId, JSON.stringify(data))
     } else {
       response = await postAlbatalk(JSON.stringify(data))
     }
@@ -80,15 +80,15 @@ export default function Addtalk({ postId }: { postId?: number }) {
   }
 
   const request = useCallback(async () => {
-    if (postId) {
-      const response = await getAlbatalk(postId)
+    if (talkId) {
+      const response = await getAlbatalk(talkId)
       if (!response) return router.replace(`/${ALBATALK_LIST_PATH_NAME}`)
       // console.log('response: ', response)
       initialAlbatalkData(response.data)
     } else {
       initialAlbatalkData(null)
     }
-  }, [router, postId, initialAlbatalkData])
+  }, [router, talkId, initialAlbatalkData])
 
   useEffect(() => {
     request()
@@ -98,7 +98,7 @@ export default function Addtalk({ postId }: { postId?: number }) {
     if (
       albatalkData &&
       user?.id === albatalkData?.writer.id &&
-      postId === albatalkData?.id
+      talkId === albatalkData?.id
     ) {
       setTitle(albatalkData.title)
       setContent(albatalkData.content)
@@ -110,7 +110,7 @@ export default function Addtalk({ postId }: { postId?: number }) {
         }
       })
     }
-  }, [albatalkData, user, postId])
+  }, [albatalkData, user, talkId])
 
   return (
     <Form
@@ -126,8 +126,8 @@ export default function Addtalk({ postId }: { postId?: number }) {
             color={'gray'}
             onClick={() =>
               router.push(
-                postId
-                  ? `/${ALBATALK_POST_PATH_NAME}/${postId}`
+                talkId
+                  ? `/${ALBATALK_POST_PATH_NAME}/${talkId}`
                   : `/${ALBATALK_LIST_PATH_NAME}`,
               )
             }
@@ -135,7 +135,7 @@ export default function Addtalk({ postId }: { postId?: number }) {
             취소
           </MainButton>
           <Form.SubmitButton>
-            {postId ? '수정하기' : '등록하기'}
+            {talkId ? '수정하기' : '등록하기'}
           </Form.SubmitButton>
         </div>
       </div>
