@@ -26,11 +26,11 @@ export const postAlbatalk = async (
  * 알바토크 수정
  */
 export const patchAlbatalk = async (
-  postId: number,
+  talkId: number,
   requestBody: string,
 ): Promise<AxiosResponse> => {
   try {
-    return await authAxios.patch(`${API_URL}/${postId}`, requestBody)
+    return await authAxios.patch(`${API_URL}/${talkId}`, requestBody)
   } catch (error) {
     console.error('알바토크 수정 중 오류 발생:', error)
     throw error
@@ -41,10 +41,10 @@ export const patchAlbatalk = async (
  * 알바토크 삭제
  */
 export const deleteAlbatalk = async (
-  postId: number,
+  talkId: number,
 ): Promise<AxiosResponse> => {
   try {
-    return await authAxios.delete(`${API_URL}/${postId}`)
+    return await authAxios.delete(`${API_URL}/${talkId}`)
   } catch (error) {
     console.error('알바토크 삭제 중 오류 발생:', error)
     throw error
@@ -54,9 +54,9 @@ export const deleteAlbatalk = async (
 /**
  * 알바토크 상세보기
  */
-export const getAlbatalk = async (postId: number) => {
+export const getAlbatalk = async (talkId: number) => {
   try {
-    return await authAxios.get(`${API_URL}/${postId}`)
+    return await authAxios.get(`${API_URL}/${talkId}`)
   } catch (error) {
     console.error('알바토크 상세보기 중 오류 발생:', error)
     throw error
@@ -67,10 +67,10 @@ export const getAlbatalk = async (postId: number) => {
  * 알바토크 좋아요
  */
 export const postAlbatalkLike = async (
-  postId: number,
+  talkId: number,
 ): Promise<AxiosResponse> => {
   try {
-    return await authAxios.post(`${API_URL}/${postId}/like`)
+    return await authAxios.post(`${API_URL}/${talkId}/like`)
   } catch (error) {
     console.error('알바토크 좋아요 중 오류 발생:', error)
     throw error
@@ -81,10 +81,10 @@ export const postAlbatalkLike = async (
  * 알바토크 좋아요 취소
  */
 export const deleteAlbatalkLike = async (
-  postId: number,
+  talkId: number,
 ): Promise<AxiosResponse> => {
   try {
-    return await authAxios.delete(`${API_URL}/${postId}/like`)
+    return await authAxios.delete(`${API_URL}/${talkId}/like`)
   } catch (error) {
     console.error('알바토크 좋아요 취소 중 오류 발생:', error)
     throw error

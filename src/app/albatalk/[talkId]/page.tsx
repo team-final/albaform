@@ -15,19 +15,19 @@ import styles from './page.module.scss'
 
 export default function AlbatalkPage({ params }: Params) {
   const router = useRouter()
-  const { postId } = params
+  const { talkId } = params
   const [data, setData] = useState<AlbatalkProps | null>(null)
 
   const { initialAlbatalkData } = useAlbatalkStore()
 
   const request = useCallback(async () => {
-    if (!postId) return
-    const response = await getAlbatalk(postId)
+    if (!talkId) return
+    const response = await getAlbatalk(talkId)
     if (!response) return router.replace(`/${ALBATALK_LIST_PATH_NAME}`)
     // console.log('response: ', response)
     initialAlbatalkData(response.data)
     setData(response.data)
-  }, [router, postId, setData, initialAlbatalkData])
+  }, [router, talkId, setData, initialAlbatalkData])
 
   useEffect(() => {
     request()
