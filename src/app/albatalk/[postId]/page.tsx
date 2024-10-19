@@ -1,6 +1,6 @@
 'use client'
 
-import Albatalk from '@/components/Albatalk/Albatalk'
+import Albatalk from '@/components/Albatalk/Albatalk/Albatalk'
 import CommentList from '@/components/CommentList/CommentList'
 import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner'
 import { getAlbatalk } from '@/lib/api/albatalk'
@@ -24,7 +24,7 @@ export default function AlbatalkPage({ params }: Params) {
     if (!postId) return
     const response = await getAlbatalk(postId)
     if (!response) return router.replace(`/${ALBATALK_LIST_PATH_NAME}`)
-    console.log('response: ', response)
+    // console.log('response: ', response)
     initialAlbatalkData(response.data)
     setData(response.data)
   }, [router, postId, setData, initialAlbatalkData])

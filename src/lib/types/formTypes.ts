@@ -1,5 +1,7 @@
 import { FieldValues } from 'react-hook-form'
 
+import { LIST_ALBATALK_ORDER_BY } from '../data/constants'
+
 export type StepIndex = 1 | 2 | 3
 export type StepTitle = '모집 내용' | '모집 조건' | '근무 조건'
 
@@ -73,6 +75,20 @@ export interface TempEditingFormType {
   createAt: string
   formData: EditingFormData | FieldValues
 }
+
+export type ListAlbatalkOrderByType = keyof typeof LIST_ALBATALK_ORDER_BY
+export type ListAlbatalkOrderByWord =
+  (typeof LIST_ALBATALK_ORDER_BY)[ListAlbatalkOrderByType]
+export const LIST_ALBATALK_ORDER_BY_KEYS = Object.keys(
+  LIST_ALBATALK_ORDER_BY,
+) as Array<ListAlbatalkOrderByType>
+export interface ListAlbatalkProps {
+  limit: number
+  cursor?: number
+  orderBy?: ListAlbatalkOrderByType
+  keyword?: string
+}
+
 export interface AlbatalkProps {
   writer: {
     /** 작성자 프로필 */

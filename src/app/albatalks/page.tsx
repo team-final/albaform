@@ -1,38 +1,35 @@
 'use client'
 
+import AlbatalkCard from '@/components/Albatalk/AlbatalkCard/AlbatalkCard'
+import FloatingButton from '@/components/Button/FloatingButton/FloatingButton'
+import Dropdown from '@/components/Dropdown/Dropdown'
 import SearchInput from '@/components/Input/SearchInput/SearchInput'
-import ListCardItem from '@/components/ListCardItem/ListCardItem'
-import { GetFormListProps, getFormList } from '@/lib/api/getFormList'
+import { listAlbatalk } from '@/lib/api/albatalk'
+import {
+  ALBATALK_EDIT_PATH_NAME,
+  LIST_ALBATALK_ORDER_BY,
+} from '@/lib/data/constants'
+import {
+  AlbatalkProps,
+  LIST_ALBATALK_ORDER_BY_KEYS,
+  ListAlbatalkOrderByType,
+} from '@/lib/types/formTypes'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
-import FormLayout from './layout'
-import Styles from './page.module.scss'
+import styles from './page.module.scss'
 import GotoTopButton from '/public/icons/ic-goto-top.png'
 
-interface ListItem {
-  id: number
-  title: string
-  recruitmentStartDate: string
-  recruitmentEndDate: string
-  imageUrls: string[]
-  applyCount: number
-  scrapCount: number
-  isPublic: boolean
-  createdAt: string
-  updatedAt: string
-}
-
 interface ServerResponse {
-  data: ListItem[]
+  data: AlbatalkProps[]
   nextCursor: number | null
 }
 
-export default function Page() {
-  const [orderBy, setOrderBy] =
-    useState<GetFormListProps['orderBy']>('mostRecent')
-  const [isRecruiting, setIsRecruiting] = useState<boolean | null>(null)
+export default function AlbatalksPage() {
+  const router = useRouter()
+  const [orderBy, setOrderBy] = useState<ListAlbatalkOrderByType>('mostRecent')
   const [keyword, setKeyword] = useState('')
   const [searchKeyword, setSearchKeyword] = useState('')
 
@@ -42,13 +39,12 @@ export default function Page() {
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
-      queryKey: ['forms', orderBy, isRecruiting, searchKeyword],
+      queryKey: ['listAlbatalk', orderBy, searchKeyword],
       queryFn: ({ pageParam = undefined }) =>
-        getFormList({
-          limit: 18,
+        listAlbatalk({
+          limit: 6,
           cursor: pageParam as number | undefined,
           orderBy,
-          isRecruiting,
           keyword: searchKeyword,
         }),
       getNextPageParam: (lastPage: ServerResponse) =>
@@ -61,6 +57,10 @@ export default function Page() {
       top: 0,
       behavior: 'auto',
     })
+  }
+
+  const handleMoveEditPage = () => {
+    router.push(`/${ALBATALK_EDIT_PATH_NAME}`)
   }
 
   useEffect(() => {
@@ -81,67 +81,65 @@ export default function Page() {
   }, [hasNextPage, isFetchingNextPage, fetchNextPage])
 
   return (
-    <FormLayout>
+    <>
       <Image
         src={GotoTopButton}
         onClick={handleGoToTop}
         alt={'goto-top'}
         width={40}
         height={50}
-        className={Styles['goto-top-button']}
+        className={styles['goto-top-button']}
       />
-      <div className={Styles['list-page-container']}>
-        <div className={Styles['list-page-searchBar']}>
+
+      <div className={styles['floating-button-container']}>
+        <FloatingButton onClick={handleMoveEditPage}>
+          <FloatingButton.Icon src="/icons/ic-edit.svg" altText="글쓰기" />
+        </FloatingButton>
+      </div>
+
+      <div className={styles['list-page-container']}>
+        <div className={styles['list-page-searchBar']}>
           <SearchInput
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
             onEnter={handleSearch}
-            placeholder="어떤 알바를 찾고 계세요?"
+            placeholder="궁금한 점을 검색해보세요"
           />
           <button
             onClick={handleSearch}
-            className={Styles['list-page-searchButton']}
+            className={styles['list-page-searchButton']}
           >
             검색
           </button>
         </div>
-        <div className={Styles['list-page-selectbar']}>
-          <select
-            value={isRecruiting === null ? '' : isRecruiting.toString()}
-            onChange={(e) =>
-              setIsRecruiting(
-                e.target.value === '' ? null : e.target.value === 'true',
-              )
-            }
-          >
-            <option value="">모두</option>
-            <option value="true">모집 중</option>
-            <option value="false">모집 완료</option>
-          </select>
-          <select
-            value={orderBy}
-            onChange={(e) =>
-              setOrderBy(e.target.value as GetFormListProps['orderBy'])
-            }
-          >
-            <option value="mostRecent">최신순</option>
-            <option value="highestWage">시급높은순</option>
-            <option value="mostApplied">지원자 많은순</option>
-            <option value="mostScrapped">스크랩 많은순</option>
-          </select>
+        <div className={styles['list-page-selectbar']}>
+          <Dropdown className={styles['dropdown-condition']}>
+            <Dropdown.Trigger>
+              {LIST_ALBATALK_ORDER_BY[orderBy]}
+            </Dropdown.Trigger>
+            <Dropdown.Menu>
+              {LIST_ALBATALK_ORDER_BY_KEYS.map((key) => {
+                return (
+                  <Dropdown.Item
+                    key={`list_albatalk_order_by-${key}`}
+                    onClick={() => setOrderBy(key)}
+                  >
+                    {LIST_ALBATALK_ORDER_BY[key]}
+                  </Dropdown.Item>
+                )
+              })}
+            </Dropdown.Menu>
+          </Dropdown>
         </div>
-        <div className={Styles['carditem-container']}>
-          {data?.pages.map((page, i) =>
-            page.data.map((item: ListItem) => (
-              <ListCardItem
-                key={`${item.id}-${i}`}
-                {...item}
-                isRecruiting={isRecruiting}
-              />
-            )),
-          )}
+        <div className={styles['carditem-container']}>
+          {data &&
+            data.pages.map((page, i) =>
+              page.data.map((item: AlbatalkProps) => (
+                <AlbatalkCard key={`${item.id}-${i}`} {...item} />
+              )),
+            )}
         </div>
       </div>
-    </FormLayout>
+    </>
   )
 }

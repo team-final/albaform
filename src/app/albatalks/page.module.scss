@@ -2,6 +2,51 @@
 @use 'src/styles/_font' as font;
 @use 'src/styles/_media' as media;
 
+.dropdown-condition {
+  min-width: 120px;
+
+  & button[class*='trigger'] {
+    padding: 6px 16px;
+    padding-right: 36px;
+    min-height: 32px;
+    border: none;
+    background-color: transparent;
+    background-image: url('/icons/ic-chevron-thin-down.svg');
+    background-position: right 6px center;
+    background-size: 24px;
+    color: color.$Black-300;
+
+    @include font.Style(lg, 600);
+
+    &:not(:last-child) {
+      border-color: color.$Grayscale-100;
+      background-image: url('/icons/ic-chevron-thin-up.svg');
+    }
+  }
+
+  & div[class*='menu'] {
+    left: auto;
+    right: 0;
+    width: fit-content;
+    min-width: 100%;
+    max-width: none;
+  }
+
+  & button[class*='item'] {
+    padding: 12px 28px;
+    min-height: 32px;
+
+    @include font.Style(lg, 600);
+
+    white-space: nowrap;
+
+    &.active {
+      background-color: color.$Primary-Orange-50;
+      color: color.$Primary-Orange-300;
+    }
+  }
+}
+
 .list-page {
   &-container {
     max-width: 1479px;
@@ -39,8 +84,8 @@
 
   &-selectbar {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 80px;
+    justify-content: flex-end;
+    margin-bottom: 32px;
   }
 }
 
@@ -78,7 +123,20 @@
   }
 }
 
-.listcard-img {
-  width: auto;
-  height: 304px;
+.floating-button-container {
+  position: fixed;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+  right: 80px;
+  bottom: 80px;
+
+  @include media.mobile {
+    right: 10px;
+  }
+
+  & img[class*='icon'] {
+    filter: brightness(2);
+  }
 }

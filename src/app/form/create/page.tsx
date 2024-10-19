@@ -43,7 +43,7 @@ export default function CreateFormPage() {
     }
 
     const response = await createAlbaForm(JSON.stringify(params))
-    console.log('response: ', response)
+    // console.log('response: ', response)
     if (response) {
       router.replace(`/form/${response.data.id}`)
     }

@@ -31,7 +31,7 @@ export default function IconText({
 function Icon({ src, alt }: { src: string; alt: string }) {
   return (
     <div className={styles.icon}>
-      <Image src={src} alt={alt} fill sizes={'99vw'} />
+      <Image src={src} alt={alt} fill sizes={'99vw'} draggable={false} />
     </div>
   )
 }

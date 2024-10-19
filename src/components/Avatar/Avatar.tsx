@@ -20,6 +20,7 @@ export default function Avatar({ imageUrl, name }: ProfileProps) {
           sizes={'99vw'}
           fill
           priority
+          draggable={false}
         />
       </div>
       <p className={styles.name}>{name}</p>
