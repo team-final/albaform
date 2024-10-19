@@ -1,4 +1,5 @@
-@use 'src/styles/_color.scss' as color;
+@use 'src/styles/_variables' as var;
+@use 'src/styles/_color' as color;
 @use 'src/styles/_font' as font;
 @use 'src/styles/_media' as media;
 
@@ -49,8 +50,8 @@
 
 .list-page {
   &-container {
-    max-width: 1479px;
-    min-width: 327px;
+    max-width: var.$max_width_lg;
+    min-width: 240px;
     margin: 0 auto;
 
     @include media.tablet {
@@ -94,19 +95,20 @@
   gap: 24px;
   grid-template-columns: repeat(3, 1fr);
   justify-items: center;
+  margin: 0 auto;
 
-  @media (width <= 1200px) {
-    grid-template-columns: repeat(2, 1fr);
-    margin: 0 72px;
-  }
+  // @media (width <= 1200px) {
+  //   grid-template-columns: repeat(2, 1fr);
+  //   margin: 0 72px;
+  // }
 
   @include media.tablet {
-    max-width: 400px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include media.mobile {
+    max-width: 480px;
+    grid-template-columns: repeat(1, 1fr);
   }
 }
 

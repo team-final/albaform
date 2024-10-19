@@ -44,6 +44,8 @@
 
   @include font.Style(lg, 400);
 
+  white-space: nowrap;
+
   @include media.tablet {
     @include font.Style(xs, 400);
   }
