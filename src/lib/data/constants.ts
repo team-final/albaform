@@ -120,6 +120,12 @@ export const USER_ROLE_CONFIG = {
   },
 }
 
+export const LIST_ALBATALK_ORDER_BY = {
+  mostRecent: '최신순',
+  mostCommented: '댓글 많은순',
+  mostLiked: '좋아요 많은순',
+} as const
+
 export const ALBATALK_LIST_PATH_NAME = 'albatalks'
 export const ALBATALK_POST_PATH_NAME = 'albatalk'
 export const ALBATALK_EDIT_PATH_NAME = 'addtalk'

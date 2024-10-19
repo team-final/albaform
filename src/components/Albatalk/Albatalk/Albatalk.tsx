@@ -39,7 +39,6 @@ export default function Albatalk() {
   }
 
   const handleDelete = async () => {
-    console.log('handleDelete: ', albatalkData.id)
     try {
       await deleteAlbatalk(albatalkData.id)
       router.replace(`/${ALBATALK_LIST_PATH_NAME}`)
@@ -75,8 +74,6 @@ export default function Albatalk() {
 
     setIsPending(false)
   }
-
-  console.log(user?.id, albatalkData.writer.id)
 
   return (
     <div className={styles.container}>

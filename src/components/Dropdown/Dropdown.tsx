@@ -53,7 +53,8 @@ Dropdown.Trigger = function Trigger({
     <button
       type="button"
       className={classNames(styles.trigger, className)}
-      onClick={() => {
+      onClick={(event) => {
+        event.stopPropagation()
         if (typeof onClick === 'function') onClick()
         toggle()
       }}

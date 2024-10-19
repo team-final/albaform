@@ -3,7 +3,7 @@
 import MainButton from '@/components/Button/MainButton/MainButton'
 import Form from '@/components/Form/Form'
 import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner'
-import { patchAlbatalk, postAlbatalk } from '@/lib/api/albatalk'
+import { getAlbatalk, patchAlbatalk, postAlbatalk } from '@/lib/api/albatalk'
 import { uploadImage } from '@/lib/api/uploadImageApi'
 import {
   ALBATALK_LIST_PATH_NAME,
@@ -15,7 +15,7 @@ import { AlbatalkProps, ImageUrl } from '@/lib/types/formTypes'
 import classNames from 'classnames'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { FieldValues } from 'react-hook-form'
 
 import styles from './Addtalk.module.scss'
@@ -28,33 +28,13 @@ const INITIAL_IMAGE: ImageUrl = {
 export default function Addtalk({ postId }: { postId?: number }) {
   const user = useUserStore.getState().user
   const router = useRouter()
-  if (!user) router.replace(ALBATALK_LIST_PATH_NAME)
+  if (!user) router.replace(`/${ALBATALK_LIST_PATH_NAME}`)
 
-  const { albatalkData } = useAlbatalkStore()
+  const { albatalkData, initialAlbatalkData } = useAlbatalkStore()
 
-  if (
-    (albatalkData && albatalkData.writer.id !== user?.id) ||
-    (postId && postId !== albatalkData?.id)
-  )
-    router.replace(ALBATALK_LIST_PATH_NAME)
-
-  const [title, setTitle] = useState<string>(
-    postId && postId === albatalkData?.id ? albatalkData.title : '',
-  )
-  const [content, setContent] = useState<string>(
-    postId && postId === albatalkData?.id ? albatalkData.content : '',
-  )
-  const [imageObj, setImageObj] = useState<ImageUrl>(() => {
-    if (postId && postId === albatalkData?.id) {
-      try {
-        return JSON.parse(albatalkData.imageUrl)
-      } catch {
-        return INITIAL_IMAGE
-      }
-    } else {
-      return INITIAL_IMAGE
-    }
-  })
+  const [title, setTitle] = useState<string>('')
+  const [content, setContent] = useState<string>('')
+  const [imageObj, setImageObj] = useState<ImageUrl>(INITIAL_IMAGE)
   const [isImagePending, setIsImagePending] = useState<boolean>(false)
 
   const handleUploadImage = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -92,8 +72,41 @@ export default function Addtalk({ postId }: { postId?: number }) {
       response = await postAlbatalk(JSON.stringify(data))
     }
     if (response)
-      router.replace(`/${ALBATALK_LIST_PATH_NAME}/${response.data.id}`)
+      router.replace(`/${ALBATALK_POST_PATH_NAME}/${response.data.id}`)
   }
+
+  const request = useCallback(async () => {
+    if (postId) {
+      const response = await getAlbatalk(postId)
+      if (!response) return router.replace(`/${ALBATALK_LIST_PATH_NAME}`)
+      // console.log('response: ', response)
+      initialAlbatalkData(response.data)
+    } else {
+      initialAlbatalkData(null)
+    }
+  }, [router, postId, initialAlbatalkData])
+
+  useEffect(() => {
+    request()
+  }, [request])
+
+  useEffect(() => {
+    if (
+      albatalkData &&
+      user?.id === albatalkData?.writer.id &&
+      postId === albatalkData?.id
+    ) {
+      setTitle(albatalkData.title)
+      setContent(albatalkData.content)
+      setImageObj(() => {
+        try {
+          return JSON.parse(albatalkData.imageUrl)
+        } catch {
+          return INITIAL_IMAGE
+        }
+      })
+    }
+  }, [albatalkData, user, postId])
 
   return (
     <Form
