@@ -69,9 +69,9 @@ function ListCardItem({
     if (user.role === 'OWNER') return router.push(`/form/${id}`)
 
     if (
-      !isPublic ||
-      !isRecruiting ||
-      calculateDaysLeft(recruitmentEndDate) === '마감'
+      !isPublic
+      // || !isRecruiting
+      // || calculateDaysLeft(recruitmentEndDate) === '마감'
     )
       return false
 
