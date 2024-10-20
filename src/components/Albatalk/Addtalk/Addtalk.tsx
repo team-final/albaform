@@ -83,7 +83,6 @@ export default function Addtalk({ talkId }: { talkId?: number }) {
     if (talkId) {
       const response = await getAlbatalk(talkId)
       if (!response) return router.replace(`/${ALBATALK_LIST_PATH_NAME}`)
-      // console.log('response: ', response)
       initialAlbatalkData(response.data)
     } else {
       initialAlbatalkData(null)
@@ -97,8 +96,8 @@ export default function Addtalk({ talkId }: { talkId?: number }) {
   useEffect(() => {
     if (
       albatalkData &&
-      user?.id === albatalkData?.writer.id &&
-      talkId === albatalkData?.id
+      albatalkData.writer.id === user?.id &&
+      albatalkData.id === talkId
     ) {
       setTitle(albatalkData.title)
       setContent(albatalkData.content)

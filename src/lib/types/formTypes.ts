@@ -115,7 +115,7 @@ export interface AlbatalkProps {
   /** 게시물 식별번호 */
   id: number
   /** 좋아요 여부 */
-  isLiked: true
+  isLiked: boolean
 }
 
 export type AlbatalkPropsType =
@@ -128,6 +128,23 @@ export type AlbatalkPropsType =
   | 'title'
   | 'id'
   | 'isLiked'
+
+export interface AlbatalkCommentProps {
+  totalPages: number
+  currentPage: number
+  totalItemCount: number
+  data: {
+    writer: {
+      imageUrl: string
+      nickname: string
+      id: number
+    }
+    updatedAt: string
+    createdAt: string
+    content: string
+    id: number
+  }[]
+}
 
 export interface AnnoucementProps {
   createdAt: string

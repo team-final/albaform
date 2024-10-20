@@ -109,8 +109,6 @@ export const listAlbatalk = async ({
         keyword,
       },
     })
-
-    // console.log('response: ', response)
     return response.data
   } catch (error) {
     console.error('알바토크 목록 중 오류 발생:', error)
