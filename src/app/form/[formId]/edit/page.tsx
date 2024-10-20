@@ -8,7 +8,7 @@ import FormCreateWrapper from '@/components/FormCreate/FormCreateWrapper/FormCre
 import FormRecruitmentConditions from '@/components/FormCreate/FormRecruitmentConditions/FormRecruitmentConditions'
 import FormRecruitmentContent from '@/components/FormCreate/FormRecruitmentContent/FormRecruitmentContent'
 import FormWorkingConditions from '@/components/FormCreate/FormWorkingConditions/FormWorkingConditions'
-import { createAlbaForm } from '@/lib/api/formCreate'
+import { patchAlbaForm } from '@/lib/api/formCreate'
 import { useFormDetailsQuery } from '@/lib/queries/formDetailsQuery'
 import {
   INITIAL_EDITING_FORM_DATA,
@@ -17,6 +17,7 @@ import {
 import { useUserStore } from '@/lib/stores/userStore'
 import { EditingFormData } from '@/lib/types/formTypes'
 import { Params } from '@/lib/types/types'
+import { useQueryClient } from '@tanstack/react-query'
 import classNames from 'classnames'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect } from 'react'
@@ -26,6 +27,7 @@ const INITIAL_EDITING_FORM_DATA_KEYS = Object.keys(INITIAL_EDITING_FORM_DATA)
 
 export default function EditFormPage({ params }: Params) {
   const user = useUserStore.getState().user
+  const queryClient = useQueryClient()
   const router = useRouter()
 
   useEffect(() => {
@@ -54,9 +56,10 @@ export default function EditFormPage({ params }: Params) {
         : formData.numberOfPositions,
     }
 
-    const response = await createAlbaForm(JSON.stringify(params))
+    const response = await patchAlbaForm(Number(formId), JSON.stringify(params))
     if (response) {
-      router.replace(`/form/${response.data.id}`)
+      await queryClient.invalidateQueries()
+      router.push(`/form/${response.data.id}`)
     }
   }
 

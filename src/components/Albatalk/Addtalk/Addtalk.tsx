@@ -74,8 +74,8 @@ export default function Addtalk({ talkId }: { talkId?: number }) {
       response = await postAlbatalk(JSON.stringify(data))
     }
     if (response) {
-      router.replace(`/${ALBATALK_POST_PATH_NAME}/${response.data.id}`)
-      queryClient.invalidateQueries()
+      await queryClient.invalidateQueries()
+      router.push(`/${ALBATALK_POST_PATH_NAME}/${response.data.id}`)
     }
   }
 

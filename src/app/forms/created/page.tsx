@@ -12,7 +12,7 @@ export default function CreatedFormsPage() {
       router.replace('/user/sign-in')
       break
     case 'APPLICANT':
-      router.back()
+      router.replace('/')
       break
   }
 

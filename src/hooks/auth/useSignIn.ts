@@ -6,9 +6,11 @@ import handleError from '@/lib/utils/errorHandler'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { AxiosError, AxiosResponse } from 'axios'
 import Cookies from 'js-cookie'
+import { useRouter } from 'next/navigation'
 
 export default function useSignIn() {
   const queryClient = useQueryClient()
+  const router = useRouter()
   const { setUser } = useUserStore()
 
   return useMutation({
@@ -37,6 +39,7 @@ export default function useSignIn() {
     onSuccess: (user) => {
       queryClient.setQueryData(['user'], user) // 쿼리 캐시에 유저 정보 저장
       setUser(user) // Zustand 스토어에 유저 정보 저장
+      router.push('/')
     },
     onError: (error: AxiosError) => {
       handleError(error, SIGN_IN_ERROR_MESSAGE)

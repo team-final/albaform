@@ -3,12 +3,14 @@
 import AlbatalkCard from '@/components/Albatalk/AlbatalkCard/AlbatalkCard'
 import FloatingButton from '@/components/Button/FloatingButton/FloatingButton'
 import Dropdown from '@/components/Dropdown/Dropdown'
+import EmptyContent from '@/components/EmptyContent/EmptyContent'
 import SearchInput from '@/components/Input/SearchInput/SearchInput'
 import { listAlbatalk } from '@/lib/api/albatalk'
 import {
   ALBATALK_EDIT_PATH_NAME,
   LIST_ALBATALK_ORDER_BY,
 } from '@/lib/data/constants'
+import { useUserStore } from '@/lib/stores/userStore'
 import {
   AlbatalkProps,
   LIST_ALBATALK_ORDER_BY_KEYS,
@@ -28,6 +30,7 @@ interface ServerResponse {
 }
 
 export default function AlbatalksPage() {
+  const user = useUserStore.getState().user
   const router = useRouter()
   const [orderBy, setOrderBy] = useState<ListAlbatalkOrderByType>('mostRecent')
   const [keyword, setKeyword] = useState('')
@@ -91,11 +94,13 @@ export default function AlbatalksPage() {
         className={styles['goto-top-button']}
       />
 
-      <div className={styles['floating-button-container']}>
-        <FloatingButton onClick={handleMoveEditPage}>
-          <FloatingButton.Icon src="/icons/ic-edit.svg" altText="글쓰기" />
-        </FloatingButton>
-      </div>
+      {user && (
+        <div className={styles['floating-button-container']}>
+          <FloatingButton onClick={handleMoveEditPage}>
+            <FloatingButton.Icon src="/icons/ic-edit.svg" altText="글쓰기" />
+          </FloatingButton>
+        </div>
+      )}
 
       <div className={styles['list-page-container']}>
         <div className={styles['list-page-searchBar']}>
@@ -132,12 +137,15 @@ export default function AlbatalksPage() {
           </Dropdown>
         </div>
         <div className={styles['carditem-container']}>
-          {data &&
-            data.pages.map((page, i) =>
+          {data?.pages && data?.pages[0].data.length === 0 ? (
+            <EmptyContent type={'post'} />
+          ) : (
+            data?.pages.map((page, i) =>
               page.data.map((item: AlbatalkProps) => (
                 <AlbatalkCard key={`${item.id}-${i}`} {...item} />
               )),
-            )}
+            )
+          )}
         </div>
       </div>
     </>

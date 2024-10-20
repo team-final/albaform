@@ -7,18 +7,8 @@ import styles from './GlobalNavigationBar.module.scss'
 import Logo from './Logo/Logo'
 import Menu from './Menu/Menu'
 import SideBar from './SideBar/SideBar'
-import UserTypeIndicator from './UserTypeIndicator/UserTypeIndicator'
-
-type pageTypes = 'landing' | 'auth' | 'content'
 
 export default function GlobalNavigationBar() {
-  /**
-   * @todo
-   * 1. Zustand 로 페이지 타입 확인하기 [ landing, auth, content ];
-   */
-  const type: pageTypes[] = ['landing', 'auth', 'content']
-  const router: pageTypes = type[0]
-
   const [showSideBar, setShowSideBar] = useState<boolean>(false)
 
   /**
@@ -43,14 +33,8 @@ export default function GlobalNavigationBar() {
       <header className={styles.header}>
         <div className={styles.inner}>
           <Logo />
-          {router === 'auth' ? (
-            <UserTypeIndicator />
-          ) : (
-            <>
-              <Menu />
-              <HamburgerButton onClick={() => setShowSideBar(true)} />
-            </>
-          )}
+          <Menu />
+          <HamburgerButton onClick={() => setShowSideBar(true)} />
         </div>
       </header>
       {showSideBar && <SideBar closeAction={() => setShowSideBar(false)} />}

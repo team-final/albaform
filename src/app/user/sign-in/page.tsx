@@ -23,7 +23,7 @@ export default function SignInPage() {
   const router = useRouter()
   const signIn = useSignIn()
 
-  if (user?.role) router.back()
+  if (user) router.replace('/')
 
   async function handleSignIn({ email, password }: SignInValues) {
     await signIn.mutateAsync({ email, password })
@@ -32,8 +32,6 @@ export default function SignInPage() {
   async function handleSubmit(formValues: FieldValues) {
     const values: SignInValues = formValues as SignInValues
     await signIn.mutateAsync(values)
-
-    router.push('/')
   }
 
   const randomSignIn = async (role: any) => {

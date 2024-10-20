@@ -1,6 +1,7 @@
+import { useUserStore } from '@/lib/stores/userStore'
 import { calculateDaysLeft, formatDateRange } from '@/lib/utils/formatDate2'
 import Image from 'next/image'
-import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import DoneFormIc from 'public/icons/ic-circle-check.svg'
 import React from 'react'
 
@@ -34,6 +35,9 @@ function ListCardItem({
   isPublic,
   isRecruiting,
 }: ListItem) {
+  const user = useUserStore.getState().user
+  const router = useRouter()
+
   const getImageUrl = (): string => {
     if (imageUrls && imageUrls.length > 0) {
       const firstImage = imageUrls[0]
@@ -59,31 +63,46 @@ function ListCardItem({
 
   const imageUrl = getImageUrl()
 
+  const handleRouter = () => {
+    if (!user) return router.push('/user/sign-in')
+
+    if (user.role === 'OWNER') return router.push(`/form/${id}`)
+
+    if (
+      !isPublic ||
+      !isRecruiting ||
+      calculateDaysLeft(recruitmentEndDate) === '마감'
+    )
+      return false
+
+    return router.push(`/form/${id}`)
+  }
+
   return (
     <div className={Styles['listcard-outcontainer']}>
-      {!isPublic && isPublic !== null ? (
-        <div className={Styles['listcard-outcontainer-privateImg']}>
-          <PrivateImg width={100} height={100} />
-          <p className={Styles['listcard-outcontainer-privateImg-text']}>
-            비공개 처리된 알바폼이에요
-          </p>
-        </div>
-      ) : isRecruiting === false ? (
-        <div className={Styles['listcard-outcontainer-notRecruiting']}>
-          <NotRecurit width={100} height={100} />
-          <p className={Styles['listcard-outcontainer-notRecruiting-text']}>
-            현재 모집하고 있지 않아요!
-          </p>
-        </div>
-      ) : calculateDaysLeft(recruitmentEndDate) === '마감' ? (
-        <div className={Styles['listcard-outcontainer-doneRecruiting']}>
-          <DoneFormIc width={100} height={100} />
-          <p className={Styles['listcard-outcontainer-doneRecruiting-text']}>
-            모집 기간이 종료됐어요!
-          </p>
-        </div>
-      ) : null}
-      <Link href={`/form/${id}`} style={{ textDecoration: 'none' }}>
+      <article onClick={handleRouter}>
+        {!isPublic && isPublic !== null ? (
+          <div className={Styles['listcard-outcontainer-privateImg']}>
+            <PrivateImg width={100} height={100} />
+            <p className={Styles['listcard-outcontainer-privateImg-text']}>
+              비공개 처리된 알바폼이에요
+            </p>
+          </div>
+        ) : isRecruiting === false ? (
+          <div className={Styles['listcard-outcontainer-notRecruiting']}>
+            <NotRecurit width={100} height={100} />
+            <p className={Styles['listcard-outcontainer-notRecruiting-text']}>
+              현재 모집하고 있지 않아요!
+            </p>
+          </div>
+        ) : calculateDaysLeft(recruitmentEndDate) === '마감' ? (
+          <div className={Styles['listcard-outcontainer-doneRecruiting']}>
+            <DoneFormIc width={100} height={100} />
+            <p className={Styles['listcard-outcontainer-doneRecruiting-text']}>
+              모집 기간이 종료됐어요!
+            </p>
+          </div>
+        ) : null}
         <div className={Styles['listcard-main']}>
           <Image
             src={imageUrl}
@@ -125,9 +144,9 @@ function ListCardItem({
             <div className={Styles['listcard-info-bottom-children']}>
               {calculateDaysLeft(recruitmentEndDate)}
             </div>
-          </div>{' '}
+          </div>
         </div>
-      </Link>
+      </article>
     </div>
   )
 }

@@ -3,6 +3,7 @@ import AlertModal from '@/components/Modal/Alert/AlertModal'
 import { useDeleteFormQuery } from '@/lib/queries/formDetailsQuery'
 import { useUserStore } from '@/lib/stores/userStore'
 import handleError from '@/lib/utils/errorHandler'
+import { useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
@@ -22,6 +23,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   // isApplied,
 }) => {
   const user = useUserStore.getState().user
+  const queryClient = useQueryClient()
   const router = useRouter()
   const { mutate: deleteForm } = useDeleteFormQuery()
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
@@ -47,71 +49,16 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
     setIsDeleteModalOpen(false)
   }
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     deleteForm(Number(formId), {
-      onSuccess: () => {
-        router.push('/forms')
+      onSuccess: async () => {
+        router.replace('/forms')
       },
       onError: () => {
         handleError(new Error('폼 삭제 실패'))
       },
     })
-  }
-
-  if (user?.id === ownerId) {
-    return (
-      <div className={styles['button-container']}>
-        <MainButton
-          buttonStyle="solid"
-          disabled={false}
-          onClick={handleEditClick}
-        >
-          <MainButton.Icon src="/icons/ic-edit2.svg" altText="수정하기" />
-          <MainButton.Text>수정하기</MainButton.Text>
-        </MainButton>
-        <MainButton
-          buttonStyle="outline"
-          disabled={false}
-          onClick={handleDeleteClick}
-          color="gray"
-          className={styles['delete-tablet-button']}
-        >
-          <MainButton.Icon src="/icons/ic-trash-can.svg" altText="삭제하기" />
-          <MainButton.Text className={styles['no-text']}>
-            삭제하기
-          </MainButton.Text>
-        </MainButton>
-      </div>
-    )
-  }
-
-  if (user?.role === 'APPLICANT') {
-    return (
-      <div className={styles['button-container']}>
-        {/* {!isApplied ? ( */}
-        <MainButton
-          buttonStyle="solid"
-          disabled={!isInRecruitPeriod}
-          onClick={handleApplyClick}
-        >
-          <MainButton.Icon src="/icons/ic-writing.svg" altText="지원하기" />
-          <MainButton.Text>지원하기</MainButton.Text>
-        </MainButton>
-        {/* ) : ( */}
-        <MainButton
-          buttonStyle="outline"
-          disabled={!isInRecruitPeriod}
-          onClick={handleShowApplicationHistory}
-        >
-          <MainButton.Icon
-            src="/icons/ic-apply-list.svg"
-            altText="지원상태 보기"
-          />
-          <MainButton.Text>지원상태 보기</MainButton.Text>
-        </MainButton>
-        {/* )} */}
-      </div>
-    )
+    await queryClient.invalidateQueries()
   }
 
   return (
@@ -123,6 +70,58 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
           onRequestClose={closeModal}
           onConfirm={handleConfirm}
         />
+      )}
+
+      {user?.id === ownerId && (
+        <div className={styles['button-container']}>
+          <MainButton
+            buttonStyle="solid"
+            disabled={false}
+            onClick={handleEditClick}
+          >
+            <MainButton.Icon src="/icons/ic-edit2.svg" altText="수정하기" />
+            <MainButton.Text>수정하기</MainButton.Text>
+          </MainButton>
+          <MainButton
+            buttonStyle="outline"
+            disabled={false}
+            onClick={handleDeleteClick}
+            color="gray"
+            className={styles['delete-tablet-button']}
+          >
+            <MainButton.Icon src="/icons/ic-trash-can.svg" altText="삭제하기" />
+            <MainButton.Text className={styles['no-text']}>
+              삭제하기
+            </MainButton.Text>
+          </MainButton>
+        </div>
+      )}
+
+      {user?.role === 'APPLICANT' && (
+        <div className={styles['button-container']}>
+          {/* {!isApplied ? ( */}
+          <MainButton
+            buttonStyle="solid"
+            disabled={!isInRecruitPeriod}
+            onClick={handleApplyClick}
+          >
+            <MainButton.Icon src="/icons/ic-writing.svg" altText="지원하기" />
+            <MainButton.Text>지원하기</MainButton.Text>
+          </MainButton>
+          {/* ) : ( */}
+          <MainButton
+            buttonStyle="outline"
+            disabled={!isInRecruitPeriod}
+            onClick={handleShowApplicationHistory}
+          >
+            <MainButton.Icon
+              src="/icons/ic-apply-list.svg"
+              altText="지원상태 보기"
+            />
+            <MainButton.Text>지원상태 보기</MainButton.Text>
+          </MainButton>
+          {/* )} */}
+        </div>
       )}
     </>
   )

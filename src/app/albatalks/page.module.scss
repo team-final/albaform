@@ -1,7 +1,7 @@
-@use 'src/styles/_variables' as var;
 @use 'src/styles/_color' as color;
 @use 'src/styles/_font' as font;
 @use 'src/styles/_media' as media;
+@use 'src/styles/_variables' as var;
 
 .dropdown-condition {
   min-width: 120px;
@@ -110,14 +110,15 @@
 
 .goto-top-button {
   position: fixed;
-  bottom: 0;
-  right: 0;
-  z-index: 3;
+  bottom: 32px;
+  left: 50%;
+  z-index: 16;
   cursor: pointer;
+  transform: translateX(-50%);
   transition: transform 0.3s ease;
 
   &:hover {
-    transform: translateY(-15px);
+    transform: translateX(-50%) translateY(-15px);
   }
 }
 

@@ -8,8 +8,6 @@ import Requirements from '@/components/FormDetails/Requirements/Requirements'
 import WorkScheduleInfo from '@/components/FormDetails/WorkScheduleInfo/WorkScheduleInfo'
 import AlertModal from '@/components/Modal/Alert/AlertModal'
 import ListApplicationsModal from '@/components/Modal/ListApplications/ListApplications'
-import Toastify from '@/components/Toastify/Toastify'
-// import { useListApplicationsQuery } from '@/lib/queries/applicationDetailsQuery'
 import {
   useFormDetailsQuery,
   useFormScrapDeleteMutation,
@@ -55,11 +53,6 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
   const [hasModalBeenOpened, setHasModalBeenOpened] = useState<boolean>(false)
   const [isListApplicationsModalOpen, setIsListApplicationsModalOpen] =
     useState<boolean>(false)
-  // @TODO 지원한 알바폼일 경우 지원하기 버튼 대신 지원상태 보기 버튼
-  // const applicationList = useListApplicationsQuery(Number(formId)).data || []
-  // const isApplied = applicationList
-  //   ? Boolean(applicationList.some((app) => app.applicationId === user?.id))
-  //   : false
 
   useEffect(() => {
     if (formDetails) {
@@ -85,19 +78,23 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
   }, [isInRecruitPeriod, hasModalBeenOpened, formDetails?.recruitmentEndDate]) // 팝업 렌더링 될 때 보이게 & 모집 마감 된 폼 -> 모달 띄움
 
   const handleBookmarkClick = () => {
-    setScrapCount((prevCount) => prevCount + 1)
-    setIsScrapped(true)
+    if (user) {
+      setScrapCount((prevCount) => prevCount + 1)
+      setIsScrapped(true)
 
-    scrapForm(formId, {
-      onSuccess: () => {
-        toast.success('스크랩 하였습니다!')
-      },
-      onError: () => {
-        setIsScrapped(false)
-        setScrapCount((prevCount) => prevCount - 1)
-        toast.error('스크랩에 실패하였습니다!')
-      },
-    })
+      scrapForm(formId, {
+        onSuccess: () => {
+          toast.success('스크랩 하였습니다!')
+        },
+        onError: () => {
+          setIsScrapped(false)
+          setScrapCount((prevCount) => prevCount - 1)
+          toast.error('스크랩에 실패하였습니다!')
+        },
+      })
+    } else {
+      router.push('/user/sign-in')
+    }
   }
 
   const handleBookmarkDeleteClick = () => {
@@ -158,7 +155,6 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
   return (
     <>
       <div className={styles['form-details-client']}>
-        <Toastify />
         <CurrentApplicationPopup
           formDetails={formDetails}
           isVisible={isPopupVisible}

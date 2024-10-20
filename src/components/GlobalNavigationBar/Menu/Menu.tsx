@@ -6,6 +6,7 @@ import {
   ALBATALK_POST_PATH_NAME,
 } from '@/lib/data/constants'
 import { useUserStore } from '@/lib/stores/userStore'
+import classNames from 'classnames'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 
@@ -31,33 +32,33 @@ export default function Menu() {
       <Link
         href="/forms"
         draggable="false"
-        className={pathname === '/forms' ? styles.active : ''}
+        className={classNames({
+          [styles.active]: ['forms', 'form'].includes(pathname.split('/')[1]),
+        })}
       >
         알바 목록
       </Link>
       <Link
         href={`/${ALBATALK_LIST_PATH_NAME}`}
         draggable="false"
-        className={
-          [
+        className={classNames({
+          [styles.active]: [
             ALBATALK_LIST_PATH_NAME,
             ALBATALK_POST_PATH_NAME,
             ALBATALK_EDIT_PATH_NAME,
-          ].includes(pathname.split('/')[1])
-            ? styles.active
-            : ''
-        }
+          ].includes(pathname.split('/')[1]),
+        })}
       >
         알바토크
       </Link>
       <div
         onClick={handleMyFormsClick}
         draggable="false"
-        className={
-          pathname === '/applications' || pathname === '/ownersForms'
-            ? styles.active
-            : ''
-        }
+        className={classNames({
+          [styles.active]: ['applications', 'ownersForms'].includes(
+            pathname.split('/')[1],
+          ),
+        })}
       >
         내 알바폼
       </div>

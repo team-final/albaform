@@ -84,7 +84,7 @@ export default function UpdateUserPassword({
                   placeholder="새로운 비밀번호를 다시 한번 입력해주세요."
                   pattern={passwordPattern}
                   required
-                  validate={(value) =>
+                  validate={(value: string) =>
                     value === newPassword || '비밀번호가 일치하지 않습니다.'
                   }
                 />

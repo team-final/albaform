@@ -64,7 +64,7 @@ export interface InputProps extends ComponentProps {
     message: string
   }
   value?: any
-  validate?: (values: unknown) => boolean | string
+  validate?: any
   initialValues?: string
   min?: number
   max?: number

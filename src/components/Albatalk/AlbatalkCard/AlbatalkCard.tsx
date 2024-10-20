@@ -15,8 +15,8 @@ import { useRouter } from 'next/navigation'
 import styles from './AlbatalkCard.module.scss'
 
 export default function AlbatalkCard({ ...item }: AlbatalkProps) {
-  const queryClient = useQueryClient()
   const user = useUserStore.getState().user
+  const queryClient = useQueryClient()
   const router = useRouter()
   const { id, title, content, writer, createdAt, commentCount, likeCount } =
     item
@@ -28,12 +28,12 @@ export default function AlbatalkCard({ ...item }: AlbatalkProps) {
   const handleDelete = async () => {
     try {
       await deleteAlbatalk(id)
-      queryClient.invalidateQueries()
+      await queryClient.invalidateQueries()
     } catch {}
   }
 
   const handleMovePage = () => {
-    router.push(`/${ALBATALK_POST_PATH_NAME}/${id}`)
+    router.push(user ? `/${ALBATALK_POST_PATH_NAME}/${id}` : '/user/sign-in')
   }
 
   return (

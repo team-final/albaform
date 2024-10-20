@@ -1,5 +1,6 @@
 'use client'
 
+import EmptyContent from '@/components/EmptyContent/EmptyContent'
 import SearchInput from '@/components/Input/SearchInput/SearchInput'
 import PostsCard from '@/components/PostsCard/PostsCard'
 import { getMyForms } from '@/lib/api/getMyApplyForms'
@@ -7,7 +8,6 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
-import FormLayout from './layout'
 import Styles from './page.module.scss'
 import GotoTopButton from '/public/icons/ic-goto-top.png'
 
@@ -93,7 +93,7 @@ export default function MyApplicationsPage() {
   }, [hasNextPage, isFetchingNextPage, fetchNextPage])
 
   return (
-    <FormLayout>
+    <>
       <Image
         src={GotoTopButton}
         onClick={handleGoToTop}
@@ -102,6 +102,7 @@ export default function MyApplicationsPage() {
         height={50}
         className={Styles['goto-top-button']}
       />
+
       <div className={Styles['out-container']}>
         <div className={Styles['out-container-search']}>
           <SearchInput
@@ -123,20 +124,25 @@ export default function MyApplicationsPage() {
           </div>
         </div>
       </div>
+
       <div className={Styles['item-container']}>
-        {data?.pages.map((page, pageIndex) =>
-          page.data.map((item, index) => (
-            <PostsCard
-              key={`${pageIndex}-${index}`}
-              status={item.status}
-              createdAt={item.createdAt}
-              recruitmentEndDate={item.form.recruitmentEndDate}
-              form={item.form}
-              resumeId={item.resumeId}
-            />
-          )),
+        {data?.pages && data?.pages[0].data.length === 0 ? (
+          <EmptyContent type={'apply'} />
+        ) : (
+          data?.pages.map((page, pageIndex) =>
+            page.data.map((item, index) => (
+              <PostsCard
+                key={`${pageIndex}-${index}`}
+                status={item.status}
+                createdAt={item.createdAt}
+                recruitmentEndDate={item.form.recruitmentEndDate}
+                form={item.form}
+                resumeId={item.resumeId}
+              />
+            )),
+          )
         )}
       </div>
-    </FormLayout>
+    </>
   )
 }

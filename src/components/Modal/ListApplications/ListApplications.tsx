@@ -35,11 +35,11 @@ export default function ListApplicationsModal({
   }
 
   const toggleExperienceSort = () => {
-    setIsExperienceAscending(!isExperienceAscending)
+    setIsExperienceAscending((prev) => !prev)
   }
 
   const toggleStatusSort = () => {
-    setIsStatusAscending(!isStatusAscending)
+    setIsStatusAscending((prev) => !prev)
   }
 
   const sortedApplications =
