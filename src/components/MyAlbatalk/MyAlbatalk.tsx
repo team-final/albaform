@@ -120,7 +120,7 @@ function Content() {
   }, [hasNextPage, isFetchingNextPage, fetchNextPage])
 
   return (
-    <div className={styles['carditem-container']}>
+    <>
       {data?.pages && data?.pages[0].data.length === 0 ? (
         <EmptyContent type={'post'} />
       ) : (
@@ -130,7 +130,7 @@ function Content() {
           )),
         )
       )}
-    </div>
+    </>
   )
 }
 

@@ -15,7 +15,6 @@ import { Pagination, PaginationProps } from 'antd'
 import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { FieldValues } from 'react-hook-form'
 
-import LoadingSpinner from '../LoadingSpinner/LoadingSpinner'
 import styles from './Comment.module.scss'
 
 export default function Comment({ talkId }: { talkId: number }) {
@@ -122,7 +121,7 @@ export default function Comment({ talkId }: { talkId: number }) {
         </Form.Fieldset>
         <Form.Wrap>
           <Form.SubmitButton>
-            {isPosting ? <LoadingSpinner /> : '등록'}
+            {isPosting ? '등록중...' : '등록'}
           </Form.SubmitButton>
         </Form.Wrap>
       </Form>
@@ -189,7 +188,7 @@ export default function Comment({ talkId }: { talkId: number }) {
                       </Form.Fieldset>
                       <Form.Wrap>
                         <Form.SubmitButton>
-                          {isPatching ? <LoadingSpinner /> : '수정'}
+                          {isPatching ? '수정중...' : '수정'}
                         </Form.SubmitButton>
                       </Form.Wrap>
                     </Form>
