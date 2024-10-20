@@ -27,8 +27,8 @@ const INITIAL_IMAGE: ImageUrl = {
 }
 
 export default function Addtalk({ talkId }: { talkId?: number }) {
-  const queryClient = useQueryClient()
   const user = useUserStore.getState().user
+  const queryClient = useQueryClient()
   const router = useRouter()
   if (!user) router.replace(`/${ALBATALK_LIST_PATH_NAME}`)
 
@@ -83,11 +83,14 @@ export default function Addtalk({ talkId }: { talkId?: number }) {
     if (talkId) {
       const response = await getAlbatalk(talkId)
       if (!response) return router.replace(`/${ALBATALK_LIST_PATH_NAME}`)
+      if (user && user.id !== response.data.writer.id) {
+        return router.replace(`/${ALBATALK_LIST_PATH_NAME}`)
+      }
       initialAlbatalkData(response.data)
     } else {
       initialAlbatalkData(null)
     }
-  }, [router, talkId, initialAlbatalkData])
+  }, [user, router, talkId, initialAlbatalkData])
 
   useEffect(() => {
     request()

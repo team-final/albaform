@@ -11,6 +11,7 @@ import { useUserStore } from '@/lib/stores/userStore'
 import { AlbatalkCommentProps } from '@/lib/types/formTypes'
 import { formatKoreanDate } from '@/lib/utils/formatDate'
 import { useQueryClient } from '@tanstack/react-query'
+import { Pagination, PaginationProps } from 'antd'
 import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { FieldValues } from 'react-hook-form'
 
@@ -24,7 +25,6 @@ export default function Comment({ talkId }: { talkId: number }) {
   const [items, setItems] = useState<AlbatalkCommentProps['data'] | null>(null)
   const [totalItemCount, setTotalItemCount] = useState<number>(0)
   const [page, setPage] = useState<number>(1)
-  const [totalPages, setTotalPages] = useState<number>(0)
   const [isPosting, setIsPosting] = useState<boolean>(false)
   const [isPatching, setIsPatching] = useState<boolean>(false)
   const [isEditList, setIsEditList] = useState<number[]>([])
@@ -41,7 +41,6 @@ export default function Comment({ talkId }: { talkId: number }) {
     )
     setItems(responseCommentList.data)
     setTotalItemCount(responseCommentList.totalItemCount)
-    setTotalPages(responseCommentList.totalPages)
     setContent('')
   }, [talkId, page])
 
@@ -90,6 +89,9 @@ export default function Comment({ talkId }: { talkId: number }) {
       await deleteAlbatalkComment(id)
       await initialCommentList()
     } catch {}
+  }
+  const onChange: PaginationProps['onChange'] = (page) => {
+    setPage(page)
   }
 
   useEffect(() => {
@@ -200,9 +202,14 @@ export default function Comment({ talkId }: { talkId: number }) {
           })}
       </div>
 
-      <div className={styles.pages}>
-        <p>totalItemCount: {totalItemCount}</p>
-        <p>totalPages: {totalPages}</p>
+      <div className={styles.pagination}>
+        <Pagination
+          align="center"
+          defaultCurrent={1}
+          current={page}
+          total={totalItemCount}
+          onChange={onChange}
+        />
       </div>
     </div>
   )
