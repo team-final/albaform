@@ -187,3 +187,26 @@ $gap_size_sm: 8px;
     @include font.Style(xl, 400);
   }
 }
+
+div.pagination {
+  position: relative;
+  padding: 32px;
+
+  & > ul[class~='ant-pagination'] {
+    position: relative;
+
+    & > li[class~='ant-pagination-item'],
+    & > li[class~='ant-pagination-prev'],
+    & > li[class~='ant-pagination-next'] {
+      position: relative;
+      width: 48px;
+      height: 48px;
+      line-height: 48px;
+
+      & button {
+        min-width: auto;
+        min-height: auto;
+      }
+    }
+  }
+}
