@@ -155,7 +155,7 @@ export default function Page() {
               <ListCardItem
                 key={`${item.id}-${i}`}
                 {...item}
-                isRecruiting={null}
+                isRecruiting={true}
               />
             )),
           )}
