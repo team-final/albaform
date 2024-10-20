@@ -1,6 +1,7 @@
 'use client'
 
 import FloatingButton from '@/components/Button/FloatingButton/FloatingButton'
+import EmptyContent from '@/components/EmptyContent/EmptyContent'
 import SearchInput from '@/components/Input/SearchInput/SearchInput'
 import ListCardItem from '@/components/ListCardItem/ListCardItem'
 import { GetFormListProps } from '@/lib/api/getFormList'
@@ -10,7 +11,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
-import FormLayout from './layout'
 import Styles from './page.module.scss'
 import GotoTopButton from '/public/icons/ic-goto-top.png'
 
@@ -23,6 +23,7 @@ interface ListItem {
   applyCount: number
   scrapCount: number
   isPublic: boolean
+  isRecruiting: boolean
   createdAt: string
   updatedAt: string
 }
@@ -85,7 +86,7 @@ export default function Page() {
   }, [hasNextPage, isFetchingNextPage, fetchNextPage])
 
   return (
-    <FormLayout>
+    <>
       <div className={Styles['make-your-form']}>
         <Link href={'/form/create'} style={{ textDecoration: 'none' }}>
           <FloatingButton>
@@ -98,6 +99,7 @@ export default function Page() {
           </FloatingButton>
         </Link>
       </div>
+
       <Image
         src={GotoTopButton}
         onClick={handleGoToTop}
@@ -106,6 +108,7 @@ export default function Page() {
         height={50}
         className={Styles['goto-top-button']}
       />
+
       <div className={Styles['list-page-container']}>
         <div className={Styles['list-page-searchBar']}>
           <SearchInput
@@ -160,18 +163,17 @@ export default function Page() {
           </select>
         </div>
         <div className={Styles['carditem-container']}>
-          {data?.pages.map((page, i) =>
-            page.data.map((item: ListItem) => (
-              <ListCardItem
-                key={`${item.id}-${i}`}
-                {...item}
-                isRecruiting={isRecruiting}
-                isPublic={isPublic}
-              />
-            )),
+          {data?.pages && data?.pages[0].data.length === 0 ? (
+            <EmptyContent type={'form'} />
+          ) : (
+            data?.pages.map((page, i) =>
+              page.data.map((item: ListItem) => (
+                <ListCardItem key={`${item.id}-${i}`} {...item} />
+              )),
+            )
           )}
         </div>
       </div>
-    </FormLayout>
+    </>
   )
 }

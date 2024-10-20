@@ -1,7 +1,7 @@
-@use 'src/styles/_variables' as var;
 @use 'src/styles/_color' as color;
 @use 'src/styles/_font' as font;
 @use 'src/styles/_media' as media;
+@use 'src/styles/_variables' as var;
 
 .container {
   padding: 0 120px;
@@ -168,11 +168,16 @@
 
 .goto-top-button {
   position: fixed;
-  left: 50%;
   bottom: 32px;
+  left: 50%;
   z-index: 16;
-  transform: translateX(-50%);
   cursor: pointer;
+  transform: translateX(-50%);
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateX(-50%) translateY(-15px);
+  }
 }
 
 .carditem-container {

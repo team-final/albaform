@@ -7,10 +7,11 @@ import FormCreateWrapper from '@/components/FormCreate/FormCreateWrapper/FormCre
 import FormRecruitmentConditions from '@/components/FormCreate/FormRecruitmentConditions/FormRecruitmentConditions'
 import FormRecruitmentContent from '@/components/FormCreate/FormRecruitmentContent/FormRecruitmentContent'
 import FormWorkingConditions from '@/components/FormCreate/FormWorkingConditions/FormWorkingConditions'
-import { createAlbaForm } from '@/lib/api/formCreate'
+import { postAlbaForm } from '@/lib/api/formCreate'
 import { useEditingFormStore } from '@/lib/stores/editingFormStore'
 import { useUserStore } from '@/lib/stores/userStore'
 import { EditingFormData } from '@/lib/types/formTypes'
+import { useQueryClient } from '@tanstack/react-query'
 import classNames from 'classnames'
 import { useRouter } from 'next/navigation'
 import { FieldValues } from 'react-hook-form'
@@ -19,6 +20,7 @@ import styles from './page.module.scss'
 
 export default function CreateFormPage() {
   const user = useUserStore.getState().user
+  const queryClient = useQueryClient()
   const router = useRouter()
   const { formData } = useEditingFormStore()
 
@@ -27,7 +29,7 @@ export default function CreateFormPage() {
       router.replace('/user/sign-in')
       break
     case 'APPLICANT':
-      router.back()
+      router.replace('/forms')
       break
   }
 
@@ -42,9 +44,10 @@ export default function CreateFormPage() {
         : formData.numberOfPositions,
     }
 
-    const response = await createAlbaForm(JSON.stringify(params))
+    const response = await postAlbaForm(JSON.stringify(params))
     if (response) {
-      router.replace(`/form/${response.data.id}`)
+      await queryClient.invalidateQueries()
+      router.push(`/form/${response.data.id}`)
     }
   }
 

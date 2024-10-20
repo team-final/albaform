@@ -20,19 +20,25 @@
   max-width: 560px;
   background-color: color.$Grayscale-50;
 
-  @include media.tablet {
-    max-width: 220px;
+  @include media.mobile {
+    max-width: none;
   }
 }
 
 .head {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid color.$Line-100;
   min-height: var.$root_header_height_lg;
   padding: 0 24px;
+
+  & > p {
+    padding: 0 24px;
+
+    @include font.Style(2lg, 500);
+  }
 
   @include media.tablet {
     min-height: var.$root_header_height_md;

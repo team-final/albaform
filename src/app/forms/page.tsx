@@ -1,13 +1,15 @@
 'use client'
 
+import FloatingButton from '@/components/Button/FloatingButton/FloatingButton'
 import SearchInput from '@/components/Input/SearchInput/SearchInput'
 import ListCardItem from '@/components/ListCardItem/ListCardItem'
 import { GetFormListProps, getFormList } from '@/lib/api/getFormList'
+import { useUserStore } from '@/lib/stores/userStore'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
-import FormLayout from './layout'
 import Styles from './page.module.scss'
 import GotoTopButton from '/public/icons/ic-goto-top.png'
 
@@ -30,6 +32,7 @@ interface ServerResponse {
 }
 
 export default function Page() {
+  const user = useUserStore.getState().user
   const [orderBy, setOrderBy] =
     useState<GetFormListProps['orderBy']>('mostRecent')
   const [isRecruiting, setIsRecruiting] = useState<boolean | null>(null)
@@ -81,7 +84,22 @@ export default function Page() {
   }, [hasNextPage, isFetchingNextPage, fetchNextPage])
 
   return (
-    <FormLayout>
+    <>
+      {user?.role === 'OWNER' && (
+        <div className={Styles['make-your-form']}>
+          <Link href={'/form/create'} style={{ textDecoration: 'none' }}>
+            <FloatingButton>
+              <FloatingButton.Icon
+                src="/icons/ic-plus.svg"
+                width={25}
+                height={25}
+              ></FloatingButton.Icon>
+              <FloatingButton.Text>폼 만들기</FloatingButton.Text>
+            </FloatingButton>
+          </Link>
+        </div>
+      )}
+
       <Image
         src={GotoTopButton}
         onClick={handleGoToTop}
@@ -90,6 +108,7 @@ export default function Page() {
         height={50}
         className={Styles['goto-top-button']}
       />
+
       <div className={Styles['list-page-container']}>
         <div className={Styles['list-page-searchBar']}>
           <SearchInput
@@ -136,12 +155,12 @@ export default function Page() {
               <ListCardItem
                 key={`${item.id}-${i}`}
                 {...item}
-                isRecruiting={isRecruiting}
+                isRecruiting={null}
               />
             )),
           )}
         </div>
       </div>
-    </FormLayout>
+    </>
   )
 }

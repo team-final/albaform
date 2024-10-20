@@ -4,12 +4,14 @@ import { TEMP_CREATE_FORM } from '@/lib/data/constants'
 import { useEditingFormStore } from '@/lib/stores/editingFormStore'
 import { useUserStore } from '@/lib/stores/userStore'
 import { TempEditingFormType } from '@/lib/types/formTypes'
+import { usePathname } from 'next/navigation'
 
 import TemporatyFormData from '../TemporatyFormData/TemporatyFormData'
 import styles from './FormCreateAsideActions.module.scss'
 
 export default function FormCreateAsideActions() {
   const user = useUserStore.getState().user
+  const pathname = usePathname()
   const { formData, setTemporaryFormData } = useEditingFormStore()
 
   const handleSubmit = () => {
@@ -55,7 +57,9 @@ export default function FormCreateAsideActions() {
         임시 저장
       </MainButton>
 
-      <Form.SubmitButton>등록하기</Form.SubmitButton>
+      <Form.SubmitButton>
+        {pathname.includes('edit') ? '수정하기' : '등록하기'}
+      </Form.SubmitButton>
     </section>
   )
 }

@@ -1,7 +1,10 @@
+'use client'
+
 /**
  * @todo
  * 랜딩페이지 퍼블리싱
  */
+import { useUserStore } from '@/lib/stores/userStore'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -50,12 +53,18 @@ const IMAGE_DESC = [
 ]
 
 export default function Home() {
+  const { user } = useUserStore()
+  console.log('user: ', user)
+
   return (
     <main className={styles.main}>
       <section className={styles.visual}>
         <LogoText />
         <h1>한 곳에서 관리하는 알바 구인 플랫폼</h1>
-        <Link href={'/forms'} className={styles.button}>
+        <Link
+          href={user ? '/forms' : '/user/sign-in'}
+          className={styles.button}
+        >
           알바폼 시작하기
         </Link>
         <div>
@@ -65,6 +74,7 @@ export default function Home() {
             alt="albaform 서류 뭉치 이미지"
             style={{ objectFit: 'contain' }}
             draggable="false"
+            priority
           />
         </div>
       </section>
@@ -91,6 +101,7 @@ export default function Home() {
                       alt={IMAGE_DESC[index]}
                       style={{ objectFit: 'contain' }}
                       draggable="false"
+                      priority
                     />
                   </div>
                 )
@@ -104,7 +115,10 @@ export default function Home() {
             <br />
             알바 구인 플랫폼
           </h1>
-          <Link href={'/forms'} className={styles.button}>
+          <Link
+            href={user ? '/forms' : '/user/sign-in'}
+            className={styles.button}
+          >
             알바폼 시작하기
           </Link>
         </div>

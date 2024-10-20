@@ -13,6 +13,7 @@ type EmptyContentType =
   | 'post'
   | 'comment'
   | 'form'
+  | 'apply'
   | 'nodata'
   | 'prepare'
 interface EmptyContentProps {
@@ -47,6 +48,10 @@ const EMPTY_CONTENT_PRESET: Record<
         1분 만에 등록하고 알바를 구해보세요!
       </p>
     ),
+  },
+  apply: {
+    icon: <IconEmptyFormfrom />,
+    desc: <p>지원한 알바폼이 없어요.</p>,
   },
   nodata: { icon: <IconInfo />, desc: <p>등록된 데이터가 없어요.</p> },
   prepare: {
