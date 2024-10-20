@@ -199,13 +199,15 @@ export default function MyPage() {
                   ) : null}
                 </div>
 
-                {tabMenu === 'posts' ? (
-                  <MyAlbatalk.Content />
-                ) : tabMenu === 'comments' ? (
-                  ''
-                ) : tabMenu === 'scrap' ? (
-                  <MyScrap.Content />
-                ) : null}
+                <div className={styles['carditem-container']}>
+                  {tabMenu === 'posts' ? (
+                    <MyAlbatalk.Content />
+                  ) : tabMenu === 'comments' ? (
+                    ''
+                  ) : tabMenu === 'scrap' ? (
+                    <MyScrap.Content />
+                  ) : null}
+                </div>
               </div>
             </MyScrap>
           </MyAlbatalk>

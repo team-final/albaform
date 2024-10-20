@@ -98,11 +98,6 @@
   justify-items: center;
   margin: 0 auto;
 
-  // @media (width <= 1200px) {
-  //   grid-template-columns: repeat(2, 1fr);
-  //   margin: 0 72px;
-  // }
-
   @include media.tablet {
     grid-template-columns: repeat(2, 1fr);
   }
