@@ -82,7 +82,7 @@ export const HOURLY_WAGE_DATA: {
 }
 
 export const MY_CONTENT_MENUS: MyContentMenu[] = [
-  // { value: 'posts', label: '내가 쓴 글' },
+  { value: 'posts', label: '내가 쓴 글' },
   // { value: 'comments', label: '내가 쓴 댓글' },
   { value: 'scrap', label: '스크랩' },
 ]
