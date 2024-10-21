@@ -7,16 +7,7 @@ import useGoogleAuth from '@/hooks/auth/useGoogleAuth'
 import useSignIn from '@/hooks/auth/useSignIn'
 import { emailPattern, passwordPattern } from '@/lib/data/patterns'
 import { useUserStore } from '@/lib/stores/userStore'
-import {
-  CreateUserValues,
-  SignUpFormValues
-  CompleteOauthSignUpValues,
-  CompleteSignUpValues,
-  OauthSignUpValues,
-  SignUpValues,
-  UserRole,
-} from '@/lib/types/userTypes'
-import {  } from '@/lib/types/userTypes'
+import { CreateUserValues, SignUpFormValues } from '@/lib/types/userTypes'
 import { generateUniqueNickname } from '@/lib/utils/nicknameGenerator'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -28,7 +19,15 @@ export default function SignUpPage() {
   const router = useRouter()
   const createUser = useCreateUser()
   const signIn = useSignIn()
+  const { signInGoogle, oauthSignUp, oauthSignIn } = useGoogleAuth()
 
+  // 로그인 상태면 뒤로가기
+  if (user) {
+    router.back()
+    return null
+  }
+
+  // 알바폼 회원가입
   const setDefaultUser = ({ email, password, role }: SignUpFormValues) => {
     const defaultNickname = generateUniqueNickname(role)
     const defaultUser: CreateUserValues = {
@@ -61,48 +60,22 @@ export default function SignUpPage() {
     await handleSignUp(signUpFormValues)
   }
 
-  // useEffect(() => {
-  //   if (user) {
-  //     router.push('/user/sign-up/complete')
-  //   }
-  // }, [router, user])
+  // 간편 회원가입
+  const handleGoogleSignUp = async () => {
+    // 구글 로그인
+    const googleResponse = await signInGoogle.mutateAsync()
+    const googleToken: string | undefined = googleResponse.accessToken
+    if (googleToken) {
+      const albaformToken = await oauthSignUp.mutateAsync({
+        token: googleToken,
+        role: 'OWNER',
+        name: 'googleUser',
+      })
 
-  if (user) {
-    router.back()
-    return null
-  }
-  const setDefaultOauthSignupValues = ({
-    token,
-    redirectUri,
-    role,
-  }: OauthSignUpValues) => {
-    const OauthSignUpValues: CompleteOauthSignUpValues = {
-      token,
-      redirectUri,
-      role,
-      name: '이름',
-      nickname: '닉네임',
-      phoneNumber: '010-0000-0000',
-      storeName: '가게이름',
-      storePhoneNumber: '02-0000-0000',
-      location: '서울특별시 강남구 알바폼로 1',
+      // 알바폼 로그인
+      await oauthSignIn.mutateAsync(albaformToken)
+      await router.push('/user/sign-up/complete')
     }
-    return { OauthSignUpValues, role }
-  }
-
-  const { oauthSignUp, oauthSignIn } = useGoogleAuth()
-  const handleGoogleSignUp = async ({
-    values,
-    role,
-  }: {
-    values: OauthSignUpValues
-    role: UserRole
-  }) => {
-    const oauthSignUpValues: CompleteOauthSignUpValues =
-      setDefaultOauthSignupValues(values, role)
-    await oauthSignUp(oauthSignUpValues)
-    const { token } = oauthSignUpValues
-    await oauthSignIn(token)
   }
 
   return (
@@ -205,7 +178,10 @@ export default function SignUpPage() {
           </div>
           <ul className={signInSignUpStyles['sns-list']}>
             <li>
-              <button onClick={() => handleGoogleSignUp()} className={signInSignUpStyles['sns-button']}>
+              <button
+                onClick={handleGoogleSignUp}
+                className={signInSignUpStyles['sns-button']}
+              >
                 <Image
                   src={'/icons/ic-logo-google.svg'}
                   alt={'GOOGLE 아이콘'}

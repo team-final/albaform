@@ -36,10 +36,10 @@ export interface AuthResponse {
 }
 
 export interface CompleteOauthSignUpValues {
+  role: UserRole
   token: string
   redirectUri?: string
   name: string
-  role: UserRole
   nickname?: string
   phoneNumber?: string
   storeName?: string

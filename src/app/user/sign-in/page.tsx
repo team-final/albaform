@@ -29,7 +29,7 @@ export default function SignInPage() {
   const handleGoogleSignIn = async () => {
     await signInGoogle.mutateAsync()
     const { accessToken } = await signInGoogle.mutateAsync()
-    if (accessToken) await oauthSignIn(accessToken)
+    if (accessToken) await oauthSignIn.mutateAsync(accessToken)
   }
 
   async function handleSignIn({ email, password }: SignInValues) {
