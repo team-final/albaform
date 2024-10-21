@@ -1,5 +1,4 @@
 // 지원자 & 사장 -> 제출 내용 조회
-import Toastify from '@/components/Toastify/Toastify'
 import {
   useListApplicationDetailsQuery,
   useMyApplicationQuery,
@@ -52,7 +51,6 @@ export default function MyApplicationModal({
 
   return (
     <>
-      <Toastify />
       <ReactModal
         isOpen={isOpen}
         className={styles['modal-application-content']}
