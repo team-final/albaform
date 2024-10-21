@@ -1,5 +1,4 @@
 import KakaoMap from '@/components/KakaoMap/KaKaoMap'
-import Toastify from '@/components/Toastify/Toastify'
 import { LocationProps } from '@/lib/types/formTypes'
 import { toast } from 'react-toastify'
 
@@ -26,7 +25,6 @@ export default function Location({
 
   return (
     <>
-      <Toastify />
       <section className={styles['location-info']}>
         <h1 className={styles['location-title']}>근무 지역</h1>
         <div className={styles['location-map-container']}>

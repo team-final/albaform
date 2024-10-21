@@ -1,5 +1,4 @@
 import MainButton from '@/components/Button/MainButton/MainButton'
-import Toastify from '@/components/Toastify/Toastify'
 import { usePatchStatusMutation } from '@/lib/queries/applicationDetailsQuery'
 import { FORM_STATUS, FORM_STATUS_REVERSED } from '@/lib/types/formTypes'
 import handleError from '@/lib/utils/errorHandler'
@@ -63,7 +62,6 @@ export default function SelectStatus({
 
   return (
     <>
-      <Toastify />
       <ReactModal
         isOpen={isOpen}
         ariaHideApp={false}
