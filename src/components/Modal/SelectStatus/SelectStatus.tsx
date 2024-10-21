@@ -3,6 +3,7 @@ import Toastify from '@/components/Toastify/Toastify'
 import { usePatchStatusMutation } from '@/lib/queries/applicationDetailsQuery'
 import { FORM_STATUS, FORM_STATUS_REVERSED } from '@/lib/types/formTypes'
 import handleError from '@/lib/utils/errorHandler'
+import { useQueryClient } from '@tanstack/react-query'
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import ReactModal from 'react-modal'
 import { toast } from 'react-toastify'
@@ -26,6 +27,7 @@ export default function SelectStatus({
   currentStatus,
   onStatusChange,
 }: SelectModalProps) {
+  const queryClient = useQueryClient()
   const { mutate: selectStatus } = usePatchStatusMutation()
   const [selectedStatus, setSelectedStatus] = useState(currentStatus)
 
@@ -42,10 +44,11 @@ export default function SelectStatus({
     selectStatus(
       { applicationId, status: englishStatus },
       {
-        onSuccess: () => {
+        onSuccess: async () => {
           onStatusChange(englishStatus)
           onRequestClose()
           toast.success('상태 변경 성공!')
+          await queryClient.invalidateQueries()
         },
         onError: () => {
           handleError(new Error('상태 수정 실패'))

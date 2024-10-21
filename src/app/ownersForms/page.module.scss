@@ -5,10 +5,17 @@
 
 .make-your-form {
   position: fixed;
-  bottom: 32px;
-  left: 50%;
-  z-index: 2;
-  transform: translateX(-50%);
+  right: 80px;
+  bottom: 80px;
+  z-index: 16;
+
+  @include media.tablet {
+    right: 40px;
+  }
+
+  @include media.mobile {
+    right: 24px;
+  }
 }
 
 .list-page {
@@ -90,6 +97,6 @@
   transition: transform 0.3s ease;
 
   &:hover {
-    transform: translateX(-50%) translateY(-15px);
+    transform: translateX(-50%) translateY(-8px);
   }
 }

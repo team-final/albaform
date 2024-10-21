@@ -5,6 +5,7 @@ import {
   useMyApplicationQuery,
   useResumeFileQuery,
 } from '@/lib/queries/applicationDetailsQuery'
+import { decodeUTF8 } from '@/lib/utils/decodeUTF8'
 import { formatPhoneNumber } from '@/lib/utils/formatDate'
 import classNames from 'classnames'
 import Image from 'next/image'
@@ -37,10 +38,11 @@ export default function MyApplicationModal({
   )
 
   const application = isOwner ? ownerApplication : myApplication
+  const resumeName = decodeUTF8(application?.resumeName)
 
   const { refetch } = useResumeFileQuery(
     Number(application?.resumeId),
-    application?.resumeName,
+    resumeName,
   )
 
   const handleDownloadResumeClick = () => {
@@ -101,10 +103,9 @@ export default function MyApplicationModal({
               <div className={styles['content-description-resume']}>
                 <span className={styles['content-description-resume-title']}>
                   <span>
-                    {application?.resumeName &&
-                    application?.resumeName.length > 10
-                      ? `${application?.resumeName.slice(0, 10)}...`
-                      : application?.resumeName}
+                    {resumeName && resumeName.length > 20
+                      ? `${resumeName.slice(0, 20)}...`
+                      : resumeName}
                   </span>
                 </span>
                 <button

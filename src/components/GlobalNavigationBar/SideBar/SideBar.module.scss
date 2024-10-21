@@ -34,12 +34,6 @@
   min-height: var.$root_header_height_lg;
   padding: 0 24px;
 
-  & > p {
-    padding: 0 24px;
-
-    @include font.Style(2lg, 500);
-  }
-
   @include media.tablet {
     min-height: var.$root_header_height_md;
     padding: 0 16px;
@@ -47,6 +41,20 @@
 
   @include media.mobile {
     min-height: var.$root_header_height_sm;
+  }
+}
+
+.user {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 0 24px;
+
+  @include font.Style(2lg, 500);
+
+  @include media.tablet {
+    padding: 0;
   }
 }
 
