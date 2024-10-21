@@ -1,3 +1,4 @@
+import Avatar from '@/components/Avatar/Avatar'
 import SignInOutButton from '@/components/Button/SignInOutButton/SignInOutButton'
 import XButton from '@/components/Button/XButton/XButton'
 import DefaultQueryProvider from '@/lib/queries/DefaultQueryProvider'
@@ -13,16 +14,20 @@ interface SideBarProps {
 
 export default function SideBar({ closeAction }: SideBarProps) {
   const user = useUserStore.getState().user
-  console.log('🚀 ~ SideBar ~ user:', user)
 
   return (
     <article className={styles.gnb}>
       <div className={styles.inner}>
         <section className={styles.head}>
-          <p>
-            {user &&
-              `반갑습니다! ${user.nickname} ${user.role === 'OWNER' ? '사장님' : '님'}`}
-          </p>
+          <div className={styles.user}>
+            {user && (
+              <>
+                <Avatar name={user.nickname} imageUrl={user.imageUrl} />
+                &nbsp;
+                {user.role === 'OWNER' ? '사장님' : '님'} 반갑습니다!
+              </>
+            )}
+          </div>
           <XButton onClick={closeAction} />
         </section>
         <section className={styles.body}>

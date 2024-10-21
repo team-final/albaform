@@ -34,6 +34,8 @@ export default function CurrentApplicationPopup({
       false
     )
 
+  if (formDetails?.applyCount <= 0) return null
+
   return (
     <div
       className={`${styles['popup-container']} ${isClosing ? styles.closing : ''} ${
@@ -49,7 +51,7 @@ export default function CurrentApplicationPopup({
           className={styles['popup-image']}
         />
         <span className={styles['popup-current-application']}>
-          현재{' '}
+          현재&nbsp;
           <span
             className={`${styles['popup-current-application']} ${styles.count}`}
           >

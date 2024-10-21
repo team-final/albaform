@@ -10,15 +10,17 @@ import styles from '../page.module.scss'
 // 여긴 사장이 지원 상세 조회 / 상세 수정
 
 export default function ApplicationDetailsPage({ params }: Params) {
+  const { formId } = params
   const user = useUserStore.getState().user
   const router = useRouter()
 
   switch (user?.role) {
     case undefined:
       router.replace('/user/sign-in')
-      break
+      return null
     case 'APPLICANT':
-      router.back()
+      router.replace(`form/${formId}`)
+      return null
   }
 
   return (

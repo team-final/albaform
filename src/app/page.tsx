@@ -54,7 +54,6 @@ const IMAGE_DESC = [
 
 export default function Home() {
   const { user } = useUserStore()
-  console.log('user: ', user)
 
   return (
     <main className={styles.main}>
