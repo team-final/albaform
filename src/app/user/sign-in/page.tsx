@@ -3,6 +3,7 @@
 import signInSignUpStyles from '@/app/user/signInSignUp.module.scss'
 import MainButton from '@/components/Button/MainButton/MainButton'
 import Form from '@/components/Form/Form'
+import useGoogleAuth from '@/hooks/auth/useGoogleAuth'
 import useSignIn from '@/hooks/auth/useSignIn'
 import {
   TEST_ACOUNT,
@@ -23,6 +24,13 @@ export default function SignInPage() {
   const user = useUserStore.getState().user
   const router = useRouter()
   const signIn = useSignIn()
+  const { signInGoogle, oauthSignIn } = useGoogleAuth()
+
+  const handleGoogleSignIn = async () => {
+    const { accessToken: googleToken } = await signInGoogle.mutateAsync()
+    if (googleToken) await oauthSignIn.mutateAsync(googleToken)
+    await router.push('/forms')
+  }
 
   async function handleSignIn({ email, password }: SignInValues) {
     await signIn.mutateAsync({ email, password })
@@ -116,6 +124,7 @@ export default function SignInPage() {
             <li>
               <Link href={'#'} className={signInSignUpStyles['sns-button']}>
                 <Image
+                  onClick={handleGoogleSignIn}
                   src={'/icons/ic-logo-google.svg'}
                   alt={'GOOGLE 아이콘'}
                   fill

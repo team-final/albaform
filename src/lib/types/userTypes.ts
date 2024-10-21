@@ -34,3 +34,21 @@ export interface AuthResponse {
   refreshToken: string
   user: User
 }
+
+export interface CompleteOauthSignUpValues {
+  role: UserRole
+  token: string
+  redirectUri?: string
+  name: string
+  nickname?: string
+  phoneNumber?: string
+  storeName?: string
+  storePhoneNumber?: string
+  location?: string
+}
+
+export interface OauthSignUpValues {
+  token: string
+  redirectUri: string | undefined
+  role: UserRole
+}

@@ -30,6 +30,8 @@
     "classnames": "^2.5.1",
     "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",
+    "firebase": "^10.14.0",
+    "firebase-admin": "^12.6.0",
     "js-cookie": "^3.0.5",
     "next": "14.2.10",
     "react": "^18",

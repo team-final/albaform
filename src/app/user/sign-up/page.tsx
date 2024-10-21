@@ -3,6 +3,7 @@
 import signInSignUpStyles from '@/app/user/signInSignUp.module.scss'
 import Form from '@/components/Form/Form'
 import useCreateUser from '@/hooks/auth/useCreateUser'
+import useGoogleAuth from '@/hooks/auth/useGoogleAuth'
 import useSignIn from '@/hooks/auth/useSignIn'
 import { emailPattern, passwordPattern } from '@/lib/data/patterns'
 import { useUserStore } from '@/lib/stores/userStore'
@@ -18,7 +19,15 @@ export default function SignUpPage() {
   const router = useRouter()
   const createUser = useCreateUser()
   const signIn = useSignIn()
+  const { signInGoogle, oauthSignUp, oauthSignIn } = useGoogleAuth()
 
+  // 로그인 상태면 뒤로가기
+  if (user) {
+    router.back()
+    return null
+  }
+
+  // 알바폼 회원가입
   const setDefaultUser = ({ email, password, role }: SignUpFormValues) => {
     const defaultNickname = generateUniqueNickname(role)
     const defaultUser: CreateUserValues = {
@@ -51,15 +60,22 @@ export default function SignUpPage() {
     await handleSignUp(signUpFormValues)
   }
 
-  // useEffect(() => {
-  //   if (user) {
-  //     router.push('/user/sign-up/complete')
-  //   }
-  // }, [router, user])
+  // 간편 회원가입
+  const handleGoogleSignUp = async () => {
+    // 구글 로그인
+    const googleResponse = await signInGoogle.mutateAsync()
+    const googleToken: string | undefined = googleResponse.accessToken
+    if (googleToken) {
+      const albaformToken = await oauthSignUp.mutateAsync({
+        token: googleToken,
+        role: 'OWNER',
+        name: 'googleUser',
+      })
 
-  if (user) {
-    router.back()
-    return null
+      // 알바폼 로그인
+      await oauthSignIn.mutateAsync(albaformToken)
+      await router.push('/user/sign-up/complete')
+    }
   }
 
   return (
@@ -162,13 +178,16 @@ export default function SignUpPage() {
           </div>
           <ul className={signInSignUpStyles['sns-list']}>
             <li>
-              <Link href={'#'} className={signInSignUpStyles['sns-button']}>
+              <button
+                onClick={handleGoogleSignUp}
+                className={signInSignUpStyles['sns-button']}
+              >
                 <Image
                   src={'/icons/ic-logo-google.svg'}
                   alt={'GOOGLE 아이콘'}
                   fill
                 />
-              </Link>
+              </button>
             </li>
             <li>
               <Link href={'#'} className={signInSignUpStyles['sns-button']}>
