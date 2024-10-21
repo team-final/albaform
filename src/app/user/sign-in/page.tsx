@@ -27,9 +27,9 @@ export default function SignInPage() {
   const { signInGoogle, oauthSignIn } = useGoogleAuth()
 
   const handleGoogleSignIn = async () => {
-    await signInGoogle.mutateAsync()
-    const { accessToken } = await signInGoogle.mutateAsync()
-    if (accessToken) await oauthSignIn.mutateAsync(accessToken)
+    const { accessToken: googleToken } = await signInGoogle.mutateAsync()
+    if (googleToken) await oauthSignIn.mutateAsync(googleToken)
+    await router.push('/forms')
   }
 
   async function handleSignIn({ email, password }: SignInValues) {
@@ -124,6 +124,7 @@ export default function SignInPage() {
             <li>
               <Link href={'#'} className={signInSignUpStyles['sns-button']}>
                 <Image
+                  onClick={handleGoogleSignIn}
                   src={'/icons/ic-logo-google.svg'}
                   alt={'GOOGLE 아이콘'}
                   fill
@@ -174,14 +175,6 @@ export default function SignInPage() {
           >
             사장님 되기
           </MainButton>
-        </section>
-
-        <section>
-          <h3>SNS 계정으로 로그인</h3>
-          <MainButton onClick={handleGoogleSignIn}>구글</MainButton>
-          {/* {userLoading && <p>Loading user data...</p>} */}
-          {/* {userError && <p>Error fetching user data: {userError.message}</p>} */}
-          {/* {albaformUser && <p>Logged in as: {albaformUser.name}</p>} */}
         </section>
       </div>
     </article>
