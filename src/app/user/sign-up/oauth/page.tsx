@@ -16,10 +16,7 @@ export default function KakaoSignUpHandler() {
   const authorizeCode = responseParams.get('code') || undefined
   const { oauthSignUp, oauthSignIn } = useOauth()
   const createUser = useCreateUser()
-  const redirectUri = {
-    signIn: process.env.NEXT_PUBLIC_KAKAO_SIGNIN_REDIRECT_URI,
-    signUp: process.env.NEXT_PUBLIC_KAKAO_SIGNUP_REDIRECT_URI,
-  }
+
   const handleKakaoSignUp = async (values: FieldValues) => {
     const { role } = values
     const name = String(generateUniqueNickname(role))
@@ -28,11 +25,13 @@ export default function KakaoSignUpHandler() {
       role,
       name,
       token: authorizeCode,
+      redirectUri: process.env.NEXT_PUBLIC_KAKAO_SIGNUP_REDIRECT_URI,
+      provider: 'kakao',
     })
 
     await oauthSignIn.mutateAsync({
       provider: 'kakao',
-      redirectUri: redirectUri.signIn,
+      redirectUri: process.env.NEXT_PUBLIC_KAKAO_SIGNIN_REDIRECT_URI,
       token: signUpResult.accessToken,
     })
 

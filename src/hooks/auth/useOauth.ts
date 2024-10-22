@@ -7,9 +7,11 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/navigation'
+import process from 'process'
 
 export default function useOauth() {
   const queryClient = useQueryClient()
+  const { setUser } = useUserStore()
   const router = useRouter()
   const { setUser } = useUserStore()
 
@@ -18,20 +20,24 @@ export default function useOauth() {
       role,
       name,
       token,
+      redirectUri,
+      provider,
     }: {
       role: UserRole
       name: string
       token: string | undefined
+      redirectUri: string | undefined
+      provider: string
     }) => {
       if (!token) {
         throw new Error('OAuth credentials are undefined')
       }
 
-      const response = await basicAxios.post('/oauth/sign-up/kakao', {
+      const response = await basicAxios.post(`/oauth/sign-up/${provider}`, {
         role,
         name,
         token,
-        redirectUri: process.env.NEXT_PUBLIC_KAKAO_SIGNIN_URI,
+        redirectUri,
       })
 
       return response.data
@@ -65,7 +71,6 @@ export default function useOauth() {
     },
     onSuccess: (response) => {
       const { user, accessToken, refreshToken } = response.data
-
       // 쿠키에 토큰 저장
       Cookies.set('accessToken', accessToken, {
         path: '/',
@@ -82,7 +87,6 @@ export default function useOauth() {
       queryClient.setQueryData(['user'], user)
       // Zustand 스토어에 유저 정보 저장
       setUser(user)
-
       router.replace('/')
     },
     onError: (error: AxiosError) => {
@@ -91,7 +95,7 @@ export default function useOauth() {
       if (error.status === 403) {
         router.replace('/user/sign-up')
       }
-    },
+    }
   })
 
   return {
