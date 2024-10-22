@@ -4,6 +4,7 @@ import signInSignUpStyles from '@/app/user/signInSignUp.module.scss'
 import Form from '@/components/Form/Form'
 import useCreateUser from '@/hooks/auth/useCreateUser'
 // import useGoogleAuth from '@/hooks/auth/useGoogleAuth'
+import useOauth from '@/hooks/auth/useOauth'
 import useSignIn from '@/hooks/auth/useSignIn'
 import { emailPattern, passwordPattern } from '@/lib/data/patterns'
 import { useUserStore } from '@/lib/stores/userStore'
@@ -20,6 +21,7 @@ export default function SignUpPage() {
   const createUser = useCreateUser()
   const signIn = useSignIn()
   // const { signInGoogle, oauthSignUp, oauthSignIn } = useGoogleAuth()
+  const { oauthSignUp, oauthSignIn } = useOauth()
 
   // 로그인 상태면 뒤로가기
   if (user) {
@@ -77,6 +79,8 @@ export default function SignUpPage() {
   //     await router.push('/user/sign-up/complete')
   //   }
   // }
+
+  // const handleKakaoSignUp = async () => {}
 
   return (
     <article className={signInSignUpStyles.container}>
