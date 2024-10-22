@@ -4,6 +4,7 @@ import signInSignUpStyles from '@/app/user/signInSignUp.module.scss'
 import MainButton from '@/components/Button/MainButton/MainButton'
 import Form from '@/components/Form/Form'
 // import useGoogleAuth from '@/hooks/auth/useGoogleAuth'
+import useOauth from '@/hooks/auth/useOauth'
 import useSignIn from '@/hooks/auth/useSignIn'
 import {
   TEST_ACOUNT,
@@ -14,6 +15,7 @@ import { emailPattern, passwordPattern } from '@/lib/data/patterns'
 import { useUserStore } from '@/lib/stores/userStore'
 import { SignInValues } from '@/lib/types/userTypes'
 import { getRandomInt } from '@/lib/utils/acountGenerator'
+import { useQueryClient } from '@tanstack/react-query'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -31,14 +33,42 @@ export default function SignInPage() {
   //   if (googleToken) await oauthSignIn.mutateAsync(googleToken)
   //   await router.push('/forms')
   // }
+  const { oauthSignIn, signInKakao } = useOauth()
+  const { queryClient } = useQueryClient()
 
-  async function handleSignIn({ email, password }: SignInValues) {
-    await signIn.mutateAsync({ email, password })
+  const handleSignIn = async (values: SignInValues) => {
+    await signIn.mutateAsync(values)
   }
 
-  async function handleSubmit(formValues: FieldValues) {
+  const handleSubmit = async (formValues: FieldValues) => {
     const values: SignInValues = formValues as SignInValues
-    await signIn.mutateAsync(values)
+    await handleSignIn(values)
+  }
+
+  const onProvide = (provider: string) => {
+    let onProvide
+    switch (provider) {
+      // case 'google':
+      //   onProvide = async () => (await signInGoogle.mutateAsync()).accessToken
+      //   return onProvide
+      case 'kakao': {
+        onProvide = async () => {
+          await signInKakao.mutateAsync()
+          return queryClient.getQueryData('kakaoCredentials')
+        }
+        return onProvide
+      }
+    }
+  }
+
+  const handleExternalSignIn = async (provider: string) => {
+    const provide = onProvide(provider) // 프로미스를 리턴하는 비동기함수
+    const externalToken = await provide()
+    await oauthSignIn.mutateAsync({
+      token: externalToken,
+      provider,
+    })
+    router.push('/forms')
   }
 
   const randomSignIn = async (role: any) => {
@@ -124,7 +154,7 @@ export default function SignInPage() {
             {/* <li> */}
             {/*  <Link href={'#'} className={signInSignUpStyles['sns-button']}> */}
             {/*    <Image */}
-            {/*      onClick={handleGoogleSignIn} */}
+            {/*      onClick={() => handleExternalSignIn('google')} */}
             {/*      src={'/icons/ic-logo-google.svg'} */}
             {/*      alt={'GOOGLE 아이콘'} */}
             {/*      fill */}
@@ -135,6 +165,7 @@ export default function SignInPage() {
             <li>
               <Link href={'#'} className={signInSignUpStyles['sns-button']}>
                 <Image
+                  onClick={() => handleExternalSignIn('kakao')}
                   src={'/icons/ic-logo-kakao.svg'}
                   alt={'KAKAO 아이콘'}
                   fill

@@ -13,6 +13,9 @@ export interface Params {
     formId?: string
     applicationId?: string
     talkId?: number
+    code?: string
+    error?: string
+    error_description?: string
   }
 }
 

@@ -52,3 +52,10 @@ export interface OauthSignUpValues {
   redirectUri: string | undefined
   role: UserRole
 }
+
+export interface AuthCredentials {
+  accessToken?: string
+  refreshToken?: string
+  user?: any
+  operationType?: string
+}

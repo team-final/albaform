@@ -9,11 +9,11 @@ export default function KakaoScript() {
 
   const onLoad = () => {
     if (window.Kakao) {
-      window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_SHARE_APPKEY)
+      window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_APPKEY)
       setIsKakaoLoaded(true)
     } else {
       console.log(isKakaoLoaded)
-      handleError(new Error('Kakao SDK가 로드 실패'))
+      handleError(new Error('Kakao SDK 로드 실패'))
     }
   }
 
