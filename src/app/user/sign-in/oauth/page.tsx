@@ -33,3 +33,11 @@ export default function KakaoSignInHandler() {
     </>
   )
 }
+
+// export default function OAuthSignInPage() {
+//   return (
+//     // <Suspense fallback={<div>please waiting...</div>}>
+//       <KakaoSignInHandler />
+//
+//   )
+// }
