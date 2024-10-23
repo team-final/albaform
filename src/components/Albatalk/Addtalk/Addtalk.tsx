@@ -30,7 +30,10 @@ export default function Addtalk({ talkId }: { talkId?: number }) {
   const user = useUserStore.getState().user
   const queryClient = useQueryClient()
   const router = useRouter()
-  if (!user) router.replace(`/${ALBATALK_LIST_PATH_NAME}`)
+
+  if (typeof window !== 'undefined') {
+    if (!user) router.replace(`/${ALBATALK_LIST_PATH_NAME}`)
+  }
 
   const { albatalkData, initialAlbatalkData } = useAlbatalkStore()
 

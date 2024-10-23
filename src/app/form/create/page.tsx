@@ -24,13 +24,15 @@ export default function CreateFormPage() {
   const router = useRouter()
   const { formData } = useEditingFormStore()
 
-  switch (user?.role) {
-    case undefined:
-      router.replace('/user/sign-in')
-      break
-    case 'APPLICANT':
-      router.replace('/forms')
-      break
+  if (typeof window !== 'undefined') {
+    switch (user?.role) {
+      case undefined:
+        router.replace('/user/sign-in')
+        break
+      case 'APPLICANT':
+        router.replace('/forms')
+        break
+    }
   }
 
   const handleSubmit = async (data: EditingFormData | FieldValues) => {

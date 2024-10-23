@@ -16,16 +16,23 @@ import { MyContentMenuType } from '@/lib/types/types'
 import { UpdateUserValues } from '@/lib/types/userTypes'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FieldValues } from 'react-hook-form'
 
 import styles from './page.module.scss'
 
+/**
+ * @TODO user 정보를 서버사이드렌더링으로 불러오기 (속도 & 빌드)
+ */
 export default function MyPage() {
   const user = useUserStore.getState().user
   const router = useRouter()
 
-  if (!user) router.replace('/user/sign-in')
+  useEffect(() => {
+    if (typeof window !== 'undefined' && !user) {
+      router.replace('/user/sign-in')
+    }
+  }, [user, router])
 
   const { setUser } = useUserStore()
 
