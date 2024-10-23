@@ -22,7 +22,10 @@ export default function SideBar({ closeAction }: SideBarProps) {
           <div className={styles.user}>
             {user && (
               <>
-                <Avatar name={user.nickname} imageUrl={user.imageUrl} />
+                <Avatar
+                  name={user.nickname ?? user.name}
+                  imageUrl={user.imageUrl}
+                />
                 &nbsp;
                 {user.role === 'OWNER' ? '사장님' : '님'} 반갑습니다!
               </>
