@@ -4,9 +4,12 @@ import useOauth from '@/hooks/auth/useOauth'
 import useHydration from '@/hooks/useHydration'
 import { useSearchParams } from 'next/navigation'
 import { useCallback, useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { Suspense, useEffect } from 'react'
 
-export default function OAuthHandler() {
+function KakaoSignInHandler() {
   const isHydrated = useHydration()
+
   // 카카오
   const { oauthSignIn } = useOauth()
   const responseParams = useSearchParams()
@@ -35,4 +38,12 @@ export default function OAuthHandler() {
 
   // if (errorMessage) handleError(errorMessage)
   return <>please waiting...</>
+}
+
+export default function OAuthSignInPage() {
+  return (
+    <Suspense>
+      <KakaoSignInHandler />
+    </Suspense>
+  )
 }

@@ -8,9 +8,10 @@ import { UserRole } from '@/lib/types/userTypes'
 import { generateUniqueNickname } from '@/lib/utils/nicknameGenerator'
 import { useQueryClient } from '@tanstack/react-query'
 import { useSearchParams } from 'next/navigation'
+import { Suspense } from 'react'
 import { FieldValues } from 'react-hook-form'
 
-export default function OAuthHandler() {
+function KakaoSignUpHandler() {
   // 카카오
   const responseParams = useSearchParams()
   const authorizeCode = responseParams.get('code')
@@ -68,5 +69,13 @@ export default function OAuthHandler() {
         </Form.SubmitButton>
       </Form>
     </>
+  )
+}
+
+export default function OAuthSignUpPage() {
+  return (
+    <Suspense>
+      <KakaoSignUpHandler />
+    </Suspense>
   )
 }
