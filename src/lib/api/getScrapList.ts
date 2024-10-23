@@ -1,4 +1,5 @@
-import { ScrapListSortConditionType } from '../types/types'
+import { ScrapListSortConditionType } from '@/lib/types/types'
+
 import authAxios from './authAxios'
 
 export interface GetScrapListProps {
