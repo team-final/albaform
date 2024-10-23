@@ -1,9 +1,11 @@
 import basicAxios from '@/lib/api/basicAxios'
+import { SIGN_UP_ERROR_MESSAGE } from '@/lib/data/messages'
 // import { app } from '@/lib/firebase/clientSDK'
 import { useUserStore } from '@/lib/stores/userStore'
 import { UserRole } from '@/lib/types/userTypes'
+import handleError from '@/lib/utils/errorHandler'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 // import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/navigation'
@@ -36,17 +38,18 @@ export default function useOauth() {
         token,
         redirectUri: 'http://localhost:3000/user/sign-up/oauth',
       })
-      const { accessToken: albaformAccessToken } = response.data as {
-        accessToken: string | undefined
-      }
+
+      return response.data
+    },
+    onSuccess: (data: { accessToken: string | undefined }) => {
+      const { accessToken: albaformAccessToken } = data
       if (!albaformAccessToken) {
         throw new Error('Albaform Access token is undefined') // undefined 처리
       }
-      return response.data
     },
-    // onError: (error: AxiosError) => {
-    //   handleError(error, SIGN_UP_ERROR_MESSAGE)
-    // },
+    onError: (error: AxiosError) => {
+      handleError(error, SIGN_UP_ERROR_MESSAGE)
+    },
   })
 
   // 알바폼 로그인
@@ -57,38 +60,39 @@ export default function useOauth() {
       token,
     }: {
       provider: string
-      redirectUri?: string
+      redirectUri: string
       token: string
     }) => {
       const response = await basicAxios.post(`/oauth/sign-in/${provider}`, {
-        token,
         redirectUri,
+        token,
       })
-      if (response.status === 403) {
-        router.push('/user/sign-up')
-      }
-      if (response.status === 204) {
-        const { user, accessToken, refreshToken } = response.data
-        Cookies.set('accessToken', accessToken, {
-          path: '/',
-          secure: true,
-          sameSite: 'Strict',
-        })
-        Cookies.set('refreshToken', refreshToken, {
-          path: '/',
-          secure: true,
-          sameSite: 'Strict',
-        })
-        return user
-      }
+
+      return response.data
     },
-    onSuccess: (user) => {
+    onSuccess: (data) => {
+      const { user, accessToken, refreshToken } = data
+      Cookies.set('accessToken', accessToken, {
+        path: '/',
+        secure: true,
+        sameSite: 'Strict',
+      })
+      Cookies.set('refreshToken', refreshToken, {
+        path: '/',
+        secure: true,
+        sameSite: 'Strict',
+      })
+
       queryClient.setQueryData(['user'], user) // 쿼리 캐시에 유저 정보 저장
       setUser(user) // Zustand 스토어에 유저 정보 저장
+
+      router.replace('/forms')
     },
-    // onError: (error) => {
-    //   if error.status === 403
-    // },
+    onError: (error) => {
+      // if error.status === 403
+      console.error('error: ', error)
+      router.push('/user/sign-up')
+    },
   })
 
   // 구글 로그인하고 토큰 리턴

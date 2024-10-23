@@ -29,13 +29,13 @@ export default function OAuthHandler() {
       token: code,
     })
     console.log(result)
-    return result.data
+    return result
   }
 
   const handleSubmit = async (values: FieldValues) => {
     const { role } = values
     // const selectedRole: UserRole = (values as SelectedUserRole
-    const token = (await handleKakaoSignUp(role)).accessToken
+    const token = (await handleKakaoSignUp(role)).accessToken || ''
     await oauthSignIn.mutateAsync({
       provider: 'kakao',
       redirectUri: 'http://localhost:3000/user/sign-in/oauth',
