@@ -25,7 +25,8 @@ export default function CompleteSignUpPage() {
   const user = useUserStore.getState().user
   const router = useRouter()
 
-  if (!user?.role) router.replace('/user/sign-in')
+  if (typeof window !== 'undefined' && !user?.role)
+    router.replace('/user/sign-in')
 
   const userRole = user ? user.role : ''
   const userRoleName = USER_ROLE_CONFIG[userRole].title

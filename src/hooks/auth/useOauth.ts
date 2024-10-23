@@ -107,57 +107,6 @@ export default function useOauth() {
   //   },
   // })
 
-  // 카카오 로그인 설정
-  const appKey = process.env.NEXT_PUBLIC_KAKAO_APPKEY
-  const redirectUri = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI
-
-  // localhost, netlify에서 카카오 인증 서버로 카카오 로그인 요청
-  // redirectUri로 인가 코드 전달
-  const openKakaoLogin = useMutation({
-    mutationFn: async () => {
-      const response = await axios.get(
-        `https://kauth.kakao.com/oauth/authorize?client_id=${appKey}&redirect_uri=${redirectUri}&response_type=code`,
-      )
-      window.location.href = response.headers.Location
-      // router.replace(response.headers.Location)
-      // let authorizeCode
-      // if (response.status === 302) {
-      //   const location = String(response.headers.Location)
-      //   const urlParams = new URLSearchParams(location?.split('?')[1])
-      //   authorizeCode = urlParams.get('code') || undefined
-      //   const errorMessage = {
-      //     title: urlParams.get('error') || undefined,
-      //     message: urlParams.get('error_description') || undefined,
-      //   }
-      //   if (errorMessage) handleError(errorMessage)
-      //   router.prefetch(location)
-      //   router.replace(location)
-      //   return authorizeCode
-      //   }
-      // },
-      // onSuccess: (data) => {
-      //   queryClient.setQueryData(['kakaoAuthorizeCode'], data)
-    },
-  })
-
-  // const getKakaoTokens = useQuery({
-  //   queryKey: ['kakaoCredentials'],
-  //   queryFn: async (): Promise<AuthCredentials> => {
-  //     let authorizeCode
-  //     const codeResponse = await axios.get(
-  //       `https://kauth.kakao.com/oauth/authorize?client_id=${appKey}&redirect_uri=${redirectUri}&response_type=code`,
-  //     )
-  //     if (codeResponse.status === 302) {
-  //       const location = String(codeResponse.headers.Location)
-  //       const urlParams = new URLSearchParams(location?.split('?')[1])
-  //       authorizeCode = urlParams.get('code') || undefined
-  //       const errorMessage = {
-  //         title: urlParams.get('error') || undefined,
-  //         message: urlParams.get('error_description') || undefined,
-  //       }
-  //       // if (errorMessage) handleError(errorMessage)
-  //     }
-
   const getKakaoToken = useMutation({
     mutationFn: async ({
       authorizeCode,
@@ -240,8 +189,6 @@ export default function useOauth() {
     oauthSignIn: signInAlbaformWithExternalToken,
     isWatingKakao: signInAlbaformWithExternalToken.isPending,
     // signInGoogle: getGoogleToken,
-    openKakaoLogin,
-    isOpeningKakao: openKakaoLogin.isPending,
     getKakaoToken,
   }
 }

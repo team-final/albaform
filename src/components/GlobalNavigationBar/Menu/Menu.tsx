@@ -21,7 +21,7 @@ export default function Menu() {
     if (user?.role === 'APPLICANT') {
       router.push('/applications')
     } else if (user?.role === 'OWNER') {
-      router.push('/ownersForms')
+      router.push('/forms/created')
     } else {
       router.push('/user/sign-in')
     }

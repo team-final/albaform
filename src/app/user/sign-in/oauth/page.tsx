@@ -3,9 +3,7 @@
 import useOauth from '@/hooks/auth/useOauth'
 import useHydration from '@/hooks/useHydration'
 import { useSearchParams } from 'next/navigation'
-import { useCallback, useEffect } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { Suspense, useEffect } from 'react'
+import { Suspense, useCallback, useEffect } from 'react'
 
 function KakaoSignInHandler() {
   const isHydrated = useHydration()
