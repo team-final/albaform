@@ -3,7 +3,7 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
-    //    "strict": true,
+    "strict": true,
     "noEmit": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
@@ -22,14 +22,17 @@
     "paths": {
       "@/*": ["src/*"]
     },
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "types": []
   },
   "include": [
-    "next-env.d.ts",
-    "next.config.mjs",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    "**/*.d.ts",
+    ".next/types/**/*.ts",
+    "next.config.js",
+    "src/lib/types/global.d.ts",
+    "next-env.d.ts"
   ],
   "exclude": ["node_modules"]
 }

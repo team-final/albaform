@@ -1,4 +1,5 @@
-import { MyContentMenuType } from '../types/types'
+import { MyContentMenuType } from '@/lib/types/types'
+
 import authAxios from './authAxios'
 
 interface DefaultProps {

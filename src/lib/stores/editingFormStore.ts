@@ -1,6 +1,3 @@
-import { create } from 'zustand'
-
-import { HOURLY_WAGE_DATA, TEMP_CREATE_FORM } from '../data/constants'
 import {
   AgeType,
   EditingFormData,
@@ -14,7 +11,10 @@ import {
   StepIndex,
   TempEditingFormType,
   WorkDaysType,
-} from '../types/formTypes'
+} from '@/lib/types/formTypes'
+import { create } from 'zustand'
+
+import { HOURLY_WAGE_DATA, TEMP_CREATE_FORM } from '../data/constants'
 
 /** 30분 단위 근무시간 배열 생성 */
 const genWorkTimeArray: () => string[] = (): string[] => {
