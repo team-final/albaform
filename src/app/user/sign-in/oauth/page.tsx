@@ -1,13 +1,14 @@
 'use client'
 
 import useOauth from '@/hooks/auth/useOauth'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect } from 'react'
+import useHydration from '@/hooks/useHydration'
+import { useSearchParams } from 'next/navigation'
+import { useCallback, useEffect } from 'react'
 
 export default function OAuthHandler() {
+  const isHydrated = useHydration()
   // 카카오
-  const router = useRouter()
-  const { oauthSignIn, isWatingKakao } = useOauth()
+  const { oauthSignIn } = useOauth()
   const responseParams = useSearchParams()
   const authorizeCode = responseParams.get('code')
 
@@ -17,28 +18,20 @@ export default function OAuthHandler() {
   // }
   // const [isFetching, setIsFetching] = useState(false)
 
+  const hanlder = useCallback(
+    async (authorizeCode: string) => {
+      await oauthSignIn.mutateAsync({
+        provider: 'kakao',
+        redirectUri: 'http://localhost:3000/user/sign-in/oauth',
+        token: String(authorizeCode),
+      })
+    },
+    [oauthSignIn],
+  )
+
   useEffect(() => {
-    const fetchToken = async () => {
-      if (authorizeCode && responseParams) {
-        if (!isWatingKakao) {
-          const result = await oauthSignIn.mutateAsync({
-            token: String(authorizeCode),
-            provider: 'kakao',
-            redirectUri: `http://localhost:3000/user/sign-in/oauth`,
-          })
-          if (result.status === 200) {
-            router.replace('/forms')
-          }
-          if (result.status === 403) {
-            router.replace('/user/sign-up')
-          }
-        }
-      }
-    }
-    if (authorizeCode && responseParams && !isWatingKakao) {
-      fetchToken().then()
-    }
-  }, [])
+    if (isHydrated && authorizeCode) hanlder(authorizeCode)
+  }, [isHydrated, authorizeCode, hanlder])
 
   // if (errorMessage) handleError(errorMessage)
   return <>please waiting...</>
