@@ -1,6 +1,5 @@
+import { AlbatalkProps, AlbatalkPropsType } from '@/lib/types/formTypes'
 import { create } from 'zustand'
-
-import { AlbatalkProps, AlbatalkPropsType } from '../types/formTypes'
 
 export interface AlbatalkStore {
   albatalkData: AlbatalkProps | null

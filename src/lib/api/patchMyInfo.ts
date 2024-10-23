@@ -1,4 +1,5 @@
-import { UpdateUserValues } from '../types/userTypes'
+import { UpdateUserValues } from '@/lib/types/userTypes'
+
 import handleError from '../utils/errorHandler'
 import authAxios from './authAxios'
 

@@ -1,7 +1,7 @@
 import GlobalNavigationBar from '@/components/GlobalNavigationBar/GlobalNavigationBar'
 import '@/components/Toastify/Toastify.css'
 import KakaoScript from '@/lib/scripts/KakaoScript'
-import type { Metadata } from 'next'
+import { Metadata } from 'next'
 import React from 'react'
 
 import '../styles/globals.css'
@@ -19,11 +19,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
+      <KakaoScript />
       <body>
         <GlobalNavigationBar />
         {children}
       </body>
-      <KakaoScript />
     </html>
   )
 }

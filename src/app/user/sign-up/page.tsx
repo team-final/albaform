@@ -4,7 +4,7 @@ import signInSignUpStyles from '@/app/user/signInSignUp.module.scss'
 import Form from '@/components/Form/Form'
 import useCreateUser from '@/hooks/auth/useCreateUser'
 // import useGoogleAuth from '@/hooks/auth/useGoogleAuth'
-import useOauth from '@/hooks/auth/useOauth'
+// import useOauth from '@/hooks/auth/useOauth'
 import useSignIn from '@/hooks/auth/useSignIn'
 import { emailPattern, passwordPattern } from '@/lib/data/patterns'
 import { useUserStore } from '@/lib/stores/userStore'
@@ -20,8 +20,6 @@ export default function SignUpPage() {
   const router = useRouter()
   const createUser = useCreateUser()
   const signIn = useSignIn()
-  // const { signInGoogle, oauthSignUp, oauthSignIn } = useGoogleAuth()
-  const { oauthSignUp, oauthSignIn } = useOauth()
 
   // 로그인 상태면 뒤로가기
   if (user) {
@@ -62,25 +60,8 @@ export default function SignUpPage() {
     await handleSignUp(signUpFormValues)
   }
 
-  // // 간편 회원가입
-  // const handleGoogleSignUp = async () => {
-  //   // 구글 로그인
-  //   const googleResponse = await signInGoogle.mutateAsync()
-  //   const googleToken: string | undefined = googleResponse.accessToken
-  //   if (googleToken) {
-  //     const albaformToken = await oauthSignUp.mutateAsync({
-  //       token: googleToken,
-  //       role: 'OWNER',
-  //       name: 'googleUser',
-  //     })
-  //
-  //     // 알바폼 로그인
-  //     await oauthSignIn.mutateAsync(albaformToken)
-  //     await router.push('/user/sign-up/complete')
-  //   }
-  // }
-
-  // const handleKakaoSignUp = async () => {}
+  const appKey = process.env.NEXT_PUBLIC_KAKAO_APPKEY
+  const redirectUri = 'http://localhost:3000/user/sign-up/oauth'
 
   return (
     <article className={signInSignUpStyles.container}>
@@ -177,7 +158,7 @@ export default function SignUpPage() {
         <section className={signInSignUpStyles.sns}>
           <div className={signInSignUpStyles['sns-title']}>
             <p className={signInSignUpStyles['sns-title-text']}>
-              SNS 계정으로 로그인하기
+              SNS 계정으로 가입하기
             </p>
           </div>
           <ul className={signInSignUpStyles['sns-list']}>
@@ -194,7 +175,10 @@ export default function SignUpPage() {
             {/*  </button> */}
             {/* </li> */}
             <li>
-              <Link href={'#'} className={signInSignUpStyles['sns-button']}>
+              <Link
+                href={`https://kauth.kakao.com/oauth/authorize?client_id=${appKey}&redirect_uri=${redirectUri}&response_type=code`}
+                className={signInSignUpStyles['sns-button']}
+              >
                 <Image
                   src={'/icons/ic-logo-kakao.svg'}
                   alt={'KAKAO 아이콘'}

@@ -1,9 +1,9 @@
 /**
  * 알바토크
  */
+import { ListAlbatalkProps } from '@/lib/types/formTypes'
 import { AxiosResponse } from 'axios'
 
-import { ListAlbatalkProps } from '../types/formTypes'
 import authAxios from './authAxios'
 
 const API_URL = 'posts'
