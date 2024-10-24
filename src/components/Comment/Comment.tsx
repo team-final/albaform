@@ -15,6 +15,7 @@ import { Pagination, PaginationProps } from 'antd'
 import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { FieldValues } from 'react-hook-form'
 
+import MainButton from '../Button/MainButton/MainButton'
 import styles from './Comment.module.scss'
 
 export default function Comment({ talkId }: { talkId: number }) {
@@ -25,7 +26,6 @@ export default function Comment({ talkId }: { talkId: number }) {
   const [totalItemCount, setTotalItemCount] = useState<number>(0)
   const [page, setPage] = useState<number>(1)
   const [isPosting, setIsPosting] = useState<boolean>(false)
-  const [isPatching, setIsPatching] = useState<boolean>(false)
   const [isEditList, setIsEditList] = useState<number[]>([])
 
   const requestCommentList = useCallback(async () => {
@@ -48,7 +48,7 @@ export default function Comment({ talkId }: { talkId: number }) {
     await queryClient.invalidateQueries()
   }
 
-  const handleSubmit = async (data: FieldValues) => {
+  const handleSubmitComment = async (data: FieldValues) => {
     if (!data) return
 
     setIsPosting(true)
@@ -62,20 +62,17 @@ export default function Comment({ talkId }: { talkId: number }) {
     setIsPosting(false)
   }
 
-  const handleSubmitEdit = async (id: number, data: FieldValues) => {
+  const handleEditComment = async (id: number, data: FieldValues) => {
     if (!data) return
-    setIsPatching(true)
 
     const response = await patchAlbatalkComment(id, JSON.stringify(data))
     if (response) {
       await initialCommentList()
       setIsEditList((prev) => prev.filter((item) => item !== id))
     }
-
-    setIsPatching(false)
   }
 
-  const handleEdit = (action: boolean, id: number) => {
+  const handleEditList = (action: boolean, id: number) => {
     if (action) {
       setIsEditList((prev) => [...prev, id])
     } else {
@@ -102,8 +99,8 @@ export default function Comment({ talkId }: { talkId: number }) {
       <p className={styles.count}>댓글({totalItemCount})</p>
 
       <Form
-        formId="handleSubmit"
-        onSubmit={handleSubmit}
+        formId="submitComment"
+        onSubmit={handleSubmitComment}
         className={`${styles.form} create-form`}
       >
         <Form.Fieldset>
@@ -120,9 +117,9 @@ export default function Comment({ talkId }: { talkId: number }) {
           </Form.Field>
         </Form.Fieldset>
         <Form.Wrap>
-          <Form.SubmitButton>
-            {isPosting ? '등록중...' : '등록'}
-          </Form.SubmitButton>
+          <MainButton type={'submit'} disabled={Boolean(!content) || isPosting}>
+            등록
+          </MainButton>
         </Form.Wrap>
       </Form>
 
@@ -149,7 +146,7 @@ export default function Comment({ talkId }: { talkId: number }) {
                       <Dropdown.Menu>
                         <Dropdown.Item
                           onClick={() =>
-                            handleEdit(
+                            handleEditList(
                               !isEditList.some((item) => item === data.id),
                               data.id,
                             )
@@ -170,9 +167,9 @@ export default function Comment({ talkId }: { talkId: number }) {
                 <div className={styles['comment-body']}>
                   {isEditList.some((item) => item === data.id) ? (
                     <Form
-                      formId="handleSubmitEdit"
+                      formId={`editComment_${data.id}`}
                       onSubmit={(fieldValues: FieldValues) =>
-                        handleSubmitEdit(data.id, fieldValues)
+                        handleEditComment(data.id, fieldValues)
                       }
                       className={`${styles.form} create-form`}
                       defaultValues={{ content: data.content }}
@@ -187,9 +184,7 @@ export default function Comment({ talkId }: { talkId: number }) {
                         </Form.Field>
                       </Form.Fieldset>
                       <Form.Wrap>
-                        <Form.SubmitButton>
-                          {isPatching ? '수정중...' : '수정'}
-                        </Form.SubmitButton>
+                        <Form.SubmitButton>수정</Form.SubmitButton>
                       </Form.Wrap>
                     </Form>
                   ) : (
