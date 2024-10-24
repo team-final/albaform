@@ -2,6 +2,7 @@ import { useUserStore } from '@/lib/stores/userStore'
 import { useQueryClient } from '@tanstack/react-query'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/navigation'
+import { toast } from 'react-toastify'
 
 /**
  * signOut() 함수를 반환하는 hook
@@ -21,6 +22,7 @@ export default function useSignOut() {
     router.push('/')
     if (typeof document !== 'undefined') return
     window.location.reload()
+    toast.success('로그아웃되었습니다.')
   }
 
   return signOut
