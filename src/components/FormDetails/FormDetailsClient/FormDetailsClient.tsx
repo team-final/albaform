@@ -16,6 +16,7 @@ import {
 } from '@/lib/queries/formDetailsQuery'
 import { useUserStore } from '@/lib/stores/userStore'
 import handleError from '@/lib/utils/errorHandler'
+import { useQueryClient } from '@tanstack/react-query'
 import classNames from 'classnames'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
@@ -33,10 +34,12 @@ interface FormDetailsClientProps {
 export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
   const user = useUserStore.getState().user
   const router = useRouter()
+  const queryClient = useQueryClient()
 
-  const { data: formDetails, isFetching } = useFormDetailsQuery(Number(formId))
+  const { data: formDetails, isLoading } = useFormDetailsQuery(Number(formId))
   const { mutate: scrapForm } = useFormScrapMutation()
   const { mutate: scrapDeleteForm } = useFormScrapDeleteMutation()
+  const [isScrapPending, setIsScrapPending] = useState<boolean>(false)
   const [isScrapped, setIsScrapped] = useState(formDetails?.isScrapped || false)
   const [scrapCount, setScrapCount] = useState(0)
   const [isPopupVisible, setIsPopupVisible] = useState(false)
@@ -73,7 +76,10 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
     }
   }, [isInRecruitPeriod, hasModalBeenOpened, formDetails?.recruitmentEndDate]) // 팝업 렌더링 될 때 보이게 & 모집 마감 된 폼 -> 모달 띄움
 
-  const handleBookmarkClick = () => {
+  const handleBookmarkClick = async () => {
+    if (isScrapPending) return
+    setIsScrapPending(true)
+
     if (user) {
       setScrapCount((prevCount) => prevCount + 1)
       setIsScrapped(true)
@@ -81,11 +87,14 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
       scrapForm(formId, {
         onSuccess: () => {
           toast.success('스크랩 하였습니다!')
+          setIsScrapPending(false)
+          queryClient.invalidateQueries()
         },
         onError: () => {
           setIsScrapped(false)
           setScrapCount((prevCount) => prevCount - 1)
           toast.error('스크랩에 실패하였습니다!')
+          setIsScrapPending(false)
         },
       })
     } else {
@@ -94,17 +103,22 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
   }
 
   const handleBookmarkDeleteClick = () => {
+    if (isScrapPending) return
+    setIsScrapPending(true)
     setScrapCount((prevCount) => prevCount - 1)
     setIsScrapped(false)
 
     scrapDeleteForm(formId, {
       onSuccess: () => {
         toast.success('스크랩을 취소하였습니다!')
+        setIsScrapPending(false)
+        queryClient.invalidateQueries()
       },
       onError: () => {
         setIsScrapped(true)
         setScrapCount((prevCount) => prevCount + 1)
         toast.error('스크랩 취소에 실패하였습니다!')
+        setIsScrapPending(false)
       },
     })
   }
@@ -148,123 +162,121 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
     setIsListApplicationsModalOpen(false)
   }
 
-  if (isFetching) return <LoadingSpinner full />
+  if (isLoading) return <LoadingSpinner full />
 
   return (
-    <>
-      <div className={styles['form-details-client']}>
-        <CurrentApplicationPopup
-          formDetails={formDetails}
-          isVisible={isPopupVisible}
-          modalOpen={() => setIsListApplicationsModalOpen(true)}
+    <div className={styles['form-details-client']}>
+      <CurrentApplicationPopup
+        formDetails={formDetails}
+        isVisible={isPopupVisible}
+        modalOpen={() => setIsListApplicationsModalOpen(true)}
+      />
+      <ImageSlider formDetails={formDetails} noImageHeight={100} />
+
+      {isModalOpen && (
+        <AlertModal
+          AlertmodalType="done"
+          isOpen={isModalOpen}
+          onRequestClose={closeModal}
+          onConfirm={handleConfirm}
         />
-        <ImageSlider formDetails={formDetails} noImageHeight={100} />
+      )}
 
-        {isModalOpen && (
-          <AlertModal
-            AlertmodalType="done"
-            isOpen={isModalOpen}
-            onRequestClose={closeModal}
-            onConfirm={handleConfirm}
-          />
-        )}
+      {user?.id === formDetails?.ownerId && ( // 로그인한 사용자와 조회하는 폼의 작성자 아이디가 같을 때
+        <ListApplicationsModal
+          formId={formId}
+          isOpen={isListApplicationsModalOpen}
+          onRequestClose={closeListApplicationsModal}
+        />
+      )}
+      <div className={styles['job-details-container']}>
+        <div className={styles['job-details-content']}>
+          <section className={styles['job-details-info']}>
+            <FormDetailsInfo
+              formDetails={formDetails}
+              count={scrapCount}
+              showAdditionalInfo={true}
+            />
+          </section>
+          <section className={styles['schedule-contact-container']}>
+            <WorkScheduleInfo formDetails={formDetails} />
+            <ContactInfo formDetails={formDetails} />
+          </section>
+        </div>
 
-        {user?.id === formDetails?.ownerId && ( // 로그인한 사용자와 조회하는 폼의 작성자 아이디가 같을 때
-          <ListApplicationsModal
-            formId={formId}
-            isOpen={isListApplicationsModalOpen}
-            onRequestClose={closeListApplicationsModal}
-          />
-        )}
-        <div className={styles['job-details-container']}>
-          <div className={styles['job-details-content']}>
-            <section className={styles['job-details-info']}>
-              <FormDetailsInfo
-                formDetails={formDetails}
-                count={scrapCount}
-                showAdditionalInfo={true}
-              />
-            </section>
-            <section className={styles['schedule-contact-container']}>
-              <WorkScheduleInfo formDetails={formDetails} />
-              <ContactInfo formDetails={formDetails} />
-            </section>
-          </div>
+        <div className={styles['location-requirements-container']}>
+          <section className={styles['location-info']}>
+            <Location formDetails={formDetails} />
+          </section>
+          <section className={styles['requirements-info']}>
+            <Requirements formDetails={formDetails} />
+          </section>
+        </div>
 
-          <div className={styles['location-requirements-container']}>
-            <section className={styles['location-info']}>
-              <Location formDetails={formDetails} />
-            </section>
-            <section className={styles['requirements-info']}>
-              <Requirements formDetails={formDetails} />
-            </section>
-          </div>
+        <div className={styles['floating-button-container']}>
+          {user &&
+            (isScrapped ? (
+              <FloatingButton
+                mode="bookmark"
+                onClick={handleBookmarkDeleteClick}
+              >
+                <FloatingButton.Icon
+                  src="/icons/ic-bookmark.svg"
+                  altText="북마크"
+                />
+              </FloatingButton>
+            ) : (
+              <FloatingButton mode="bookmark" onClick={handleBookmarkClick}>
+                <FloatingButton.Icon
+                  src="/icons/ic-bookmark-fill.svg"
+                  altText="북마크 취소"
+                />
+              </FloatingButton>
+            ))}
 
-          <div className={styles['floating-button-container']}>
-            {user &&
-              (isScrapped ? (
-                <FloatingButton
-                  mode="bookmark"
-                  onClick={handleBookmarkDeleteClick}
-                >
-                  <FloatingButton.Icon
-                    src="/icons/ic-bookmark.svg"
-                    altText="북마크"
-                  />
-                </FloatingButton>
-              ) : (
-                <FloatingButton mode="bookmark" onClick={handleBookmarkClick}>
-                  <FloatingButton.Icon
-                    src="/icons/ic-bookmark-fill.svg"
-                    altText="북마크 취소"
-                  />
-                </FloatingButton>
-              ))}
+          <FloatingButton onClick={handletoggleMenuClick}>
+            <FloatingButton.Icon
+              src="/icons/ic-share2.svg"
+              altText="공유"
+              width={24}
+              height={24}
+            />
+          </FloatingButton>
 
-            <FloatingButton onClick={handletoggleMenuClick}>
+          <div
+            className={classNames(styles['floating-menu-container'], {
+              [styles.visible]: isMenuVisible,
+            })}
+          >
+            <FloatingButton mode="bookmark" onClick={kakaoShareClick}>
               <FloatingButton.Icon
-                src="/icons/ic-share2.svg"
-                altText="공유"
+                src="/icons/ic-logo-kakao2.svg"
+                altText="카카오 공유"
                 width={24}
                 height={24}
               />
             </FloatingButton>
-
-            <div
-              className={classNames(styles['floating-menu-container'], {
-                [styles.visible]: isMenuVisible,
-              })}
-            >
-              <FloatingButton mode="bookmark" onClick={kakaoShareClick}>
-                <FloatingButton.Icon
-                  src="/icons/ic-logo-kakao2.svg"
-                  altText="카카오 공유"
-                  width={24}
-                  height={24}
-                />
-              </FloatingButton>
-              <FloatingButton mode="bookmark" onClick={copyURL}>
-                <FloatingButton.Icon
-                  src="/icons/ic-copy.svg"
-                  altText="주소 복사"
-                  width={24}
-                  height={24}
-                />
-              </FloatingButton>
-            </div>
-          </div>
-
-          <div className={styles['button-container']}>
-            <ActionButtons
-              // isApplied={isApplied}
-              isInRecruitPeriod={isInRecruitPeriod}
-              formId={formId}
-              ownerId={formDetails?.ownerId}
-              formTitle={formDetails?.title}
-            />
+            <FloatingButton mode="bookmark" onClick={copyURL}>
+              <FloatingButton.Icon
+                src="/icons/ic-copy.svg"
+                altText="주소 복사"
+                width={24}
+                height={24}
+              />
+            </FloatingButton>
           </div>
         </div>
+
+        <div className={styles['button-container']}>
+          <ActionButtons
+            // isApplied={isApplied}
+            isInRecruitPeriod={isInRecruitPeriod}
+            formId={formId}
+            ownerId={formDetails?.ownerId}
+            formTitle={formDetails?.title}
+          />
+        </div>
       </div>
-    </>
+    </div>
   )
 }
