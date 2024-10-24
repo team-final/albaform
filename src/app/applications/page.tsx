@@ -56,7 +56,7 @@ export default function MyApplicationsPage() {
 
   const { data, isFetching, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
-      queryKey: ['forms', searchKeyword, statusFilter],
+      queryKey: ['applications', searchKeyword, statusFilter],
       queryFn: ({ pageParam = undefined }) =>
         getMyForms({
           limit: 18,

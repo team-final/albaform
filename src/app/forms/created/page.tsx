@@ -62,7 +62,13 @@ export default function CreatedFormsPage() {
 
   const { data, isFetching, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
-      queryKey: ['forms', orderBy, isRecruiting, searchKeyword, isPublic],
+      queryKey: [
+        'createdForms',
+        orderBy,
+        isRecruiting,
+        searchKeyword,
+        isPublic,
+      ],
       queryFn: ({ pageParam = undefined }) =>
         getMyForms({
           limit: 6,
