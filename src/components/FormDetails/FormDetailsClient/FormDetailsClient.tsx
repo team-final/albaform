@@ -6,6 +6,7 @@ import FormDetailsInfo from '@/components/FormDetails/FormDetailsInfo/FormDetail
 import Location from '@/components/FormDetails/Location/Location'
 import Requirements from '@/components/FormDetails/Requirements/Requirements'
 import WorkScheduleInfo from '@/components/FormDetails/WorkScheduleInfo/WorkScheduleInfo'
+import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner'
 import AlertModal from '@/components/Modal/Alert/AlertModal'
 import ListApplicationsModal from '@/components/Modal/ListApplications/ListApplications'
 import {
@@ -32,7 +33,8 @@ interface FormDetailsClientProps {
 export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
   const user = useUserStore.getState().user
   const router = useRouter()
-  const { data: formDetails } = useFormDetailsQuery(Number(formId))
+
+  const { data: formDetails, isFetching } = useFormDetailsQuery(Number(formId))
   const { mutate: scrapForm } = useFormScrapMutation()
   const { mutate: scrapDeleteForm } = useFormScrapDeleteMutation()
   const [isScrapped, setIsScrapped] = useState(formDetails?.isScrapped || false)
@@ -146,6 +148,8 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
     setIsListApplicationsModalOpen(false)
   }
 
+  if (isFetching) return <LoadingSpinner full />
+
   return (
     <>
       <div className={styles['form-details-client']}>
@@ -197,24 +201,25 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
           </div>
 
           <div className={styles['floating-button-container']}>
-            {isScrapped ? (
-              <FloatingButton
-                mode="bookmark"
-                onClick={handleBookmarkDeleteClick}
-              >
-                <FloatingButton.Icon
-                  src="/icons/ic-bookmark.svg"
-                  altText="북마크"
-                />
-              </FloatingButton>
-            ) : (
-              <FloatingButton mode="bookmark" onClick={handleBookmarkClick}>
-                <FloatingButton.Icon
-                  src="/icons/ic-bookmark-fill.svg"
-                  altText="북마크 취소"
-                />
-              </FloatingButton>
-            )}
+            {user &&
+              (isScrapped ? (
+                <FloatingButton
+                  mode="bookmark"
+                  onClick={handleBookmarkDeleteClick}
+                >
+                  <FloatingButton.Icon
+                    src="/icons/ic-bookmark.svg"
+                    altText="북마크"
+                  />
+                </FloatingButton>
+              ) : (
+                <FloatingButton mode="bookmark" onClick={handleBookmarkClick}>
+                  <FloatingButton.Icon
+                    src="/icons/ic-bookmark-fill.svg"
+                    altText="북마크 취소"
+                  />
+                </FloatingButton>
+              ))}
 
             <FloatingButton onClick={handletoggleMenuClick}>
               <FloatingButton.Icon
@@ -255,6 +260,7 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
               isInRecruitPeriod={isInRecruitPeriod}
               formId={formId}
               ownerId={formDetails?.ownerId}
+              formTitle={formDetails?.title}
             />
           </div>
         </div>

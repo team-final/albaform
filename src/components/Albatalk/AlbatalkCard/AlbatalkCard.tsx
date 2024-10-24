@@ -28,7 +28,7 @@ export default function AlbatalkCard({ ...item }: AlbatalkProps) {
   const handleDelete = async () => {
     try {
       await deleteAlbatalk(id)
-      await queryClient.invalidateQueries()
+      queryClient.invalidateQueries()
     } catch {}
   }
 

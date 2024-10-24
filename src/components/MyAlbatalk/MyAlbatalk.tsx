@@ -22,6 +22,8 @@ import {
   useState,
 } from 'react'
 
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner'
+
 interface PostListContextProps {
   orderBy: ListAlbatalkOrderByType
   setOrderBy: Dispatch<SetStateAction<ListAlbatalkOrderByType>>
@@ -85,7 +87,7 @@ function Conditions() {
 function Content() {
   const { orderBy } = usePostListContext()
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+  const { data, isFetching, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
       queryKey: ['myAlbatalks', orderBy],
       queryFn: ({ pageParam = undefined }) =>
@@ -129,6 +131,19 @@ function Content() {
             <AlbatalkCard key={`${item.id}-${i}`} {...item} />
           )),
         )
+      )}
+
+      {isFetching && (
+        <div
+          style={{
+            gridColumn: '1 / -1',
+            width: '100%',
+            height: '100%',
+            minHeight: '50vh',
+          }}
+        >
+          <LoadingSpinner />
+        </div>
       )}
     </>
   )

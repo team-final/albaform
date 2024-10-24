@@ -14,6 +14,7 @@ interface ActionButtonsProps {
   formId: number
   ownerId: number
   isApplied?: boolean
+  formTitle: string
 }
 
 const ActionButtons: React.FC<ActionButtonsProps> = ({
@@ -58,7 +59,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
         handleError(new Error('폼 삭제 실패'))
       },
     })
-    await queryClient.invalidateQueries()
+    queryClient.invalidateQueries()
   }
 
   return (

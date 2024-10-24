@@ -15,6 +15,7 @@ import {
 import { useUserStore } from '@/lib/stores/userStore'
 import { AlbatalkProps, ImageUrl } from '@/lib/types/formTypes'
 import { formatKoreanDate } from '@/lib/utils/formatDate'
+import { useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 
@@ -23,6 +24,7 @@ import styles from './Albatalk.module.scss'
 export default function Albatalk({ talkId }: { talkId: number }) {
   const user = useUserStore.getState().user
   const router = useRouter()
+  const queryClient = useQueryClient()
   const [data, setData] = useState<AlbatalkProps | null>(null)
   const [pending, setPending] = useState<boolean>(false)
   const [isPending, setIsPending] = useState<boolean>(false)
@@ -56,6 +58,7 @@ export default function Albatalk({ talkId }: { talkId: number }) {
   const handleDelete = async () => {
     try {
       await deleteAlbatalk(talkId)
+      queryClient.invalidateQueries()
       router.replace(`/${ALBATALK_LIST_PATH_NAME}`)
     } catch {}
   }
@@ -122,6 +125,7 @@ export default function Albatalk({ talkId }: { talkId: number }) {
     }
 
     setIsPending(false)
+    queryClient.invalidateQueries()
   }
 
   if (pending)

@@ -96,6 +96,7 @@ export default function ContactInfo({
             isInRecruitPeriod={isRecruitmentActive}
             formId={formDetails?.id}
             ownerId={formDetails?.ownerId}
+            formTitle={formDetails?.title}
           />
         )}
       </div>

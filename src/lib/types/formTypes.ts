@@ -164,6 +164,7 @@ export interface ApplicationStatusProps {
 
 export interface ContactInfoProps {
   id: number
+  title: string
   ownerId: number
   recruitmentEndDate: string
   recruitmentStartDate: string

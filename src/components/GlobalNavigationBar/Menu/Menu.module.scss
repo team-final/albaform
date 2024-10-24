@@ -18,6 +18,7 @@
   div {
     cursor: pointer;
     color: inherit;
+    white-space: nowrap;
 
     @include font.Style(xl, 500);
 

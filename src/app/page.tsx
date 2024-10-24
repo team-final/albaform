@@ -1,27 +1,7 @@
-'use client'
-
-/**
- * @todo
- * 랜딩페이지 퍼블리싱
- */
-import { useUserStore } from '@/lib/stores/userStore'
+import AlbaformStartButton from '@/components/Button/AlbaformStartButton/AlbaformStartButton'
 import Image from 'next/image'
-import Link from 'next/link'
 
 import styles from './page.module.scss'
-// import Image02lg from '/images/landing/lg/02.png'
-// import Image03lg from '/images/landing/lg/03.png'
-// import Image04lg from '/images/landing/lg/04.png'
-// import Image05lg from '/images/landing/lg/05.png'
-// import Image01md from '/images/landing/md/01.png'
-// import Image02md from '/images/landing/md/02.png'
-// import Image03md from '/images/landing/md/03.png'
-// import Image04md from '/images/landing/md/04.png'
-// import Image05md from '/images/landing/md/05.png'
-// import Image02sm from '/images/landing/sm/02.png'
-// import Image03sm from '/images/landing/sm/03.png'
-// import Image04sm from '/images/landing/sm/04.png'
-// import Image05sm from '/images/landing/sm/05.png'
 import LogoText from '/public/images/logo/logo-text.svg'
 
 const IMAGES = [
@@ -53,34 +33,15 @@ const IMAGE_DESC = [
 ]
 
 export default function Home() {
-  const { user } = useUserStore()
-
   return (
     <main className={styles.main}>
       <section className={styles.visual}>
         <LogoText />
         <h1>한 곳에서 관리하는 알바 구인 플랫폼</h1>
-        <Link
-          href={user ? '/forms' : '/user/sign-in'}
-          className={styles.button}
-        >
-          알바폼 시작하기
-        </Link>
-        <div>
-          <Image
-            fill
-            src={'/images/landing/md/01.png'}
-            alt="albaform 서류 뭉치 이미지"
-            style={{ objectFit: 'contain' }}
-            draggable="false"
-            priority
-          />
-        </div>
+        <AlbaformStartButton />
+        <div>알바폼 메인 이미지</div>
       </section>
-      {/**
-       * @todo
-       * Next/Image 컴포넌트 priority & sizez 경고 해결하기
-       */}
+
       <section className={styles.promotion}>
         {IMAGES.map((items, sizes) => {
           return (
@@ -108,18 +69,14 @@ export default function Home() {
             </div>
           )
         })}
+
         <div className={styles.foot}>
           <h1>
             한 곳에서 관리하는
             <br />
             알바 구인 플랫폼
           </h1>
-          <Link
-            href={user ? '/forms' : '/user/sign-in'}
-            className={styles.button}
-          >
-            알바폼 시작하기
-          </Link>
+          <AlbaformStartButton />
         </div>
       </section>
     </main>

@@ -19,13 +19,12 @@ export const getMyForms = async ({
       cursor,
       keyword,
     }
+    if (status && status !== '') params.status = status
 
-    if (status && status !== '') {
-      params.status = status
-    }
-
+    console.log('🚀 ~ params:', params)
     const response = await authAxios.get(`users/me/applications`, { params })
-    console.log(response.data)
+    console.log('🚀 ~ response.data:', response.data)
+
     return response.data
   } catch (error) {
     console.error('데이터 가져오는 중 오류 발생:', error)

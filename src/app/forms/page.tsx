@@ -3,6 +3,8 @@
 import FloatingButton from '@/components/Button/FloatingButton/FloatingButton'
 import SearchInput from '@/components/Input/SearchInput/SearchInput'
 import ListCardItem from '@/components/ListCardItem/ListCardItem'
+import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner'
+import useHydration from '@/hooks/useHydration'
 import { GetFormListProps, getFormList } from '@/lib/api/getFormList'
 import { useUserStore } from '@/lib/stores/userStore'
 import { useInfiniteQuery } from '@tanstack/react-query'
@@ -32,6 +34,7 @@ interface ServerResponse {
 }
 
 export default function Page() {
+  const isHydrated = useHydration()
   const user = useUserStore.getState().user
   const [orderBy, setOrderBy] =
     useState<GetFormListProps['orderBy']>('mostRecent')
@@ -43,7 +46,7 @@ export default function Page() {
     setSearchKeyword(keyword)
   }
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+  const { data, isFetching, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
       queryKey: ['forms', orderBy, isRecruiting, searchKeyword],
       queryFn: ({ pageParam = undefined }) =>
@@ -85,7 +88,7 @@ export default function Page() {
 
   return (
     <>
-      {user?.role === 'OWNER' && (
+      {isHydrated && user?.role === 'OWNER' && (
         <div className={Styles['make-your-form']}>
           <Link href={'/form/create'} style={{ textDecoration: 'none' }}>
             <FloatingButton>
@@ -100,14 +103,16 @@ export default function Page() {
         </div>
       )}
 
-      <Image
-        src={GotoTopButton}
-        onClick={handleGoToTop}
-        alt={'goto-top'}
-        width={40}
-        height={50}
-        className={Styles['goto-top-button']}
-      />
+      {isHydrated && (
+        <Image
+          src={GotoTopButton}
+          onClick={handleGoToTop}
+          alt={'goto-top'}
+          width={40}
+          height={50}
+          className={Styles['goto-top-button']}
+        />
+      )}
 
       <div className={Styles['list-page-container']}>
         <div className={Styles['list-page-searchBar']}>
@@ -158,6 +163,19 @@ export default function Page() {
                 isRecruiting={true}
               />
             )),
+          )}
+
+          {isFetching && (
+            <div
+              style={{
+                gridColumn: '1 / -1',
+                width: '100%',
+                height: '100%',
+                minHeight: '50vh',
+              }}
+            >
+              <LoadingSpinner />
+            </div>
           )}
         </div>
       </div>

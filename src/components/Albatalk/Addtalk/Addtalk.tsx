@@ -37,6 +37,7 @@ export default function Addtalk({ talkId }: { talkId?: number }) {
 
   const { albatalkData, initialAlbatalkData } = useAlbatalkStore()
 
+  const [isFetching, setIsFetching] = useState<boolean>(false)
   const [title, setTitle] = useState<string>('')
   const [content, setContent] = useState<string>('')
   const [imageObj, setImageObj] = useState<ImageUrl>(INITIAL_IMAGE)
@@ -83,6 +84,7 @@ export default function Addtalk({ talkId }: { talkId?: number }) {
   }
 
   const request = useCallback(async () => {
+    setIsFetching(true)
     if (talkId) {
       const response = await getAlbatalk(talkId)
       if (!response) return router.replace(`/${ALBATALK_LIST_PATH_NAME}`)
@@ -93,6 +95,7 @@ export default function Addtalk({ talkId }: { talkId?: number }) {
     } else {
       initialAlbatalkData(null)
     }
+    setIsFetching(false)
   }, [user, router, talkId, initialAlbatalkData])
 
   useEffect(() => {
@@ -116,6 +119,8 @@ export default function Addtalk({ talkId }: { talkId?: number }) {
       })
     }
   }, [albatalkData, user, talkId])
+
+  if (isFetching) return <LoadingSpinner full />
 
   return (
     <Form

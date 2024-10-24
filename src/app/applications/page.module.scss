@@ -29,6 +29,7 @@
   grid-template-columns: repeat(3, 1fr);
   justify-items: center;
   max-width: var.$max_width_lg;
+  padding-bottom: 120px;
 
   @media (width <= 1566px) {
     grid-template-columns: repeat(2, 1fr);

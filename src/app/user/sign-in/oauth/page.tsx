@@ -1,5 +1,6 @@
 'use client'
 
+import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner'
 import useOauth from '@/hooks/auth/useOauth'
 import useHydration from '@/hooks/useHydration'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -29,9 +30,5 @@ export default function KakaoSignInHandler() {
     if (isHydrated) hanldeKakaoSignIn()
   }, [isHydrated, hanldeKakaoSignIn])
 
-  return (
-    <>
-      <div>please waiting...</div>
-    </>
-  )
+  return <LoadingSpinner full />
 }

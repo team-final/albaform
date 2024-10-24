@@ -47,7 +47,7 @@ export default function SelectStatus({
           onStatusChange(englishStatus)
           onRequestClose()
           toast.success('상태 변경 성공!')
-          await queryClient.invalidateQueries()
+          queryClient.invalidateQueries()
         },
         onError: () => {
           handleError(new Error('상태 수정 실패'))
