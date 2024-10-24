@@ -12,7 +12,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import process from 'process'
-import { useEffect } from 'react'
 import { FieldValues } from 'react-hook-form'
 
 export default function SignInPage() {
@@ -23,14 +22,13 @@ export default function SignInPage() {
 
   const { signIn } = useSignIn()
 
-  useEffect(() => {
-    if (user) {
-      router.back()
-    }
-  }, [user, router])
+  if (user && typeof window !== 'undefined') {
+    router.back()
+  }
 
   const handleSignIn = async (values: SignInValues) => {
     await signIn.mutateAsync(values)
+    router.replace('/')
   }
 
   const handleSubmit = async (formValues: FieldValues) => {
