@@ -22,7 +22,7 @@ declare global {
 const KakaoMap: React.FC<KakaoMapProps> = ({ location }) => {
   const mapRef = useRef<HTMLDivElement>(null)
   const [mapError, setMapError] = useState<string | null>(null)
-  const apiKey = process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY // 석지인님 앱키
+  const apiKey = process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_APPKEY // 석지인님 앱키
 
   useEffect(() => {
     const script = document.createElement('script')
