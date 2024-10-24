@@ -18,14 +18,12 @@ export default function SignUpPage() {
   const user = useUserStore.getState().user
   const router = useRouter()
   const createUser = useCreateUser()
-  const signIn = useSignIn()
+  const { signIn } = useSignIn()
   const appKey = process.env.NEXT_PUBLIC_KAKAO_RESTAPI_APPKEY
   const redirectUri = {
-    signIn: process.env.NEXT_PUBLIC_KAKAO_SIGNIN_REDIRECT_URI,
     signUp: process.env.NEXT_PUBLIC_KAKAO_SIGNUP_REDIRECT_URI,
   }
 
-  // 로그인 상태면 뒤로가기
   if (user) {
     router.back()
     return null
