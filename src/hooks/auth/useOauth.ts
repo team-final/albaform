@@ -1,12 +1,16 @@
 import basicAxios from '@/lib/api/basicAxios'
-import { SIGN_UP_ERROR_MESSAGE } from '@/lib/data/messages'
+import {
+  SIGN_IN_ERROR_MESSAGE,
+  SIGN_UP_ERROR_MESSAGE,
+} from '@/lib/data/messages'
 import { useUserStore } from '@/lib/stores/userStore'
-import { UserRole } from '@/lib/types/userTypes'
+import { OauthService, UserRole } from '@/lib/types/userTypes'
 import handleError from '@/lib/utils/errorHandler'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/navigation'
+import { toast } from 'react-toastify'
 
 export default function useOauth() {
   const queryClient = useQueryClient()
@@ -25,7 +29,7 @@ export default function useOauth() {
       name: string
       token: string | undefined
       redirectUri: string | undefined
-      provider: string
+      provider: OauthService
     }) => {
       if (!token) {
         throw new Error('OAuth credentials are undefined')
@@ -57,7 +61,7 @@ export default function useOauth() {
       redirectUri,
       token,
     }: {
-      provider: string
+      provider: OauthService
       redirectUri: string | undefined
       token: string | undefined
     }) => {
@@ -69,7 +73,6 @@ export default function useOauth() {
     },
     onSuccess: (response) => {
       const { user, accessToken, refreshToken } = response.data
-      // 쿠키에 토큰 저장
       Cookies.set('accessToken', accessToken, {
         path: '/',
         secure: true,
@@ -80,18 +83,15 @@ export default function useOauth() {
         secure: true,
         sameSite: 'Strict',
       })
-
-      // 쿼리 캐시에 유저 정보 저장
       queryClient.setQueryData(['user'], user)
-      // Zustand 스토어에 유저 정보 저장
       setUser(user)
       router.replace('/')
+      toast.success('로그인되었습니다.')
     },
     onError: (error: AxiosError) => {
-      // handleError(error, SIGN_IN_ERROR_MESSAGE)
-      // 회원 정보 없음
+      handleError(error, SIGN_IN_ERROR_MESSAGE)
       if (error.status === 403) {
-        router.replace('/user/sign-up')
+        toast.error('회원정보가 없습니다.')
       }
     },
   })
