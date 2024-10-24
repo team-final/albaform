@@ -35,27 +35,4 @@ export interface AuthResponse {
   user: User
 }
 
-export interface CompleteOauthSignUpValues {
-  role: UserRole
-  token: string
-  redirectUri?: string
-  name: string
-  nickname?: string
-  phoneNumber?: string
-  storeName?: string
-  storePhoneNumber?: string
-  location?: string
-}
-
-export interface OauthSignUpValues {
-  token: string
-  redirectUri: string | undefined
-  role: UserRole
-}
-
-export interface AuthCredentials {
-  accessToken?: string
-  refreshToken?: string
-  user?: any
-  operationType?: string
-}
+export type OauthService = 'kakao'

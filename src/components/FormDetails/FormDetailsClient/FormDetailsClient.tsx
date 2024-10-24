@@ -29,12 +29,6 @@ interface FormDetailsClientProps {
   formId: number
 }
 
-declare global {
-  interface Window {
-    Kakao: any
-  }
-}
-
 export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
   const user = useUserStore.getState().user
   const router = useRouter()
