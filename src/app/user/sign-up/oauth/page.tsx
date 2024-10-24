@@ -31,7 +31,7 @@ export default function KakaoSignUpHandler() {
 
     await oauthSignIn.mutateAsync({
       provider: 'kakao',
-      redirectUri: process.env.NEXT_PUBLIC_KAKAO_SIGNIN_REDIRECT_URI,
+      redirectUri: process.env.NEXT_PUBLIC_KAKAO_SIGNUP_REDIRECT_URI,
       token: signUpResult.accessToken,
     })
 
