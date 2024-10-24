@@ -1,5 +1,7 @@
+import { randomInt } from 'crypto'
+
 export const getRandomInt = (max: number): number => {
-  return Math.floor(Math.random() * max)
+  return randomInt(0, max)
 }
 
 export const generateTestId = async (handleSubmit: any) => {
