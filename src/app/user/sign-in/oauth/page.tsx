@@ -2,7 +2,7 @@
 
 import useOauth from '@/hooks/auth/useOauth'
 import useHydration from '@/hooks/useHydration'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useEffect } from 'react'
 
 export default function KakaoSignInHandler() {
@@ -10,6 +10,7 @@ export default function KakaoSignInHandler() {
   const { oauthSignIn } = useOauth()
   const responseParams = useSearchParams()
   const authorizeCode = responseParams.get('code') ?? ''
+  const router = useRouter()
 
   const hanldeKakaoSignIn = useCallback(async () => {
     console.log('🚀 ~ KakaoSignInHandler ~ authorizeCode:', authorizeCode)
@@ -18,6 +19,7 @@ export default function KakaoSignInHandler() {
       redirectUri: process.env.NEXT_PUBLIC_KAKAO_SIGNIN_REDIRECT_URI,
       token: authorizeCode,
     })
+    router.replace('/')
     console.log('🚀 ~ hanldeKakaoSignIn ~ res:', res)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
