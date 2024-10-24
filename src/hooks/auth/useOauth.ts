@@ -7,11 +7,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/navigation'
-import process from 'process'
 
 export default function useOauth() {
   const queryClient = useQueryClient()
-  const { setUser } = useUserStore()
   const router = useRouter()
   const { setUser } = useUserStore()
 
