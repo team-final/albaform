@@ -65,25 +65,23 @@ export default function Albatalk({ talkId }: { talkId: number }) {
 
     setIsPending(true)
 
-    setData((prev) => {
-      if (prev) {
-        if (prev.isLiked) {
-          return {
-            ...prev,
-            isLiked: false,
-            likeCount: prev.likeCount--,
-          } as AlbatalkProps
-        } else {
-          return {
-            ...prev,
-            isLiked: true,
-            likeCount: prev.likeCount++,
-          } as AlbatalkProps
-        }
-      } else {
-        return prev
-      }
-    })
+    if (data.isLiked) {
+      setData((prev) => {
+        return {
+          ...prev,
+          isLiked: false,
+          likeCount: data.likeCount--,
+        } as AlbatalkProps
+      })
+    } else {
+      setData((prev) => {
+        return {
+          ...prev,
+          isLiked: true,
+          likeCount: data.likeCount++,
+        } as AlbatalkProps
+      })
+    }
 
     try {
       const response = data.isLiked
