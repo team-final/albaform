@@ -4,15 +4,10 @@ import signInSignUpStyles from '@/app/user/signInSignUp.module.scss'
 import MainButton from '@/components/Button/MainButton/MainButton'
 import Form from '@/components/Form/Form'
 import useSignIn from '@/hooks/auth/useSignIn'
-import {
-  TEST_ACOUNT,
-  TEST_ID_APPLICANT,
-  TEST_ID_OWNER,
-} from '@/lib/data/constants'
+import { TEST_ID_APPLICANT, TEST_ID_OWNER } from '@/lib/data/constants'
 import { emailPattern, passwordPattern } from '@/lib/data/patterns'
 import { useUserStore } from '@/lib/stores/userStore'
 import { SignInValues } from '@/lib/types/userTypes'
-import { getRandomInt } from '@/lib/utils/acountGenerator'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -26,7 +21,7 @@ export default function SignInPage() {
   const appKey = process.env.NEXT_PUBLIC_KAKAO_RESTAPI_APPKEY
   const redirectUri = process.env.NEXT_PUBLIC_KAKAO_SIGNIN_REDIRECT_URI
 
-  const signIn = useSignIn()
+  const { signIn } = useSignIn()
 
   useEffect(() => {
     if (user) {
@@ -41,17 +36,6 @@ export default function SignInPage() {
   const handleSubmit = async (formValues: FieldValues) => {
     const values: SignInValues = formValues as SignInValues
     await handleSignIn(values)
-  }
-
-  // 개발, 테스트용
-  const randomSignIn = async (role: any) => {
-    const userList = TEST_ACOUNT[role]
-    const user = userList[getRandomInt(userList.length)]
-    console.log(`${role === 'APPLICANT' ? '지원자' : '사장님'} 테스트 계졍: `, {
-      email: user.email,
-      password: user.password,
-    })
-    await handleSignIn({ email: user.email, password: user.password })
   }
 
   return (
@@ -136,6 +120,11 @@ export default function SignInPage() {
           </ul>
         </section>
 
+        <div className={signInSignUpStyles['sns-title']}>
+          <p className={signInSignUpStyles['sns-title-text']}>
+            테스트 계정으로 로그인하기
+          </p>
+        </div>
         <section className={signInSignUpStyles.footer}>
           <MainButton
             buttonStyle={'outline'}
@@ -149,22 +138,6 @@ export default function SignInPage() {
             onClick={() => handleSignIn(TEST_ID_OWNER)}
           >
             사장님으로 로그인
-          </MainButton>
-        </section>
-
-        <section className={signInSignUpStyles.footer}>
-          <MainButton
-            buttonStyle={'outline'}
-            onClick={() => randomSignIn('APPLICANT')}
-          >
-            알바 구하기
-          </MainButton>
-
-          <MainButton
-            buttonStyle={'solid'}
-            onClick={() => randomSignIn('OWNER')}
-          >
-            사장님 되기
           </MainButton>
         </section>
       </div>
