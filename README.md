@@ -2,3 +2,4 @@
 
 - [공통 env 바로가기](https://www.notion.so/jiin-seok/env-2ea174d5f28e4bc5befb198a0e907b40?pvs=4)
 - [컨벤션](https://jiin-seok.notion.site/b14745db3b5f44ddbd5b1614ec2d5bf7?pvs=4)
+- [프로젝트 칸반](https://github.com/orgs/team-final/projects/1?query=sort%3Aupdated-desc+is%3Aopen)
