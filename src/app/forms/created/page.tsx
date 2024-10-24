@@ -4,6 +4,7 @@ import FloatingButton from '@/components/Button/FloatingButton/FloatingButton'
 import EmptyContent from '@/components/EmptyContent/EmptyContent'
 import SearchInput from '@/components/Input/SearchInput/SearchInput'
 import ListCardItem from '@/components/ListCardItem/ListCardItem'
+import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner'
 import { GetFormListProps } from '@/lib/api/getFormList'
 import { getMyForms } from '@/lib/api/getMyForms'
 import { useUserStore } from '@/lib/stores/userStore'
@@ -59,7 +60,7 @@ export default function CreatedFormsPage() {
     }
   }
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+  const { data, isFetching, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
       queryKey: ['forms', orderBy, isRecruiting, searchKeyword, isPublic],
       queryFn: ({ pageParam = undefined }) =>
@@ -186,6 +187,19 @@ export default function CreatedFormsPage() {
                 <ListCardItem key={`${item.id}-${i}`} {...item} />
               )),
             )
+          )}
+
+          {isFetching && (
+            <div
+              style={{
+                gridColumn: '1 / -1',
+                width: '100%',
+                height: '100%',
+                minHeight: '50vh',
+              }}
+            >
+              <LoadingSpinner />
+            </div>
           )}
         </div>
       </div>

@@ -25,12 +25,13 @@ export default function Comment({ talkId }: { talkId: number }) {
   const [items, setItems] = useState<AlbatalkCommentProps['data'] | null>(null)
   const [totalItemCount, setTotalItemCount] = useState<number>(0)
   const [page, setPage] = useState<number>(1)
+  const [isPending, setIsPending] = useState<boolean>(false)
   const [isPosting, setIsPosting] = useState<boolean>(false)
   const [isEditList, setIsEditList] = useState<number[]>([])
 
   const requestCommentList = useCallback(async () => {
     if (!talkId) return
-
+    setIsPending(true)
     const responseCommentList: AlbatalkCommentProps = await listAlbatalkComment(
       {
         talkId,
@@ -40,31 +41,28 @@ export default function Comment({ talkId }: { talkId: number }) {
     )
     setItems(responseCommentList.data)
     setTotalItemCount(responseCommentList.totalItemCount)
-    setContent('')
+    setIsPending(false)
   }, [talkId, page])
 
   const initialCommentList = async () => {
     await requestCommentList()
-    await queryClient.invalidateQueries()
+    queryClient.invalidateQueries()
   }
 
   const handleSubmitComment = async (data: FieldValues) => {
     if (!data) return
-
     setIsPosting(true)
-
     const response = await postAlbatalkComment(talkId, JSON.stringify(data))
     if (response) {
       setPage(1)
       await initialCommentList()
     }
-
+    setContent('')
     setIsPosting(false)
   }
 
   const handleEditComment = async (id: number, data: FieldValues) => {
     if (!data) return
-
     const response = await patchAlbatalkComment(id, JSON.stringify(data))
     if (response) {
       await initialCommentList()
@@ -87,6 +85,7 @@ export default function Comment({ talkId }: { talkId: number }) {
     } catch {}
   }
   const onChange: PaginationProps['onChange'] = (page) => {
+    if (isPending) return
     setPage(page)
   }
 

@@ -5,6 +5,8 @@ import FloatingButton from '@/components/Button/FloatingButton/FloatingButton'
 import Dropdown from '@/components/Dropdown/Dropdown'
 import EmptyContent from '@/components/EmptyContent/EmptyContent'
 import SearchInput from '@/components/Input/SearchInput/SearchInput'
+import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner'
+import useHydration from '@/hooks/useHydration'
 import { listAlbatalk } from '@/lib/api/albatalk'
 import {
   ALBATALK_EDIT_PATH_NAME,
@@ -30,6 +32,7 @@ interface ServerResponse {
 }
 
 export default function AlbatalksPage() {
+  const isHydrated = useHydration()
   const user = useUserStore.getState().user
   const router = useRouter()
   const [orderBy, setOrderBy] = useState<ListAlbatalkOrderByType>('mostRecent')
@@ -40,7 +43,7 @@ export default function AlbatalksPage() {
     setSearchKeyword(keyword)
   }
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+  const { data, isFetching, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
       queryKey: ['listAlbatalk', orderBy, searchKeyword],
       queryFn: ({ pageParam = undefined }) =>
@@ -54,7 +57,6 @@ export default function AlbatalksPage() {
         lastPage.nextCursor ?? undefined,
       initialPageParam: undefined,
     })
-
   const handleGoToTop = () => {
     window.scrollTo({
       top: 0,
@@ -83,71 +85,85 @@ export default function AlbatalksPage() {
     }
   }, [hasNextPage, isFetchingNextPage, fetchNextPage])
 
-  return (
-    <>
-      <Image
-        src={GotoTopButton}
-        onClick={handleGoToTop}
-        alt={'goto-top'}
-        width={40}
-        height={50}
-        className={styles['goto-top-button']}
-      />
+  if (isHydrated)
+    return (
+      <>
+        <Image
+          src={GotoTopButton}
+          onClick={handleGoToTop}
+          alt={'goto-top'}
+          width={40}
+          height={50}
+          className={styles['goto-top-button']}
+        />
 
-      {user && (
-        <div className={styles['floating-button-container']}>
-          <FloatingButton onClick={handleMoveEditPage}>
-            <FloatingButton.Icon src="/icons/ic-edit.svg" altText="글쓰기" />
-          </FloatingButton>
-        </div>
-      )}
+        {user && (
+          <div className={styles['floating-button-container']}>
+            <FloatingButton onClick={handleMoveEditPage}>
+              <FloatingButton.Icon src="/icons/ic-edit.svg" altText="글쓰기" />
+            </FloatingButton>
+          </div>
+        )}
 
-      <div className={styles['list-page-container']}>
-        <div className={styles['list-page-searchBar']}>
-          <SearchInput
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
-            onEnter={handleSearch}
-            placeholder="궁금한 점을 검색해보세요"
-          />
-          <button
-            onClick={handleSearch}
-            className={styles['list-page-searchButton']}
-          >
-            검색
-          </button>
+        <div className={styles['list-page-container']}>
+          <div className={styles['list-page-searchBar']}>
+            <SearchInput
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+              onEnter={handleSearch}
+              placeholder="궁금한 점을 검색해보세요"
+            />
+            <button
+              onClick={handleSearch}
+              className={styles['list-page-searchButton']}
+            >
+              검색
+            </button>
+          </div>
+          <div className={styles['list-page-selectbar']}>
+            <Dropdown className={styles['dropdown-condition']}>
+              <Dropdown.Trigger>
+                {LIST_ALBATALK_ORDER_BY[orderBy]}
+              </Dropdown.Trigger>
+              <Dropdown.Menu>
+                {LIST_ALBATALK_ORDER_BY_KEYS.map((key) => {
+                  return (
+                    <Dropdown.Item
+                      key={`list_albatalk_order_by-${key}`}
+                      onClick={() => setOrderBy(key)}
+                    >
+                      {LIST_ALBATALK_ORDER_BY[key]}
+                    </Dropdown.Item>
+                  )
+                })}
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
+          <div className={styles['carditem-container']}>
+            {data?.pages && data?.pages[0].data.length === 0 ? (
+              <EmptyContent type={'post'} />
+            ) : (
+              data?.pages.map((page, i) =>
+                page.data.map((item: AlbatalkProps) => (
+                  <AlbatalkCard key={`${item.id}-${i}`} {...item} />
+                )),
+              )
+            )}
+
+            {isFetching && (
+              <div
+                style={{
+                  gridColumn: '1 / -1',
+                  width: '100%',
+                  height: '100%',
+                  minHeight: '50vh',
+                }}
+              >
+                <LoadingSpinner />
+              </div>
+            )}
+          </div>
         </div>
-        <div className={styles['list-page-selectbar']}>
-          <Dropdown className={styles['dropdown-condition']}>
-            <Dropdown.Trigger>
-              {LIST_ALBATALK_ORDER_BY[orderBy]}
-            </Dropdown.Trigger>
-            <Dropdown.Menu>
-              {LIST_ALBATALK_ORDER_BY_KEYS.map((key) => {
-                return (
-                  <Dropdown.Item
-                    key={`list_albatalk_order_by-${key}`}
-                    onClick={() => setOrderBy(key)}
-                  >
-                    {LIST_ALBATALK_ORDER_BY[key]}
-                  </Dropdown.Item>
-                )
-              })}
-            </Dropdown.Menu>
-          </Dropdown>
-        </div>
-        <div className={styles['carditem-container']}>
-          {data?.pages && data?.pages[0].data.length === 0 ? (
-            <EmptyContent type={'post'} />
-          ) : (
-            data?.pages.map((page, i) =>
-              page.data.map((item: AlbatalkProps) => (
-                <AlbatalkCard key={`${item.id}-${i}`} {...item} />
-              )),
-            )
-          )}
-        </div>
-      </div>
-    </>
-  )
+      </>
+    )
 }

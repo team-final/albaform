@@ -53,7 +53,7 @@ export default function MyPage() {
     },
   }
 
-  const [tabMenu, setTabMenu] = useState<MyContentMenuType>('scrap')
+  const [tabMenu, setTabMenu] = useState<MyContentMenuType>('posts')
 
   const [userInfoModal, setUserInfoModal] = useState<boolean>(false)
   const [userPwChangeModal, setUserPwChangeModal] = useState<boolean>(false)

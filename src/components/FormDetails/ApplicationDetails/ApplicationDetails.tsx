@@ -21,6 +21,7 @@ export default function ApplicationDetails({
   isOwner,
 }: ApplicationDetailsProps) {
   const { formId, applicationId } = params
+  // console.log('🚀 ~ formId, applicationId :', formId, applicationId)
   const { data: formDetails } = useFormDetailsQuery(Number(formId))
   const [scrapCount, setScrapCount] = useState(0)
   const [isModalOpen, setIsModalOpen] = useState(false)

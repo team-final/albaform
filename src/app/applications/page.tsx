@@ -2,6 +2,7 @@
 
 import EmptyContent from '@/components/EmptyContent/EmptyContent'
 import SearchInput from '@/components/Input/SearchInput/SearchInput'
+import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner'
 import PostsCard from '@/components/PostsCard/PostsCard'
 import { getMyForms } from '@/lib/api/getMyApplyForms'
 import { useInfiniteQuery } from '@tanstack/react-query'
@@ -53,7 +54,7 @@ export default function MyApplicationsPage() {
     setSearchKeyword(keyword)
   }
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+  const { data, isFetching, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
       queryKey: ['forms', searchKeyword, statusFilter],
       queryFn: ({ pageParam = undefined }) =>
@@ -141,6 +142,19 @@ export default function MyApplicationsPage() {
               />
             )),
           )
+        )}
+
+        {isFetching && (
+          <div
+            style={{
+              gridColumn: '1 / -1',
+              width: '100%',
+              height: '100%',
+              minHeight: '50vh',
+            }}
+          >
+            <LoadingSpinner />
+          </div>
         )}
       </div>
     </>

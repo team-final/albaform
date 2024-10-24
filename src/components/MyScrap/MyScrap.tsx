@@ -26,6 +26,8 @@ import {
   useState,
 } from 'react'
 
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner'
+
 interface ScrapListContextProps {
   isRecruiting: RecrutingSortCondition
   setIsRecruiting: Dispatch<SetStateAction<RecrutingSortCondition>>
@@ -159,7 +161,7 @@ function Conditions() {
 function Content() {
   const { isRecruiting, isPublic, orderBy } = useScrapListContext()
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+  const { data, isFetching, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
       queryKey: ['forms', isRecruiting, isPublic, orderBy],
       queryFn: ({ pageParam = undefined }) =>
@@ -207,6 +209,19 @@ function Content() {
             />
           )),
         )
+      )}
+
+      {isFetching && (
+        <div
+          style={{
+            gridColumn: '1 / -1',
+            width: '100%',
+            height: '100%',
+            minHeight: '50vh',
+          }}
+        >
+          <LoadingSpinner />
+        </div>
       )}
     </>
   )

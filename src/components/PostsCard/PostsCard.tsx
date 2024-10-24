@@ -54,26 +54,13 @@ export default function PostsCard({
 
   const formatDate = calculateDaysLeft(recruitmentEndDate)
   const getImageUrl = (): string => {
-    if (form.owner.imageUrl && form.owner.imageUrl.length > 0) {
-      const firstImage = form.owner.imageUrl[0]
-
-      if (typeof firstImage === 'string') {
-        if (firstImage.startsWith('https')) {
-          return firstImage
-        } else if (firstImage === 'string') {
-          return BasicImg.src
-        } else {
-          try {
-            const parsedImage = JSON.parse(firstImage)
-            return parsedImage[0]?.url || BasicImg.src
-          } catch (error) {
-            console.error('Error parsing image URL:', error)
-            return BasicImg.src
-          }
-        }
-      }
+    let result
+    try {
+      result = JSON.parse(form.owner.imageUrl).url
+    } catch {
+      result = form.owner.imageUrl
     }
-    return BasicImg.src
+    return result ?? BasicImg
   }
 
   const imageUrl = getImageUrl()

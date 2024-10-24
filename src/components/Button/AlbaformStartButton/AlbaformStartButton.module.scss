@@ -1,0 +1,37 @@
+@use 'src/styles/_color' as color;
+@use 'src/styles/_font' as font;
+@use 'src/styles/_media' as media;
+@use 'src/styles/_variables' as var;
+
+.button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  outline: none;
+  border: 0;
+  border-radius: 9999px;
+  margin-top: 40px;
+  min-width: 160px;
+  min-height: 32px;
+  padding: 24px 36px;
+  background-color: color.$Primary-Blue-300;
+  cursor: pointer;
+  color: color.$Grayscale-50;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  &:visited {
+    color: color.$Grayscale-50;
+  }
+
+  @include font.Style(2xl, 700);
+
+  @include media.tablet {
+    margin-top: 48px;
+    padding: 16px 24px;
+
+    @include font.Style(lg, 700);
+  }
+}

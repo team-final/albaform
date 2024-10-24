@@ -5,15 +5,15 @@
 
 @keyframes spinner {
   0% {
-    transform: rotate(0deg) scale(1.1);
+    transform: translate(-50%, -50%) rotate(0deg) scale(1.1);
   }
 
   50% {
-    transform: rotate(360deg) scale(1);
+    transform: translate(-50%, -50%) rotate(360deg) scale(1);
   }
 
   100% {
-    transform: rotate(360deg) scale(1);
+    transform: translate(-50%, -50%) rotate(360deg) scale(1);
   }
 }
 
@@ -24,10 +24,23 @@
   height: 100%;
   padding: 10%;
   overflow: hidden;
-  transform-origin: center;
-  animation-name: spinner;
-  animation-duration: 2.4s;
-  animation-iteration-count: infinite;
+}
+
+.full {
+  position: fixed;
+  z-index: 16;
+  inset: 0;
+  top: var.$root_header_height_lg + 1px;
+  height: auto;
+  background-color: color.$Grayscale-50;
+
+  @include media.tablet {
+    top: var.$root_header_height_md + 1px;
+  }
+
+  @include media.tablet {
+    top: var.$root_header_height_sm + 1px;
+  }
 }
 
 .loading-inner {
@@ -45,6 +58,10 @@
   max-width: 16rem;
   max-height: 16rem;
   gap: 10%;
+  transform-origin: center;
+  animation-name: spinner;
+  animation-duration: 2.4s;
+  animation-iteration-count: infinite;
 }
 
 .loading-circle {
