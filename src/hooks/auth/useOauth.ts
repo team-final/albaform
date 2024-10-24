@@ -7,12 +7,11 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/navigation'
-import process from 'process'
 
 export default function useOauth() {
   const queryClient = useQueryClient()
-  const { setUser } = useUserStore()
   const router = useRouter()
+  const { setUser } = useUserStore()
 
   const oauthSignUp = useMutation({
     mutationFn: async ({
@@ -62,11 +61,11 @@ export default function useOauth() {
         redirectUri,
         token,
       })
-      return response.data
+      return response
     },
+    onSuccess: (response) => {
+      const { user, accessToken, refreshToken } = response.data
 
-    onSuccess: (data) => {
-      const { user, accessToken, refreshToken } = data
       // 쿠키에 토큰 저장
       Cookies.set('accessToken', accessToken, {
         path: '/',
@@ -78,15 +77,16 @@ export default function useOauth() {
         secure: true,
         sameSite: 'Strict',
       })
+
       // 쿼리 캐시에 유저 정보 저장
       queryClient.setQueryData(['user'], user)
       // Zustand 스토어에 유저 정보 저장
       setUser(user)
-    },
 
+      router.replace('/')
+    },
     onError: (error: AxiosError) => {
       // handleError(error, SIGN_IN_ERROR_MESSAGE)
-
       // 회원 정보 없음
       if (error.status === 403) {
         router.replace('/user/sign-up')
