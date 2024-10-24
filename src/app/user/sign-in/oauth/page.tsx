@@ -3,9 +3,9 @@
 import useOauth from '@/hooks/auth/useOauth'
 import useHydration from '@/hooks/useHydration'
 import { useSearchParams } from 'next/navigation'
-import { useCallback, useEffect } from 'react'
+import { Suspense, useCallback, useEffect } from 'react'
 
-export default function OAuthHandler() {
+function OAuthSignInHandler() {
   const isHydrated = useHydration()
   // 카카오
   const { oauthSignIn } = useOauth()
@@ -35,4 +35,12 @@ export default function OAuthHandler() {
 
   // if (errorMessage) handleError(errorMessage)
   return <>please waiting...</>
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={null}>
+      <OAuthSignInHandler />
+    </Suspense>
+  )
 }
