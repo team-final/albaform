@@ -19,10 +19,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <KakaoScript />
       <body>
         <GlobalNavigationBar />
         {children}
+        <KakaoScript />
       </body>
     </html>
   )
