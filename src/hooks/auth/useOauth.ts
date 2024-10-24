@@ -93,7 +93,7 @@ export default function useOauth() {
       if (error.status === 403) {
         router.replace('/user/sign-up')
       }
-    }
+    },
   })
 
   return {
