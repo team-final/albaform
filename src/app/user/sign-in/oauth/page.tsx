@@ -5,9 +5,9 @@ import useHydration from '@/hooks/useHydration'
 import handleError from '@/lib/utils/errorHandler'
 import { useSearchParams } from 'next/navigation'
 import process from 'process'
-import { Suspense, useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 
-function KakaoSignInHandler() {
+export default function KakaoSignInHandler() {
   const isHydrated = useHydration()
   const { oauthSignIn } = useOauth()
   const responseParams = useSearchParams()
@@ -48,10 +48,10 @@ function KakaoSignInHandler() {
   )
 }
 
-export default function OAuthSignInPage() {
-  return (
-    <Suspense fallback={<div>please waiting...</div>}>
-      <KakaoSignInHandler />
-    </Suspense>
-  )
-}
+// export default function OAuthSignInPage() {
+//   return (
+//     // <Suspense fallback={<div>please waiting...</div>}>
+//       <KakaoSignInHandler />
+//
+//   )
+// }
