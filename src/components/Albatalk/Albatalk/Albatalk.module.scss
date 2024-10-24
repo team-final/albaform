@@ -182,11 +182,4 @@ $gap_size_sm: 8px;
   @include media.tablet {
     top: var.$root_header_height_sm + 1px;
   }
-
-  & [class*='loading-circle'] {
-    width: 2rem;
-    height: 2rem;
-    max-width: none;
-    max-height: none;
-  }
 }
