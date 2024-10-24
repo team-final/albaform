@@ -9,7 +9,7 @@ export default function KakaoScript() {
 
   const onLoad = () => {
     if (window.Kakao) {
-      window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_APPKEY)
+      window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_SHARE_APPKEY)
       setIsKakaoLoaded(true)
     } else {
       console.log(isKakaoLoaded)

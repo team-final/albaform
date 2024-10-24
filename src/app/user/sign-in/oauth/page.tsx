@@ -2,45 +2,55 @@
 
 import useOauth from '@/hooks/auth/useOauth'
 import useHydration from '@/hooks/useHydration'
+import handleError from '@/lib/utils/errorHandler'
 import { useSearchParams } from 'next/navigation'
-import { Suspense, useCallback, useEffect } from 'react'
+import process from 'process'
+import { Suspense, useCallback, useEffect, useRef } from 'react'
 
 function KakaoSignInHandler() {
   const isHydrated = useHydration()
-
-  // 카카오
   const { oauthSignIn } = useOauth()
   const responseParams = useSearchParams()
+  const codeRef = useRef<string | undefined>(undefined)
+
   const authorizeCode = responseParams.get('code')
+  const errorMessage = {
+    title: responseParams.get('error'),
+    message: responseParams.get('error_description'),
+  }
 
-  // const errorMessage = {
-  //   title: responseParams.get('error') || undefined,
-  //   message: responseParams.get('error_description') || undefined,
-  // }
-  // const [isFetching, setIsFetching] = useState(false)
+  if (errorMessage) handleError(errorMessage)
 
-  const hanlder = useCallback(
-    async (authorizeCode: string) => {
+  const hanldeKakaoSignIn = useCallback(
+    async (authorizeCode: string | undefined) => {
       await oauthSignIn.mutateAsync({
         provider: 'kakao',
-        redirectUri: 'http://localhost:3000/user/sign-in/oauth',
-        token: String(authorizeCode),
+        redirectUri: process.env.NEXT_PUBLIC_KAKAO_SIGNIN_REDIRECT_URI,
+        token: authorizeCode,
       })
+      console.log('useCallback')
     },
     [oauthSignIn],
   )
 
   useEffect(() => {
-    if (isHydrated && authorizeCode) hanlder(authorizeCode)
-  }, [isHydrated, authorizeCode, hanlder])
+    if (isHydrated && authorizeCode) {
+      codeRef.current = authorizeCode
+      hanldeKakaoSignIn(codeRef.current)
+      console.log('useEffect')
+    }
+  }, [isHydrated, authorizeCode, hanldeKakaoSignIn])
 
-  // if (errorMessage) handleError(errorMessage)
-  return <>please waiting...</>
+  return (
+    <>
+      <div>please waiting...</div>
+    </>
+  )
 }
 
 export default function OAuthSignInPage() {
   return (
-    <Suspense>
+    <Suspense fallback={<div>please waiting...</div>}>
       <KakaoSignInHandler />
     </Suspense>
   )

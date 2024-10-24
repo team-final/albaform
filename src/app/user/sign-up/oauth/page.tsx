@@ -4,49 +4,44 @@ import signInSignUpStyles from '@/app/user/signInSignUp.module.scss'
 import Form from '@/components/Form/Form'
 import useCreateUser from '@/hooks/auth/useCreateUser'
 import useOauth from '@/hooks/auth/useOauth'
-import { UserRole } from '@/lib/types/userTypes'
 import { generateUniqueNickname } from '@/lib/utils/nicknameGenerator'
-import { useQueryClient } from '@tanstack/react-query'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
+import process from 'process'
 import { Suspense } from 'react'
 import { FieldValues } from 'react-hook-form'
 
 function KakaoSignUpHandler() {
-  // 카카오
+  const router = useRouter()
   const responseParams = useSearchParams()
-  const authorizeCode = responseParams.get('code')
-  const queryClient = useQueryClient()
+  const authorizeCode = responseParams.get('code') || undefined
   const { oauthSignUp, oauthSignIn } = useOauth()
   const createUser = useCreateUser()
-
-  queryClient.setQueryData(['kakaoAuthorizeCode'], authorizeCode)
-
-  const handleKakaoSignUp = async (selectedRole: UserRole) => {
-    const name = String(generateUniqueNickname(selectedRole))
-    const code = String(queryClient.getQueryData(['kakaoAuthorizeCode']))
-    const result = await oauthSignUp.mutateAsync({
-      role: selectedRole,
-      name,
-      token: code,
-    })
-    console.log(result)
-    return result
+  const redirectUri = {
+    signIn: process.env.NEXT_PUBLIC_KAKAO_SIGNIN_REDIRECT_URI,
+    signUp: process.env.NEXT_PUBLIC_KAKAO_SIGNUP_REDIRECT_URI,
   }
-
-  const handleSubmit = async (values: FieldValues) => {
+  const handleKakaoSignUp = async (values: FieldValues) => {
     const { role } = values
-    // const selectedRole: UserRole = (values as SelectedUserRole
-    const token = (await handleKakaoSignUp(role)).accessToken || ''
+    const name = String(generateUniqueNickname(role))
+
+    const signUpResult = await oauthSignUp.mutateAsync({
+      role,
+      name,
+      token: authorizeCode,
+    })
+
     await oauthSignIn.mutateAsync({
       provider: 'kakao',
-      redirectUri: 'http://localhost:3000/user/sign-in/oauth',
-      token,
+      redirectUri: redirectUri.signIn,
+      token: signUpResult.accessToken,
     })
+
+    router.replace('/user/sign-up/complete')
   }
 
   return (
     <>
-      <Form formId={'signUpKakaoForm'} onSubmit={handleSubmit}>
+      <Form formId={'signUpKakaoForm'} onSubmit={handleKakaoSignUp}>
         <Form.Fieldset>
           <Form.Legend>회원 유형</Form.Legend>
           <div className={signInSignUpStyles['user-role-select']}>

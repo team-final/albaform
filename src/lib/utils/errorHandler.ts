@@ -14,7 +14,7 @@ export default function handleError(
   customMessage?: CustomMessage | undefined,
 ): void {
   if (!(error instanceof AxiosError)) {
-    alert(`알 수 없는 에러 발생: ${error}`)
+    console.log(`알 수 없는 에러 발생: ${error}`) // 모달
     return
   }
 
@@ -28,7 +28,8 @@ export default function handleError(
     }
   }
 
-  alert(
+  console.log(
+    // 모달
     `${customMessage?.title || DEFAULT_ERROR_MESSAGE.title}
       \n${customMessage?.message || errorMessage}
       \n${error.response?.data}\n${error.message}`,

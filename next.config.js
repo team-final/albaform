@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 
 const webpack = require('webpack')
-const process = require('process/browser')
 
+const process = require('process/browser')
 console.log(process.env.NODE_ENV)
 
 const nextConfig = {
@@ -29,8 +29,6 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'albaform.netlify.app',
       },
-      { protocol: 'https', hostname: '**.pixabay.co(m|.kr)' },
-      { protocol: 'https', hostname: '**.freepik.co(m|.kr)' },
       {
         protocol: 'https',
         hostname: 'sprint-fe-project.s3.ap-northeast-2.amazonaws.com',

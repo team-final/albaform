@@ -3,7 +3,6 @@
 import signInSignUpStyles from '@/app/user/signInSignUp.module.scss'
 import MainButton from '@/components/Button/MainButton/MainButton'
 import Form from '@/components/Form/Form'
-// import useGoogleAuth from '@/hooks/auth/useGoogleAuth'
 import useSignIn from '@/hooks/auth/useSignIn'
 import {
   TEST_ACOUNT,
@@ -17,24 +16,23 @@ import { getRandomInt } from '@/lib/utils/acountGenerator'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import process from 'process'
 import { useEffect } from 'react'
 import { FieldValues } from 'react-hook-form'
 
 export default function SignInPage() {
-  const user = useUserStore.getState().user
   const router = useRouter()
-  const signIn = useSignIn()
-  // const { signInGoogle, oauthSignIn } = useGoogleAuth()
-  const appKey = process.env.NEXT_PUBLIC_KAKAO_APPKEY
-  const redirectUri = 'http://localhost:3000/user/sign-in/oauth'
-  // const redirectUri = String(process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI)
-  // const redirectUri = 'http://124.59.38.46:3000/user/sign-in/oauth'
+  const user = useUserStore.getState().user
+  const appKey = process.env.NEXT_PUBLIC_KAKAO_RESTAPI_APPKEY
+  const redirectUri = process.env.NEXT_PUBLIC_KAKAO_SIGNIN_REDIRECT_URI
 
-  // const handleGoogleSignIn = async () => {
-  //   const { accessToken: googleToken } = await signInGoogle.mutateAsync()
-  //   if (googleToken) await oauthSignIn.mutateAsync(googleToken)
-  //   await router.push('/forms')
-  // }
+  const signIn = useSignIn()
+
+  useEffect(() => {
+    if (user) {
+      router.back()
+    }
+  }, [user, router])
 
   const handleSignIn = async (values: SignInValues) => {
     await signIn.mutateAsync(values)
@@ -45,32 +43,7 @@ export default function SignInPage() {
     await handleSignIn(values)
   }
 
-  // const onProvide = (provider: string) => {
-  //   let onProvide
-  //   switch (provider) {
-  //     // case 'google':
-  //     //   onProvide = async () => (await signInGoogle.mutateAsync()).accessToken
-  //     //   return onProvide
-  //     case 'kakao': {
-  //       onProvide = async () => {
-  //         await openKakaoLogin.mutateAsync()
-  //         return queryClient.getQueryData('kakaoCredentials')
-  //       }
-  //       return onProvide
-  //     }
-  //   }
-  // }
-  //
-  // const handleExternalSignIn = async (provider: string) => {
-  //   const provide = onProvide(provider) // 프로미스를 리턴하는 비동기함수
-  //   const externalToken = await provide()
-  //   await oauthSignIn.mutateAsync({
-  //     token: externalToken,
-  //     provider,
-  //   })
-  //   router.push('/forms')
-  // }
-
+  // 개발, 테스트용
   const randomSignIn = async (role: any) => {
     const userList = TEST_ACOUNT[role]
     const user = userList[getRandomInt(userList.length)]
@@ -80,10 +53,6 @@ export default function SignInPage() {
     })
     await handleSignIn({ email: user.email, password: user.password })
   }
-
-  useEffect(() => {
-    if (user) router.replace('/')
-  }, [user, router])
 
   return (
     <article className={signInSignUpStyles.container}>
@@ -151,25 +120,12 @@ export default function SignInPage() {
             </p>
           </div>
           <ul className={signInSignUpStyles['sns-list']}>
-            {/* <li> */}
-            {/*  <Link href={'#'} className={signInSignUpStyles['sns-button']}> */}
-            {/*    <Image */}
-            {/*      onClick={() => handleExternalSignIn('google')} */}
-            {/*      src={'/icons/ic-logo-google.svg'} */}
-            {/*      alt={'GOOGLE 아이콘'} */}
-            {/*      fill */}
-            {/*      priority */}
-            {/*    /> */}
-            {/*  </Link> */}
-            {/* </li> */}
             <li>
               <Link
-                // href={`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${appKey}&redirect_uri=${redirectUri}&prompt=select_account`}
                 href={`https://kauth.kakao.com/oauth/authorize?client_id=${appKey}&redirect_uri=${redirectUri}&response_type=code`}
                 className={signInSignUpStyles['sns-button']}
               >
                 <Image
-                  // onClick={handleKakaoSignIn}
                   src={'/icons/ic-logo-kakao.svg'}
                   alt={'KAKAO 아이콘'}
                   fill
@@ -201,7 +157,7 @@ export default function SignInPage() {
             buttonStyle={'outline'}
             onClick={() => randomSignIn('APPLICANT')}
           >
-            알바구하러 가기
+            알바 구하기
           </MainButton>
 
           <MainButton

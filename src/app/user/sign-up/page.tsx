@@ -3,8 +3,6 @@
 import signInSignUpStyles from '@/app/user/signInSignUp.module.scss'
 import Form from '@/components/Form/Form'
 import useCreateUser from '@/hooks/auth/useCreateUser'
-// import useGoogleAuth from '@/hooks/auth/useGoogleAuth'
-// import useOauth from '@/hooks/auth/useOauth'
 import useSignIn from '@/hooks/auth/useSignIn'
 import { emailPattern, passwordPattern } from '@/lib/data/patterns'
 import { useUserStore } from '@/lib/stores/userStore'
@@ -13,6 +11,7 @@ import { generateUniqueNickname } from '@/lib/utils/nicknameGenerator'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import process from 'process'
 import { FieldValues } from 'react-hook-form'
 
 export default function SignUpPage() {
@@ -20,6 +19,11 @@ export default function SignUpPage() {
   const router = useRouter()
   const createUser = useCreateUser()
   const signIn = useSignIn()
+  const appKey = process.env.NEXT_PUBLIC_KAKAO_RESTAPI_APPKEY
+  const redirectUri = {
+    signIn: process.env.NEXT_PUBLIC_KAKAO_SIGNIN_REDIRECT_URI,
+    signUp: process.env.NEXT_PUBLIC_KAKAO_SIGNUP_REDIRECT_URI,
+  }
 
   // 로그인 상태면 뒤로가기
   if (user) {
@@ -27,7 +31,6 @@ export default function SignUpPage() {
     return null
   }
 
-  // 알바폼 회원가입
   const setDefaultUser = ({ email, password, role }: SignUpFormValues) => {
     const defaultNickname = generateUniqueNickname(role)
     const defaultUser: CreateUserValues = {
@@ -44,24 +47,16 @@ export default function SignUpPage() {
     return defaultUser
   }
 
-  const handleSignUp = async (values: SignUpFormValues) => {
-    const createUserValues: CreateUserValues = setDefaultUser(values)
-    await createUser.mutateAsync(createUserValues)
+  const handleSignUp = async (values: FieldValues) => {
+    const { email, password } = values
+    const formValues = values as SignUpFormValues
 
-    // 로그인
-    const { email, password } = createUserValues
+    await createUser.mutateAsync(setDefaultUser(formValues))
     await signIn.mutateAsync({ email, password })
+
     await router.prefetch('/user/sign-up/complete')
-    await router.push('/user/sign-up/complete')
+    await router.replace('/user/sign-up/complete')
   }
-
-  const handleSubmit = async (values: FieldValues) => {
-    const signUpFormValues: SignUpFormValues = values as SignUpFormValues
-    await handleSignUp(signUpFormValues)
-  }
-
-  const appKey = process.env.NEXT_PUBLIC_KAKAO_APPKEY
-  const redirectUri = 'http://localhost:3000/user/sign-up/oauth'
 
   return (
     <article className={signInSignUpStyles.container}>
@@ -82,7 +77,7 @@ export default function SignUpPage() {
         </section>
 
         <section className={signInSignUpStyles.body}>
-          <Form formId={'signUpForm'} onSubmit={handleSubmit}>
+          <Form formId={'signUpForm'} onSubmit={handleSignUp}>
             <Form.Fieldset>
               <Form.Legend>이메일</Form.Legend>
               <Form.Field>
@@ -162,21 +157,9 @@ export default function SignUpPage() {
             </p>
           </div>
           <ul className={signInSignUpStyles['sns-list']}>
-            {/* <li> */}
-            {/*  <button */}
-            {/*    onClick={handleGoogleSignUp} */}
-            {/*    className={signInSignUpStyles['sns-button']} */}
-            {/*  > */}
-            {/*    <Image */}
-            {/*      src={'/icons/ic-logo-google.svg'} */}
-            {/*      alt={'GOOGLE 아이콘'} */}
-            {/*      fill */}
-            {/*    /> */}
-            {/*  </button> */}
-            {/* </li> */}
             <li>
               <Link
-                href={`https://kauth.kakao.com/oauth/authorize?client_id=${appKey}&redirect_uri=${redirectUri}&response_type=code`}
+                href={`https://kauth.kakao.com/oauth/authorize?client_id=${appKey}&redirect_uri=${redirectUri.signUp}&response_type=code`}
                 className={signInSignUpStyles['sns-button']}
               >
                 <Image
