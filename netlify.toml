@@ -6,3 +6,6 @@ publish = ".next"
 from = "/*"
 to = "/api/*"
 status = 200
+
+[[plugins]]
+package = "@netlify/plugin-nextjs"
