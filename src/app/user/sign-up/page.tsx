@@ -122,11 +122,12 @@ export default function SignUpPage() {
             </Form.Fieldset>
 
             <Form.Fieldset>
-              <Form.Legend>회원 유형</Form.Legend>
+              <Form.Legend required>회원 유형</Form.Legend>
               <div className={signInSignUpStyles['user-role-select']}>
                 <Form.Field>
                   <Form.Label>지원자로 가입하기</Form.Label>
                   <Form.Input
+                    checked
                     name={'role'}
                     type={'radio'}
                     value={'APPLICANT'}
