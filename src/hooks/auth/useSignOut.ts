@@ -20,9 +20,9 @@ export default function useSignOut() {
     clearUserStorage()
     setUser(undefined)
     router.push('/')
-    if (typeof document !== 'undefined') return
-    window.location.reload()
-    toast.success('로그아웃되었습니다.')
+    if (typeof document !== 'undefined') {
+      toast.success('로그아웃되었습니다.')
+    }
   }
 
   return signOut

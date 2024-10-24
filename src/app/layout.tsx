@@ -21,9 +21,11 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-        <GlobalNavigationBar />
         <Toastify />
-        {children}
+        <div>
+          <GlobalNavigationBar />
+          {children}
+        </div>
         <KakaoScript />
       </body>
     </html>
