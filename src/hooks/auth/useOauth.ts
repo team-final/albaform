@@ -7,6 +7,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/navigation'
+import process from 'process'
 
 export default function useOauth() {
   const queryClient = useQueryClient()
@@ -31,7 +32,7 @@ export default function useOauth() {
         role,
         name,
         token,
-        redirectUri: 'http://localhost:3000/user/sign-up/oauth',
+        redirectUri: process.env.NEXT_PUBLIC_KAKAO_SIGNIN_URI,
       })
 
       return response.data
