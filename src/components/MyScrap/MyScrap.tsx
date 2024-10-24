@@ -163,7 +163,7 @@ function Content() {
 
   const { data, isFetching, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
-      queryKey: ['forms', isRecruiting, isPublic, orderBy],
+      queryKey: ['myScrapForms', isRecruiting, isPublic, orderBy],
       queryFn: ({ pageParam = undefined }) =>
         getScrapList({
           limit: 6,
