@@ -7,10 +7,10 @@ import useOauth from '@/hooks/auth/useOauth'
 import { generateUniqueNickname } from '@/lib/utils/nicknameGenerator'
 import { useRouter, useSearchParams } from 'next/navigation'
 import process from 'process'
-import { Suspense } from 'react'
+// import { Suspense } from 'react'
 import { FieldValues } from 'react-hook-form'
 
-function KakaoSignUpHandler() {
+export default function KakaoSignUpHandler() {
   const router = useRouter()
   const responseParams = useSearchParams()
   const authorizeCode = responseParams.get('code') || undefined
@@ -67,10 +67,10 @@ function KakaoSignUpHandler() {
   )
 }
 
-export default function OAuthSignUpPage() {
-  return (
-    <Suspense>
-      <KakaoSignUpHandler />
-    </Suspense>
-  )
-}
+// export default function OAuthSignUpPage() {
+//   return (
+//     <Suspense>
+//       <KakaoSignUpHandler />
+//     </Suspense>
+//   )
+// }
