@@ -7,7 +7,6 @@ import useOauth from '@/hooks/auth/useOauth'
 import { generateUniqueNickname } from '@/lib/utils/nicknameGenerator'
 import { useRouter, useSearchParams } from 'next/navigation'
 import process from 'process'
-// import { Suspense } from 'react'
 import { FieldValues } from 'react-hook-form'
 
 export default function KakaoSignUpHandler() {
@@ -40,36 +39,39 @@ export default function KakaoSignUpHandler() {
 
   return (
     <>
-      <Form formId={'signUpKakaoForm'} onSubmit={handleKakaoSignUp}>
-        <Form.Fieldset>
-          <Form.Legend>회원 유형</Form.Legend>
-          <div className={signInSignUpStyles['user-role-select']}>
-            <Form.Field>
-              <Form.Label>지원자로 가입하기</Form.Label>
-              <Form.Input name={'role'} type={'radio'} value={'APPLICANT'} />
-            </Form.Field>
-            <Form.Field>
-              <Form.Label>사장님으로 가입하기</Form.Label>
-              <Form.Input name={'role'} type={'radio'} value={'OWNER'} />
-            </Form.Field>
-          </div>
-        </Form.Fieldset>
+      <article className={signInSignUpStyles.container}>
+        <div className={signInSignUpStyles.inner}>
+          <section className={signInSignUpStyles.body}>
+            <Form formId={'signUpKakaoForm'} onSubmit={handleKakaoSignUp}>
+              <Form.Fieldset>
+                <Form.Legend>회원 유형</Form.Legend>
+                <div className={signInSignUpStyles['user-role-select']}>
+                  <Form.Field>
+                    <Form.Label>지원자로 가입하기</Form.Label>
+                    <Form.Input
+                      checked
+                      name={'role'}
+                      type={'radio'}
+                      value={'APPLICANT'}
+                    />
+                  </Form.Field>
+                  <Form.Field>
+                    <Form.Label>사장님으로 가입하기</Form.Label>
+                    <Form.Input name={'role'} type={'radio'} value={'OWNER'} />
+                  </Form.Field>
+                </div>
+              </Form.Fieldset>
 
-        <Form.SubmitButton
-          buttonStyle={'solid'}
-          isPending={createUser.isPending}
-        >
-          {createUser.isPending ? '진행 중...' : '회원 가입'}
-        </Form.SubmitButton>
-      </Form>
+              <Form.SubmitButton
+                buttonStyle={'solid'}
+                isPending={createUser.isPending}
+              >
+                {createUser.isPending ? '진행 중...' : '회원 가입'}
+              </Form.SubmitButton>
+            </Form>
+          </section>
+        </div>
+      </article>
     </>
   )
 }
-
-// export default function OAuthSignUpPage() {
-//   return (
-//     <Suspense>
-//       <KakaoSignUpHandler />
-//     </Suspense>
-//   )
-// }
