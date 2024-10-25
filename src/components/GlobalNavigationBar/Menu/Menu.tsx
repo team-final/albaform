@@ -16,6 +16,19 @@ export default function Menu() {
   const user = useUserStore.getState().user
   const pathname = usePathname()
 
+  let link
+  switch (user?.role) {
+    case 'APPLICANT':
+      link = '/applications'
+      break
+    case 'OWNER':
+      link = '/forms/created'
+      break
+    default:
+      link = '/user/sign-in'
+      break
+  }
+
   if (isHydrated)
     return (
       <div className={styles.nav}>
@@ -44,24 +57,22 @@ export default function Menu() {
           알바토크
         </Link>
 
-        {user && (
-          <Link
-            href={
-              user.role === 'APPLICANT'
-                ? '/applications'
-                : user.role === 'OWNER'
-                  ? '/forms/created'
-                  : '/user/sign-in'
-            }
-            draggable="false"
-            className={classNames({
-              [styles.active]:
-                pathname === '/applications' || pathname === '/forms/created',
-            })}
-          >
-            내 알바폼
-          </Link>
-        )}
+        <Link
+          href={link}
+          //   user.role === 'APPLICANT'
+          //     ? '/applications'
+          //     : user.role === 'OWNER'
+          //       ? '/forms/created'
+          //       : '/user/sign-in'
+          // }
+          draggable="false"
+          className={classNames({
+            [styles.active]:
+              pathname === '/applications' || pathname === '/forms/created',
+          })}
+        >
+          내 알바폼
+        </Link>
       </div>
     )
 }
