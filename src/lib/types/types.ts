@@ -10,7 +10,7 @@ export interface CustomMessage {
 
 export interface Params {
   params: {
-    formId?: string
+    formId?: number
     applicationId?: string
     talkId?: number
     code?: string
