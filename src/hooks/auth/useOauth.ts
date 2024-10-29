@@ -15,7 +15,7 @@ import { toast } from 'react-toastify'
 export default function useOauth() {
   const queryClient = useQueryClient()
   const router = useRouter()
-  const { setUser } = useUserStore()
+  const { setUser, setAuthService } = useUserStore()
 
   const oauthSignUp = useMutation({
     mutationFn: async ({
@@ -69,10 +69,10 @@ export default function useOauth() {
         redirectUri,
         token,
       })
-      return response
+      return { response, provider }
     },
-    onSuccess: (response) => {
-      const { user, accessToken, refreshToken } = response.data
+    onSuccess: (data) => {
+      const { user, accessToken, refreshToken } = data.response.data
       Cookies.set('accessToken', accessToken, {
         path: '/',
         secure: true,
@@ -85,6 +85,7 @@ export default function useOauth() {
       })
       queryClient.setQueryData(['user'], user)
       setUser(user)
+      setAuthService(data.provider)
       router.replace('/')
       toast.success('로그인되었습니다.')
     },
