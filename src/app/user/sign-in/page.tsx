@@ -23,7 +23,7 @@ export default function SignInPage() {
   const { signIn } = useSignIn()
 
   if (user && typeof window !== 'undefined') {
-    router.back()
+    router.replace('/')
   }
 
   const handleSignIn = async (values: SignInValues) => {

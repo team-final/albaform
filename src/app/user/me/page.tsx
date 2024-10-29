@@ -25,16 +25,14 @@ import styles from './page.module.scss'
  * @TODO user 정보를 서버사이드렌더링으로 불러오기 (속도 & 빌드)
  */
 export default function MyPage() {
-  const user = useUserStore.getState().user
   const router = useRouter()
+  const { user, setUser, authService } = useUserStore()
 
   useEffect(() => {
     if (typeof window !== 'undefined' && !user) {
       router.replace('/user/sign-in')
     }
   }, [user, router])
-
-  const { setUser } = useUserStore()
 
   const userInfoData = {
     OWNER: {
@@ -136,6 +134,7 @@ export default function MyPage() {
           initialValues={userInfoData.OWNER}
         />
       )}
+
       <UpdateUserPassword
         isOpen={userPwChangeModal}
         onRequestClose={() => setUserPwChangeModal(false)}
@@ -169,12 +168,14 @@ export default function MyPage() {
               <MainButton onClick={() => setUserInfoModal(true)}>
                 내 정보 수정
               </MainButton>
-              <MainButton
-                buttonStyle={'outline'}
-                onClick={() => setUserPwChangeModal(true)}
-              >
-                비밀번호 변경
-              </MainButton>
+              {!authService && (
+                <MainButton
+                  buttonStyle={'outline'}
+                  onClick={() => setUserPwChangeModal(true)}
+                >
+                  비밀번호 변경
+                </MainButton>
+              )}
             </div>
           </div>
 
