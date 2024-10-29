@@ -1,20 +1,7 @@
 /** @type {import('next').NextConfig} */
 
-const webpack = require('webpack')
-
-const process = require('process/browser')
-console.log(process.env.NODE_ENV)
-
 const nextConfig = {
   webpack: (config) => {
-    config.resolve.fallback = {
-      process: require.resolve('process/browser'),
-    }
-    config.plugins.push(
-      new webpack.ProvidePlugin({
-        process: 'process/browser',
-      }),
-    )
     config.module.rules.push({
       test: /\.svg$/,
       use: ['@svgr/webpack'],
