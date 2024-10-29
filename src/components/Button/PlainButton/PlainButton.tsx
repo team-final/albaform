@@ -5,7 +5,7 @@ import styles from './PlainButton.module.scss'
 interface PlainButtonProps {
   children?: ReactNode
   className?: string
-  onClick?: () => void
+  onClick?: () => void | undefined
 }
 
 const PlainButton = ({
