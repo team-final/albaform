@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 
 export default function useHydration() {
-  const [hydrated, setHydrated] = useState<boolean>(false)
+  const [isHydrated, setIsHydrated] = useState<boolean>(false)
 
   useEffect(() => {
-    setHydrated(true)
+    setIsHydrated(true)
   }, [])
 
-  return hydrated
+  return isHydrated
 }
