@@ -1,5 +1,6 @@
 'use client'
 
+import styles from '@/app/me/page.module.scss'
 import MainButton from '@/components/Button/MainButton/MainButton'
 import ApplicantInfoUpdate from '@/components/Modal/UpdateInfo/Applicant/ApplicantInfoUpdate'
 import CompleteInfoUpdate from '@/components/Modal/UpdateInfo/Complete/CompleteInfoUpdate'
@@ -7,32 +8,20 @@ import OwnerInfoUpdate from '@/components/Modal/UpdateInfo/Owner/OwnerInfoUpdate
 import UpdateUserPassword from '@/components/Modal/UpdateInfo/UpdateUserPassword/UpdateUserPassword'
 import MyAlbatalk from '@/components/MyAlbatalk/MyAlbatalk'
 import MyScrap from '@/components/MyScrap/MyScrap'
-import { patchMyInfo } from '@/lib/api/patchMyInfo'
+import { updateUserInfo } from '@/lib/api/updateUserInfo'
 import { updateUserPassword } from '@/lib/api/updateUserPassword'
 import { uploadImage } from '@/lib/api/uploadImageApi'
 import { MY_CONTENT_MENUS } from '@/lib/data/constants'
+import DefaultQueryProvider from '@/lib/queries/DefaultQueryProvider'
 import { useUserStore } from '@/lib/stores/userStore'
 import { MyContentMenuType } from '@/lib/types/types'
-import { UpdateUserValues } from '@/lib/types/userTypes'
+import { UpdateUserValues, User } from '@/lib/types/userTypes'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { FieldValues } from 'react-hook-form'
 
-import styles from './page.module.scss'
-
-/**
- * @TODO user 정보를 서버사이드렌더링으로 불러오기 (속도 & 빌드)
- */
-export default function MyPage() {
-  const router = useRouter()
-  const { user, setUser, authService } = useUserStore()
-
-  useEffect(() => {
-    if (typeof window !== 'undefined' && !user) {
-      router.replace('/user/sign-in')
-    }
-  }, [user, router])
+export default function MyPageData({ user }: { user: User }) {
+  const { setUser, authService } = useUserStore()
 
   const userInfoData = {
     OWNER: {
@@ -86,7 +75,7 @@ export default function MyPage() {
       name: data.name || user?.name,
     }
 
-    const res = await patchMyInfo(updatedData)
+    const res = await updateUserInfo(updatedData)
     if (res) setUser(res)
 
     setCompleteModal(true)
@@ -118,7 +107,7 @@ export default function MyPage() {
 
   return (
     <>
-      {user?.role === 'APPLICANT' && (
+      {user.role === 'APPLICANT' && (
         <ApplicantInfoUpdate
           isOpen={userInfoModal}
           onRequestClose={() => setUserInfoModal(false)}
@@ -126,7 +115,7 @@ export default function MyPage() {
           initialValues={userInfoData.APPLICANT}
         />
       )}
-      {user?.role === 'OWNER' && (
+      {user.role === 'OWNER' && (
         <OwnerInfoUpdate
           isOpen={userInfoModal}
           onRequestClose={() => setUserInfoModal(false)}
@@ -179,46 +168,48 @@ export default function MyPage() {
             </div>
           </div>
 
-          <MyAlbatalk>
-            <MyScrap>
-              <div className={styles.content}>
-                <div className={styles.conditions}>
-                  <div className={styles['tab-menu']}>
-                    {MY_CONTENT_MENUS.map(({ value, label }) => (
-                      <button
-                        type={'button'}
-                        key={`sort_condition_${value}`}
-                        className={value === tabMenu ? 'active' : ''}
-                        onClick={() => {
-                          setTabMenu(value)
-                        }}
-                      >
-                        {label}
-                      </button>
-                    ))}
+          <DefaultQueryProvider>
+            <MyAlbatalk>
+              <MyScrap>
+                <div className={styles.content}>
+                  <div className={styles.conditions}>
+                    <div className={styles['tab-menu']}>
+                      {MY_CONTENT_MENUS.map(({ value, label }) => (
+                        <button
+                          type={'button'}
+                          key={`sort_condition_${value}`}
+                          className={value === tabMenu ? 'active' : ''}
+                          onClick={() => {
+                            setTabMenu(value)
+                          }}
+                        >
+                          {label}
+                        </button>
+                      ))}
+                    </div>
+
+                    {tabMenu === 'posts' ? (
+                      <MyAlbatalk.Conditions />
+                    ) : tabMenu === 'comments' ? (
+                      ''
+                    ) : tabMenu === 'scrap' ? (
+                      <MyScrap.Conditions />
+                    ) : null}
                   </div>
 
-                  {tabMenu === 'posts' ? (
-                    <MyAlbatalk.Conditions />
-                  ) : tabMenu === 'comments' ? (
-                    ''
-                  ) : tabMenu === 'scrap' ? (
-                    <MyScrap.Conditions />
-                  ) : null}
+                  <div className={styles['carditem-container']}>
+                    {tabMenu === 'posts' ? (
+                      <MyAlbatalk.Content />
+                    ) : tabMenu === 'comments' ? (
+                      ''
+                    ) : tabMenu === 'scrap' ? (
+                      <MyScrap.Content />
+                    ) : null}
+                  </div>
                 </div>
-
-                <div className={styles['carditem-container']}>
-                  {tabMenu === 'posts' ? (
-                    <MyAlbatalk.Content />
-                  ) : tabMenu === 'comments' ? (
-                    ''
-                  ) : tabMenu === 'scrap' ? (
-                    <MyScrap.Content />
-                  ) : null}
-                </div>
-              </div>
-            </MyScrap>
-          </MyAlbatalk>
+              </MyScrap>
+            </MyAlbatalk>
+          </DefaultQueryProvider>
         </div>
       </div>
     </>

@@ -37,7 +37,7 @@ export default function SideBar({ closeAction }: SideBarProps) {
           <ul onClick={closeAction}>
             <li>
               <Link
-                href={user ? '/user/me' : '/user/sign-in'}
+                href={user ? '/me' : '/user/sign-in'}
                 className={styles.button}
               >
                 <IconMypage />

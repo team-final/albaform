@@ -1,4 +1,4 @@
-import styles from '@/app/user/me/page.module.scss'
+import styles from '@/app/me/page.module.scss'
 import Dropdown from '@/components/Dropdown/Dropdown'
 import EmptyContent from '@/components/EmptyContent/EmptyContent'
 import ListCardItem from '@/components/ListCardItem/ListCardItem'
