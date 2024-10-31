@@ -27,6 +27,7 @@ export default function KakaoSignOutHandler() {
         router.push('/')
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isHydrated, user, authService, router])
 
   return <LoadingSpinner full />
