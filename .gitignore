@@ -245,5 +245,4 @@ Temporary Items
 # 임시보관함
 /src/temp/
 
-.npm
-.netlify
+tsconfig.tsbuildinfo
