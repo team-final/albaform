@@ -1,5 +1,4 @@
 /** @type {import('next').NextConfig} */
-
 const nextConfig = {
   webpack: (config) => {
     config.module.rules.push({
@@ -10,7 +9,6 @@ const nextConfig = {
   },
   pageExtensions: ['tsx', 'ts'],
   images: {
-    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
@@ -24,4 +22,4 @@ const nextConfig = {
   },
 }
 
-module.exports = nextConfig // CommonJS의 module.exports 사용
+export default nextConfig

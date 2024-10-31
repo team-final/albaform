@@ -30,7 +30,7 @@
     "**/*.tsx",
     "**/*.d.ts",
     ".next/types/**/*.ts",
-    "next.config.js",
+    "next.config.mjs",
     "src/lib/types/global.d.ts",
     "next-env.d.ts"
   ],
