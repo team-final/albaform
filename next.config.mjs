@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
   webpack: (config) => {
     config.module.rules.push({
@@ -9,6 +10,7 @@ const nextConfig = {
   },
   pageExtensions: ['tsx', 'ts'],
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
