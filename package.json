@@ -9,7 +9,11 @@
     "lint": "eslint . --cache --fix && stylelint '**/*.scss' --fix",
     "format": "prettier --cache --write .",
     "tsc": "tsc -p tsconfig.json --noEmit",
-    "prepare": "husky"
+    "prepare": "husky",
+    "update-dev": "git fetch origin && git rebase origin/dev",
+    "correct": "npm run format && npm run lint && npm run tsc",
+    "pre-push": "npm run update-dev && npm run correct && npm run build",
+    "pre-deploy": "netlify build --dry"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

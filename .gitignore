@@ -1,6 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 .eslintcache
+.netlify
+.npm
 
 # dependencies
 /node_modules
@@ -242,3 +244,5 @@ Temporary Items
 
 # 임시보관함
 /src/temp/
+# Local Netlify folder
+.netlify
