@@ -12,7 +12,7 @@
     "prepare": "husky",
     "update-dev": "git fetch origin && git rebase origin/dev",
     "correct": "npm run format && npm run lint && npm run tsc",
-    "test": "npm run update-dev && npm run correct && npm run build"
+    "pre-push": "npm run update-dev && npm run correct && npm run build"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
