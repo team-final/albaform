@@ -244,5 +244,6 @@ Temporary Items
 
 # 임시보관함
 /src/temp/
-# Local Netlify folder
+
+.npm
 .netlify

@@ -1,7 +1,7 @@
-@use '../../../styles/variables' as var;
-@use '../../../styles/color' as color;
-@use '../../../styles/font' as font;
-@use '../../../styles/media' as media;
+@use '/src/styles/variables' as var;
+@use '/src/styles/color' as color;
+@use '/src/styles/font' as font;
+@use '/src/styles/media' as media;
 
 .make-your-form {
   position: fixed;

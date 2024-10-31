@@ -93,7 +93,7 @@ export default function useOauth() {
       handleError(error, SIGN_IN_ERROR_MESSAGE)
       if (error.status === 403) {
         toast.error('회원정보가 없습니다. 회원가입 페이지로 이동합니다.')
-        return router.push('user/sign-up')
+        return router.push('/user/sign-up')
       }
     },
   })
