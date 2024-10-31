@@ -6,5 +6,5 @@
 
 ### 사이트 주소
 
-- [AWS Amplify](https://main.d3jxl4gw15q26p.amplifyapp.com) ([dev](https://dev.d3jxl4gw15q26p.amplifyapp.com))
-- [Netlify](https://albaform.netlify.app) ([dev](https://albaform.netlify.app))
+- [prod](https://main.d3jxl4gw15q26p.amplifyapp.com)
+- [dev](https://dev.d3jxl4gw15q26p.amplifyapp.com)
