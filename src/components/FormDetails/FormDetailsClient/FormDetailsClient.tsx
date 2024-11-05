@@ -132,14 +132,23 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
     toast.success('주소 복사 성공!')
   }
 
+  // useEffect(() => {
+  //   if (window.Kakao) {
+  // if (!window.Kakao.isInitialized()) {
+  //     window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_APPKEY)
+  //   }
+  // }, [])
+
   const kakaoShareClick = () => {
     if (window.Kakao && window.Kakao.Share) {
       window.Kakao.Share.sendCustom({
-        templateId: 112519,
+        // templateId: 112519,
+        templateId: 113891,
         templateArgs: {
           img: firstImageUrl,
           title: formDetails.title,
           description: formDetails.description,
+          id: formId,
         },
       })
     } else {

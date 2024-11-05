@@ -9,7 +9,7 @@ export default function KakaoScript() {
 
   const onLoad = () => {
     if (window.Kakao) {
-      window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_SHARE_APPKEY) // 김가영 앱키
+      window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_APPKEY) // 김가영 앱키
       setIsKakaoLoaded(true)
     } else {
       console.log(isKakaoLoaded)
