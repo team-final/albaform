@@ -2,19 +2,22 @@
 
 import signInSignUpStyles from '@/app/user/signInSignUp.module.scss'
 import Form from '@/components/Form/Form'
+import AlertModal from '@/components/Modal/Alert/AlertModal'
 import useCreateUser from '@/hooks/auth/useCreateUser'
-import useOauth from '@/hooks/auth/useOauth'
+import useSignIn from '@/hooks/auth/useSignIn'
 import { generateUniqueNickname } from '@/lib/utils/nicknameGenerator'
 import { useRouter, useSearchParams } from 'next/navigation'
 import process from 'process'
 import { FieldValues } from 'react-hook-form'
 
+import DoneIC from '/public/icons/ic-warning-bookmark.svg'
+
 export default function KakaoSignUpHandler() {
   const router = useRouter()
   const responseParams = useSearchParams()
   const authorizeCode = responseParams.get('code') || undefined
-  const { oauthSignUp, oauthSignIn } = useOauth()
-  const createUser = useCreateUser()
+  const { oauthSignUp, signUp } = useCreateUser()
+  const { oauthSignIn } = useSignIn()
 
   const handleKakaoSignUp = async (values: FieldValues) => {
     const { role } = values
@@ -23,7 +26,7 @@ export default function KakaoSignUpHandler() {
     const signUpResult = await oauthSignUp.mutateAsync({
       role,
       name,
-      token: authorizeCode,
+      providerToken: authorizeCode,
       redirectUri: process.env.NEXT_PUBLIC_KAKAO_SIGNUP_REDIRECT_URI,
       provider: 'kakao',
     })
@@ -31,10 +34,30 @@ export default function KakaoSignUpHandler() {
     await oauthSignIn.mutateAsync({
       provider: 'kakao',
       redirectUri: process.env.NEXT_PUBLIC_KAKAO_SIGNUP_REDIRECT_URI,
-      token: signUpResult.accessToken,
+      providerToken: signUpResult.accessToken,
     })
 
     router.replace('/user/sign-up/complete')
+  }
+
+  if (!authorizeCode) {
+    return (
+      <>
+        <AlertModal
+          AlertmodalType={'delete'}
+          isOpen={true}
+          onConfirm={router.back}
+          onRequestClose={router.back}
+          content={{
+            title: '에러',
+            description: '간편 회원가입 인증 정보를 얻지 못했어요.',
+            buttonText: '확인',
+            icon: DoneIC,
+            showSecondButton: false,
+          }}
+        />
+      </>
+    )
   }
 
   return (
@@ -64,9 +87,9 @@ export default function KakaoSignUpHandler() {
 
               <Form.SubmitButton
                 buttonStyle={'solid'}
-                isPending={createUser.isPending}
+                isPending={signUp.isPending}
               >
-                {createUser.isPending ? '진행 중...' : '회원 가입'}
+                {signUp.isPending ? '진행 중...' : '회원 가입'}
               </Form.SubmitButton>
             </Form>
           </section>

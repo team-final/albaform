@@ -17,7 +17,7 @@ import { FieldValues } from 'react-hook-form'
 export default function SignUpPage() {
   const user = useUserStore.getState().user
   const router = useRouter()
-  const createUser = useCreateUser()
+  const { signUp } = useCreateUser()
   const { signIn } = useSignIn()
   const appKey = process.env.NEXT_PUBLIC_KAKAO_RESTAPI_APPKEY
   const redirectUri = {
@@ -49,7 +49,7 @@ export default function SignUpPage() {
     const { email, password } = values
     const formValues = values as SignUpFormValues
 
-    await createUser.mutateAsync(setDefaultUser(formValues))
+    await signUp.mutateAsync(setDefaultUser(formValues))
     await signIn.mutateAsync({ email, password })
 
     await router.prefetch('/user/sign-up/complete')
@@ -142,9 +142,9 @@ export default function SignUpPage() {
 
             <Form.SubmitButton
               buttonStyle={'solid'}
-              isPending={createUser.isPending}
+              isPending={signUp.isPending}
             >
-              {createUser.isPending ? '진행 중...' : '회원 가입'}
+              {signUp.isPending ? '진행 중...' : '회원 가입'}
             </Form.SubmitButton>
           </Form>
         </section>

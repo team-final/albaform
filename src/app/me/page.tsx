@@ -11,5 +11,9 @@ export default async function MyPage() {
     return <p>Redirecting...</p> // 인증이 없다면 미들웨어가 리다이렉트
   }
 
-  return <MyPageData user={user} />
+  return (
+    <>
+      <MyPageData user={user} />
+    </>
+  )
 }

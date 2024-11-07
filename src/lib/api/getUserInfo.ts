@@ -1,9 +1,9 @@
-import serverAxios from '@/lib/api/serverAuthAxios'
+import basicAxios from '@/lib/api/basicAxios'
 import handleError from '@/lib/utils/errorHandler'
 
-export const getUserInfo = async (accessToken: string | undefined) => {
+export const getUserInfo = async (accessToken?: string) => {
   try {
-    const response = await serverAxios.get(`/users/me`, {
+    const response = await basicAxios.get(`/users/me`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },

@@ -1,6 +1,6 @@
 import MainButton from '@/components/Button/MainButton/MainButton'
 import classNames from 'classnames'
-import React from 'react'
+import React, { ReactNode } from 'react'
 import ReactModal from 'react-modal'
 
 import styles from './AlertModal.module.scss'
@@ -15,6 +15,39 @@ interface AlertModalProps {
   onRequestClose: () => void
   onConfirm: () => void
   onAfterOpen?: () => void
+  content?: {
+    title: string
+    description: string
+    buttonText: string
+    buttonText2?: string
+    icon: ReactNode
+    showSecondButton: boolean
+  }
+}
+
+const modalData = {
+  delete: {
+    title: '알바폼을 삭제할까요?',
+    description: '삭제 후 정보를 복구할 수 없어요',
+    buttonText: '삭제하기',
+    buttonText2: '다음에 할게요',
+    icon: DeleteIc,
+    showSecondButton: true,
+  },
+  done: {
+    title: '모집 마감',
+    description: '모집이 종료된 알바폼입니다.',
+    buttonText: '홈으로 가기',
+    icon: DoneIC,
+    showSecondButton: false,
+  },
+  writing: {
+    title: '작성 중인 알바폼이 있어요!',
+    description: '이어서 작성하시겠어요?',
+    buttonText: '이어쓰기',
+    icon: WritingIC,
+    showSecondButton: false,
+  },
 }
 
 /**
@@ -22,45 +55,22 @@ interface AlertModalProps {
  * @param onConfirm 해당 모달의 핵심버튼 함수
  * @param  onAfterOpen 모달이 열린 후 호출될 함수
  */
-
 const AlertModal = ({
   AlertmodalType,
   isOpen,
   onRequestClose,
   onAfterOpen,
   onConfirm,
+  content,
 }: AlertModalProps) => {
-  const modalData = {
-    delete: {
-      title: '알바폼을 삭제할까요?',
-      text: '삭제 후 정보를 복구할 수 없어요',
-      buttonText: '삭제하기',
-      buttonText2: '다음에 할게요',
-      icon: DeleteIc,
-      showSecondButton: true,
-    },
-    done: {
-      title: '모집 마감',
-      text: '모집이 종료된 알바폼입니다.',
-      buttonText: '홈으로 가기',
-      icon: DoneIC,
-      showSecondButton: false,
-    },
-    writing: {
-      title: '작성 중인 알바폼이 있어요!',
-      text: '이어서 작성하시겠어요?',
-      buttonText: '이어쓰기',
-      icon: WritingIC,
-      showSecondButton: false,
-    },
-  }
   const {
     title,
-    text,
+    description,
     buttonText,
     showSecondButton,
     icon: Icon,
-  } = modalData[AlertmodalType]
+  } = content || modalData[AlertmodalType]
+
   return (
     <ReactModal
       isOpen={isOpen}
@@ -93,7 +103,7 @@ const AlertModal = ({
           {title}
         </h2>
         <p className={classNames(styles['modal-alert-content-textgroup-text'])}>
-          {text}
+          {description}
         </p>
       </div>
       <div className={classNames(styles['modal-alert-content-buttongroup'])}>

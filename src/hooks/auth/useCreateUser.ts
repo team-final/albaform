@@ -1,34 +1,61 @@
+import { setAuthCookies } from '@/hooks/auth/useSignIn'
 import basicAxios from '@/lib/api/basicAxios'
 import { SIGN_UP_ERROR_MESSAGE } from '@/lib/data/messages'
-import { AuthResponse, CreateUserValues, User } from '@/lib/types/userTypes'
+import {
+  AuthProvider,
+  AuthResponse,
+  CreateUserValues,
+  UserRole,
+} from '@/lib/types/userTypes'
 import handleError from '@/lib/utils/errorHandler'
 import { useMutation } from '@tanstack/react-query'
 import { AxiosError, AxiosResponse } from 'axios'
-import Cookies from 'js-cookie'
 
 export default function useCreateUser() {
-  return useMutation({
-    mutationFn: async (values: CreateUserValues): Promise<User> => {
+  const signUp = useMutation({
+    mutationFn: async (values: CreateUserValues): Promise<AuthResponse> => {
       const response: AxiosResponse<AuthResponse> = await basicAxios.post(
         '/auth/sign-up',
         values,
       )
-      const { user, accessToken, refreshToken } = response.data
-      // 쿠키에 토큰 저장
-      Cookies.set('accessToken', accessToken, {
-        path: '/',
-        secure: true,
-        sameSite: 'Strict',
-      })
-      Cookies.set('refreshToken', refreshToken, {
-        path: '/',
-        secure: true,
-        sameSite: 'Strict',
-      })
-      return user
+      return response.data
+    },
+    onSuccess: (data) => {
+      const { accessToken, refreshToken } = data
+      setAuthCookies(accessToken, refreshToken)
     },
     onError: (error: AxiosError) => {
       handleError(error, SIGN_UP_ERROR_MESSAGE)
     },
   })
+
+  const oauthSignUp = useMutation({
+    mutationFn: async ({
+      role,
+      name,
+      providerToken,
+      redirectUri,
+      provider,
+    }: {
+      role: UserRole
+      name: string
+      providerToken?: string
+      provider: AuthProvider
+      redirectUri?: string
+    }) => {
+      const response = await basicAxios.post(`/oauth/sign-up/${provider}`, {
+        role,
+        name,
+        token: providerToken,
+        redirectUri,
+      })
+
+      return response.data
+    },
+    onError: (error: AxiosError) => {
+      handleError(error, SIGN_UP_ERROR_MESSAGE)
+    },
+  })
+
+  return { signUp, oauthSignUp }
 }

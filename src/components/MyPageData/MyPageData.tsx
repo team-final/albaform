@@ -12,10 +12,11 @@ import { updateUserInfo } from '@/lib/api/updateUserInfo'
 import { updateUserPassword } from '@/lib/api/updateUserPassword'
 import { uploadImage } from '@/lib/api/uploadImageApi'
 import { MY_CONTENT_MENUS } from '@/lib/data/constants'
-import DefaultQueryProvider from '@/lib/queries/DefaultQueryProvider'
+import defaultQueryClient from '@/lib/queries/defaultQueryClient'
 import { useUserStore } from '@/lib/stores/userStore'
 import { MyContentMenuType } from '@/lib/types/types'
 import { UpdateUserValues, User } from '@/lib/types/userTypes'
+import { QueryClientProvider } from '@tanstack/react-query'
 import Image from 'next/image'
 import { useState } from 'react'
 import { FieldValues } from 'react-hook-form'
@@ -168,7 +169,7 @@ export default function MyPageData({ user }: { user: User }) {
             </div>
           </div>
 
-          <DefaultQueryProvider>
+          <QueryClientProvider client={defaultQueryClient}>
             <MyAlbatalk>
               <MyScrap>
                 <div className={styles.content}>
@@ -209,7 +210,7 @@ export default function MyPageData({ user }: { user: User }) {
                 </div>
               </MyScrap>
             </MyAlbatalk>
-          </DefaultQueryProvider>
+          </QueryClientProvider>
         </div>
       </div>
     </>

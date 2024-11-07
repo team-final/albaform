@@ -29,10 +29,13 @@ export interface User extends UpdateUserValues {
   role: UserRole
 }
 
-export interface AuthResponse {
+export interface Credentials {
   accessToken: string
   refreshToken: string
+}
+
+export interface AuthResponse extends Credentials {
   user: User
 }
 
-export type OauthService = 'kakao'
+export type AuthProvider = undefined | 'kakao'

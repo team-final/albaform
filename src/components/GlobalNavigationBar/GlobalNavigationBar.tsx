@@ -1,5 +1,8 @@
 'use client'
 
+import useHydration from '@/hooks/useHydration'
+import defaultQueryClient from '@/lib/queries/defaultQueryClient'
+import { QueryClientProvider, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 
 import HamburgerButton from '../Button/HamburgerButton/HamburgerButton'
@@ -9,7 +12,9 @@ import Menu from './Menu/Menu'
 import SideBar from './SideBar/SideBar'
 
 export default function GlobalNavigationBar() {
+  const isHydrated = useHydration()
   const [showSideBar, setShowSideBar] = useState<boolean>(false)
+  const queryClient = useQueryClient()
 
   /**
    * @todo
@@ -23,10 +28,13 @@ export default function GlobalNavigationBar() {
     const enableScroll: () => void = () => {
       document.body.removeAttribute('style')
     }
-
-    if (showSideBar) disableScroll()
-    else enableScroll()
-  }, [showSideBar])
+    if (showSideBar) {
+      disableScroll()
+    } else enableScroll()
+    if (isHydrated) {
+      queryClient.invalidateQueries({ queryKey: ['user'] })
+    }
+  }, [showSideBar, isHydrated])
 
   return (
     <>
@@ -37,7 +45,11 @@ export default function GlobalNavigationBar() {
           <HamburgerButton onClick={() => setShowSideBar(true)} />
         </div>
       </header>
-      {showSideBar && <SideBar closeAction={() => setShowSideBar(false)} />}
+      {showSideBar && (
+        <QueryClientProvider client={defaultQueryClient}>
+          <SideBar closeAction={() => setShowSideBar(false)} />
+        </QueryClientProvider>
+      )}
     </>
   )
 }

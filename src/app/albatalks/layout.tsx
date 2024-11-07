@@ -1,8 +1,13 @@
 'use client'
 
-import DefaultQueryProvider from '@/lib/queries/DefaultQueryProvider'
-import { ChildrenProps } from '@/lib/types/types'
+import defaultQueryClient from '@/lib/queries/defaultQueryClient'
+import { LayoutProps } from '@/lib/types/types'
+import { QueryClientProvider } from '@tanstack/react-query'
 
-export default function AlbatalksLayout({ children }: ChildrenProps) {
-  return <DefaultQueryProvider>{children}</DefaultQueryProvider>
+export default function AlbatalksLayout({ children }: LayoutProps) {
+  return (
+    <QueryClientProvider client={defaultQueryClient}>
+      {children}
+    </QueryClientProvider>
+  )
 }

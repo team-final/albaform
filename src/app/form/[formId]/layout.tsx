@@ -1,17 +1,20 @@
 'use client'
 
-// 클라이언트 컴포넌트임을 명시
-import DefaultQueryProvider from '@/lib/queries/DefaultQueryProvider'
-import { ChildrenProps } from '@/lib/types/types'
+import defaultQueryClient from '@/lib/queries/defaultQueryClient'
+import { LayoutProps } from '@/lib/types/types'
+import { QueryClientProvider } from '@tanstack/react-query'
 
 // import Cookies from 'js-cookie'
 // import { redirect } from 'next/navigation'
 
-export default function FormLayout({ children }: ChildrenProps) {
+export default function FormLayout({ children }: LayoutProps) {
   // const accessToken = Cookies.get('accessToken')
   // if (!accessToken) {
   //   redirect('/user/sign-in')
   // }
-
-  return <DefaultQueryProvider>{children}</DefaultQueryProvider>
+  return (
+    <QueryClientProvider client={defaultQueryClient}>
+      {children}
+    </QueryClientProvider>
+  )
 }

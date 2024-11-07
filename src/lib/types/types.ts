@@ -23,15 +23,16 @@ export interface ClickProps {
   onClick?: () => void
 }
 
-export interface LayoutProps {
+export type LayoutProps = Readonly<{
   children: ReactNode
-}
+}>
 
 export interface ChildrenProps {
   children?: ReactNode
 }
 
-export interface ComponentProps extends ChildrenProps {
+export interface ComponentProps {
+  children?: ReactNode
   className?: string
 }
 
