@@ -336,6 +336,7 @@ function Input({
     validate,
   }
   const { register, errors, setValue, watch, getValues } = useFormContext()
+  const error = errors?.[name]
   const { forId } = useLabelContext()
   const cn = classNames(styles['form-input'], className)
 
@@ -393,8 +394,12 @@ function Input({
           }}
         />
       )}
-      {errors?.[name] && (
-        <p className={styles['input-error-message']}>잘못된 입력입니다.</p>
+      {error && (
+        <p className={styles['input-error-message']}>
+          {typeof error === 'object' &&
+            'message' in error &&
+            (error.message as string)}
+        </p>
       )}
     </>
   )
@@ -672,7 +677,7 @@ function SubmitButton({
           )
         }
 
-        return checkArr.every((item) => item === !true)
+        return checkArr.every((item) => !item)
       })
     }
   }, [formId, formData])
