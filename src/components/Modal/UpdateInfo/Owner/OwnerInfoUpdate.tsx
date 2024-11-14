@@ -1,5 +1,6 @@
 import MainButton from '@/components/Button/MainButton/MainButton'
 import Form from '@/components/Form/Form'
+import { phoneNumberPattern } from '@/lib/data/patterns'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { FieldValues } from 'react-hook-form'
@@ -143,10 +144,7 @@ export default function OwnerInfoUpdate({
                 name="storePhoneNumber"
                 type="tel"
                 required
-                pattern={{
-                  value: /^[0-9]{10,11}$/,
-                  message: '잘못된 입력입니다.',
-                }}
+                hookFormPattern={phoneNumberPattern}
                 placeholder="숫자만 입력해주세요"
               />
             </Form.Field>
@@ -157,10 +155,7 @@ export default function OwnerInfoUpdate({
               <Form.Input
                 name="phoneNumber"
                 type="tel"
-                pattern={{
-                  value: /^[0-9]{10,11}$/,
-                  message: '잘못된 입력입니다.',
-                }}
+                hookFormPattern={phoneNumberPattern}
                 placeholder="숫자만 입력해주세요"
               />
             </Form.Field>
@@ -168,7 +163,7 @@ export default function OwnerInfoUpdate({
           <Form.Fieldset>
             <Form.Legend required>가게 위치</Form.Legend>
             <Form.Field htmlFor="location">
-              <Form.KakaoSearchInput
+              <Form.AddressInput
                 name="location"
                 placeholder="가게 위치를 설정해주세요"
                 required

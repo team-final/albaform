@@ -105,7 +105,7 @@ export default function FormRecruitmentConditions({
           </Dropdown.Menu>
         </Dropdown>
         <Form.Field hidden={numberOfPositions !== '직접입력'}>
-          <Form.Wrap>
+          <Form.Wrapper>
             <Form.Input
               type={'number'}
               name={'numberOfPositions'}
@@ -122,7 +122,7 @@ export default function FormRecruitmentConditions({
               // required
             />
             <Form.Unit unit={'명'} />
-          </Form.Wrap>
+          </Form.Wrapper>
         </Form.Field>
       </Form.Fieldset>
 
@@ -212,7 +212,7 @@ export default function FormRecruitmentConditions({
           </Dropdown.Menu>
         </Dropdown>
         <Form.Field hidden={age !== '직접입력'}>
-          <Form.Wrap>
+          <Form.Wrapper>
             <Form.Input
               name={'age'}
               placeholder={'연령'}
@@ -223,7 +223,7 @@ export default function FormRecruitmentConditions({
               // required
             />
             <Form.Unit unit={'세'} />
-          </Form.Wrap>
+          </Form.Wrapper>
         </Form.Field>
       </Form.Fieldset>
 
@@ -250,7 +250,7 @@ export default function FormRecruitmentConditions({
           </Dropdown.Menu>
         </Dropdown>
         <Form.Field hidden={preferred !== '직접입력'}>
-          <Form.Wrap>
+          <Form.Wrapper>
             <Form.Input
               name={'preferred'}
               placeholder={'우대사항'}
@@ -260,7 +260,7 @@ export default function FormRecruitmentConditions({
               }
               // required
             />
-          </Form.Wrap>
+          </Form.Wrapper>
         </Form.Field>
       </Form.Fieldset>
     </FormCreateStep>

@@ -46,7 +46,7 @@ export default function Comment({ talkId }: { talkId: number }) {
 
   const initialCommentList = async () => {
     await requestCommentList()
-    queryClient.invalidateQueries()
+    await queryClient.invalidateQueries()
   }
 
   const handleSubmitComment = async (data: FieldValues) => {
@@ -109,17 +109,17 @@ export default function Comment({ talkId }: { talkId: number }) {
               required
               placeholder={'댓글을 입력해주세요.'}
               value={content}
-              onChange={(event: ChangeEvent<HTMLInputElement>) =>
+              onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
                 setContent(event.target.value)
               }
             />
           </Form.Field>
         </Form.Fieldset>
-        <Form.Wrap>
+        <Form.Wrapper>
           <MainButton type={'submit'} disabled={Boolean(!content) || isPosting}>
             등록
           </MainButton>
-        </Form.Wrap>
+        </Form.Wrapper>
       </Form>
 
       <div className={styles.comment}>
@@ -182,9 +182,9 @@ export default function Comment({ talkId }: { talkId: number }) {
                           />
                         </Form.Field>
                       </Form.Fieldset>
-                      <Form.Wrap>
+                      <Form.Wrapper>
                         <Form.SubmitButton>수정</Form.SubmitButton>
-                      </Form.Wrap>
+                      </Form.Wrapper>
                     </Form>
                   ) : (
                     <p className={styles['comment-content']}>{data.content}</p>

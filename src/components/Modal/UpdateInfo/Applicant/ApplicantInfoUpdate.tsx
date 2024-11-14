@@ -1,5 +1,6 @@
 import MainButton from '@/components/Button/MainButton/MainButton'
 import Form from '@/components/Form/Form'
+import { phoneNumberPattern } from '@/lib/data/patterns'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { FieldValues } from 'react-hook-form'
@@ -134,10 +135,7 @@ export default function ApplicantInfoUpdate({
               <Form.Input
                 name="phoneNumber"
                 type="tel"
-                pattern={{
-                  value: /^[0-9]{10,11}$/,
-                  message: '잘못된 입력입니다.',
-                }}
+                hookFormPattern={phoneNumberPattern}
                 placeholder="숫자만 입력해주세요."
               />
             </Form.Field>

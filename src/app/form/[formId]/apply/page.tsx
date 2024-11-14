@@ -160,7 +160,7 @@ export default function ApplyPage({ params }: Params) {
         <Form.Fieldset>
           <Form.Legend required>비밀번호</Form.Legend>
           <Form.Field htmlFor="password">
-            <Form.Wrap>
+            <Form.Wrapper>
               <Form.Input
                 name="password"
                 type="password"
@@ -168,7 +168,7 @@ export default function ApplyPage({ params }: Params) {
                 placeholder="비밀번호를 입력해주세요."
                 minLength={8}
               />
-            </Form.Wrap>
+            </Form.Wrapper>
           </Form.Field>
         </Form.Fieldset>
 

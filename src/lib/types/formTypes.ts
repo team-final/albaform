@@ -1,4 +1,21 @@
-import { FieldValues } from 'react-hook-form'
+import {
+  buttonColor,
+  buttonStyle,
+} from '@/components/Button/MainButton/MainButton'
+import { ComponentProps } from '@/lib/types/types'
+import { InputHTMLAttributes, ReactNode, TextareaHTMLAttributes } from 'react'
+import {
+  FieldErrors,
+  FieldValues,
+  SubmitHandler,
+  UseFormGetFieldState,
+  UseFormGetValues,
+  UseFormRegister,
+  UseFormReset,
+  UseFormSetFocus,
+  UseFormSetValue,
+  UseFormWatch,
+} from 'react-hook-form'
 
 import { LIST_ALBATALK_ORDER_BY } from '../data/constants'
 
@@ -77,8 +94,7 @@ export interface TempEditingFormType {
 }
 
 export type ListAlbatalkOrderByType = keyof typeof LIST_ALBATALK_ORDER_BY
-export type ListAlbatalkOrderByWord =
-  (typeof LIST_ALBATALK_ORDER_BY)[ListAlbatalkOrderByType]
+
 export const LIST_ALBATALK_ORDER_BY_KEYS = Object.keys(
   LIST_ALBATALK_ORDER_BY,
 ) as Array<ListAlbatalkOrderByType>
@@ -177,12 +193,6 @@ export interface CurrentApplicationProps {
   applyCount: number
 }
 
-export interface FormDetailsInfoProps {
-  applyCount: number
-  storeName: string
-  description: string
-}
-
 export interface ImageProps {
   imageUrls: string[] | string
 }
@@ -210,20 +220,6 @@ export interface WorkScheduleProps {
   workStartTime: string
 }
 
-export interface FormDetailsProps {
-  applyCount: number
-  storeName: string
-  title: string
-  description: string
-}
-
-export type CombinedFormDetailsProps = FormDetailsProps &
-  AnnoucementProps &
-  WorkScheduleProps &
-  ContactInfoProps & {
-    location: string
-  }
-
 export interface ApplicationProps {
   id: number
   applicantId: number
@@ -241,7 +237,6 @@ export const FORM_STATUS = {
 } as const
 
 export type FormStatusType = keyof typeof FORM_STATUS
-export type FormStatusWord = (typeof FORM_STATUS)[FormStatusType]
 
 export const FORM_STATUS_REVERSED = {
   거절: 'REJECTED',
@@ -249,3 +244,133 @@ export const FORM_STATUS_REVERSED = {
   '면접 완료': 'INTERVIEW_COMPLETED',
   '채용 완료': 'HIRED',
 } as const
+
+export interface FormContextProps {
+  formId: string
+  onSubmit: (data: FieldValues) => void
+  watch: UseFormWatch<FieldValues>
+  getValues: UseFormGetValues<FieldValues>
+  getFieldState: UseFormGetFieldState<FieldValues>
+  setValue: UseFormSetValue<FieldValues>
+  errors: FieldErrors
+  isValid: boolean
+  isSubmitting: boolean
+  reset: UseFormReset<any>
+  register: UseFormRegister<FieldValues>
+  setFocus: UseFormSetFocus<FieldValues>
+}
+export interface FormResetButtonProps extends ComponentProps {
+  buttonStyle?: buttonStyle
+  color?: buttonColor
+  onClick?: () => void
+}
+
+export interface FormSubmitButtonProps {
+  children: ReactNode
+  buttonStyle?: 'solid' | 'outline'
+  color?: 'primary' | 'gray'
+  isPending?: boolean
+}
+
+export interface FormProps extends ComponentProps {
+  formId: string
+  onSubmit: SubmitHandler<FieldValues>
+  initialValues?: Record<string, any>
+  defaultValues?: any
+  // FieldValues
+}
+
+export interface FieldProps extends ComponentProps {
+  htmlFor?: string
+  isInline?: boolean
+  hidden?: boolean
+}
+
+export interface LegendProps extends ComponentProps {
+  required?: boolean
+}
+
+export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  name: string
+  type?: HTMLInputElement['type']
+  required?: boolean
+  minLength?: number
+  maxLength?: number
+  hookFormPattern?: {
+    value: RegExp
+    message: string
+  }
+  value?: any
+  validate?: any
+  initialValues?: string
+  step?: number
+  onClick?: (event?: any) => void
+  workDaysValue?: WorkDaysType
+}
+
+export interface ImageInputProps extends InputProps {
+  onImageChange?: (file: File) => void
+}
+
+export interface AddressSearchProps {
+  name: string
+  placeholder?: string
+  required?: boolean
+}
+
+export interface TextareaProps
+  extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+  name: string
+  type?: HTMLInputElement['type']
+  required?: boolean
+  minLength?: number
+  maxLength?: number
+  customPattern?: {
+    value: RegExp
+    message: string
+  }
+  value?: any
+  validate?: any
+  initialValues?: string
+  step?: number
+  onClick?: (event?: any) => void
+  workDaysValue?: WorkDaysType
+}
+
+export interface FormDetailsProps {
+  updatedAt?: string
+  createdAt?: string
+  preferred?: string
+  age?: string
+  education?: string
+  gender?: string
+  numberOfPositions?: number
+  isPublic?: boolean
+  hourlyWage?: number
+  workDays?: string[]
+  workEndTime?: string
+  workStartTime?: string
+  workEndDate?: string
+  workStartDate?: string
+  location?: string
+  imageUrls?: string[]
+  recruitmentEndDate?: string
+  recruitmentStartDate?: string
+  description?: string
+  title?: string
+  ownerId?: number
+  id?: number
+  scrapCount?: number
+  applyCount?: number
+  isScrapped?: boolean
+  phoneNumber?: string
+  storePhoneNumber?: string
+  storeName?: string
+}
+
+export type CombinedFormDetailsProps = FormDetailsProps &
+  AnnoucementProps &
+  WorkScheduleProps &
+  ContactInfoProps & {
+    location: string
+  }

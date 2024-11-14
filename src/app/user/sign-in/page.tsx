@@ -59,30 +59,30 @@ export default function SignInPage() {
             <Form.Fieldset>
               <Form.Legend>이메일</Form.Legend>
               <Form.Field>
-                <Form.Wrap>
+                <Form.Wrapper>
                   <Form.Input
                     name={'email'}
                     type={'email'}
                     placeholder="이메일을 입력해 주세요"
-                    pattern={emailPattern}
+                    hookFormPattern={emailPattern}
                     required
                   />
-                </Form.Wrap>
+                </Form.Wrapper>
               </Form.Field>
             </Form.Fieldset>
 
             <Form.Fieldset>
               <Form.Legend>비밀번호</Form.Legend>
               <Form.Field>
-                <Form.Wrap>
+                <Form.Wrapper>
                   <Form.Input
                     name={'password'}
                     type={'password'}
                     placeholder="비밀번호를 입력해 주세요"
-                    pattern={passwordPattern}
+                    hookFormPattern={passwordPattern}
                     required
                   />
-                </Form.Wrap>
+                </Form.Wrapper>
               </Form.Field>
             </Form.Fieldset>
 

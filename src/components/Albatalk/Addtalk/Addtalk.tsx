@@ -174,7 +174,7 @@ export default function Addtalk({ talkId }: { talkId?: number }) {
               required
               placeholder={'내용을 입력해주세요.'}
               value={content}
-              onChange={(event: ChangeEvent<HTMLInputElement>) =>
+              onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
                 setContent(event.target.value)
               }
             />

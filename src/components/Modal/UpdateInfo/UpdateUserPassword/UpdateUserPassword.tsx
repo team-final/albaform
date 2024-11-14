@@ -16,7 +16,7 @@ interface ModalProps {
 /**
  * @param onRequestClose 모달 닫을떄 호출될 함수
  * @param onConfirm 이미지 서버에 등록하고 리턴받아야함.
- * @param  onAfterOpen 모달이 열린 후 스토어에서 input기본값 가져오기.
+ * @param onAfterOpen 모달이 열린 후 스토어에서 input 기본값 가져오기.
  */
 export default function UpdateUserPassword({
   isOpen,
@@ -44,51 +44,51 @@ export default function UpdateUserPassword({
           <Form.Fieldset>
             <Form.Field>
               <Form.Legend required>현재 비밀번호</Form.Legend>
-              <Form.Wrap>
+              <Form.Wrapper>
                 <Form.Input
                   type="password"
                   name="currentPassword"
                   placeholder="현재 비밀번호를 입력해주세요."
-                  pattern={passwordPattern}
+                  hookFormPattern={passwordPattern}
                   required
                 />
-              </Form.Wrap>
+              </Form.Wrapper>
             </Form.Field>
           </Form.Fieldset>
 
           <Form.Fieldset>
             <Form.Field>
               <Form.Legend required>새 비밀번호</Form.Legend>
-              <Form.Wrap>
+              <Form.Wrapper>
                 <Form.Input
                   type="password"
                   name="newPassword"
                   placeholder="새로운 비밀번호를 입력해주세요."
-                  pattern={passwordPattern}
+                  hookFormPattern={passwordPattern}
                   required
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
                     setNewPassword(event.target.value)
                   }}
                 />
-              </Form.Wrap>
+              </Form.Wrapper>
             </Form.Field>
           </Form.Fieldset>
 
           <Form.Fieldset>
             <Form.Field>
               <Form.Legend required>새 비밀번호 확인</Form.Legend>
-              <Form.Wrap>
+              <Form.Wrapper>
                 <Form.Input
                   type="password"
                   name="newPasswordCheck"
                   placeholder="새로운 비밀번호를 다시 한번 입력해주세요."
-                  pattern={passwordPattern}
+                  hookFormPattern={passwordPattern}
                   required
                   validate={(value: string) =>
                     value === newPassword || '비밀번호가 일치하지 않습니다.'
                   }
                 />
-              </Form.Wrap>
+              </Form.Wrapper>
             </Form.Field>
           </Form.Fieldset>
         </div>
