@@ -1,4 +1,10 @@
 {
+  "overrides": [
+    {
+      "files": ["build/**.*", "dist/**/*.js", "node_modules/**.*", "package-lock.json", "reset.css", "*.min.*"],
+      "options": { "parser": "json" }
+    }
+  ],
   "trailingComma": "all",
   "tabWidth": 2,
   "endOfLine": "lf",
