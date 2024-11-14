@@ -140,8 +140,8 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
   // }, [])
 
   const kakaoShareClick = () => {
-    if (window.Kakao && window.Kakao.Share) {
-      window.Kakao.Share.sendCustom({
+    if (window.kakao && window.kakao.Share) {
+      window.kakao.Share.sendCustom({
         // templateId: 112519,
         templateId: 113891,
         templateArgs: {

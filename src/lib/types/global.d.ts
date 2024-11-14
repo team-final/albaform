@@ -1,3 +1,11 @@
+declare global {
+  interface Window {
+    kakao: any
+    daum: any
+  }
+}
+export {}
+
 declare module '*.module.scss' {
   const classes: { [key: string]: string }
   export default classes
@@ -13,14 +21,6 @@ declare module '*.svg' {
   export default content
 }
 
-declare global {
-  interface Window {
-    Kakao: any // 또는 더 구체적인 타입으로 변경
-  }
-}
-
-export {}
-
 declare module 'js-cookie' {
   interface CookieAttributes {
     expires?: number | Date
@@ -29,7 +29,6 @@ declare module 'js-cookie' {
     secure?: boolean
     sameSite?: 'Strict' | 'Lax' | 'None'
   }
-
   function set(name: string, value: string, options?: CookieAttributes): string
   function get(name: string): string | undefined
   function remove(name: string, options?: CookieAttributes): void
@@ -40,6 +39,5 @@ declare module 'js-cookie' {
     remove: typeof remove
     getJSON: typeof getJSON
   }
-
   export { set, get, remove, getJSON, withAttributes }
 }
