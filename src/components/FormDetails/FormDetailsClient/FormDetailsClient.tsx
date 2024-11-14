@@ -184,9 +184,9 @@ export default function FormDetailsClient({ formId }: FormDetailsClientProps) {
 
       {isModalOpen && (
         <AlertModal
-          AlertmodalType="done"
+          contentType="done"
           isOpen={isModalOpen}
-          onRequestClose={closeModal}
+          onClose={closeModal}
           onConfirm={handleConfirm}
         />
       )}
