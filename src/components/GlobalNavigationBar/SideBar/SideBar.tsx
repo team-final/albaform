@@ -1,7 +1,6 @@
 import Avatar from '@/components/Avatar/Avatar'
 import SignInOutButton from '@/components/Button/SignInOutButton/SignInOutButton'
 import XButton from '@/components/Button/XButton/XButton'
-import DefaultQueryProvider from '@/lib/queries/DefaultQueryProvider'
 import { useUserStore } from '@/lib/stores/userStore'
 import Link from 'next/link'
 
@@ -22,10 +21,7 @@ export default function SideBar({ closeAction }: SideBarProps) {
           <div className={styles.user}>
             {user && (
               <>
-                <Avatar
-                  name={user.nickname ?? user.name}
-                  imageUrl={user.imageUrl}
-                />
+                <Avatar name={user.nickname} imageUrl={user.imageUrl} />
                 &nbsp;
                 {user.role === 'OWNER' ? '사장님' : '님'} 반갑습니다!
               </>
@@ -45,9 +41,7 @@ export default function SideBar({ closeAction }: SideBarProps) {
               </Link>
             </li>
             <li>
-              <DefaultQueryProvider>
-                <SignInOutButton className={styles.button} />
-              </DefaultQueryProvider>
+              <SignInOutButton className={styles.button} />
             </li>
           </ul>
         </section>

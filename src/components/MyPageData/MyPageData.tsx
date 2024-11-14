@@ -12,7 +12,6 @@ import { updateUserInfo } from '@/lib/api/updateUserInfo'
 import { updateUserPassword } from '@/lib/api/updateUserPassword'
 import { uploadImage } from '@/lib/api/uploadImageApi'
 import { MY_CONTENT_MENUS } from '@/lib/data/constants'
-import DefaultQueryProvider from '@/lib/queries/DefaultQueryProvider'
 import { useUserStore } from '@/lib/stores/userStore'
 import { MyContentMenuType } from '@/lib/types/types'
 import { UpdateUserValues, User } from '@/lib/types/userTypes'
@@ -167,49 +166,46 @@ export default function MyPageData({ user }: { user: User }) {
               )}
             </div>
           </div>
-
-          <DefaultQueryProvider>
-            <MyAlbatalk>
-              <MyScrap>
-                <div className={styles.content}>
-                  <div className={styles.conditions}>
-                    <div className={styles['tab-menu']}>
-                      {MY_CONTENT_MENUS.map(({ value, label }) => (
-                        <button
-                          type={'button'}
-                          key={`sort_condition_${value}`}
-                          className={value === tabMenu ? 'active' : ''}
-                          onClick={() => {
-                            setTabMenu(value)
-                          }}
-                        >
-                          {label}
-                        </button>
-                      ))}
-                    </div>
-
-                    {tabMenu === 'posts' ? (
-                      <MyAlbatalk.Conditions />
-                    ) : tabMenu === 'comments' ? (
-                      ''
-                    ) : tabMenu === 'scrap' ? (
-                      <MyScrap.Conditions />
-                    ) : null}
+          <MyAlbatalk>
+            <MyScrap>
+              <div className={styles.content}>
+                <div className={styles.conditions}>
+                  <div className={styles['tab-menu']}>
+                    {MY_CONTENT_MENUS.map(({ value, label }) => (
+                      <button
+                        type={'button'}
+                        key={`sort_condition_${value}`}
+                        className={value === tabMenu ? 'active' : ''}
+                        onClick={() => {
+                          setTabMenu(value)
+                        }}
+                      >
+                        {label}
+                      </button>
+                    ))}
                   </div>
 
-                  <div className={styles['carditem-container']}>
-                    {tabMenu === 'posts' ? (
-                      <MyAlbatalk.Content />
-                    ) : tabMenu === 'comments' ? (
-                      ''
-                    ) : tabMenu === 'scrap' ? (
-                      <MyScrap.Content />
-                    ) : null}
-                  </div>
+                  {tabMenu === 'posts' ? (
+                    <MyAlbatalk.Conditions />
+                  ) : tabMenu === 'comments' ? (
+                    ''
+                  ) : tabMenu === 'scrap' ? (
+                    <MyScrap.Conditions />
+                  ) : null}
                 </div>
-              </MyScrap>
-            </MyAlbatalk>
-          </DefaultQueryProvider>
+
+                <div className={styles['carditem-container']}>
+                  {tabMenu === 'posts' ? (
+                    <MyAlbatalk.Content />
+                  ) : tabMenu === 'comments' ? (
+                    ''
+                  ) : tabMenu === 'scrap' ? (
+                    <MyScrap.Content />
+                  ) : null}
+                </div>
+              </div>
+            </MyScrap>
+          </MyAlbatalk>
         </div>
       </div>
     </>
