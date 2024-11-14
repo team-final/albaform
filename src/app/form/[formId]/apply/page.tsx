@@ -3,11 +3,11 @@
 import MainButton from '@/components/Button/MainButton/MainButton'
 import Form from '@/components/Form/Form'
 import authAxios from '@/lib/api/authAxios'
-// import basicAxios from '@/lib/api/basicAxios'
 import { useUserStore } from '@/lib/stores/userStore'
 import { Params } from '@/lib/types/types'
 import { useRouter } from 'next/navigation'
 import { ChangeEvent, useState } from 'react'
+import { FieldValues } from 'react-hook-form'
 
 import styles from './page.module.scss'
 
@@ -72,7 +72,9 @@ export default function ApplyPage({ params }: Params) {
     }
   }
 
-  const handleSubmit = async (data: any) => {
+  const handleSubmit = async (formValues: FieldValues) => {
+    const data = formValues as any
+
     try {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { resumeFile, ...submitData } = { ...formData, ...data }

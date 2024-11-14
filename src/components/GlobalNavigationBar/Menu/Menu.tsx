@@ -59,12 +59,6 @@ export default function Menu() {
 
         <Link
           href={link}
-          //   user.role === 'APPLICANT'
-          //     ? '/applications'
-          //     : user.role === 'OWNER'
-          //       ? '/forms/created'
-          //       : '/user/sign-in'
-          // }
           draggable="false"
           className={classNames({
             [styles.active]:

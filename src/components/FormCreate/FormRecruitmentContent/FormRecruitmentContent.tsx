@@ -100,7 +100,6 @@ export default function FormRecruitmentContent({ step }: FormCreateStepProp) {
         <Form.Field>
           <Form.Wrapper>
             <Form.Textarea
-              type={'textarea'}
               name={'description'}
               placeholder={'최대 200자까지 입력 가능합니다.'}
               value={formData.description}

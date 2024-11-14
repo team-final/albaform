@@ -277,7 +277,6 @@ export interface FormProps extends ComponentProps {
   onSubmit: SubmitHandler<FieldValues>
   initialValues?: Record<string, any>
   defaultValues?: any
-  // FieldValues
 }
 
 export interface FieldProps extends ComponentProps {
@@ -308,6 +307,15 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   workDaysValue?: WorkDaysType
 }
 
+export interface TextareaProps
+  extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+  name: string
+  required?: boolean
+  minLength?: number
+  maxLength?: number
+  validate?: any
+}
+
 export interface ImageInputProps extends InputProps {
   onImageChange?: (file: File) => void
 }
@@ -316,25 +324,6 @@ export interface AddressSearchProps {
   name: string
   placeholder?: string
   required?: boolean
-}
-
-export interface TextareaProps
-  extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-  name: string
-  type?: HTMLInputElement['type']
-  required?: boolean
-  minLength?: number
-  maxLength?: number
-  customPattern?: {
-    value: RegExp
-    message: string
-  }
-  value?: any
-  validate?: any
-  initialValues?: string
-  step?: number
-  onClick?: (event?: any) => void
-  workDaysValue?: WorkDaysType
 }
 
 export interface FormDetailsProps {
