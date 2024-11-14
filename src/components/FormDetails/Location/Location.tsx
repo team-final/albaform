@@ -1,4 +1,4 @@
-import KakaoMap from '@/components/KakaoMap/KaKaoMap'
+import KakaoMap from '@/components/KakaoMap/KakaoMap'
 import { LocationProps } from '@/lib/types/formTypes'
 import { toast } from 'react-toastify'
 

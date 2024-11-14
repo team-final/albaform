@@ -13,12 +13,6 @@ interface KakaoMapProps {
   location: Location
 }
 
-declare global {
-  interface Window {
-    kakao: any
-  }
-}
-
 const KakaoMap: React.FC<KakaoMapProps> = ({ location }) => {
   const mapRef = useRef<HTMLDivElement>(null)
   const [mapError, setMapError] = useState<string | null>(null)

@@ -8,8 +8,8 @@ export default function KakaoScript() {
   const [isKakaoLoaded, setIsKakaoLoaded] = useState(false)
 
   const onLoad = () => {
-    if (window.Kakao) {
-      window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_APPKEY) // 김가영 앱키
+    if (window.kakao) {
+      window.kakao.init(process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_APPKEY) // 김가영 앱키
       setIsKakaoLoaded(true)
     } else {
       console.log(isKakaoLoaded)
