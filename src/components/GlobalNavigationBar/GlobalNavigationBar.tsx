@@ -33,7 +33,7 @@ export default function GlobalNavigationBar() {
     if (isHydrated) {
       queryClient.invalidateQueries({ queryKey: ['user'] })
     }
-  }, [showSideBar, isHydrated, queryClient])
+  }, [showSideBar, isHydrated])
 
   return (
     <>

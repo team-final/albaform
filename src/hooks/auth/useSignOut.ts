@@ -7,16 +7,16 @@ import { toast } from 'react-toastify'
 
 export default function useSignOut() {
   const queryClient = useQueryClient()
-  const { setUser, setAuthService } = useUserStore()
+  const { setUser, setAuthService } = useUserStore.getState()
 
   const signOut = async () => {
     try {
-      useUserStore.persist.clearStorage()
       setUser(undefined)
       setAuthService(undefined)
-      queryClient.removeQueries({ queryKey: ['user'] })
       Cookies.remove('accessToken', { path: '/' })
       Cookies.remove('refreshToken', { path: '/' })
+      queryClient.removeQueries({ queryKey: ['user'] })
+
       toast.success('로그아웃되었습니다.')
     } catch (error) {
       console.error(error)
