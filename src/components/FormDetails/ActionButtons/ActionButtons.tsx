@@ -66,9 +66,9 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
     <>
       {isDeleteModalOpen && (
         <AlertModal
-          AlertmodalType="delete"
+          contentType="delete"
           isOpen={isDeleteModalOpen}
-          onRequestClose={closeModal}
+          onClose={closeModal}
           onConfirm={handleConfirm}
         />
       )}

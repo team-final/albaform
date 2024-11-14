@@ -44,10 +44,10 @@ export default function KakaoSignUpHandler() {
     return (
       <>
         <AlertModal
-          AlertmodalType={'delete'}
+          contentType={'delete'}
           isOpen={true}
           onConfirm={router.back}
-          onRequestClose={router.back}
+          onClose={router.back}
           content={{
             title: '에러',
             description: '간편 회원가입 인증 정보를 얻지 못했어요.',
