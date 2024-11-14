@@ -28,8 +28,7 @@ export default function handleError(
     }
   }
 
-  console.log(
-    // 모달
+  alert(
     `${customMessage?.title || DEFAULT_ERROR_MESSAGE.title}
       \n${customMessage?.message || errorMessage}
       \n${error.response?.data}\n${error.message}`,
