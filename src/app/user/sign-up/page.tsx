@@ -17,7 +17,7 @@ import { FieldValues } from 'react-hook-form'
 export default function SignUpPage() {
   const user = useUserStore.getState().user
   const router = useRouter()
-  const createUser = useCreateUser()
+  const { signUp } = useCreateUser()
   const { signIn } = useSignIn()
   const appKey = process.env.NEXT_PUBLIC_KAKAO_RESTAPI_APPKEY
   const redirectUri = {
@@ -46,14 +46,13 @@ export default function SignUpPage() {
   }
 
   const handleSignUp = async (values: FieldValues) => {
-    const { email, password } = values
-    const formValues = values as SignUpFormValues
+    const { email, password, role } = values
 
-    await createUser.mutateAsync(setDefaultUser(formValues))
+    await signUp.mutateAsync(setDefaultUser({ email, password, role }))
     await signIn.mutateAsync({ email, password })
 
-    await router.prefetch('/user/sign-up/complete')
-    await router.replace('/user/sign-up/complete')
+    router.prefetch('/user/sign-up/complete')
+    router.replace('/user/sign-up/complete')
   }
 
   return (
@@ -79,45 +78,45 @@ export default function SignUpPage() {
             <Form.Fieldset>
               <Form.Legend>이메일</Form.Legend>
               <Form.Field>
-                <Form.Wrap>
+                <Form.Wrapper>
                   <Form.Input
                     name={'email'}
                     type={'email'}
                     placeholder="이메일을 입력해 주세요"
-                    pattern={emailPattern}
+                    hookFormPattern={emailPattern}
                     required
                   />
-                </Form.Wrap>
+                </Form.Wrapper>
               </Form.Field>
             </Form.Fieldset>
 
             <Form.Fieldset>
               <Form.Legend>비밀번호</Form.Legend>
               <Form.Field>
-                <Form.Wrap>
+                <Form.Wrapper>
                   <Form.Input
                     name={'password'}
                     type={'password'}
                     placeholder="비밀번호를 입력해 주세요"
-                    pattern={passwordPattern}
+                    hookFormPattern={passwordPattern}
                     required
                   />
-                </Form.Wrap>
+                </Form.Wrapper>
               </Form.Field>
             </Form.Fieldset>
 
             <Form.Fieldset>
               <Form.Legend>비밀번호 확인</Form.Legend>
               <Form.Field>
-                <Form.Wrap>
+                <Form.Wrapper>
                   <Form.Input
                     name={'confirmPassword'}
                     type={'password'}
                     placeholder="비밀번호를 한 번 더 입력해 주세요"
-                    pattern={passwordPattern}
+                    hookFormPattern={passwordPattern}
                     required
                   />
-                </Form.Wrap>
+                </Form.Wrapper>
               </Form.Field>
             </Form.Fieldset>
 
@@ -127,7 +126,7 @@ export default function SignUpPage() {
                 <Form.Field>
                   <Form.Label>지원자로 가입하기</Form.Label>
                   <Form.Input
-                    checked
+                    defaultChecked
                     name={'role'}
                     type={'radio'}
                     value={'APPLICANT'}
@@ -142,9 +141,9 @@ export default function SignUpPage() {
 
             <Form.SubmitButton
               buttonStyle={'solid'}
-              isPending={createUser.isPending}
+              isPending={signUp.isPending}
             >
-              {createUser.isPending ? '진행 중...' : '회원 가입'}
+              {signUp.isPending ? '진행 중...' : '회원 가입'}
             </Form.SubmitButton>
           </Form>
         </section>

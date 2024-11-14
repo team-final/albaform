@@ -54,7 +54,7 @@ export default function CompleteSignUpPage() {
   const handleSubmit = async (values: FieldValues) => {
     const completeSignUpFormValues = values as UpdateUserValues
     await updateUser.mutateAsync(completeSignUpFormValues)
-    await router.replace('/forms')
+    router.replace('/forms')
   }
 
   return (
@@ -140,7 +140,7 @@ export default function CompleteSignUpPage() {
                 name="phoneNumber"
                 type="tel"
                 required
-                pattern={phoneNumberPattern}
+                hookFormPattern={phoneNumberPattern}
                 placeholder="숫자만 입력해주세요"
               />
             </Form.Field>
@@ -166,7 +166,7 @@ export default function CompleteSignUpPage() {
                   name="storePhoneNumber"
                   type="tel"
                   required={isOwner}
-                  pattern={phoneNumberPattern}
+                  hookFormPattern={phoneNumberPattern}
                   placeholder="숫자만 입력해주세요"
                 />
               </Form.Field>
@@ -174,7 +174,7 @@ export default function CompleteSignUpPage() {
             <Form.Fieldset>
               <Form.Legend required>가게 위치</Form.Legend>
               <Form.Field htmlFor="location">
-                <Form.KakaoSearchInput
+                <Form.AddressInput
                   name="location"
                   placeholder="가게 위치를 설정해주세요"
                   required={isOwner}

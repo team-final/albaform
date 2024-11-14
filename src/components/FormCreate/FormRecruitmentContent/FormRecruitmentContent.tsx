@@ -80,7 +80,7 @@ export default function FormRecruitmentContent({ step }: FormCreateStepProp) {
       <Form.Fieldset>
         <Form.Legend required>알바폼 제목</Form.Legend>
         <Form.Field>
-          <Form.Wrap>
+          <Form.Wrapper>
             <Form.Input
               type={'text'}
               name={'title'}
@@ -91,34 +91,34 @@ export default function FormRecruitmentContent({ step }: FormCreateStepProp) {
               }
               // required
             ></Form.Input>
-          </Form.Wrap>
+          </Form.Wrapper>
         </Form.Field>
       </Form.Fieldset>
 
       <Form.Fieldset>
         <Form.Legend required>소개글</Form.Legend>
         <Form.Field>
-          <Form.Wrap>
+          <Form.Wrapper>
             <Form.Textarea
               type={'textarea'}
               name={'description'}
               placeholder={'최대 200자까지 입력 가능합니다.'}
               value={formData.description}
               maxLength={200}
-              onChange={(event: ChangeEvent<HTMLInputElement>) =>
+              onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
                 event.target.value.length <= 200 &&
                 setFormData('description', event.target.value)
               }
               // required
             ></Form.Textarea>
-          </Form.Wrap>
+          </Form.Wrapper>
         </Form.Field>
       </Form.Fieldset>
 
       <Form.Fieldset>
         <Form.Legend required>모집 기간</Form.Legend>
         <Form.Field>
-          <Form.DateRangePickerInput
+          <Form.DateRange
             startDate={'recruitmentStartDate'}
             endDate={'recruitmentEndDate'}
             // required

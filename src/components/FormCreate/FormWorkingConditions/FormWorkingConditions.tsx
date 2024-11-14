@@ -51,7 +51,7 @@ export default function FormWorkingConditions({ step }: FormCreateStepProp) {
       <Form.Fieldset>
         <Form.Legend required>근무 위치</Form.Legend>
         <Form.Field>
-          <Form.KakaoSearchInput
+          <Form.AddressInput
             name={'location'}
             placeholder={'주소 입력'}
             // required
@@ -62,7 +62,7 @@ export default function FormWorkingConditions({ step }: FormCreateStepProp) {
       <Form.Fieldset>
         <Form.Legend required>근무 기간</Form.Legend>
         <Form.Field>
-          <Form.DateRangePickerInput
+          <Form.DateRange
             startDate={'workStartDate'}
             endDate={'workEndDate'}
             // required
@@ -199,7 +199,7 @@ export default function FormWorkingConditions({ step }: FormCreateStepProp) {
       <Form.Fieldset>
         <Form.Legend required>시급</Form.Legend>
         <Form.Field>
-          <Form.Wrap>
+          <Form.Wrapper>
             <Form.Input
               type={'number'}
               name={'hourlyWage'}
@@ -213,14 +213,14 @@ export default function FormWorkingConditions({ step }: FormCreateStepProp) {
               // required
             ></Form.Input>
             <Form.Unit unit={'원'} />
-          </Form.Wrap>
+          </Form.Wrapper>
         </Form.Field>
       </Form.Fieldset>
 
       <Form.Fieldset>
         <Form.Legend>공개 설정</Form.Legend>
         <Form.Field htmlFor={'isPublic'} className={styles.checkbox} isInline>
-          <Form.Wrap>
+          <Form.Wrapper>
             <Form.Input
               type={'checkbox'}
               name={'isPublic'}
@@ -228,7 +228,7 @@ export default function FormWorkingConditions({ step }: FormCreateStepProp) {
                 setFormData('isPublic', event.target.checked)
               }
             />
-          </Form.Wrap>
+          </Form.Wrapper>
           <Form.Label>공개</Form.Label>
         </Form.Field>
       </Form.Fieldset>
