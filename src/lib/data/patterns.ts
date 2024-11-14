@@ -4,8 +4,8 @@ export const emailPattern = {
 }
 
 export const passwordPattern = {
-  value: /^.{6,}$/,
-  message: '비밀번호는 6자 이상이어야 합니다.',
+  value: /^.{8,}$/,
+  message: '비밀번호는 8자 이상이어야 합니다.',
 }
 
 export const phoneNumberPattern = {
