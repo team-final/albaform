@@ -1,5 +1,4 @@
 import basicAxios from '@/lib/api/basicAxios'
-import { TEST_ACOUNT } from '@/lib/data/constants'
 import { SIGN_IN_ERROR_MESSAGE } from '@/lib/data/messages'
 import { useUserStore } from '@/lib/stores/userStore'
 import {
@@ -8,9 +7,8 @@ import {
   SignInValues,
   User,
 } from '@/lib/types/userTypes'
-import { getRandomInt } from '@/lib/utils/acountGenerator'
 import handleError from '@/lib/utils/errorHandler'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { QueryClient, useMutation, useQueryClient } from '@tanstack/react-query'
 import { AxiosError, AxiosResponse } from 'axios'
 import Cookies from 'js-cookie'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
@@ -31,7 +29,7 @@ export const setAuthCookies = (accessToken: string, refreshToken: string) => {
 }
 
 const handleSignInSuccess = (
-  queryClient: any,
+  queryClient: QueryClient,
   setUser: (user: User) => void,
   data: AuthResponse,
 ) => {
@@ -100,15 +98,5 @@ export default function useSignIn() {
     },
   })
 
-  const randomSignIn = async (role: any) => {
-    const userList = TEST_ACOUNT[role]
-    const user = userList[getRandomInt(userList.length)]
-    console.log(`${role === 'APPLICANT' ? '지원자' : '사장님'} 테스트 계졍: `, {
-      email: user.email,
-      password: user.password,
-    })
-    await signIn.mutateAsync({ email: user.email, password: user.password })
-  }
-
-  return { signIn, oauthSignIn, randomSignIn }
+  return { signIn, oauthSignIn }
 }
