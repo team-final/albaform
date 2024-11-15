@@ -1,4 +1,5 @@
 {
+  "ignorePatterns": ["dist/", "node_modules/", "**/*.min.js", "public/**/*.js"],
   "root": true,
   "extends": [
     "eslint:recommended",
@@ -42,11 +43,11 @@
       "files": ["src/**/*.{ts,tsx}", "public/**"],
       "rules": {
         "semi": ["warn", "never"],
-        "react/jsx-uses-vars": "error",
+        "react/jsx-uses-vars": "warn",
         "react/jsx-key": "error",
         "react/prop-types": "off",
         "@typescript-eslint/strict-boolean-expressions": "off",
-        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-explicit-any": "warn",
         "import/no-absolute-path": "off"
       }
     }

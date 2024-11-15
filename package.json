@@ -6,23 +6,24 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint . --cache --fix && stylelint '**/*.scss' --fix",
-    "format": "prettier --cache --write .",
-    "tsc": "tsc -p tsconfig.json --noEmit",
     "prepare": "husky",
+    "format": "prettier --write .",
+    "lint": "eslint . --fix",
+    "stylelint": "stylelint '**/*.scss' --fix",
+    "tsc": "tsc -p tsconfig.json --noEmit",
+    "correct": "npm run stylelint && npm run lint && npm run format && npm run tsc",
     "update-dev": "git fetch origin && git rebase origin/dev",
-    "correct": "npm run format && npm run lint && npm run tsc",
     "pre-push": "npm run update-dev && npm run correct && npm run build",
     "pre-deploy": "netlify build --dry"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
+      "eslint --cache --fix",
+      "prettier --cache --write"
     ],
     "*.{scss,css}": [
       "stylelint --fix",
-      "prettier --write"
+      "prettier --cache --write"
     ]
   },
   "dependencies": {
