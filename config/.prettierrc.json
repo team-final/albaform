@@ -1,7 +1,7 @@
 {
   "overrides": [
     {
-      "files": ["build/**.*", "dist/**/*.js", "node_modules/**.*", "package-lock.json", "reset.css", "*.min.*"],
+      "files": ["build/**.*", "dist/**/*.js", "node_modules/**.*", "package-lock.json", "reset.css","*.min.*"],
       "options": { "parser": "json" }
     }
   ],
