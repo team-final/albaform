@@ -1,3 +1,5 @@
+'use client'
+
 import Avatar from '@/components/Avatar/Avatar'
 import Dropdown from '@/components/Dropdown/Dropdown'
 import IconText from '@/components/IconText/IconText'
@@ -17,7 +19,8 @@ import { AlbatalkProps, ImageUrl } from '@/lib/types/formTypes'
 import { formatKoreanDate } from '@/lib/utils/formatDate'
 import { useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 
 import styles from './Albatalk.module.scss'
 
@@ -26,22 +29,9 @@ export default function Albatalk({ talkId }: { talkId: number }) {
   const router = useRouter()
   const queryClient = useQueryClient()
   const [data, setData] = useState<AlbatalkProps | null>(null)
-  const [pending, setPending] = useState<boolean>(false)
+  const [isLiked, setIsLiked] = useState(false)
+  const [likeCount, setLikeCount] = useState(0)
   const [isPending, setIsPending] = useState<boolean>(false)
-
-  const request = useCallback(async () => {
-    setPending(true)
-    if (!talkId) return
-    const response = await getAlbatalk(talkId)
-    if (!response) return router.replace(`/${ALBATALK_LIST_PATH_NAME}`)
-    setData(response.data as AlbatalkProps)
-    setPending(false)
-  }, [router, talkId, setPending, setData])
-
-  useEffect(() => {
-    request()
-  }, [request])
-
   const image: ImageUrl | null = (() => {
     if (!data) return
     try {
@@ -63,72 +53,44 @@ export default function Albatalk({ talkId }: { talkId: number }) {
     } catch {}
   }
 
-  const handleLike = async () => {
-    if (!data) return
-
-    setIsPending(true)
-
-    if (data.isLiked) {
-      setData((prev) => {
-        return {
-          ...prev,
-          isLiked: false,
-          likeCount: data.likeCount--,
-        } as AlbatalkProps
-      })
-    } else {
-      setData((prev) => {
-        return {
-          ...prev,
-          isLiked: true,
-          likeCount: data.likeCount++,
-        } as AlbatalkProps
-      })
-    }
+  const handleLikeToggle = async () => {
+    setIsLiked((prev) => !prev)
+    setLikeCount((prev) => (isLiked ? prev - 1 : prev + 1))
 
     try {
-      const response = data.isLiked
-        ? await deleteAlbatalkLike(talkId)
-        : await postAlbatalkLike(talkId)
-
-      setData((prev) => {
-        if (prev) {
-          return {
-            ...prev,
-            isLiked: response.data.isLiked,
-            likeCount: response.data.likeCount,
-          } as AlbatalkProps
-        } else {
-          return prev
-        }
-      })
+      if (!data || isPending) return
+      setIsPending(true)
+      if (isLiked) {
+        await deleteAlbatalkLike(talkId)
+      } else {
+        await postAlbatalkLike(talkId)
+      }
     } catch {
-      setData((prev) => {
-        if (prev) {
-          if (prev.isLiked) {
-            return {
-              ...prev,
-              isLiked: true,
-              likeCount: prev.likeCount++,
-            } as AlbatalkProps
-          } else {
-            return {
-              ...prev,
-              isLiked: false,
-              likeCount: prev.likeCount--,
-            } as AlbatalkProps
-          }
-        } else {
-          return prev
-        }
-      })
+      setIsLiked((prev) => !prev)
+      setLikeCount((prev) => (isLiked ? prev + 1 : prev - 1))
+      toast.error('좋아요 요청에 실패했습니다.')
+      queryClient.invalidateQueries()
+    } finally {
+      setIsPending(false)
     }
-
-    setIsPending(false)
-    queryClient.invalidateQueries()
   }
 
-  if (pending)
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getAlbatalk(talkId)
+        const albatalk = response.data as AlbatalkProps
+        setData(albatalk)
+        setIsLiked(albatalk.isLiked)
+        setLikeCount(albatalk.likeCount)
+      } catch {
+        toast.error('데이터를 불러오는 데 실패했습니다.')
+      }
+    }
+    fetchData()
+  }, [talkId])
+
+  if (!data)
     return (
       <div className={styles.loading}>
         <LoadingSpinner />
@@ -169,18 +131,14 @@ export default function Albatalk({ talkId }: { talkId: number }) {
               <IconText.Text text={data.commentCount} />
             </IconText>
 
-            <IconText onClick={handleLike} disabled={isPending}>
+            <IconText onClick={handleLikeToggle}>
               <IconText.Icon
                 src={
-                  data.isLiked
-                    ? '/icons/ic-like-active.svg'
-                    : '/icons/ic-like.svg'
+                  isLiked ? '/icons/ic-like-active.svg' : '/icons/ic-like.svg'
                 }
-                alt={
-                  data.isLiked ? '좋아요 활성 아이콘' : '좋아요 비활성 아이콘'
-                }
+                alt={isLiked ? '좋아요 활성 아이콘' : '좋아요 비활성 아이콘'}
               />
-              <IconText.Text text={data.likeCount} />
+              <IconText.Text text={likeCount} />
             </IconText>
           </div>
         </div>
