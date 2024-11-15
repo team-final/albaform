@@ -11,7 +11,11 @@ import MyScrap from '@/components/MyScrap/MyScrap'
 import { updateUserInfo } from '@/lib/api/updateUserInfo'
 import { updateUserPassword } from '@/lib/api/updateUserPassword'
 import { uploadImage } from '@/lib/api/uploadImageApi'
-import { MY_CONTENT_MENUS } from '@/lib/data/constants'
+import {
+  MY_CONTENT_MENUS,
+  TEST_ID_APPLICANT,
+  TEST_ID_OWNER,
+} from '@/lib/data/constants'
 import { useUserStore } from '@/lib/stores/userStore'
 import { MyContentMenuType } from '@/lib/types/types'
 import { UpdateUserValues, User } from '@/lib/types/userTypes'
@@ -21,6 +25,10 @@ import { FieldValues } from 'react-hook-form'
 
 export default function MyPageData({ user }: { user: User }) {
   const { setUser, authService } = useUserStore()
+  const isTestLoggedIn = Boolean(
+    user.email === TEST_ID_APPLICANT.email ||
+      user.email === TEST_ID_OWNER.email,
+  )
 
   const userInfoData = {
     OWNER: {
@@ -65,6 +73,7 @@ export default function MyPageData({ user }: { user: User }) {
     }
 
     const updatedData: UpdateUserValues = {
+      email: user?.email,
       location: data.location || user?.location,
       phoneNumber: data.phoneNumber || user?.phoneNumber,
       storePhoneNumber: data.storePhoneNumber || user?.storePhoneNumber,
@@ -122,7 +131,6 @@ export default function MyPageData({ user }: { user: User }) {
           initialValues={userInfoData.OWNER}
         />
       )}
-
       <UpdateUserPassword
         isOpen={userPwChangeModal}
         onRequestClose={() => setUserPwChangeModal(false)}
@@ -156,7 +164,7 @@ export default function MyPageData({ user }: { user: User }) {
               <MainButton onClick={() => setUserInfoModal(true)}>
                 내 정보 수정
               </MainButton>
-              {!authService && (
+              {authService || isTestLoggedIn ? null : (
                 <MainButton
                   buttonStyle={'outline'}
                   onClick={() => setUserPwChangeModal(true)}

@@ -3,18 +3,16 @@
 import { ComponentProps } from '@/lib/types/types'
 import classNames from 'classnames'
 import Image from 'next/image'
-import React, { MouseEvent } from 'react'
+import { ButtonHTMLAttributes, MouseEvent } from 'react'
 
 import style from './MainButton.module.scss'
 
 export type buttonStyle = 'solid' | 'outline'
 export type buttonColor = 'primary' | 'gray'
 
-interface MainButtonProps extends ComponentProps {
+interface MainButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   buttonStyle?: buttonStyle
   color?: buttonColor
-  type?: 'button' | 'submit' | 'reset'
-  disabled?: boolean
   onClick?: () => void
 }
 
@@ -26,11 +24,10 @@ interface IconProps {
 export default function MainButton({
   buttonStyle = 'solid',
   color = 'primary',
-  type = 'button',
-  disabled,
   onClick,
   className,
   children,
+  ...rest
 }: MainButtonProps) {
   const buttonClass = classNames(
     style.default,
@@ -48,12 +45,7 @@ export default function MainButton({
   }
 
   return (
-    <button
-      type={type}
-      className={buttonClass}
-      disabled={disabled}
-      onClick={handleClick}
-    >
+    <button className={buttonClass} onClick={handleClick} {...rest}>
       {children}
     </button>
   )
