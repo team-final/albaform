@@ -1,3 +1,5 @@
+'use client'
+
 import Avatar from '@/components/Avatar/Avatar'
 import Dropdown from '@/components/Dropdown/Dropdown'
 import Form from '@/components/Form/Form'
@@ -117,7 +119,7 @@ export default function Comment({ talkId }: { talkId: number }) {
         </Form.Fieldset>
         <Form.Wrapper>
           <MainButton type={'submit'} disabled={Boolean(!content) || isPosting}>
-            등록
+            {isPosting ? '등록...' : '등록'}
           </MainButton>
         </Form.Wrapper>
       </Form>
