@@ -90,7 +90,7 @@ export default function SignInPage() {
               buttonStyle={'solid'}
               isPending={signIn.isPending}
             >
-              {signIn.isPending ? '로그인 중...' : '로그인'}
+              {signIn.isPending ? '로그인...' : '로그인'}
             </Form.SubmitButton>
           </Form>
         </section>

@@ -2,6 +2,7 @@
  * 댓글
  */
 import { AxiosResponse } from 'axios'
+import { toast } from 'react-toastify'
 
 import authAxios from './authAxios'
 
@@ -21,6 +22,7 @@ export const postAlbatalkComment = async (
       requestBody,
     )
   } catch (error) {
+    toast.error('댓글을 등록하지 못했습니다.', { toastId: 'commentFailed' })
     console.error('댓글 생성 중 오류 발생:', error)
     throw error
   }
