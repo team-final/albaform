@@ -1,17 +1,24 @@
 'use client'
 
 import signInSignUpStyles from '@/app/user/signInSignUp.module.scss'
+import MainButton from '@/components/Button/MainButton/MainButton'
 import Form from '@/components/Form/Form'
 import useCreateUser from '@/hooks/auth/useCreateUser'
 import useSignIn from '@/hooks/auth/useSignIn'
 import { emailPattern, passwordPattern } from '@/lib/data/patterns'
 import { useUserStore } from '@/lib/stores/userStore'
-import { CreateUserValues, SignUpFormValues } from '@/lib/types/userTypes'
+import {
+  CreateUserValues,
+  SignUpFormValues,
+  UserRole,
+} from '@/lib/types/userTypes'
+import { generateRandomId } from '@/lib/utils/acountGenerator'
 import { generateUniqueNickname } from '@/lib/utils/nicknameGenerator'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import process from 'process'
+import { useState } from 'react'
 import { FieldValues } from 'react-hook-form'
 
 export default function SignUpPage() {
@@ -23,6 +30,10 @@ export default function SignUpPage() {
   const redirectUri = {
     signUp: process.env.NEXT_PUBLIC_KAKAO_SIGNUP_REDIRECT_URI,
   }
+  const [randomId, setRandomId] = useState<{ email: string; role: UserRole }>({
+    email: '',
+    role: 'OWNER',
+  })
 
   if (user) {
     router.back()
@@ -55,6 +66,10 @@ export default function SignUpPage() {
     router.replace('/user/sign-up/complete')
   }
 
+  const fillInput = () => {
+    setRandomId(generateRandomId())
+  }
+
   return (
     <article className={signInSignUpStyles.container}>
       <div className={signInSignUpStyles.inner}>
@@ -84,6 +99,7 @@ export default function SignUpPage() {
                     type={'email'}
                     placeholder="이메일을 입력해 주세요"
                     hookFormPattern={emailPattern}
+                    defaultValue={randomId?.email}
                     required
                   />
                 </Form.Wrapper>
@@ -121,12 +137,11 @@ export default function SignUpPage() {
             </Form.Fieldset>
 
             <Form.Fieldset>
-              <Form.Legend required>회원 유형</Form.Legend>
+              <Form.Legend>회원 유형</Form.Legend>
               <div className={signInSignUpStyles['user-role-select']}>
                 <Form.Field>
                   <Form.Label>지원자로 가입하기</Form.Label>
                   <Form.Input
-                    defaultChecked
                     name={'role'}
                     type={'radio'}
                     value={'APPLICANT'}
@@ -139,12 +154,15 @@ export default function SignUpPage() {
               </div>
             </Form.Fieldset>
 
-            <Form.SubmitButton
-              buttonStyle={'solid'}
-              isPending={signUp.isPending}
-            >
-              {signUp.isPending ? '진행 중...' : '회원 가입'}
-            </Form.SubmitButton>
+            <div className={signInSignUpStyles['user-role-select']}>
+              <Form.SubmitButton
+                buttonStyle={'solid'}
+                isPending={signUp.isPending}
+              >
+                {signUp.isPending ? '진행 중...' : '회원 가입'}
+              </Form.SubmitButton>
+              <MainButton onClick={fillInput}>랜덤 이메일 입력</MainButton>
+            </div>
           </Form>
         </section>
 

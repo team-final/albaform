@@ -1,17 +1,17 @@
-import { randomInt } from 'crypto'
+import { UserRole } from '@/lib/types/userTypes'
 
-export const getRandomInt = (max: number): number => {
-  return randomInt(0, max)
+// import { randomInt } from 'crypto'
+
+export const getRandomInt = (): number => {
+  // return randomInt(0, 9999)
+  return Math.floor(Math.random() * (9999 - 0) + 0)
 }
 
-export const generateTestId = async (handleSubmit: any) => {
-  for (let i = 0; i < 10; i++) {
-    const presetRole = ['OWNER', 'APPLICANT']
-    const randomIdx = getRandomInt(9999) // 난수 생성
-    await handleSubmit({
-      email: `example${randomIdx}@email.com`,
-      password: '00000000',
-      role: presetRole[randomIdx % 2],
-    })
+export const generateRandomId = () => {
+  const userRoles: UserRole[] = ['APPLICANT', 'OWNER']
+  const randomIdx = getRandomInt() // 난수 생성
+  return {
+    email: `example${randomIdx}@email.kr`,
+    role: userRoles[randomIdx % 2],
   }
 }
