@@ -8,7 +8,7 @@ import useUpdateUser from '@/hooks/auth/useUpdateUser'
 import { USER_ROLE_CONFIG } from '@/lib/data/constants'
 import { phoneNumberPattern } from '@/lib/data/patterns'
 import { useUserStore } from '@/lib/stores/userStore'
-import { UpdateUserValues } from '@/lib/types/userTypes'
+import { UpdateUserProps } from '@/lib/types/userTypes'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -52,7 +52,7 @@ export default function CompleteSignUpPage() {
   }
 
   const handleSubmit = async (values: FieldValues) => {
-    const completeSignUpFormValues = values as UpdateUserValues
+    const completeSignUpFormValues = values as UpdateUserProps
     await updateUser.mutateAsync(completeSignUpFormValues)
     router.replace('/forms')
   }

@@ -7,11 +7,7 @@ import useCreateUser from '@/hooks/auth/useCreateUser'
 import useSignIn from '@/hooks/auth/useSignIn'
 import { emailPattern, passwordPattern } from '@/lib/data/patterns'
 import { useUserStore } from '@/lib/stores/userStore'
-import {
-  CreateUserValues,
-  SignUpFormValues,
-  UserRole,
-} from '@/lib/types/userTypes'
+import { SignUpFormValues, SignUpProps, UserRole } from '@/lib/types/userTypes'
 import { generateRandomId } from '@/lib/utils/acountGenerator'
 import { generateUniqueNickname } from '@/lib/utils/nicknameGenerator'
 import Image from 'next/image'
@@ -42,7 +38,7 @@ export default function SignUpPage() {
 
   const setDefaultUser = ({ email, password, role }: SignUpFormValues) => {
     const defaultNickname = generateUniqueNickname(role)
-    const defaultUser: CreateUserValues = {
+    const defaultUser: SignUpProps = {
       email,
       password,
       role,
@@ -52,6 +48,7 @@ export default function SignUpPage() {
       storeName: '',
       storePhoneNumber: '',
       location: '',
+      imageUrl: '',
     }
     return defaultUser
   }
