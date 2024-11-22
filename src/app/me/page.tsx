@@ -1,15 +1,10 @@
-import MyPageData from '@/components/MyPageData/MyPageData'
-import { getUserInfo } from '@/lib/api/getUserInfo'
-import { User } from '@/lib/types/userTypes'
-import { cookies } from 'next/headers'
+'use client'
 
-export default async function MyPage() {
-  const accessToken = cookies().get('accessToken')?.value
-  const user: User = await getUserInfo(accessToken)
+import ProtectedContent from '@/app/me/ProtectedContent'
+import withAuth from '@/components/HOC/withAuth'
 
-  if (!accessToken) {
-    return <p>Redirecting...</p> // 인증이 없다면 미들웨어가 리다이렉트
-  }
-
-  return <MyPageData user={user} />
+function MyPage() {
+  return <ProtectedContent />
 }
+
+export default withAuth(MyPage)
