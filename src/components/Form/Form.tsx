@@ -13,7 +13,6 @@ import {
   FormProps,
   FormResetButtonProps,
   FormSubmitButtonProps,
-  ImageInputProps,
   InputProps,
   LegendProps,
   TextareaProps,
@@ -21,7 +20,6 @@ import {
 import { ComponentProps } from '@/lib/types/types'
 import classNames from 'classnames'
 import {
-  ChangeEvent,
   MouseEvent,
   createContext,
   useCallback,
@@ -451,46 +449,6 @@ function Textarea({
   )
 }
 
-function ImageInput({
-  className,
-  name,
-  disabled = false,
-  required = false,
-  onImageChange,
-}: ImageInputProps) {
-  const { register, setValue } = useFormContext()
-  const { forId } = useFieldContext()
-  const cn = classNames(
-    styles['form-input'],
-    styles['form-input-file'],
-    className,
-  )
-
-  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (file) {
-      setValue(name, file)
-      if (onImageChange) {
-        onImageChange(file)
-      }
-    }
-  }
-
-  return (
-    <>
-      <input
-        {...register(name, { required })}
-        className={cn}
-        type="file"
-        accept="image/*"
-        onChange={handleImageChange}
-        disabled={disabled}
-        id={forId}
-      />
-    </>
-  )
-}
-
 function AddressInput({ name, placeholder, required }: AddressSearchProps) {
   const { formData, setFormData } = useEditingFormStore()
   const { formId, register, setValue } = useFormContext()
@@ -591,5 +549,4 @@ Form.Input = Input
 Form.Textarea = Textarea
 
 Form.DateRange = DateRange
-Form.ImageInput = ImageInput
 Form.AddressInput = AddressInput

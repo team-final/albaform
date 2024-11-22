@@ -3,7 +3,7 @@ import { calculateDaysLeft, formatDateRange } from '@/lib/utils/formatDate2'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import DoneFormIc from 'public/icons/ic-circle-check.svg'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import Styles from './ListCardItem.module.scss'
 import NotRecurit from '/public/icons/ic-info.svg'
@@ -42,20 +42,13 @@ function ListCardItem({
     if (imageUrls && imageUrls.length > 0) {
       const firstImage = imageUrls[0]
 
-      if (typeof firstImage === 'string') {
-        if (firstImage.startsWith('https')) {
-          return firstImage
-        } else if (firstImage === 'string') {
-          return BasicImg.src
-        } else {
-          try {
-            const parsedImage = JSON.parse(firstImage)
-            return parsedImage[0]?.url || BasicImg.src
-          } catch (error) {
-            console.error('Error parsing image URL:', error)
-            return BasicImg.src
-          }
-        }
+      try {
+        if (firstImage.startsWith('https')) return firstImage
+        const parsedImage = JSON.parse(firstImage)
+        return parsedImage[0]?.url || BasicImg.src
+      } catch {
+        console.error('Error parsing image URL:', firstImage)
+        return BasicImg.src
       }
     }
     return BasicImg.src
@@ -77,6 +70,13 @@ function ListCardItem({
 
     return router.push(`/form/${id}`)
   }
+
+  useEffect(() => {
+    console.log('isPublic:', isPublic)
+    console.log('isRecruiting:', isRecruiting)
+  }, [])
+
+  // console.log('Styles:', Styles)
 
   return (
     <div className={Styles['listcard-outcontainer']}>
@@ -105,7 +105,7 @@ function ListCardItem({
         ) : null}
         <div className={Styles['listcard-main']}>
           <Image
-            src={imageUrl}
+            src={imageUrl || BasicImg.src}
             alt={'Recruitment Image'}
             className={Styles['listcard-img']}
             width={477}

@@ -1,6 +1,6 @@
 import Form from '@/components/Form/Form'
 import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner'
-import { uploadImage } from '@/lib/api/uploadImageApi'
+import { postImage } from '@/lib/api/postImage'
 import { useEditingFormStore } from '@/lib/stores/editingFormStore'
 import { FormCreateStepProp, FormStep1 } from '@/lib/types/formTypes'
 import Image from 'next/image'
@@ -42,7 +42,7 @@ export default function FormRecruitmentContent({ step }: FormCreateStepProp) {
     const fileName = file.name.replaceAll(' ', '')
     formData.append('image', file, fileName)
 
-    const response = await uploadImage(formData)
+    const response = await postImage(formData)
     if (!response) return
 
     setFormData('imageUrls', [
