@@ -4,7 +4,7 @@ import { SIGN_UP_ERROR_MESSAGE } from '@/lib/data/messages'
 import {
   AuthProvider,
   AuthResponse,
-  CreateUserValues,
+  SignUpProps,
   UserRole,
 } from '@/lib/types/userTypes'
 import handleError from '@/lib/utils/errorHandler'
@@ -13,7 +13,7 @@ import { AxiosError, AxiosResponse } from 'axios'
 
 export default function useCreateUser() {
   const signUp = useMutation({
-    mutationFn: async (values: CreateUserValues): Promise<AuthResponse> => {
+    mutationFn: async (values: SignUpProps): Promise<AuthResponse> => {
       const response: AxiosResponse<AuthResponse> = await basicAxios.post(
         '/auth/sign-up',
         values,

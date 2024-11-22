@@ -4,7 +4,7 @@ import MainButton from '@/components/Button/MainButton/MainButton'
 import Form from '@/components/Form/Form'
 import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner'
 import { getAlbatalk, patchAlbatalk, postAlbatalk } from '@/lib/api/albatalk'
-import { uploadImage } from '@/lib/api/uploadImageApi'
+import { postImage } from '@/lib/api/postImage'
 import {
   ALBATALK_LIST_PATH_NAME,
   ALBATALK_POST_PATH_NAME,
@@ -54,7 +54,7 @@ export default function Addtalk({ talkId }: { talkId?: number }) {
     const fileName = file.name.replaceAll(' ', '')
     formData.append('image', file, fileName)
 
-    const response = await uploadImage(formData)
+    const response = await postImage(formData)
     if (!response) return
 
     setImageObj({ url: response.data.url, name: fileName })

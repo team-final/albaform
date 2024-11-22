@@ -1,6 +1,3 @@
-/**
- * 이미지 업로드 API
- */
 import { AxiosResponse } from 'axios'
 
 import authAxios from './authAxios'
@@ -11,9 +8,7 @@ const config = {
   },
 }
 
-export const uploadImage = async (
-  formData: FormData,
-): Promise<AxiosResponse> => {
+export const postImage = async (formData: FormData): Promise<AxiosResponse> => {
   try {
     return await authAxios.post('/images/upload', formData, config)
   } catch (error) {
