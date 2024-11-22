@@ -7,7 +7,7 @@ import useSignIn from '@/hooks/auth/useSignIn'
 import { TEST_ID_APPLICANT, TEST_ID_OWNER } from '@/lib/data/constants'
 import { emailPattern, passwordPattern } from '@/lib/data/patterns'
 import { useUserStore } from '@/lib/stores/userStore'
-import { SignInValues } from '@/lib/types/userTypes'
+import { SignInProps } from '@/lib/types/userTypes'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -26,13 +26,13 @@ export default function SignInPage() {
     router.replace('/')
   }
 
-  const handleSignIn = async (values: SignInValues) => {
+  const handleSignIn = async (values: SignInProps) => {
     await signIn.mutateAsync(values)
     router.replace('/')
   }
 
   const handleSubmit = async (formValues: FieldValues) => {
-    const values: SignInValues = formValues as SignInValues
+    const values: SignInProps = formValues as SignInProps
     await handleSignIn(values)
   }
 

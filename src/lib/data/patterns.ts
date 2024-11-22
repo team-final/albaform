@@ -3,8 +3,15 @@ export const emailPattern = {
   message: '이메일 형식이 아닙니다.',
 }
 
+export type MinLength8<T extends string> =
+  T extends `${string}${string}${string}${string}${string}${string}${string}${string}${string}`
+    ? T
+    : never
+
+const minLength8Pattern = /^.{8,}$/
+
 export const passwordPattern = {
-  value: /^.{8,}$/,
+  value: minLength8Pattern,
   message: '비밀번호는 8자 이상이어야 합니다.',
 }
 
