@@ -18,6 +18,7 @@ import { useUserStore } from '@/lib/stores/userStore'
 import { AlbatalkProps, ImageUrl } from '@/lib/types/formTypes'
 import { formatKoreanDate } from '@/lib/utils/formatDate'
 import { useQueryClient } from '@tanstack/react-query'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
@@ -148,7 +149,7 @@ export default function Albatalk({ talkId }: { talkId: number }) {
           {image && (
             <div className={styles.image}>
               {/* eslint-disable @next/next/no-img-element */}
-              <img src={image.url} alt={image.name} />
+              <Image src={image.url} alt={image.name} />
               {/* eslint-enable @next/next/no-img-element */}
             </div>
           )}

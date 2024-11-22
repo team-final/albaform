@@ -1,3 +1,5 @@
+'use client'
+
 import Avatar from '@/components/Avatar/Avatar'
 import Dropdown from '@/components/Dropdown/Dropdown'
 import IconText from '@/components/IconText/IconText'
