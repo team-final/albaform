@@ -339,7 +339,7 @@ function ErrorMessage({
  * @param required
  * @param minLength
  * @param maxLength
- * @param customPattern 정규표현식
+ * @param hookFormPattern 정규표현식
  * @param validate 유효성 검사 함수
  */
 function Input({

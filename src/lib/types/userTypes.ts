@@ -10,6 +10,7 @@ export interface SignUpFormValues extends SignInValues {
 }
 
 export interface UserCore {
+  email: string
   nickname: string
   name: string
   phoneNumber: string
