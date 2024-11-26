@@ -1,0 +1,48 @@
+@use 'src/styles/_color' as color;
+@use 'src/styles/_font' as font;
+@use 'src/styles/_media' as media;
+
+$max_width_lg: 720px;
+$max_height_lg: 1138px;
+
+$max_width_md: 375px;
+$max_height_md: 842px;
+
+$padding_size_x: 40px;
+$padding_size_y: 32px;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: $padding_size_y;
+  backdrop-filter: blur(2px);
+  background-color: rgb(0 0 0 / 60%);
+}
+
+.content {
+  position: relative;
+  display: block;
+  margin: 0 auto 10px;
+  border-radius: 24px;
+  width: 100%;
+  height: fit-content;
+  max-width: $max_width_lg;
+  gap: 24px;
+  padding: $padding_size_y $padding_size_x;
+  box-shadow: 6px 6px 16px 0 #7d7d7d40;
+  background-color: color.$Grayscale-50;
+  text-align: center;
+  overflow: auto;
+
+  @include media.desktop {
+    max-width: $max_width_lg;
+  }
+
+  @include media.tablet {
+    max-width: $max_width_md;
+  }
+}
