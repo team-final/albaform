@@ -1,5 +1,5 @@
 import MainButton from '@/components/Button/MainButton/MainButton'
-import AlertModal from '@/components/Modal/Alert/AlertModal'
+import AlertModal from '@/components/Modal/AlertModal/AlertModal'
 import { useDeleteFormQuery } from '@/lib/queries/formDetailsQuery'
 import { useUserStore } from '@/lib/stores/userStore'
 import handleError from '@/lib/utils/errorHandler'
