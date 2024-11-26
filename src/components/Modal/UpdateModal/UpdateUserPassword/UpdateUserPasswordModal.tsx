@@ -1,41 +1,29 @@
 import MainButton from '@/components/Button/MainButton/MainButton'
 import Form from '@/components/Form/Form'
+import Modal, { ModalProps } from '@/components/Modal/Modal'
+import { updateUserPassword } from '@/lib/api/userApi'
 import { passwordPattern } from '@/lib/data/patterns'
+import { UpdatePasswordProps } from '@/lib/types/userTypes'
 import { ChangeEvent, useState } from 'react'
 import { FieldValues } from 'react-hook-form'
-import ReactModal from 'react-modal'
 
 import styles from './UpdateUserPassword.module.scss'
 
-interface ModalProps {
-  isOpen: boolean
-  onRequestClose: () => void
-  onConfirm: (data: FieldValues) => void
-}
-
-/**
- * @param onRequestClose 모달 닫을떄 호출될 함수
- * @param onConfirm 이미지 서버에 등록하고 리턴받아야함.
- * @param onAfterOpen 모달이 열린 후 스토어에서 input 기본값 가져오기.
- */
-export default function UpdateUserPassword({
+export default function UpdateUserPasswordModal({
   isOpen,
   onRequestClose,
-  onConfirm,
 }: ModalProps) {
   const [newPassword, setNewPassword] = useState<string>('')
+  const handleSubmit = async (data: FieldValues): Promise<void> => {
+    await updateUserPassword(data as UpdatePasswordProps)
+    onRequestClose()
+  }
 
   return (
-    <ReactModal
-      isOpen={isOpen}
-      ariaHideApp={false}
-      onRequestClose={onRequestClose}
-      overlayClassName={styles.overlay}
-      className={styles.modal}
-    >
+    <Modal isOpen={isOpen} onRequestClose={onRequestClose}>
       <Form
         formId="updateFormOwnerStep2"
-        onSubmit={onConfirm}
+        onSubmit={handleSubmit}
         className={styles.inner}
       >
         <div>
@@ -93,12 +81,12 @@ export default function UpdateUserPassword({
           </Form.Fieldset>
         </div>
         <div className={styles.actions}>
+          <Form.SubmitButton buttonStyle="solid">변경하기</Form.SubmitButton>
           <MainButton color="gray" onClick={onRequestClose}>
             취소
           </MainButton>
-          <Form.SubmitButton buttonStyle="solid">변경하기</Form.SubmitButton>
         </div>
       </Form>
-    </ReactModal>
+    </Modal>
   )
 }
