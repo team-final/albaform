@@ -2,7 +2,7 @@
 
 import signInSignUpStyles from '@/app/user/signInSignUp.module.scss'
 import Form from '@/components/Form/Form'
-import AlertModal from '@/components/Modal/Alert/AlertModal'
+import AlertModal from '@/components/Modal/AlertModal/AlertModal'
 import useCreateUser from '@/hooks/auth/useCreateUser'
 import useSignIn from '@/hooks/auth/useSignIn'
 import { generateUniqueNickname } from '@/lib/utils/nicknameGenerator'

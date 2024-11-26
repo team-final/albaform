@@ -7,7 +7,7 @@ import Location from '@/components/FormDetails/Location/Location'
 import Requirements from '@/components/FormDetails/Requirements/Requirements'
 import WorkScheduleInfo from '@/components/FormDetails/WorkScheduleInfo/WorkScheduleInfo'
 import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner'
-import AlertModal from '@/components/Modal/Alert/AlertModal'
+import AlertModal from '@/components/Modal/AlertModal/AlertModal'
 import ListApplicationsModal from '@/components/Modal/ListApplications/ListApplications'
 import {
   useFormDetailsQuery,
