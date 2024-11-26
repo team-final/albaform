@@ -3,7 +3,7 @@
 import MainButton from '@/components/Button/MainButton/MainButton'
 import Form from '@/components/Form/Form'
 import FormStyles from '@/components/Form/Form.module.scss'
-import updateUserModalStyles from '@/components/Modal/UpdateInfo/AuthInfoUpdate.module.scss'
+import updateUserModalStyles from '@/components/Modal/UpdateModal/UpdateUserInfo/UpdateUserModal.module.scss'
 import useUpdateUser from '@/hooks/auth/useUpdateUser'
 import { USER_ROLE_CONFIG } from '@/lib/data/constants'
 import { phoneNumberPattern } from '@/lib/data/patterns'
