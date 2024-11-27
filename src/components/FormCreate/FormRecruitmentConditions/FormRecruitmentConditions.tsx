@@ -1,22 +1,20 @@
 import Dropdown from '@/components/Dropdown/Dropdown'
 import Form from '@/components/Form/Form'
 import {
+  monthsOfExperienceValidation,
+  validateAge,
+} from '@/lib/data/validations'
+import {
   INITIAL_EDITING_FORM_DATA,
   VALUE_PRESET,
   useEditingFormStore,
 } from '@/lib/stores/editingFormStore'
-import {
-  AgeType,
-  FormCreateStepProp,
-  FormStep2,
-  NumberOfPositionsType,
-  PreferredType,
-} from '@/lib/types/formTypes'
+import { FormCreateStepProp, FormStep2 } from '@/lib/types/formTypes'
 import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 
 import FormCreateStep from '../FormCreateStep/FormCreateStep'
 
-const FROM_NAME_LIST: (keyof FormStep2)[] = [
+const FORM_NAME_LIST: (keyof FormStep2)[] = [
   'numberOfPositions',
   'gender',
   'education',
@@ -24,53 +22,44 @@ const FROM_NAME_LIST: (keyof FormStep2)[] = [
   'preferred',
 ]
 
+const omitCustomOption = (array: readonly string[]) =>
+  array.filter((item) => item !== '직접입력')
+
 export default function FormRecruitmentConditions({
   step,
 }: FormCreateStepProp) {
   const { formData, setFormData, setInProgress } = useEditingFormStore()
 
-  const [numberOfPositions, setNumberOfPositions] =
-    useState<NumberOfPositionsType>('00명 (인원미정)')
-  const [age, setAge] = useState<AgeType>(
-    [
-      '20세 ~ 29세',
-      '30세 ~ 39세',
-      '40세 ~ 49세',
-      '50세 ~ 59세',
-      '60세 이상',
-    ].includes(formData.age)
-      ? formData.age
-      : '직접입력',
-  )
-  const [preferred, setPreferred] = useState<PreferredType>(
-    ['없음'].includes(formData.preferred) ? '없음' : '직접입력',
-  )
+  const [selectedValues, setSelectedValues] = useState<Record<string, string>>({
+    numberOfPositions:
+      VALUE_PRESET.numberOfPositions[0] || formData.numberOfPositions,
+    age: VALUE_PRESET.age[0] || formData.age,
+    preferred: VALUE_PRESET.preferred[0] || formData.preferred,
+  })
 
   const handleProgress = useCallback(() => {
-    const isProgress = FROM_NAME_LIST.some(
+    const isProgress = FORM_NAME_LIST.some(
       (key) => formData[key] !== INITIAL_EDITING_FORM_DATA[key],
     )
+    const updateFormState = () => {
+      setSelectedValues(() =>
+        ['numberOfPositions', 'age', 'preferred'].reduce(
+          (acc: any, key: any) => {
+            // @ts-ignore
+            acc[key] = omitCustomOption(VALUE_PRESET[key]).includes(
+              formData[key],
+            )
+              ? formData[key]
+              : '직접입력'
+            return acc
+          },
+          {},
+        ),
+      )
+    }
+
     setInProgress({ step, isProgress })
-
-    setNumberOfPositions(
-      ['00명 (인원미정)'].includes(String(formData.numberOfPositions))
-        ? '00명 (인원미정)'
-        : '직접입력',
-    )
-
-    setAge(
-      [
-        '20세 ~ 29세',
-        '30세 ~ 39세',
-        '40세 ~ 49세',
-        '50세 ~ 59세',
-        '60세 이상',
-      ].includes(formData.age)
-        ? formData.age
-        : '직접입력',
-    )
-
-    setPreferred(['없음'].includes(formData.preferred) ? '없음' : '직접입력')
+    updateFormState()
   }, [formData, step, setInProgress])
 
   useEffect(() => {
@@ -80,18 +69,20 @@ export default function FormRecruitmentConditions({
   return (
     <FormCreateStep step={step}>
       <Form.Fieldset>
-        <Form.Legend required>모집인원</Form.Legend>
+        <Form.Legend>모집인원</Form.Legend>
         <Dropdown>
-          <Dropdown.Trigger>{numberOfPositions}</Dropdown.Trigger>
+          <Dropdown.Trigger>
+            {selectedValues.numberOfPositions}
+          </Dropdown.Trigger>
           <Dropdown.Menu>
             {VALUE_PRESET.numberOfPositions.map((value) => {
-              const checked = value === numberOfPositions ? 'selected' : ''
+              const checked =
+                value === selectedValues.numberOfPositions ? 'selected' : ''
               return (
                 <Dropdown.Item
                   key={`numberOfPositions-${value}`}
                   className={checked}
                   onClick={() => {
-                    setNumberOfPositions(value)
                     setFormData(
                       'numberOfPositions',
                       value === '직접입력' ? 0 : value,
@@ -104,22 +95,15 @@ export default function FormRecruitmentConditions({
             })}
           </Dropdown.Menu>
         </Dropdown>
-        <Form.Field hidden={numberOfPositions !== '직접입력'}>
+        <Form.Field hidden={selectedValues.numberOfPositions !== '직접입력'}>
           <Form.Wrapper>
             <Form.Input
+              formRequired
               type={'number'}
               name={'numberOfPositions'}
               placeholder={'모집인원'}
-              value={
-                typeof formData.numberOfPositions === 'number'
-                  ? formData.numberOfPositions
-                  : 0
-              }
-              min={0}
-              onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                setFormData('numberOfPositions', Number(event.target.value))
-              }}
-              // required
+              // formMinLength={2}
+              // formPattern={numberOfPositionsValidation}
             />
             <Form.Unit unit={'명'} />
           </Form.Wrapper>
@@ -127,8 +111,7 @@ export default function FormRecruitmentConditions({
       </Form.Fieldset>
 
       <Form.Fieldset>
-        <Form.Legend required>성별</Form.Legend>
-        {/* gender: string */}
+        <Form.Legend>성별</Form.Legend>
         <Dropdown>
           <Dropdown.Trigger>{formData.gender}</Dropdown.Trigger>
           <Dropdown.Menu>
@@ -149,17 +132,12 @@ export default function FormRecruitmentConditions({
           </Dropdown.Menu>
         </Dropdown>
         <Form.Field hidden>
-          <Form.Input
-            type={'hidden'}
-            name={'gender'}
-            value={formData.gender}
-            // required
-          />
+          <Form.Input type={'hidden'} name={'gender'} value={formData.gender} />
         </Form.Field>
       </Form.Fieldset>
 
       <Form.Fieldset>
-        <Form.Legend required>학력</Form.Legend>
+        <Form.Legend>학력</Form.Legend>
         <Dropdown>
           <Dropdown.Trigger>{formData.education}</Dropdown.Trigger>
           <Dropdown.Menu>
@@ -184,25 +162,23 @@ export default function FormRecruitmentConditions({
             type={'hidden'}
             name={'education'}
             value={formData.education}
-            // required
           />
         </Form.Field>
       </Form.Fieldset>
 
       <Form.Fieldset>
-        <Form.Legend required>연령</Form.Legend>
+        <Form.Legend>연령</Form.Legend>
         <Dropdown>
-          <Dropdown.Trigger>{age}</Dropdown.Trigger>
+          <Dropdown.Trigger>{selectedValues.age}</Dropdown.Trigger>
           <Dropdown.Menu>
             {VALUE_PRESET.age.map((value) => {
-              const checked = value === age ? 'selected' : ''
+              const checked = value === selectedValues.age ? 'selected' : ''
               return (
                 <Dropdown.Item
                   key={`age-${value}`}
                   className={checked}
                   onClick={() => {
-                    setAge(value)
-                    setFormData('age', value === '직접입력' ? '' : value)
+                    setFormData('age', value === '직접입력' ? '0' : value)
                   }}
                 >
                   {value}
@@ -211,16 +187,14 @@ export default function FormRecruitmentConditions({
             })}
           </Dropdown.Menu>
         </Dropdown>
-        <Form.Field hidden={age !== '직접입력'}>
+        <Form.Field hidden={selectedValues.age !== '직접입력'}>
           <Form.Wrapper>
             <Form.Input
               name={'age'}
               placeholder={'연령'}
-              value={formData.age}
-              onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                setFormData('age', event.target.value)
-              }
-              // required
+              validate={validateAge}
+              formPattern={monthsOfExperienceValidation}
+              formMin={13}
             />
             <Form.Unit unit={'세'} />
           </Form.Wrapper>
@@ -228,18 +202,18 @@ export default function FormRecruitmentConditions({
       </Form.Fieldset>
 
       <Form.Fieldset>
-        <Form.Legend required>우대사항</Form.Legend>
+        <Form.Legend>우대사항</Form.Legend>
         <Dropdown>
-          <Dropdown.Trigger>{preferred}</Dropdown.Trigger>
+          <Dropdown.Trigger>{selectedValues.preferred}</Dropdown.Trigger>
           <Dropdown.Menu>
             {VALUE_PRESET.preferred.map((value) => {
-              const checked = value === preferred ? 'selected' : ''
+              const checked =
+                value === selectedValues.preferred ? 'selected' : ''
               return (
                 <Dropdown.Item
                   key={`preferred-${value}`}
                   className={checked}
                   onClick={() => {
-                    setPreferred(value)
                     setFormData('preferred', value === '직접입력' ? '' : value)
                   }}
                 >
@@ -249,7 +223,8 @@ export default function FormRecruitmentConditions({
             })}
           </Dropdown.Menu>
         </Dropdown>
-        <Form.Field hidden={preferred !== '직접입력'}>
+
+        <Form.Field hidden={selectedValues.preferred !== '직접입력'}>
           <Form.Wrapper>
             <Form.Input
               name={'preferred'}
@@ -258,7 +233,6 @@ export default function FormRecruitmentConditions({
               onChange={(event: ChangeEvent<HTMLInputElement>) =>
                 setFormData('preferred', event.target.value)
               }
-              // required
             />
           </Form.Wrapper>
         </Form.Field>

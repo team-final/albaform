@@ -45,7 +45,8 @@ export const VALUE_PRESET: {
   gender: ['성별무관', '남성', '여성'],
   education: ['학력무관', '고등학교 졸업', '대학교 졸업'],
   age: [
-    '20세 ~ 29세',
+    '18세 이상 연령무관',
+    '18세 ~ 29세',
     '30세 ~ 39세',
     '40세 ~ 49세',
     '50세 ~ 59세',
@@ -89,13 +90,13 @@ export const INITIAL_EDITING_FORM_DATA: Readonly<EditingFormData> | any = {
   /* 근무 시간 종료 */
   workEndTime: VALUE_PRESET.workTime[0],
   /* 근무 요일 */
-  workDays: [],
+  workDays: [''],
   /* 요일 협의 가능 */
   isNegotiableWorkDays: false,
   /* 시급 */
   hourlyWage: HOURLY_WAGE_DATA.min,
   /* 공개 설정 */
-  isPublic: false,
+  isPublic: true,
 }
 
 const INPROGRESS_PRESET: FormInProgress[] = [

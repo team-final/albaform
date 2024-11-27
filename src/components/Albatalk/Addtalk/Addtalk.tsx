@@ -152,11 +152,11 @@ export default function Addtalk({ talkId }: { talkId?: number }) {
 
       <div className={styles.body}>
         <Form.Fieldset>
-          <Form.Legend required>제목</Form.Legend>
+          <Form.Legend requiredIndicator>제목</Form.Legend>
           <Form.Field>
             <Form.Input
               name={'title'}
-              required
+              formRequired
               placeholder={'제목을 입력해주세요.'}
               value={title}
               onChange={(event: ChangeEvent<HTMLInputElement>) =>
@@ -167,11 +167,11 @@ export default function Addtalk({ talkId }: { talkId?: number }) {
         </Form.Fieldset>
 
         <Form.Fieldset>
-          <Form.Legend required>내용</Form.Legend>
+          <Form.Legend requiredIndicator>내용</Form.Legend>
           <Form.Field>
             <Form.Textarea
               name={'content'}
-              required
+              formRequired
               placeholder={'내용을 입력해주세요.'}
               value={content}
               onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>

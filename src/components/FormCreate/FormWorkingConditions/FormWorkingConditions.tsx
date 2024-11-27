@@ -49,37 +49,37 @@ export default function FormWorkingConditions({ step }: FormCreateStepProp) {
   return (
     <FormCreateStep step={step}>
       <Form.Fieldset>
-        <Form.Legend required>근무 위치</Form.Legend>
+        <Form.Legend requiredIndicator>근무 위치</Form.Legend>
         <Form.Field>
           <Form.AddressInput
             name={'location'}
             placeholder={'주소 입력'}
-            // required
+            required
           />
         </Form.Field>
       </Form.Fieldset>
 
       <Form.Fieldset>
-        <Form.Legend required>근무 기간</Form.Legend>
+        <Form.Legend requiredIndicator>근무 기간</Form.Legend>
         <Form.Field>
           <Form.DateRange
             startDate={'workStartDate'}
             endDate={'workEndDate'}
-            // required
+            required
           />
         </Form.Field>
       </Form.Fieldset>
 
       <Form.Fieldset>
-        <Form.Legend required>근무 시간</Form.Legend>
+        <Form.Legend requiredIndicator>근무 시간</Form.Legend>
         <div style={{ display: 'flex', gap: '16px' }}>
           <div style={{ width: '210px' }}>
             <Form.Field hidden>
               <Form.Input
+                formRequired
                 type={'hidden'}
                 name={'workStartTime'}
                 value={formData.workStartTime}
-                // required
               />
             </Form.Field>
             <Dropdown sustain>
@@ -108,13 +108,14 @@ export default function FormWorkingConditions({ step }: FormCreateStepProp) {
               </Dropdown.Menu>
             </Dropdown>
           </div>
+
           <div style={{ width: '210px' }}>
             <Form.Field hidden>
               <Form.Input
+                formRequired
                 type={'hidden'}
                 name={'workEndTime'}
                 value={formData.workEndTime}
-                // required
               />
             </Form.Field>
             <Dropdown>
@@ -147,7 +148,7 @@ export default function FormWorkingConditions({ step }: FormCreateStepProp) {
       </Form.Fieldset>
 
       <Form.Fieldset>
-        <Form.Legend required>근무 요일</Form.Legend>
+        <Form.Legend requiredIndicator>근무 요일</Form.Legend>
         <div className={styles['day-of-week']}>
           {VALUE_PRESET.workDays.map((value) => {
             return (
@@ -160,6 +161,7 @@ export default function FormWorkingConditions({ step }: FormCreateStepProp) {
                   type={'checkbox'}
                   name={'workDays'}
                   value={value}
+                  disabled={formData.isNegotiableWorkDays}
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
                     const { checked } = event.target
                     if (checked) {
@@ -188,16 +190,16 @@ export default function FormWorkingConditions({ step }: FormCreateStepProp) {
           <Form.Input
             type={'checkbox'}
             name={'isNegotiableWorkDays'}
-            onChange={(event: ChangeEvent<HTMLInputElement>) =>
-              setFormData('isNegotiableWorkDays', event.target.checked)
-            }
+            // onChange={(event: ChangeEvent<HTMLInputElement>) =>
+            //   setFormData('isNegotiableWorkDays', event.target.checked)
+            // }
           />
           <Form.Label>요일 협의 가능</Form.Label>
         </Form.Field>
       </Form.Fieldset>
 
       <Form.Fieldset>
-        <Form.Legend required>시급</Form.Legend>
+        <Form.Legend requiredIndicator>시급</Form.Legend>
         <Form.Field>
           <Form.Wrapper>
             <Form.Input
@@ -210,7 +212,7 @@ export default function FormWorkingConditions({ step }: FormCreateStepProp) {
               onChange={(event: ChangeEvent<HTMLInputElement>) =>
                 setFormData('hourlyWage', Number(event.target.value))
               }
-              // required
+              formRequired
             ></Form.Input>
             <Form.Unit unit={'원'} />
           </Form.Wrapper>

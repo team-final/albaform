@@ -1,3 +1,5 @@
+'use client'
+
 import Dropdown from '@/components/Dropdown/Dropdown'
 import { useEditingFormStore } from '@/lib/stores/editingFormStore'
 import { STEP_BUTTONS, StepIndex } from '@/lib/types/formTypes'
@@ -42,7 +44,7 @@ export default function FormCreateAsideSteps() {
               .pop() ?? { isProgress: false }
 
             return (
-              <p
+              <div
                 key={`form_button_${index}`}
                 className={classNames(styles.button, {
                   [styles.active]: step === index,
@@ -53,7 +55,7 @@ export default function FormCreateAsideSteps() {
                   <span>{title}</span>
                 </p>
                 {isProgress && <b className={styles.status}>작성중</b>}
-              </p>
+              </div>
             )
           })}
         </Dropdown.Trigger>

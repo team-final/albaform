@@ -5,7 +5,7 @@ import Form from '@/components/Form/Form'
 import Modal, { ModalProps } from '@/components/Modal/Modal'
 import useUpdateUser from '@/hooks/auth/useUpdateUser'
 import { postImage } from '@/lib/api/postImage'
-import { phoneNumberPattern } from '@/lib/data/patterns'
+import { phoneNumberValidation } from '@/lib/data/validations'
 import { UpdateUserProps, User } from '@/lib/types/userTypes'
 import Image from 'next/image'
 import { ChangeEvent, useEffect, useState } from 'react'
@@ -133,33 +133,33 @@ export default function UpdateUserModal({
 
           <Form.Fieldset>
             <Form.Field>
-              <Form.Legend required>이름</Form.Legend>
+              <Form.Legend requiredIndicator>이름</Form.Legend>
               <Form.Input
                 name="name"
                 type="text"
-                required
+                formRequired
                 placeholder="이름을 입력해주세요."
               />
             </Form.Field>
           </Form.Fieldset>
           <Form.Fieldset>
             <Form.Field>
-              <Form.Legend required>닉네임</Form.Legend>
+              <Form.Legend requiredIndicator>닉네임</Form.Legend>
               <Form.Input
                 name="nickname"
                 type="text"
-                required
+                formRequired
                 placeholder="닉네임을 입력해주세요."
               />
             </Form.Field>
           </Form.Fieldset>
           <Form.Fieldset>
             <Form.Field>
-              <Form.Legend required>연락처</Form.Legend>
+              <Form.Legend requiredIndicator>연락처</Form.Legend>
               <Form.Input
                 name="phoneNumber"
                 type="tel"
-                hookFormPattern={phoneNumberPattern}
+                formPattern={phoneNumberValidation}
                 placeholder="숫자만 입력해주세요."
               />
             </Form.Field>
@@ -169,29 +169,29 @@ export default function UpdateUserModal({
             <>
               <Form.Fieldset>
                 <Form.Field>
-                  <Form.Legend required>가게 이름</Form.Legend>
+                  <Form.Legend requiredIndicator>가게 이름</Form.Legend>
                   <Form.Input
                     name="storeName"
                     type="text"
-                    required
+                    formRequired
                     placeholder="가게 이름(상호명)을 입력해주세요"
                   />
                 </Form.Field>
               </Form.Fieldset>
               <Form.Fieldset>
                 <Form.Field>
-                  <Form.Legend required>가게 전화번호</Form.Legend>
+                  <Form.Legend requiredIndicator>가게 전화번호</Form.Legend>
                   <Form.Input
                     name="storePhoneNumber"
                     type="tel"
-                    required
-                    hookFormPattern={phoneNumberPattern}
+                    formRequired
+                    formPattern={phoneNumberValidation}
                     placeholder="숫자만 입력해주세요"
                   />
                 </Form.Field>
               </Form.Fieldset>
               <Form.Fieldset>
-                <Form.Legend required>가게 위치</Form.Legend>
+                <Form.Legend requiredIndicator>가게 위치</Form.Legend>
                 <Form.Field>
                   <Form.AddressInput
                     name="location"

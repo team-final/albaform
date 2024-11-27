@@ -1,4 +1,4 @@
-import { MinLength8 } from '@/lib/data/patterns'
+import { MinLength8 } from '@/lib/data/validations'
 
 export type UserRole = 'APPLICANT' | 'OWNER'
 

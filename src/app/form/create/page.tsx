@@ -8,7 +8,10 @@ import FormRecruitmentConditions from '@/components/FormCreate/FormRecruitmentCo
 import FormRecruitmentContent from '@/components/FormCreate/FormRecruitmentContent/FormRecruitmentContent'
 import FormWorkingConditions from '@/components/FormCreate/FormWorkingConditions/FormWorkingConditions'
 import { postAlbaForm } from '@/lib/api/formCreate'
-import { useEditingFormStore } from '@/lib/stores/editingFormStore'
+import {
+  INITIAL_EDITING_FORM_DATA,
+  useEditingFormStore,
+} from '@/lib/stores/editingFormStore'
 import { useUserStore } from '@/lib/stores/userStore'
 import { EditingFormData } from '@/lib/types/formTypes'
 import { useQueryClient } from '@tanstack/react-query'
@@ -53,11 +56,14 @@ export default function CreateFormPage() {
     }
   }
 
+  console.log(formData)
+
   return (
     <Form
       formId={'createForm'}
       onSubmit={handleSubmit}
       className={classNames(styles.container, 'create-form')}
+      initialValues={formData || INITIAL_EDITING_FORM_DATA}
     >
       <FormCreateAside />
 

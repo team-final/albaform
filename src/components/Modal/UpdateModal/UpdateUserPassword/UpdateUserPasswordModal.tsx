@@ -2,7 +2,7 @@ import MainButton from '@/components/Button/MainButton/MainButton'
 import Form from '@/components/Form/Form'
 import Modal, { ModalProps } from '@/components/Modal/Modal'
 import { updateUserPassword } from '@/lib/api/userApi'
-import { passwordPattern } from '@/lib/data/patterns'
+import { passwordValidation } from '@/lib/data/validations'
 import { UpdatePasswordProps } from '@/lib/types/userTypes'
 import { ChangeEvent, useState } from 'react'
 import { FieldValues } from 'react-hook-form'
@@ -31,14 +31,14 @@ export default function UpdateUserPasswordModal({
 
           <Form.Fieldset>
             <Form.Field>
-              <Form.Legend required>현재 비밀번호</Form.Legend>
+              <Form.Legend requiredIndicator>현재 비밀번호</Form.Legend>
               <Form.Wrapper>
                 <Form.Input
                   type="password"
                   name="currentPassword"
                   placeholder="현재 비밀번호를 입력해주세요."
-                  hookFormPattern={passwordPattern}
-                  required
+                  formMinLength={passwordValidation}
+                  formRequired
                 />
               </Form.Wrapper>
             </Form.Field>
@@ -46,14 +46,14 @@ export default function UpdateUserPasswordModal({
 
           <Form.Fieldset>
             <Form.Field>
-              <Form.Legend required>새 비밀번호</Form.Legend>
+              <Form.Legend requiredIndicator>새 비밀번호</Form.Legend>
               <Form.Wrapper>
                 <Form.Input
                   type="password"
                   name="newPassword"
                   placeholder="새로운 비밀번호를 입력해주세요."
-                  hookFormPattern={passwordPattern}
-                  required
+                  formMinLength={passwordValidation}
+                  formRequired
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
                     setNewPassword(event.target.value)
                   }}
@@ -64,14 +64,14 @@ export default function UpdateUserPasswordModal({
 
           <Form.Fieldset>
             <Form.Field>
-              <Form.Legend required>새 비밀번호 확인</Form.Legend>
+              <Form.Legend requiredIndicator>새 비밀번호 확인</Form.Legend>
               <Form.Wrapper>
                 <Form.Input
                   type="password"
                   name="newPasswordCheck"
                   placeholder="새로운 비밀번호를 다시 한번 입력해주세요."
-                  hookFormPattern={passwordPattern}
-                  required
+                  formMinLength={passwordValidation}
+                  formRequired
                   validate={(value: string) =>
                     value === newPassword || '비밀번호가 일치하지 않습니다.'
                   }

@@ -5,7 +5,7 @@ import MainButton from '@/components/Button/MainButton/MainButton'
 import Form from '@/components/Form/Form'
 import useSignIn from '@/hooks/auth/useSignIn'
 import { TEST_ID_APPLICANT, TEST_ID_OWNER } from '@/lib/data/constants'
-import { emailPattern, passwordPattern } from '@/lib/data/patterns'
+import { emailPattern, passwordValidation } from '@/lib/data/validations'
 import { useUserStore } from '@/lib/stores/userStore'
 import { SignInProps } from '@/lib/types/userTypes'
 import Image from 'next/image'
@@ -64,8 +64,8 @@ export default function SignInPage() {
                     name={'email'}
                     type={'email'}
                     placeholder="이메일을 입력해 주세요"
-                    hookFormPattern={emailPattern}
-                    required
+                    formPattern={emailPattern}
+                    formRequired
                   />
                 </Form.Wrapper>
               </Form.Field>
@@ -79,8 +79,8 @@ export default function SignInPage() {
                     name={'password'}
                     type={'password'}
                     placeholder="비밀번호를 입력해 주세요"
-                    hookFormPattern={passwordPattern}
-                    required
+                    formMinLength={passwordValidation}
+                    formRequired
                   />
                 </Form.Wrapper>
               </Form.Field>
