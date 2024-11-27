@@ -5,7 +5,7 @@ import MainButton from '@/components/Button/MainButton/MainButton'
 import Form from '@/components/Form/Form'
 import useCreateUser from '@/hooks/auth/useCreateUser'
 import useSignIn from '@/hooks/auth/useSignIn'
-import { emailPattern, passwordPattern } from '@/lib/data/patterns'
+import { emailPattern, passwordValidation } from '@/lib/data/validations'
 import { useUserStore } from '@/lib/stores/userStore'
 import { SignUpFormValues, SignUpProps, UserRole } from '@/lib/types/userTypes'
 import { generateRandomId } from '@/lib/utils/acountGenerator'
@@ -95,9 +95,9 @@ export default function SignUpPage() {
                     name={'email'}
                     type={'email'}
                     placeholder="이메일을 입력해 주세요"
-                    hookFormPattern={emailPattern}
+                    formPattern={emailPattern}
                     defaultValue={randomId?.email}
-                    required
+                    formRequired
                   />
                 </Form.Wrapper>
               </Form.Field>
@@ -111,8 +111,8 @@ export default function SignUpPage() {
                     name={'password'}
                     type={'password'}
                     placeholder="비밀번호를 입력해 주세요"
-                    hookFormPattern={passwordPattern}
-                    required
+                    formMinLength={passwordValidation}
+                    formRequired
                   />
                 </Form.Wrapper>
               </Form.Field>
@@ -126,8 +126,8 @@ export default function SignUpPage() {
                     name={'confirmPassword'}
                     type={'password'}
                     placeholder="비밀번호를 한 번 더 입력해 주세요"
-                    hookFormPattern={passwordPattern}
-                    required
+                    formMinLength={passwordValidation}
+                    formRequired
                   />
                 </Form.Wrapper>
               </Form.Field>

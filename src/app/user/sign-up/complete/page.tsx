@@ -6,7 +6,7 @@ import FormStyles from '@/components/Form/Form.module.scss'
 import updateUserModalStyles from '@/components/Modal/UpdateModal/UpdateUserInfo/UpdateUserModal.module.scss'
 import useUpdateUser from '@/hooks/auth/useUpdateUser'
 import { USER_ROLE_CONFIG } from '@/lib/data/constants'
-import { phoneNumberPattern } from '@/lib/data/patterns'
+import { phoneNumberValidation } from '@/lib/data/validations'
 import { useUserStore } from '@/lib/stores/userStore'
 import { UpdateUserProps } from '@/lib/types/userTypes'
 import dynamic from 'next/dynamic'
@@ -113,34 +113,36 @@ export default function CompleteSignUpPage() {
           </Form.Fieldset>
           <Form.Fieldset>
             <Form.Field htmlFor="nickname">
-              <Form.Legend required>닉네임</Form.Legend>
+              <Form.Legend requiredIndicator>닉네임</Form.Legend>
               <Form.Input
                 name="nickname"
                 type="text"
-                required
+                formRequired
                 placeholder="닉네임을 입력해주세요."
               />
             </Form.Field>
           </Form.Fieldset>
           <Form.Fieldset>
             <Form.Field htmlFor="name">
-              <Form.Legend required>이름</Form.Legend>
+              <Form.Legend requiredIndicator>이름</Form.Legend>
               <Form.Input
                 name="name"
                 type="text"
-                required
+                formRequired
                 placeholder="이름을 입력해주세요."
               />
             </Form.Field>
           </Form.Fieldset>
           <Form.Fieldset>
             <Form.Field htmlFor="phoneNumber">
-              <Form.Legend required>전화번호</Form.Legend>
+              <Form.Legend requiredIndicator>전화번호</Form.Legend>
               <Form.Input
                 name="phoneNumber"
                 type="tel"
-                required
-                hookFormPattern={phoneNumberPattern}
+                formRequired
+                formPattern={phoneNumberValidation}
+                formMinLength={10}
+                formMaxLength={11}
                 placeholder="숫자만 입력해주세요"
               />
             </Form.Field>
@@ -150,29 +152,29 @@ export default function CompleteSignUpPage() {
           <section hidden={userRole === 'APPLICANT'}>
             <Form.Fieldset>
               <Form.Field htmlFor="storeName">
-                <Form.Legend required>가게 이름</Form.Legend>
+                <Form.Legend requiredIndicator>가게 이름</Form.Legend>
                 <Form.Input
                   name="storeName"
                   type="text"
-                  required={isOwner}
+                  formRequired={isOwner}
                   placeholder="가게 이름(상호명)을 입력해주세요"
                 />
               </Form.Field>
             </Form.Fieldset>
             <Form.Fieldset>
               <Form.Field htmlFor="storePhoneNumber">
-                <Form.Legend required>가게 전화번호</Form.Legend>
+                <Form.Legend requiredIndicator>가게 전화번호</Form.Legend>
                 <Form.Input
                   name="storePhoneNumber"
                   type="tel"
-                  required={isOwner}
-                  hookFormPattern={phoneNumberPattern}
+                  formRequired={isOwner}
+                  formPattern={phoneNumberValidation}
                   placeholder="숫자만 입력해주세요"
                 />
               </Form.Field>
             </Form.Fieldset>
             <Form.Fieldset>
-              <Form.Legend required>가게 위치</Form.Legend>
+              <Form.Legend requiredIndicator>가게 위치</Form.Legend>
               <Form.Field htmlFor="location">
                 <Form.AddressInput
                   name="location"

@@ -1,10 +1,7 @@
 import MainButton from '@/components/Button/MainButton/MainButton'
 import VisibilityToggleButton from '@/components/Button/VisibilityToggleButton/VisibilityToggleButton'
 import DateRangePicker from '@/components/DateRangePicker/DateRangePicker'
-import {
-  INITIAL_EDITING_FORM_DATA,
-  useEditingFormStore,
-} from '@/lib/stores/editingFormStore'
+import { useEditingFormStore } from '@/lib/stores/editingFormStore'
 import {
   AddressSearchProps,
   EditingFormDataTypes,
@@ -184,49 +181,55 @@ function FormSubmitButton({
   const { formData } = useEditingFormStore()
   const [isComplete, setIsComplete] = useState<boolean>(true)
 
-  useEffect(() => {
-    if (formId === 'createForm') {
-      setIsComplete(() => {
-        const checkArr = []
+  // useEffect(() => {
+  //   if (formId === 'createForm') {
+  //     setIsComplete(() => {
+  //       const checkArr = []
+  //
+  //       for (const key in formData) {
+  //         if (
+  //           [
+  //             'imageUrls',
+  //             'numberOfPositions',
+  //             'gender',
+  //             'education',
+  //             'age',
+  //             'preferred',
+  //             'workStartTime',
+  //             'workEndTime',
+  //             'isNegotiableWorkDays',
+  //             'hourlyWage',
+  //             'isPublic',
+  //           ].includes(key)
+  //         )
+  //           continue
+  //
+  //         checkArr.push(
+  //           key === 'workDays'
+  //             ? formData[key].length === 0
+  //             : formData[key] === INITIAL_EDITING_FORM_DATA[key],
+  //         )
+  //       }
+  //
+  //       return checkArr.every((item) => !item)
+  //     })
+  //   }
+  // }, [formId, formData])
 
-        for (const key in formData) {
-          if (
-            [
-              'imageUrls',
-              'numberOfPositions',
-              'gender',
-              'education',
-              'age',
-              'preferred',
-              'workStartTime',
-              'workEndTime',
-              'isNegotiableWorkDays',
-              'hourlyWage',
-              'isPublic',
-            ].includes(key)
-          )
-            continue
-
-          checkArr.push(
-            key === 'workDays'
-              ? formData[key].length === 0
-              : formData[key] === INITIAL_EDITING_FORM_DATA[key],
-          )
-        }
-
-        return checkArr.every((item) => !item)
-      })
-    }
-  }, [formId, formData])
+  console.log(!isComplete)
+  console.log(!isValid)
+  console.log(isSubmitting)
+  console.log(isPending)
 
   return (
     <MainButton
       type={'submit'}
       buttonStyle={buttonStyle}
       color={color}
-      disabled={!isComplete || !isValid || isSubmitting || isPending}
+      // disabled={!isComplete || !isValid || isSubmitting || isPending}
     >
       {children}
+      {!isComplete || !isValid || isSubmitting || isPending}
     </MainButton>
   )
 }
@@ -236,14 +239,20 @@ function Fieldset({ children, className }: ComponentProps) {
   return <fieldset className={cn}>{children}</fieldset>
 }
 
-function Legend({ children, className, required }: LegendProps) {
+function Legend({
+  children,
+  className,
+  requiredIndicator,
+  helpText,
+}: LegendProps) {
   const cn = classNames(styles['form-legend'], className)
   return (
     <p className={cn}>
       {children}
-      {required && (
-        <span className={classNames(styles['form-input-required'])}>*</span>
-      )}
+      <a className={classNames(styles['form-input-required'])}>
+        {requiredIndicator && '*'}
+        {helpText}
+      </a>
     </p>
   )
 }
@@ -334,29 +343,32 @@ function ErrorMessage({
  * @param name input name 필수
  * @param className
  * @param type = [text, password, email, url, number, tel, search, date, time, datetime-local, month, week, color, file, checkbox, radio, submit, reset, button, image]
- * @param required
- * @param minLength
- * @param maxLength
- * @param hookFormPattern 정규표현식
+ * @param formRequired
+ * @param formPattern 정규표현식
  * @param validate 유효성 검사 함수
  */
 function Input({
   className,
   type = 'text',
   name,
-  required = false,
-  minLength = 1,
-  maxLength = 200,
-  hookFormPattern,
+  formRequired = false,
+  formMin,
+  formMinLength,
+  formMaxLength = {
+    value: 20,
+    message: '최대 20자까지 입력 가능합니다.',
+  },
+  formPattern,
   validate,
   workDaysValue,
   ...rest
 }: InputProps) {
   const rules: RegisterOptions = {
-    required,
-    minLength,
-    maxLength,
-    pattern: hookFormPattern || undefined,
+    required: formRequired,
+    min: formMin,
+    minLength: formMinLength,
+    maxLength: formMaxLength,
+    pattern: formPattern,
     validate,
   }
   const { register, errors, setValue, watch, getValues } = useFormContext()
@@ -419,17 +431,17 @@ function Input({
 function Textarea({
   className,
   name,
-  required = false,
-  minLength = 1,
-  maxLength = 200,
-  validate,
+  formRequired = false,
+  placeholder = '최대 200자까지 입력 가능합니다.',
+  formMaxLength = {
+    value: 200,
+    message: '최대 200자까지 입력 가능합니다.',
+  },
   ...rest
 }: TextareaProps) {
   const rules: RegisterOptions = {
-    required,
-    validate,
-    minLength,
-    maxLength,
+    required: formRequired,
+    maxLength: formMaxLength,
   }
   const { register, errors } = useFormContext()
   const { forId } = useFieldContext()
@@ -442,6 +454,7 @@ function Textarea({
         className={cn}
         id={forId}
         rows={4}
+        placeholder={placeholder}
         {...rest}
       />
       <ErrorMessage error={errors?.[name]} />

@@ -108,7 +108,7 @@ export default function Comment({ talkId }: { talkId: number }) {
           <Form.Field>
             <Form.Textarea
               name={'content'}
-              required
+              formRequired
               placeholder={'댓글을 입력해주세요.'}
               value={content}
               onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
@@ -179,7 +179,7 @@ export default function Comment({ talkId }: { talkId: number }) {
                         <Form.Field>
                           <Form.Textarea
                             name={'content'}
-                            required
+                            formRequired
                             placeholder={'댓글을 입력해주세요.'}
                           />
                         </Form.Field>

@@ -3,11 +3,17 @@
 import MainButton from '@/components/Button/MainButton/MainButton'
 import Form from '@/components/Form/Form'
 import authAxios from '@/lib/api/authAxios'
+import {
+  monthsOfExperienceValidation,
+  passwordValidation,
+  phoneNumberValidation,
+} from '@/lib/data/validations'
 import { useUserStore } from '@/lib/stores/userStore'
 import { Params } from '@/lib/types/types'
 import { useRouter } from 'next/navigation'
 import { ChangeEvent, useState } from 'react'
 import { FieldValues } from 'react-hook-form'
+import { toast } from 'react-toastify'
 
 import styles from './page.module.scss'
 
@@ -44,10 +50,11 @@ export default function ApplyPage({ params }: Params) {
     name: '',
   })
 
-  const handleCancle = () => {
+  const handleCancel = () => {
     router.push(`/form/${formId}`)
   }
 
+  // @todo 임시저장 기능 추가
   // const handleClick = () => {
   //   console.log('임시저장')
   // }
@@ -65,10 +72,10 @@ export default function ApplyPage({ params }: Params) {
       })
       const { resumeId, resumeName } = response.data
       setFormData((prev) => ({ ...prev, resumeId, resumeName }))
-      console.log('이력서 업로드 성공:', response.data)
+      toast.success('이력서가 업로드되었습니다.')
     } catch (error) {
       console.error('이력서 업로드 중 오류 발생:', error)
-      alert('이력서 업로드 중 오류가 발생했습니다.')
+      toast.error('이력서 업로드 중 오류가 발생했습니다.')
     }
   }
 
@@ -100,75 +107,80 @@ export default function ApplyPage({ params }: Params) {
       </div>
       <Form formId="applyForm" onSubmit={handleSubmit}>
         <Form.Fieldset>
-          <Form.Legend required>이름</Form.Legend>
+          <Form.Legend requiredIndicator>이름</Form.Legend>
           <Form.Field htmlFor="name">
             <Form.Input
+              formRequired
               name="name"
-              type="text"
-              required
               placeholder="이름을 입력해주세요."
+              type="text"
             />
           </Form.Field>
         </Form.Fieldset>
 
         <Form.Fieldset>
-          <Form.Legend required>연락처</Form.Legend>
+          <Form.Legend requiredIndicator>연락처</Form.Legend>
           <Form.Field htmlFor="phoneNumber">
             <Form.Input
+              formRequired
               name="phoneNumber"
+              placeholder="숫자만 입력해주세요."
               type="text"
-              required
-              placeholder="숫자만 입력해주세요."
+              minLength={10}
+              maxLength={11}
+              formPattern={phoneNumberValidation}
             />
           </Form.Field>
         </Form.Fieldset>
 
         <Form.Fieldset>
-          <Form.Legend required>경력 (개월)</Form.Legend>
-          <Form.Field htmlFor="experienceMonths">
+          <Form.Legend requiredIndicator>경력 (개월)</Form.Legend>
+          <Form.Field htmlFor="monthsOfExperience">
             <Form.Input
-              name="experienceMonths"
-              type="number"
-              required
+              formRequired
+              name="monthsOfExperience"
               placeholder="숫자만 입력해주세요."
+              type="number"
+              formPattern={monthsOfExperienceValidation}
             />
           </Form.Field>
         </Form.Fieldset>
 
         <Form.Fieldset>
-          <Form.Legend required>이력서</Form.Legend>
+          <Form.Legend helpText={'파일명에는 한글이 없어야 합니다.'}>
+            이력서
+          </Form.Legend>
           <Form.Field htmlFor="resumeFile">
             <Form.Input
               name="resumeFile"
               type="file"
               className={styles.resumeFile}
               onChange={handleResumeUpload}
-              placeholder="파일 업로드하기"
             />
           </Form.Field>
         </Form.Fieldset>
 
         <Form.Fieldset>
-          <Form.Legend required>자기소개</Form.Legend>
+          <Form.Legend requiredIndicator>자기소개</Form.Legend>
           <Form.Field htmlFor="introduction">
             <Form.Textarea
               name="introduction"
-              required
+              formRequired
               placeholder="최대 200자까지 입력 가능합니다."
             />
           </Form.Field>
         </Form.Fieldset>
 
         <Form.Fieldset>
-          <Form.Legend required>비밀번호</Form.Legend>
+          <Form.Legend requiredIndicator>비밀번호</Form.Legend>
           <Form.Field htmlFor="password">
             <Form.Wrapper>
               <Form.Input
+                formRequired
                 name="password"
                 type="password"
-                required
                 placeholder="비밀번호를 입력해주세요."
-                minLength={8}
+                formMinLength={passwordValidation}
               />
             </Form.Wrapper>
           </Form.Field>
@@ -179,7 +191,7 @@ export default function ApplyPage({ params }: Params) {
           <MainButton
             color={'gray'}
             buttonStyle={'outline'}
-            onClick={handleCancle}
+            onClick={handleCancel}
           >
             작성 취소
           </MainButton>

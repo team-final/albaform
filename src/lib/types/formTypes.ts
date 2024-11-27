@@ -15,7 +15,10 @@ import {
   UseFormSetFocus,
   UseFormSetValue,
   UseFormWatch,
+  Validate,
+  ValidationRule,
 } from 'react-hook-form'
+import { FieldPathValue } from 'react-hook-form/dist/types/path'
 
 import { LIST_ALBATALK_ORDER_BY } from '../data/constants'
 
@@ -38,6 +41,7 @@ export type NumberOfPositionsType = '00명 (인원미정)' | '직접입력' | nu
 export type GenderType = '성별무관' | '남성' | '여성'
 export type EducationType = '학력무관' | '고등학교 졸업' | '대학교 졸업'
 export type AgeType =
+  | '18세 이상 연령무관'
   | '20세 ~ 29세'
   | '30세 ~ 39세'
   | '40세 ~ 49세'
@@ -46,7 +50,15 @@ export type AgeType =
   | '직접입력'
   | string
 export type PreferredType = '없음' | '직접입력' | string
-export type WorkDaysType = '일' | '월' | '화' | '수' | '목' | '금' | '토'
+export type WorkDaysType =
+  | '요일무관'
+  | '일'
+  | '월'
+  | '화'
+  | '수'
+  | '목'
+  | '금'
+  | '토'
 
 export interface ImageUrl {
   /** 이미지 주소 */
@@ -55,14 +67,16 @@ export interface ImageUrl {
   name: string
 }
 
+// 모집 내용
 export interface FormStep1 {
   title: string
-  description: string
+  description: string | ''
   recruitmentStartDate: Date | string
   recruitmentEndDate: Date | string
   imageUrls: ImageUrl[]
 }
 
+// 모집 조건
 export interface FormStep2 {
   numberOfPositions: NumberOfPositionsType
   gender: GenderType
@@ -71,6 +85,7 @@ export interface FormStep2 {
   preferred: PreferredType
 }
 
+// 근무 조건
 export interface FormStep3 {
   location: string
   workStartDate: Date | string
@@ -162,7 +177,7 @@ export interface AlbatalkCommentProps {
   }[]
 }
 
-export interface AnnoucementProps {
+export interface AnnouncementProps {
   createdAt: string
   recruitmentEndDate: string
   recruitmentStartDate: string
@@ -276,7 +291,7 @@ export interface FormProps extends ComponentProps {
   formId: string
   onSubmit: SubmitHandler<FieldValues>
   initialValues?: Record<string, any>
-  defaultValues?: any
+  defaultValues?: Record<string, any>
 }
 
 export interface FieldProps extends ComponentProps {
@@ -286,38 +301,33 @@ export interface FieldProps extends ComponentProps {
 }
 
 export interface LegendProps extends ComponentProps {
-  required?: boolean
+  requiredIndicator?: boolean
+  helpText?: string
 }
 
-export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface RegisterOptionsRules {
+  formRequired?: ValidationRule<boolean> | string
+  formMin?: ValidationRule<number | string>
+  formMinLength?: ValidationRule<number>
+  formMaxLength?: ValidationRule<number>
+  formPattern?: ValidationRule<RegExp>
+  validate?:
+    | Validate<FieldPathValue<FieldValues, string>, FieldValues>
+    | Record<string, Validate<FieldPathValue<FieldValues, string>, FieldValues>>
+}
+
+export interface InputProps
+  extends InputHTMLAttributes<HTMLInputElement>,
+    RegisterOptionsRules {
   name: string
-  type?: HTMLInputElement['type']
-  required?: boolean
-  minLength?: number
-  maxLength?: number
-  hookFormPattern?: {
-    value: RegExp
-    message: string
-  }
-  value?: any
-  validate?: any
-  initialValues?: string
-  step?: number
   onClick?: (event?: any) => void
   workDaysValue?: WorkDaysType
 }
 
 export interface TextareaProps
-  extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+  extends TextareaHTMLAttributes<HTMLTextAreaElement>,
+    RegisterOptionsRules {
   name: string
-  required?: boolean
-  minLength?: number
-  maxLength?: number
-  validate?: any
-}
-
-export interface ImageInputProps extends InputProps {
-  onImageChange?: (file: File) => void
 }
 
 export interface AddressSearchProps {
@@ -358,7 +368,7 @@ export interface FormDetailsProps {
 }
 
 export type CombinedFormDetailsProps = FormDetailsProps &
-  AnnoucementProps &
+  AnnouncementProps &
   WorkScheduleProps &
   ContactInfoProps & {
     location: string

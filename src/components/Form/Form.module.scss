@@ -59,6 +59,14 @@
   &-wrap {
     position: relative;
     display: block;
+
+    > * {
+      margin-bottom: 16px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
   }
 
   &-label {
